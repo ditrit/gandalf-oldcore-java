@@ -1,0 +1,19 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.orness.core.workflowtestgrpc.entity;
+
+message MessageRequest {
+    string message = 1;
+}
+
+message MessageResponse {
+    string message = 1;
+}
+
+service WorkflowTestGrpcMessageService {
+    rpc message(MessageRequest) returns (MessageResponse);
+}
+
+service WorkflowTestGrpcMessageServiceStream {
+    rpc message(MessageRequest) returns (stream MessageResponse);
+}
