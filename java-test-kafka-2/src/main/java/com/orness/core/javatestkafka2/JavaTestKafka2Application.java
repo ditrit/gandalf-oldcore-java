@@ -7,7 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EntityScan(basePackages = {"com.orness.namt.messagekafkamodule.domain"})
+@EntityScan(basePackages = {"com.orness.namt.messagebusmodule.domain"})
 public class JavaTestKafka2Application {
 
 	public static void main(String[] args) {

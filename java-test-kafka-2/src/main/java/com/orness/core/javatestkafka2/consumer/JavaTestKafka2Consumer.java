@@ -1,9 +1,9 @@
 package com.orness.core.javatestkafka2.consumer;
 
-import com.orness.core.connectorkafkaservice.domain.ConnectorKafkaServiceGrpc;
-import com.orness.core.connectorkafkaservice.domain.MessageRequest;
-import com.orness.core.connectorkafkaservice.domain.MessageResponse;
-import com.orness.core.messagekafkamodule.domain.MessageKafka;
+import com.orness.core.connectorbusservice.domain.ConnectorKafkaServiceGrpc;
+import com.orness.core.connectorbusservice.domain.MessageRequest;
+import com.orness.core.connectorbusservice.domain.MessageResponse;
+import com.orness.core.messagebusmodule.domain.MessageKafka;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.kafka.annotation.KafkaListener;

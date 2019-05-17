@@ -1,8 +1,8 @@
 package com.orness.core.jobkafkaproducer.job;
 
-import com.orness.core.connectorkafkaservice.domain.ConnectorKafkaServiceGrpc;
-import com.orness.core.connectorkafkaservice.domain.MessageRequest;
-import com.orness.core.connectorkafkaservice.domain.MessageResponse;
+import com.orness.core.connectorbusservice.domain.ConnectorKafkaServiceGrpc;
+import com.orness.core.connectorbusservice.domain.MessageRequest;
+import com.orness.core.connectorbusservice.domain.MessageResponse;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.zeebe.client.ZeebeClient;

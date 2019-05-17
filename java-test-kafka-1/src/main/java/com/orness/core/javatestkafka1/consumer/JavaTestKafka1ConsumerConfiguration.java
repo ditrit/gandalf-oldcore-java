@@ -1,6 +1,6 @@
 package com.orness.core.javatestkafka1.consumer;
 
-import com.orness.core.messagekafkamodule.domain.MessageKafka;
+import com.orness.core.messagebusmodule.domain.MessageKafka;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;

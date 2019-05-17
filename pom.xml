@@ -29,26 +29,16 @@
 
     <modules>
         <!-- TEST -->
-        <module>workflow-test-print</module>
-        <module>workflow-test-publish</module>
-        <module>workflow-test-db</module>
-        <module>workflow-test-grpc</module>
-        <module>workflow-test-kafka</module>
-        <module>job-test-db</module>
         <module>job-test-print</module>
-        <module>job-test-publish</module>
-        <module>job-test-kafka</module>
-        <module>task-manager-service</module>
         <module>test-grpc-service</module>
-        <module>application-test-kafka</module>
-        <module>connector-test-kafka</module>
         <module>java-test-kafka-1</module>
         <module>java-test-kafka-2</module>
         <!-- JOB -->
         <module>job-kafka-producer</module>
         <!-- SERVICE -->
-        <module>connector-kafka-service</module>
-        <module>database-kafka-service</module>
+        <module>connector-workflow-engine-service</module>
+        <module>connector-bus-service</module>
+        <module>database-bus-service</module>
         <module>workflow-service</module>
         <module>workflow-uid-service</module>
         <module>grpc-java-client</module>
@@ -56,8 +46,11 @@
         <module>eureka-service</module>
         <module>configuration-service</module>
         <!-- MODULE -->
+        <module>workflow-topic-module</module>
         <module>workflow-uid-module</module>
-        <module>message-kafka-module</module>
-        <module>grpc-message-kafka-module</module>
+        <module>message-bus-module</module>
+        <module>grpc-message-bus-module</module>
+        <module>message-workflow-engine-module</module>
+        <module>grpc-message-workflow-engine-module</module>
     </modules>
 </project>

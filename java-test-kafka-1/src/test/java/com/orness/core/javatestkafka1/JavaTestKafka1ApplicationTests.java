@@ -1,6 +1,6 @@
 package com.orness.core.javatestkafka1;
 
-import com.orness.core.messagekafkamodule.domain.MessageKafka;
+import com.orness.core.messagebusmodule.domain.MessageKafka;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
