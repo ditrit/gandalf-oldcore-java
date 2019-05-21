@@ -18,6 +18,7 @@ public class ConnectorWorkflowEngineManager {
 
     public void subscribeTopicBus(Subscribe subscribe) {
         for(String topic : subscribe.getListTopics().split(subscribe.getSeparator())) {
+            System.out.println(topic);
             ConnectorWorkflowEngineBusGrpc connectorWorkflowEngineBusGrpc = new ConnectorWorkflowEngineBusGrpc(this.connectorWorkflowEngine);
             connectorWorkflowEngineBusGrpc.subscribeTopic(subscribe.getId(), subscribe.getName(), topic);
         }

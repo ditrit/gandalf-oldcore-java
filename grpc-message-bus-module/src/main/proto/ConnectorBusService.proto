@@ -71,7 +71,9 @@ service ConnectorBusService {
 
     rpc deleteTopic(TopicRequest) returns (DefaultResponse);
 
-    rpc subscribeTopic(SubscribeRequest) returns (stream MessageResponse);
+    //rpc subscribeTopic(SubscribeRequest) returns (stream MessageResponse);
+
+    rpc subscribeTopic(SubscribeRequest) returns (DefaultResponse);
 
     rpc unsubscribeTopic(SubscribeRequest) returns (DefaultResponse);
 

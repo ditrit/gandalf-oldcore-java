@@ -29,7 +29,7 @@ public class ConnectorWorkflowEngineBusGrpc {
     }
 
     public void StartClient() {
-        channel = ManagedChannelBuilder.forAddress("localhost", 9005)
+        channel = ManagedChannelBuilder.forAddress("localhost", 10000)
                 .usePlaintext()
                 .build();
 
@@ -104,7 +104,8 @@ public class ConnectorWorkflowEngineBusGrpc {
 
         //Request
         SubscribeRequest subscribeRequest = SubscribeRequest.newBuilder().setSubscribe(subscribe).build();
-        messageResponseIterator = stub.subscribeTopic(subscribeRequest);
+        DefaultResponse defaultResponse = stub.subscribeTopic(subscribeRequest);
+       /* messageResponseIterator = stub.subscribeTopic(subscribeRequest);
         while(messageResponseIterator.hasNext()) {
             //CURRENT RESPONSE
             MessageResponse messageResponse = messageResponseIterator.next();
@@ -117,7 +118,7 @@ public class ConnectorWorkflowEngineBusGrpc {
                     messageResponse.getMessage().getContent());
             //
             connectorWorkflowEngine.sendMessageWorkflowEngine(messageWorkflowEngine);
-        }
+        }*/
     }
 
     public void unsubscribeTopic(String workflow_id, String workflow_name, String topic) {

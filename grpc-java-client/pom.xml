@@ -36,8 +36,14 @@
 			<version>1.16.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.orness.namt</groupId>
-			<artifactId>grpc-message-kafka-module</artifactId>
+			<groupId>com.orness.core</groupId>
+			<artifactId>grpc-message-bus-module</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.orness.core</groupId>
+			<artifactId>grpc-message-workflow-engine-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>

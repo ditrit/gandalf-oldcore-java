@@ -14,6 +14,10 @@ public class ConnectorWorkflowEngineGrpc extends ConnectorWorkflowEngineServiceG
     public void subscribeTopic(SubscribeRequest request, StreamObserver<DefaultResponse> responseObserver) {
         Subscribe subscribe = request.getSubscribe();
         connectorWorkflowEngineManager.subscribeTopicBus(subscribe);
+
+        DefaultResponse response = DefaultResponse.newBuilder().setMessage("Ok").build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     public void unsubscribeTopic(SubscribeRequest request, StreamObserver<DefaultResponse> responseObserver) {

@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EntityScan(basePackages = {"com.orness.namt.messagebusmodule.domain"})
-@EnableJpaRepositories(basePackages = {"com.orness.namt.messagebusmodule.repository"})
+@EntityScan(basePackages = {"com.orness.core.messagebusmodule.domain"})
+@EnableJpaRepositories(basePackages = {"com.orness.core.messagebusmodule.repository"})
 public class DatabaseBusServiceApplication {
 
 	//TODO USE PROPERTIES

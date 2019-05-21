@@ -32,6 +32,6 @@ service ConnectorWorkflowEngineService {
 
     rpc subscribeTopic(SubscribeRequest) returns (DefaultResponse);
 
-    rpc unsubscribeTopic(DefaultRequest) returns (DefaultResponse);
+    rpc unsubscribeTopic(SubscribeRequest) returns (DefaultResponse);
 }
 

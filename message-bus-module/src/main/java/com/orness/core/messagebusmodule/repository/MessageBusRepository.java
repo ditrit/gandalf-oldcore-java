@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MessageBusRepository extends JpaRepository<MessageBus, Long> {
 
-    MessageBus findByWorkflowId(String workflow_id);
+    MessageBus findByWorkflowIdSender(String workflow_id);
 }

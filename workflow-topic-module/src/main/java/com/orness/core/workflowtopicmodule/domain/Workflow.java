@@ -13,7 +13,7 @@ public class Workflow {
     @Column
     private String name;
     @Column
-    private int index = 0;
+    private int index = -1;
 
     @ManyToMany(mappedBy = "workflows")
     private Set<Topic> topics = new HashSet<>();
@@ -61,6 +61,10 @@ public class Workflow {
     public Workflow(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public void IncrementIndex() {
+        this.setIndex(this.getIndex()+1);
     }
 
     @Override

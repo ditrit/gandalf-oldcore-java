@@ -14,17 +14,17 @@ public class MessageBus {
     @GeneratedValue
     private Long id;
     @Column
-    private String workflow_id_sender;
+    private String workflowIdSender;
     @Column
-    private String workflow_name;
+    private String workflowName;
     @Column
-    private String workflow_topic;
+    private String workflowTopic;
     @Column
-    private Timestamp workflow_expiration_time;
+    private Timestamp workflowExpirationTime;
     @Column
-    private Date workflow_creation_date;
+    private Date workflowCreationDate;
     @Column
-    private String workflow_content;
+    private String workflowContent;
 
     public Long getId() {
         return id;
@@ -34,95 +34,95 @@ public class MessageBus {
         this.id = id;
     }
 
-    public String getWorkflow_id_sender() {
-        return workflow_id_sender;
+    public String getWorkflowIdSender() {
+        return workflowIdSender;
     }
 
-    public void setWorkflow_id_sender(String workflow_id_sender) {
-        this.workflow_id_sender = workflow_id_sender;
+    public void setWorkflowIdSender(String workflowIdSender) {
+        this.workflowIdSender = workflowIdSender;
     }
 
-    public String getWorkflow_name() {
-        return workflow_name;
+    public String getWorkflowName() {
+        return workflowName;
     }
 
-    public void setWorkflow_name(String workflow_name) {
-        this.workflow_name = workflow_name;
+    public void setWorkflowName(String workflowName) {
+        this.workflowName = workflowName;
     }
 
-    public String getWorkflow_topic() {
-        return workflow_topic;
+    public String getWorkflowTopic() {
+        return workflowTopic;
     }
 
-    public void setWorkflow_topic(String workflow_topic) {
-        this.workflow_topic = workflow_topic;
+    public void setWorkflowTopic(String workflowTopic) {
+        this.workflowTopic = workflowTopic;
     }
 
-    public Timestamp getWorkflow_expiration_time() {
-        return workflow_expiration_time;
+    public Timestamp getWorkflowExpirationTime() {
+        return workflowExpirationTime;
     }
 
-    public void setWorkflow_expiration_time(Timestamp workflow_expiration_time) {
-        this.workflow_expiration_time = workflow_expiration_time;
+    public void setWorkflowExpirationTime(Timestamp workflowExpirationTime) {
+        this.workflowExpirationTime = workflowExpirationTime;
     }
 
-    public Date getWorkflow_creation_date() {
-        return workflow_creation_date;
+    public Date getWorkflowCreationDate() {
+        return workflowCreationDate;
     }
 
-    public void setWorkflow_creation_date(Date workflow_creation_date) {
-        this.workflow_creation_date = workflow_creation_date;
+    public void setWorkflowCreationDate(Date workflowCreationDate) {
+        this.workflowCreationDate = workflowCreationDate;
     }
 
-    public String getWorkflow_content() {
-        return workflow_content;
+    public String getWorkflowContent() {
+        return workflowContent;
     }
 
-    public void setWorkflow_content(String workflow_content) {
-        this.workflow_content = workflow_content;
+    public void setWorkflowContent(String workflowContent) {
+        this.workflowContent = workflowContent;
     }
 
     public MessageBus() { //JPA
     }
 
-    public MessageBus(String workflow_id_sender, String workflow_name, String workflow_topic, Timestamp workflow_expiration_time, Date workflow_creation_date, String workflow_content) {
-        this.workflow_id_sender = workflow_id_sender;
-        this.workflow_name = workflow_name;
-        this.workflow_topic = workflow_topic;
-        this.workflow_expiration_time = workflow_expiration_time;
-        this.workflow_creation_date = workflow_creation_date;
-        this.workflow_content = workflow_content;
-    }
-
-    public MessageBus(String workflow_id_sender, String workflow_name, String workflow_topic, String workflow_expiration_time, String workflow_creation_date, String workflow_content) {
-        this.workflow_id_sender = workflow_id_sender;
-        this.workflow_name = workflow_name;
-        this.workflow_topic = workflow_topic;
-        this.workflow_expiration_time = Timestamp.valueOf(workflow_expiration_time);
-        this.workflow_creation_date = Date.valueOf(workflow_creation_date);
-        this.workflow_content = workflow_content;
-    }
-
-    public MessageBus(Long id, String workflow_id_sender, String workflow_name, String workflow_topic, Timestamp workflow_expiration_time, Date workflow_creation_date, String workflow_content) {
+    public MessageBus(Long id, String workflowIdSender, String workflowName, String workflowTopic, Timestamp workflowExpirationTime, Date workflowCreationDate, String workflowContent) {
         this.id = id;
-        this.workflow_id_sender = workflow_id_sender;
-        this.workflow_name = workflow_name;
-        this.workflow_topic = workflow_topic;
-        this.workflow_expiration_time = workflow_expiration_time;
-        this.workflow_creation_date = workflow_creation_date;
-        this.workflow_content = workflow_content;
+        this.workflowIdSender = workflowIdSender;
+        this.workflowName = workflowName;
+        this.workflowTopic = workflowTopic;
+        this.workflowExpirationTime = workflowExpirationTime;
+        this.workflowCreationDate = workflowCreationDate;
+        this.workflowContent = workflowContent;
+    }
+
+    public MessageBus(String workflowIdSender, String workflowName, String workflowTopic, Timestamp workflowExpirationTime, Date workflowCreationDate, String workflowContent) {
+        this.workflowIdSender = workflowIdSender;
+        this.workflowName = workflowName;
+        this.workflowTopic = workflowTopic;
+        this.workflowExpirationTime = workflowExpirationTime;
+        this.workflowCreationDate = workflowCreationDate;
+        this.workflowContent = workflowContent;
+    }
+
+    public MessageBus(String workflowIdSender, String workflowName, String workflowTopic, String workflowExpirationTime, String workflowCreationDate, String workflowContent) {
+        this.workflowIdSender = workflowIdSender;
+        this.workflowName = workflowName;
+        this.workflowTopic = workflowTopic;
+        this.workflowExpirationTime =  Timestamp.valueOf(workflowExpirationTime);
+        this.workflowCreationDate =  Date.valueOf(workflowCreationDate);
+        this.workflowContent = workflowContent;
     }
 
     @Override
     public String toString() {
         return "MessageBus{" +
                 "id=" + id +
-                ", workflow_id_sender='" + workflow_id_sender + '\'' +
-                ", workflow_name='" + workflow_name + '\'' +
-                ", workflow_topic='" + workflow_topic + '\'' +
-                ", workflow_expiration_time=" + workflow_expiration_time +
-                ", workflow_creation_date=" + workflow_creation_date +
-                ", workflow_content='" + workflow_content + '\'' +
+                ", workflowIdSender='" + workflowIdSender + '\'' +
+                ", workflowName='" + workflowName + '\'' +
+                ", workflowTopic='" + workflowTopic + '\'' +
+                ", workflowExpirationTime=" + workflowExpirationTime +
+                ", workflowCreationDate=" + workflowCreationDate +
+                ", workflowContent='" + workflowContent + '\'' +
                 '}';
     }
 }

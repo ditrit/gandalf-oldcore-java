@@ -31,8 +31,8 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
         MessageBus messageBus = new MessageBus(request.getMessage().getIdSender(),
                 request.getMessage().getName(),
                 request.getMessage().getTopic(),
-                request.getMessage().getCreationDate(),
                 request.getMessage().getExpirationTime(),
+                request.getMessage().getCreationDate(),
                 request.getMessage().getContent());
         connectorBusProducer.sendConnectorMessageKafka(request.getMessage().getTopic(), messageBus);
 
@@ -79,9 +79,13 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
         responseObserver.onCompleted();
     }
 
-    public void subscribeTopic(SubscribeRequest request, StreamObserver<MessageResponse> responseObserver) {
+    public void subscribeTopic(SubscribeRequest request, StreamObserver<DefaultResponse> responseObserver) {
         System.out.println("Request received from client:\n" + request);
         connectorBusManager.topicSubscription(request.getSubscribe().getName(), request.getSubscribe().getTopic());
+
+        DefaultResponse response = DefaultResponse.newBuilder().setMessage("Ok").build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     public void unsubscribeTopic(SubscribeRequest request, StreamObserver<DefaultResponse> responseObserver) {
@@ -94,12 +98,12 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
         MessageBus messageBus = connectorBusManager.getMessageTopicByWorkflow(request.getMessage().getTopic(), request.getMessage().getIdSender());
 
         Message.Builder builder = Message.newBuilder();
-        builder.setIdSender(messageBus.getWorkflow_id_sender())
-                .setName(messageBus.getWorkflow_name())
-                .setTopic(messageBus.getWorkflow_topic())
-                .setCreationDate(messageBus.getWorkflow_creation_date().toString())
-                .setExpirationTime(messageBus.getWorkflow_expiration_time().toString())
-                .setContent(messageBus.getWorkflow_content());
+        builder.setIdSender(messageBus.getWorkflowIdSender())
+                .setName(messageBus.getWorkflowName())
+                .setTopic(messageBus.getWorkflowTopic())
+                .setCreationDate(messageBus.getWorkflowCreationDate().toString())
+                .setExpirationTime(messageBus.getWorkflowExpirationTime().toString())
+                .setContent(messageBus.getWorkflowContent());
 
         Message message = builder.build();
 
