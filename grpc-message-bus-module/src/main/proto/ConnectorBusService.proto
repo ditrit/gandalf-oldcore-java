@@ -1,6 +1,6 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package com.orness.core.connectorbusservice.grpc;
+package com.orness.gandalf.core.connectorbusservice.grpc;
 
 //Default
 message DefaultRequest {
@@ -13,12 +13,11 @@ message DefaultResponse {
 
 //Message
 message Message {
-    string name = 1;
-    string topic = 2;
-    string id_sender = 3;
-    string creation_date = 4;
-    string expiration_time = 5;
-    string content = 6;
+    string topic = 1;
+    string sender = 2;
+    string creation_date = 3;
+    string expiration_time = 4;
+    string content = 5;
 }
 
 message MessageRequest {
@@ -30,9 +29,8 @@ message MessageResponse {
 }
 
 message GetMessage {
-    string name = 1;
-    string topic = 2;
-    string id_sender = 3;
+    string topic = 1;
+    string subscriber = 2;
 }
 
 message GetMessageRequest {
@@ -52,9 +50,8 @@ message TopicRequest {
 
 //Subscribe
 message Subscribe {
-    string id = 1;
-    string name = 2;
-    string topic = 3;
+    string topic = 1;
+    string subscriber = 2;
 }
 
 message SubscribeRequest {
@@ -70,8 +67,6 @@ service ConnectorBusService {
     rpc createTopic(TopicRequest) returns (DefaultResponse);
 
     rpc deleteTopic(TopicRequest) returns (DefaultResponse);
-
-    //rpc subscribeTopic(SubscribeRequest) returns (stream MessageResponse);
 
     rpc subscribeTopic(SubscribeRequest) returns (DefaultResponse);
 

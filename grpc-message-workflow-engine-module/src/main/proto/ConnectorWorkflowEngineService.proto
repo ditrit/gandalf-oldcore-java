@@ -1,8 +1,8 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package com.orness.core.connectorworkflowengineservice.grpc;
+package com.orness.gandalf.core.connectorworkflowengineservice.grpc;
 
-//DEFAULT
+//Default
 message DefaultRequest {
     string message = 1;
 }
@@ -11,12 +11,23 @@ message DefaultResponse {
     string message = 1;
 }
 
+//Message
+message Message {
+    string topic = 1;
+    string sender = 2;
+    string creation_date = 3;
+    string expiration_time = 4;
+    string content = 5;
+}
+
+message MessageResponse {
+    Message message = 1;
+}
+
 //Subscribe
 message Subscribe {
-    string id = 1;
-    string name = 2;
-    string separator = 3;
-    string list_topics = 4;
+    string topic = 1;
+    string subscriber = 2;
 }
 
 message SubscribeRequest {
@@ -27,10 +38,12 @@ message SubscribeResponse {
     Subscribe subscribe = 1;
 }
 
-//RPC FUNCTIONS
+//RPC Functions
 service ConnectorWorkflowEngineService {
 
     rpc subscribeTopic(SubscribeRequest) returns (DefaultResponse);
+
+    rpc subscribeOneTopic(SubscribeRequest) returns (stream MessageResponse);
 
     rpc unsubscribeTopic(SubscribeRequest) returns (DefaultResponse);
 }

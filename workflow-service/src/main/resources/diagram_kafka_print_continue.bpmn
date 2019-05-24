@@ -30,9 +30,9 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_073di2e" sourceRef="ServiceTask_1mfc1vl" targetRef="EndEvent_0q5j1ql" />
   </bpmn:process>
-  <bpmn:message id="Message_0sq94vw" name="message">
+  <bpmn:message id="Message_0sq94vw" name="zeebeW2W">
     <bpmn:extensionElements>
-      <zeebe:subscription correlationKey="workflow_topic" />
+      <zeebe:subscription correlationKey="listen_topic" />
     </bpmn:extensionElements>
   </bpmn:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">

@@ -11,7 +11,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.orness</groupId>
+    <groupId>com.orness.gandalf</groupId>
     <artifactId>core</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -29,10 +29,9 @@
 
     <modules>
         <!-- TEST -->
-        <module>job-test-print</module>
-        <module>test-grpc-service</module>
-        <module>java-test-kafka-1</module>
-        <module>java-test-kafka-2</module>
+        <module>job-print</module>
+        <module>java-kafka-1</module>
+        <module>java-kafka-2</module>
         <!-- JOB -->
         <module>job-kafka-producer</module>
         <!-- SERVICE -->
@@ -46,11 +45,10 @@
         <module>eureka-service</module>
         <module>configuration-service</module>
         <!-- MODULE -->
-        <module>workflow-topic-module</module>
+        <module>subscriber-topic-module</module>
         <module>workflow-uid-module</module>
         <module>message-bus-module</module>
         <module>grpc-message-bus-module</module>
-        <module>message-workflow-engine-module</module>
         <module>grpc-message-workflow-engine-module</module>
     </modules>
 </project>
