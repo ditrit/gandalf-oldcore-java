@@ -17,24 +17,17 @@
 
     <repositories>
         <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+            <id>spring-milestone-repo</id>
+            <url>http://repo.spring.io/milestone/</url>
         </repository>
     </repositories>
 
-
     <modules>
         <module>configuration</module>
-        <module>service</module>
         <module>connector</module>
         <module>module</module>
         <module>test</module>
         <module>library</module>
         <module>service</module>
-        <module>configuration</module>
     </modules>
 </project>

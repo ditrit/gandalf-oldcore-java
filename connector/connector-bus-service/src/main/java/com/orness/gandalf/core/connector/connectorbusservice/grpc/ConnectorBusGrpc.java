@@ -2,6 +2,7 @@ package com.orness.gandalf.core.connector.connectorbusservice.grpc;
 
 import com.orness.gandalf.core.connector.connectorbusservice.manager.ConnectorBusManager;
 import com.orness.gandalf.core.connector.connectorbusservice.producer.ConnectorBusProducer;
+import com.orness.gandalf.core.module.connectorbusservice.grpc.*;
 import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
@@ -92,10 +93,15 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
 
         boolean subscribe = true;
         MessageBus messageBus;
-        while(subscribe) {
 
+        int test = 0;
+        while(subscribe) {
+            System.out.println("test " + test);
+            test++;
             while(connectorBusManager.isSubscriberIndexValid(request.getMessage().getTopic(), request.getMessage().getSubscriber())) {
+                System.out.println("IS SUBS");
                 messageBus = connectorBusManager.getMessageTopicBySubscriber(request.getMessage().getTopic(), request.getMessage().getSubscriber());
+                System.out.println("Message SUBS " + messageBus);
 
                 Message.Builder builder = Message.newBuilder();
                 builder.setTopic(messageBus.getTopic())
@@ -111,7 +117,9 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
             }
 
             subscribe = connectorBusManager.isSubscriberInTopic(request.getMessage().getTopic(), request.getMessage().getSubscriber());
+            System.out.println("SU BOOL " + subscribe);
         }
+        System.out.println("OUT");
         responseObserver.onCompleted();
     }
 }

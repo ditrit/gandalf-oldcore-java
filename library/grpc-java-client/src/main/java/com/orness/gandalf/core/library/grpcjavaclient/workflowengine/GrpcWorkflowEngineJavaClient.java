@@ -1,6 +1,7 @@
 package com.orness.gandalf.core.library.grpcjavaclient.workflowengine;
 
-import com.orness.gandalf.core.connector.connectorworkflowengineservice.grpc.*;
+import com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.*;
+import com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.ConnectorWorkflowEngineServiceGrpc;
 import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;

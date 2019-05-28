@@ -7,7 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EntityScan(basePackages = {"com.orness.gandalf.core.messagebusmodule.domain"})
+@EntityScan(basePackages = {"com.orness.gandalf.core.module.messagebusmodule.domain"})
 public class ConnectorBusServiceApplication {
 
 	public static void main(String[] args) {

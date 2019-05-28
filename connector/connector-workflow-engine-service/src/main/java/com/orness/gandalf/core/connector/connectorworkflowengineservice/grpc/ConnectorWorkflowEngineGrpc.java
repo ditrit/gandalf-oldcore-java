@@ -1,6 +1,7 @@
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.grpc;
 
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.manager.ConnectorWorkflowEngineManager;
+import com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.*;
 import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;

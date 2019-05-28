@@ -1,6 +1,6 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package com.orness.gandalf.core.connectorworkflowengineservice.grpc;
+package com.orness.gandalf.core.module.connectorworkflowengineservice.grpc;
 
 //Default
 message DefaultRequest {

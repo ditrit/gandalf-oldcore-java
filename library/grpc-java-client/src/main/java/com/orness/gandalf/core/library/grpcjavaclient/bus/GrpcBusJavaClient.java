@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.library.grpcjavaclient.bus;
 
-import com.orness.gandalf.core.connector.connectorbusservice.grpc.*;
+import com.orness.gandalf.core.module.connectorbusservice.grpc.*;
 import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;

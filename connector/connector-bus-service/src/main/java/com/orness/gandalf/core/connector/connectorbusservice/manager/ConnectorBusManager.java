@@ -4,23 +4,34 @@ import com.orness.gandalf.core.connector.connectorbusservice.consumer.ConnectorB
 import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Subscriber;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Topic;
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class ConnectorBusManager {
 
     private GenericWebApplicationContext applicationContext;
     private HashMap<String, Topic> subscriptions;
+    private String bootstrapAddress = "localhost:9092";
+    private Map<String, Object> configs;
 
     @Autowired
     public ConnectorBusManager(GenericWebApplicationContext  applicationContext) {
-        this.applicationContext = applicationContext;
+        configs = new HashMap<>();
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         this.subscriptions = new HashMap<>();
+        //USELESS
+        this.applicationContext = applicationContext;
     }
 
     public Topic topicCreation(String topic_name) {
@@ -88,6 +99,7 @@ public class ConnectorBusManager {
             messageBus = topic.getMessageBusLinkedList().get(subscriber.getIndex());
             subscriber.IncrementIndex();
         }
+        System.out.println("GetMessage return " + messageBus);
         return messageBus;
     }
 
@@ -111,9 +123,16 @@ public class ConnectorBusManager {
     }
 
     private void addTopicBus(String topic) {
-        if(!applicationContext.containsBeanDefinition(topic)) {
+        AdminClient adminClient = AdminClient.create(configs);
+        NewTopic newTopic = new NewTopic(topic, 1, (short)1);
+        //new NewTopic(topicName, numPartitions, replicationFactor)
+        List<NewTopic> newTopics = new ArrayList<NewTopic>();
+        newTopics.add(newTopic);
+        adminClient.createTopics(newTopics);
+        adminClient.close();
+/*        if(!applicationContext.containsBeanDefinition(topic)) {
             applicationContext.registerBean(topic, NewTopic.class, () -> new NewTopic(topic,1, (short) 1));
-        }
+        }*/
     }
 
     private void removeTopicBusAndTopicBusListener(String topic) {
