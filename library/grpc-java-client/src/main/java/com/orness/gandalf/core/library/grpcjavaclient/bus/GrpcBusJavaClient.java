@@ -65,7 +65,9 @@ public class GrpcBusJavaClient {
         MessageResponse messageResponse = stub.getMessage(request);
         System.out.println(messageResponse);
         MessageBus response = null;
-        if(messageResponse.getMessage() != null) {
+        System.out.println("MESSAGE REP " + messageResponse.getMessage());
+        System.out.println("MESSAGE REP TYPE " + messageResponse.getMessage().getClass());
+        if(!messageResponse.getMessage().getTopic().equals("")) {
             response = new MessageBus(messageResponse.getMessage().getTopic(),
                     messageResponse.getMessage().getSender(),
                     messageResponse.getMessage().getExpirationTime(),

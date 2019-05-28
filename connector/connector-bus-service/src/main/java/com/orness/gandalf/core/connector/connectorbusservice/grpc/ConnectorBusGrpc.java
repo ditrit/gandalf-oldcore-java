@@ -71,17 +71,17 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
         System.out.println("Request getMessage received from sample:\n" + request);
         MessageBus messageBus = connectorBusManager.getMessageTopicBySubscriber(request.getMessage().getTopic(), request.getMessage().getSubscriber());
 
-        Message message = null;
+        Message.Builder builder = Message.newBuilder();
         if(messageBus != null) {
-            Message.Builder builder = Message.newBuilder();
             builder.setTopic(messageBus.getTopic())
                     .setSender(messageBus.getSender())
                     .setCreationDate(messageBus.getCreationDate().toString())
                     .setExpirationTime(messageBus.getExpirationTime().toString())
                     .setContent(messageBus.getContent());
 
-            message = builder.build();
+
         }
+        Message message = builder.build();
 
         MessageResponse response = MessageResponse.newBuilder().setMessage(message).build();
         responseObserver.onNext(response);
@@ -114,6 +114,13 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
 
                 MessageResponse response = MessageResponse.newBuilder().setMessage(message).build();
                 responseObserver.onNext(response);
+            }
+            System.out.println("SLEEP");
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             subscribe = connectorBusManager.isSubscriberInTopic(request.getMessage().getTopic(), request.getMessage().getSubscriber());

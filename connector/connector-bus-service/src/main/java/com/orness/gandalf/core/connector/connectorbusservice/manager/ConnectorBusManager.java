@@ -6,6 +6,7 @@ import com.orness.gandalf.core.module.subscribertopicmodule.domain.Subscriber;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Topic;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaAdmin;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @Component
 public class ConnectorBusManager {
@@ -119,10 +121,33 @@ public class ConnectorBusManager {
     }
 
     private void addTopicBusContainer(Topic topic) {
+        System.out.println("ADD CONTAINER");
+        AdminClient adminClient = AdminClient.create(configs);
+        System.out.println("ISREADY " + this.isTopicReady(topic.getName(), adminClient));
+        while(!this.isTopicReady(topic.getName(), adminClient)) {
+            System.out.println("ISREADY 2 " + this.isTopicReady(topic.getName(), adminClient));
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("ADD CONTAINER");
         ConnectorBusConsumer container = new ConnectorBusConsumer(topic);
     }
 
+    private boolean isTopicReady(String topic, AdminClient adminClient) {
+        ListTopicsResult listTopics = adminClient.listTopics();
+        try {
+            return  listTopics.names().get().contains(topic);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private void addTopicBus(String topic) {
+        System.out.println("ADD TOPIC");
         AdminClient adminClient = AdminClient.create(configs);
         NewTopic newTopic = new NewTopic(topic, 1, (short)1);
         //new NewTopic(topicName, numPartitions, replicationFactor)
