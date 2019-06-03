@@ -1,4 +1,4 @@
-# Gandalf Core 
+# Gandalf Core Architecture
 
 ## Configuration
 ### configuration-service
@@ -38,9 +38,7 @@ Test job Zeebe de production de message dans Kafka
 ### job-print
 Test job Zeebe d'affichage
 
-
-
-Procédure de test
+# Gandalf Core Test
 
 ![Schéma test](/picture/Test.png)
 
