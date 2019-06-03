@@ -2,7 +2,7 @@ package com.orness.gandalf.core.test.javakafka1.sample;
 
 import com.orness.gandalf.core.library.grpcjavaclient.bus.GrpcBusJavaClient;
 import com.orness.gandalf.core.library.grpcjavaclient.workflowengine.GrpcWorkflowEngineJavaClient;
-import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,8 @@ public class JavaKafka1Sample implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
-        testPerformance(10, false);
+        //testMultipleTopics();
+        testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage();
         //test();
@@ -39,8 +40,8 @@ public class JavaKafka1Sample implements CommandLineRunner {
 
         //GET
         System.out.println("subscribeOneTopic");
-        MessageBus messageBus = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
-        System.out.println(messageBus);
+        MessageGandalf message = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
+        System.out.println(message);
 
         //SEND
         System.out.println("createTopic");
@@ -102,6 +103,25 @@ public class JavaKafka1Sample implements CommandLineRunner {
         }
     }
 
+    public void testMultipleTopics() {
+
+        GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
+        GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClient = new GrpcWorkflowEngineJavaClient();
+
+        //PARAM
+        String name = "toto";
+        String topic = "toto";
+        int number = 5;
+        for(int i=0; i < number ; i++) {
+            //SEND
+            String topic_indice = topic+"_"+i;
+            System.out.println("createTopic " + topic_indice);
+            grpcBusJavaClient.createTopic(topic_indice);
+            System.out.println("subscribe one " + topic_indice);
+            System.out.println("Message " + grpcWorkflowEngineJavaClient.subscribeOneTopic(topic_indice, name));
+        }
+    }
+
     public void test() {
 
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
@@ -115,8 +135,8 @@ public class JavaKafka1Sample implements CommandLineRunner {
 
         //GET
         System.out.println("subscribeOneTopic");
-        MessageBus messageBus = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
-        System.out.println(messageBus);
+        MessageGandalf message = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
+        System.out.println(message);
 
         //SEND
         System.out.println("createTopic");

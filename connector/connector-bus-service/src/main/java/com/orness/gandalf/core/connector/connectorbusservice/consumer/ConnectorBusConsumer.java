@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.connector.connectorbusservice.consumer;
 
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Topic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -26,16 +26,16 @@ public class ConnectorBusConsumer {
     }
 
     void start() {
-        MessageListener<String, MessageBus> messageListener = record -> this.topic.getMessageBusLinkedList().add(record.value());
+        MessageListener<String, MessageGandalf> messageListener = record -> this.topic.getMessageLinkedList().add(record.value());
         ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(consumerFactory(brokerAddress), containerProperties(messageListener));
         container.start();
     }
 
-    private ConsumerFactory<String, MessageBus> consumerFactory(String brokerAddress) {
-        return new DefaultKafkaConsumerFactory<>(consumerConfig(brokerAddress), new StringDeserializer(), new JsonDeserializer<>(MessageBus.class));
+    private ConsumerFactory<String, MessageGandalf> consumerFactory(String brokerAddress) {
+        return new DefaultKafkaConsumerFactory<>(consumerConfig(brokerAddress), new StringDeserializer(), new JsonDeserializer<>(MessageGandalf.class));
     }
 
-    private ContainerProperties containerProperties(MessageListener<String, MessageBus> messageListener) {
+    private ContainerProperties containerProperties(MessageListener<String, MessageGandalf> messageListener) {
         ContainerProperties containerProperties = new ContainerProperties(this.topic.getName());
         containerProperties.setMessageListener(messageListener);
         return containerProperties;

@@ -17,7 +17,7 @@
     <modules>
         <module>subscriber-topic-module</module>
         <module>workflow-uid-module</module>
-        <module>message-bus-module</module>
+        <module>message-module</module>
         <module>grpc-message-bus-module</module>
         <module>grpc-message-workflow-engine-module</module>
     </modules>

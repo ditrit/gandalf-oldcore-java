@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.connector.databasebusservice.consumer;
 
-import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
-import com.orness.gandalf.core.module.messagebusmodule.repository.MessageBusRepository;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.repository.MessageGandalfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -12,25 +12,25 @@ import java.util.concurrent.CountDownLatch;
 @Component
 public class DatabaseBusConsumer {
 
-    private final MessageBusRepository messageBusRepository;
+    private final MessageGandalfRepository messageGandalfRepository;
     public CountDownLatch latch = new CountDownLatch(3);
     private final String topicName = "database";
 
     @Autowired
-    public DatabaseBusConsumer(MessageBusRepository messageBusRepository) {
-        this.messageBusRepository = messageBusRepository;
+    public DatabaseBusConsumer(MessageGandalfRepository messageGandalfRepository) {
+        this.messageGandalfRepository = messageGandalfRepository;
     }
 
     @KafkaListener(topics = topicName, groupId = "database", containerFactory = "databaseMessageKafkaListenerContainerFactory")
-    public void databaseMessageKafkaListener(MessageBus messageBus) {
-        System.out.println("Received kafkaMessage message: " + messageBus);
+    public void databaseMessageKafkaListener(MessageGandalf messageGandalf) {
+        System.out.println("Received kafkaMessage messageGandalf: " + messageGandalf);
         this.latch.countDown();
         //Save
-        messageBusRepository.save(messageBus);
+        messageGandalfRepository.save(messageGandalf);
 
         //Print
-        List<MessageBus> messageBusList = messageBusRepository.findAll();
-        messageBusList.stream().forEach(System.out::println);
+        List<MessageGandalf> messageGandalfList = messageGandalfRepository.findAll();
+        messageGandalfList.stream().forEach(System.out::println);
     }
 
 }

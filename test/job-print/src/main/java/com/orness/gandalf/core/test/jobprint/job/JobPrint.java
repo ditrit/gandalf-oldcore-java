@@ -46,8 +46,8 @@ public class JobPrint implements JobHandler {
         System.out.println("PRINT");
         System.out.println("PRINT PROCESS ID " + workflow_variables.get("process_id"));
         System.out.println("PRINT NAME " + workflow_variables.get("name"));
-        System.out.println("PRINT SEND TOPIC " + workflow_variables.get("listen_topic"));
-        System.out.println("PRINT LISTEN TOPIC " + workflow_variables.get("send_topic"));
+        System.out.println("PRINT LISTEN TOPIC " + workflow_variables.get("listen_topic"));
+        System.out.println("PRINT SEND TOPIC " + workflow_variables.get("send_topic"));
         System.out.println("PRINT CONTENT " + workflow_variables.get("content"));
 
         jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();

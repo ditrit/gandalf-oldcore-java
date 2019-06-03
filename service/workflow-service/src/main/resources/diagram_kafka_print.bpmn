@@ -22,7 +22,7 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1bcsbei" sourceRef="ServiceTask_16iyej2" targetRef="EndEvent_1kqnfhc" />
   </bpmn:process>
-  <bpmn:message id="Message_14rd4c8" name="zeebeJ2W">
+  <bpmn:message id="Message_14rd4c8" name="message">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="listen_topic" />
     </bpmn:extensionElements>

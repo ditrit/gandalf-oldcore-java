@@ -18,7 +18,7 @@ public class DatabaseBusServiceApplicationTests {
 	public void test() {
 /*
 		//ENTITY
-		MessageBus messageBus = new MessageBus("test_save_id", "test_save_nom", "test_save_topic", "test_save_content");
+		MessageGandalf messageBus = new MessageGandalf("test_save_id", "test_save_nom", "test_save_topic", "test_save_content");
 
 		assertThat(messageBus.getWorkflow_id(), equals("test_id"));
 		assertThat(messageBus.getWorkflow_name(), equals("test_nom"));
@@ -26,7 +26,7 @@ public class DatabaseBusServiceApplicationTests {
 		assertThat(messageBus.getWorkflow_content(), equals("test_content"));
 
 		//REPOSITORY
-		MessageBusRepository messageBusRepositoryMock = mock(MessageBusRepository.class);
+		MessageGandalfRepository messageBusRepositoryMock = mock(MessageGandalfRepository.class);
 
 		//SAVE
 		messageBus = messageBusRepositoryMock.save(messageBus);
@@ -39,15 +39,15 @@ public class DatabaseBusServiceApplicationTests {
 		//KAFKA
 		DatabaseBusConsumer databaseBusConsumer = mock(DatabaseBusConsumer.class);
 		DatabaseBusProducer databaseBusProducer = mock(DatabaseBusProducer.class);
-		messageBus = new MessageBus("test_kafka_id_0", "test_kafka_nom_0", "test_kafka_topic_0", "test_kafka_content_0");
+		messageBus = new MessageGandalf("test_kafka_id_0", "test_kafka_nom_0", "test_kafka_topic_0", "test_kafka_content_0");
 
 		//PRODUCER
 		databaseBusProducer.sendDatabaseMessageKafka(messageBus);
-		MessageBus testMessageBus = messageBusRepositoryMock.findByWorkflowId("test_kafka_id_0");
+		MessageGandalf testMessageBus = messageBusRepositoryMock.findByWorkflowId("test_kafka_id_0");
 		assertThat(testMessageBus, is(IsNull.notNullValue()));
 
 		//CONSUMER
-		messageBus = new MessageBus("test_kafka_id_1", "test_kafka_nom_1", "test_kafka_topic_1", "test_kafka_content_1");
+		messageBus = new MessageGandalf("test_kafka_id_1", "test_kafka_nom_1", "test_kafka_topic_1", "test_kafka_content_1");
 		databaseBusConsumer.databaseMessageKafkaListener(messageBus);
 		testMessageBus = messageBusRepositoryMock.findByWorkflowId("test_kafka_id_1");
 		assertThat(testMessageBus, is(IsNull.notNullValue()));

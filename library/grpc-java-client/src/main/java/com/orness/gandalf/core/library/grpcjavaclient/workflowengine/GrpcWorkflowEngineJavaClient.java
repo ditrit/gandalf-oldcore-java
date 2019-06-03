@@ -2,7 +2,7 @@ package com.orness.gandalf.core.library.grpcjavaclient.workflowengine;
 
 import com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.*;
 import com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.ConnectorWorkflowEngineServiceGrpc;
-import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -41,7 +41,7 @@ public class GrpcWorkflowEngineJavaClient {
         System.out.println(stub.subscribeTopic(request));
     }
 
-    public MessageBus subscribeOneTopic(String topic, String subscriber) {
+    public MessageGandalf subscribeOneTopic(String topic, String subscriber) {
         Subscribe.Builder builder = Subscribe.newBuilder();
         builder.setTopic(topic)
                 .setSubscriber(subscriber);
@@ -49,8 +49,8 @@ public class GrpcWorkflowEngineJavaClient {
         System.out.println("subscribeOneTopic " + topic + " " + subscriber);
         SubscribeRequest request = SubscribeRequest.newBuilder().setSubscribe(subscribe).build();
         Iterator<MessageResponse> messageResponseIterator = stub.subscribeOneTopic(request);
-        Message message = messageResponseIterator.next().getMessage();
-        return new MessageBus(message.getTopic(), message.getSender(), message.getExpirationTime(), message.getCreationDate(), message.getContent());
+        com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.Message message = messageResponseIterator.next().getMessage();
+        return new MessageGandalf(message.getTopic(), message.getSender(), message.getExpirationTime(), message.getCreationDate(), message.getContent());
 
     }
 

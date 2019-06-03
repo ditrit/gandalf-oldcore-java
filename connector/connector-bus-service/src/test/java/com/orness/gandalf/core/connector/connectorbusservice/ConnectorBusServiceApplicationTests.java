@@ -44,7 +44,7 @@ public class ConnectorBusServiceApplicationTests {
 		//KAFKA
 		ConnectorBusManager connectorKafkaConsumer = mock(ConnectorBusManager.class);
 		ConnectorBusProducer connectorBusProducer = mock(ConnectorBusProducer.class);
-		MessageBus messageBus = new MessageBus("test_kafka_id_0", "test_kafka_nom_0", "test_kafka_topic_0", "test_kafka_content_0");
+		MessageGandalf messageBus = new MessageGandalf("test_kafka_id_0", "test_kafka_nom_0", "test_kafka_topic_0", "test_kafka_content_0");
 
 		//TODO VOIR TOPIC DYNAMIQUE
 		//TOPIC

@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.connector.connectorbusservice.manager;
 
 import com.orness.gandalf.core.connector.connectorbusservice.consumer.ConnectorBusConsumer;
-import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Subscriber;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Topic;
 import org.apache.kafka.clients.admin.AdminClient;
@@ -9,7 +9,6 @@ import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 @Component
 public class ConnectorBusManager {
@@ -37,9 +35,16 @@ public class ConnectorBusManager {
     }
 
     public Topic topicCreation(String topic_name) {
-        Topic topic = new Topic(topic_name);
-        this.addTopicBusAndTopicBusListener(topic);
-        this.subscriptions.put(topic.getName(), topic);
+        Topic topic;
+        if(this.isTopicExist(topic_name)) {
+           topic = this.subscriptions.get(topic_name);
+        }
+        else {
+            topic = new Topic(topic_name);
+            this.addTopicBusAndTopicBusListener(topic);
+            this.subscriptions.put(topic.getName(), topic);
+        }
+
         return topic;
     }
 
@@ -50,6 +55,7 @@ public class ConnectorBusManager {
 
     public void topicSubscription(String topic_name, String subscriber_name) {
         Topic topic = this.subscriptions.get(topic_name);
+        System.out.println("TOPIC SUB " + topic);
         if(topic == null) {
             topic = this.topicCreation(topic_name);
         }
@@ -63,12 +69,17 @@ public class ConnectorBusManager {
 
     public boolean isSubscriberIndexValid(String topic_name, String subscriber_name) {
         Topic topic = this.subscriptions.get(topic_name);
+        System.out.println("TOPIC " + topic);
         Subscriber subscriber = this.getSubscriberByNameInTopic(topic, subscriber_name);
+        System.out.println("SUBS " + subscriber);
         if(subscriber != null) {
-            if(subscriber.getIndex() < topic.getMessageBusLinkedList().size()) {
+            System.out.println("MESSAGES " + topic.getMessageLinkedList().size());
+            if(subscriber.getIndex() < topic.getMessageLinkedList().size()) {
+                System.out.println("TRUE");
                 return true;
             }
         }
+        System.out.println("FALSE");
         return false;
     }
 
@@ -80,7 +91,7 @@ public class ConnectorBusManager {
         return false;
     }
 
-    public MessageBus getMessageTopicBySubscriber(String topic_name, String subscriber_name) {
+    public MessageGandalf getMessageTopicBySubscriber(String topic_name, String subscriber_name) {
         //Topic topic = this.subscriptions.get(topic_name);
         return this.getMessageBusBySubscriberIndexInTopic(this.subscriptions.get(topic_name), subscriber_name);
     }
@@ -94,15 +105,17 @@ public class ConnectorBusManager {
         topic.getSubscribers().remove(this.getSubscriberByNameInTopic(topic, name));
     }
 
-    private MessageBus getMessageBusBySubscriberIndexInTopic(Topic topic, String subscriber_name)  {
+    private MessageGandalf getMessageBusBySubscriberIndexInTopic(Topic topic, String subscriber_name)  {
         Subscriber subscriber = this.getSubscriberByNameInTopic(topic, subscriber_name);
-        MessageBus messageBus = null;
+        MessageGandalf messageGandalf = null;
+        System.out.println("GetSub" + subscriber);
         if(this.isSubscriberIndexValid(topic.getName(), subscriber.getName())) {
-            messageBus = topic.getMessageBusLinkedList().get(subscriber.getIndex());
+            System.out.println("valid");
+            messageGandalf = topic.getMessageLinkedList().get(subscriber.getIndex());
             subscriber.IncrementIndex();
         }
-        System.out.println("GetMessage return " + messageBus);
-        return messageBus;
+        System.out.println("GetMessage return " + messageGandalf);
+        return messageGandalf;
     }
 
     private Subscriber getSubscriberByNameInTopic(Topic topic, String subscriber_name) {
@@ -144,6 +157,10 @@ public class ConnectorBusManager {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private boolean isTopicExist(String topic) {
+       return this.subscriptions.containsKey(topic);
     }
 
     private void addTopicBus(String topic) {

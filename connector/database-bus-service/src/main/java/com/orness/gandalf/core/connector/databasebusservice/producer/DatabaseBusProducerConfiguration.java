@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.databasebusservice.producer;
 
-import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class DatabaseBusProducerConfiguration {
 
     @Bean
-    public ProducerFactory<String, MessageBus> databaseMessageKafkaProducerFactory() {
+    public ProducerFactory<String, MessageGandalf> databaseMessageKafkaProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -26,6 +26,6 @@ public class DatabaseBusProducerConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, MessageBus> databaseMessageKafkaTemplate() { return new KafkaTemplate<>(databaseMessageKafkaProducerFactory());
+    public KafkaTemplate<String, MessageGandalf> databaseMessageKafkaTemplate() { return new KafkaTemplate<>(databaseMessageKafkaProducerFactory());
     }
 }

@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.subscribertopicmodule.domain;
 
-import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -21,7 +21,7 @@ public class Topic {
     private Set<Subscriber> subscribers = new HashSet<>();
 
     //BUFFER
-    private LinkedList<MessageBus> messageBusLinkedList = new LinkedList<>();
+    private LinkedList<MessageGandalf> messageLinkedList = new LinkedList<>();
 
     public Long getId() {
         return id;
@@ -47,12 +47,12 @@ public class Topic {
         this.subscribers = subscribers;
     }
 
-    public LinkedList<MessageBus> getMessageBusLinkedList() {
-        return messageBusLinkedList;
+    public LinkedList<MessageGandalf> getMessageLinkedList() {
+        return messageLinkedList;
     }
 
-    public void setMessageBusLinkedList(LinkedList<MessageBus> messageBusLinkedList) {
-        this.messageBusLinkedList = messageBusLinkedList;
+    public void setMessageLinkedList(LinkedList<MessageGandalf> messageLinkedList) {
+        this.messageLinkedList = messageLinkedList;
     }
 
     public Topic() { //JPA

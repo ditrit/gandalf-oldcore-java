@@ -10,9 +10,9 @@
     </parent>
 
     <groupId>com.orness.gandalf.core.module</groupId>
-    <artifactId>message-bus-module</artifactId>
+    <artifactId>message-module</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>message-bus-module</name>
+    <name>message-module</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.library.grpcjavaclient.bus;
 
 import com.orness.gandalf.core.module.connectorbusservice.grpc.*;
-import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -31,13 +31,13 @@ public class GrpcBusJavaClient {
     }
 
     public void sendMessage(String topic, String sender, String content) {
-        Message.Builder builder = Message.newBuilder();
+        com.orness.gandalf.core.module.connectorbusservice.grpc.Message.Builder builder = com.orness.gandalf.core.module.connectorbusservice.grpc.Message.newBuilder();
         builder.setTopic(topic)
                 .setSender(sender)
                 .setExpirationTime("2018-09-01 09:01:15")
                 .setCreationDate("2014-10-21")
                 .setContent(content);
-        Message message = builder.build();
+        com.orness.gandalf.core.module.connectorbusservice.grpc.Message message = builder.build();
 
         MessageRequest request = MessageRequest.newBuilder().setMessage(message).build();
         System.out.println("SEND " + topic);
@@ -55,7 +55,7 @@ public class GrpcBusJavaClient {
         System.out.println(stub.createTopic(request));
     }
 
-    public MessageBus getMessage(String topic, String receiver) {
+    public MessageGandalf getMessage(String topic, String receiver) {
         GetMessage.Builder builder = GetMessage.newBuilder();
         builder.setTopic(topic)
                 .setSubscriber(receiver);
@@ -64,11 +64,11 @@ public class GrpcBusJavaClient {
         GetMessageRequest request = GetMessageRequest.newBuilder().setMessage(getMessage).build();
         MessageResponse messageResponse = stub.getMessage(request);
         System.out.println(messageResponse);
-        MessageBus response = null;
+        MessageGandalf response = null;
         System.out.println("MESSAGE REP " + messageResponse.getMessage());
         System.out.println("MESSAGE REP TYPE " + messageResponse.getMessage().getClass());
         if(!messageResponse.getMessage().getTopic().equals("")) {
-            response = new MessageBus(messageResponse.getMessage().getTopic(),
+            response = new MessageGandalf(messageResponse.getMessage().getTopic(),
                     messageResponse.getMessage().getSender(),
                     messageResponse.getMessage().getExpirationTime(),
                     messageResponse.getMessage().getCreationDate(),

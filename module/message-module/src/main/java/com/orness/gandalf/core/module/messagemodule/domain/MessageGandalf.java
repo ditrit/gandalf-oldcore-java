@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.module.messagebusmodule.domain;
+package com.orness.gandalf.core.module.messagemodule.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
-public class MessageBus {
+public class MessageGandalf {
 
     @Id
     @GeneratedValue
@@ -72,10 +72,10 @@ public class MessageBus {
         this.content = content;
     }
 
-    public MessageBus() { //JPA
+    public MessageGandalf() { //JPA
     }
 
-    public MessageBus(Long id, String topic, String sender, Timestamp expirationTime, Date creationDate, String content) {
+    public MessageGandalf(Long id, String topic, String sender, Timestamp expirationTime, Date creationDate, String content) {
         this.id = id;
         this.topic = topic;
         this.sender = sender;
@@ -84,7 +84,7 @@ public class MessageBus {
         this.content = content;
     }
 
-    public MessageBus(String topic, String sender, Timestamp expirationTime, Date creationDate, String content) {
+    public MessageGandalf(String topic, String sender, Timestamp expirationTime, Date creationDate, String content) {
         this.id = id;
         this.topic = topic;
         this.sender = sender;
@@ -93,7 +93,7 @@ public class MessageBus {
         this.content = content;
     }
 
-    public MessageBus(String topic, String sender, String expirationTime, String creationDate, String content) {
+    public MessageGandalf(String topic, String sender, String expirationTime, String creationDate, String content) {
         this.id = id;
         this.topic = topic;
         this.sender = sender;
@@ -104,7 +104,7 @@ public class MessageBus {
 
     @Override
     public String toString() {
-        return "MessageBus{" +
+        return "MessageGandalf{" +
                 "id=" + id +
                 ", topic='" + topic + '\'' +
                 ", sender='" + sender + '\'' +

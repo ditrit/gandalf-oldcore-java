@@ -3,7 +3,7 @@ package com.orness.gandalf.core.test.javakafka2.sample;
 
 import com.orness.gandalf.core.library.grpcjavaclient.workflowengine.GrpcWorkflowEngineJavaClient;
 import com.orness.gandalf.core.library.grpcjavaclient.bus.GrpcBusJavaClient;
-import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,8 @@ public class JavaKafka2Sample implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
-        testPerformance(10, false);
+        //testMultipleTopics(5);
+        testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage(10);
         //test();
@@ -38,8 +39,8 @@ public class JavaKafka2Sample implements CommandLineRunner {
 
         //GET
         System.out.println("subscribeOneTopic");
-        MessageBus messageBus = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
-        System.out.println(messageBus);
+        MessageGandalf message = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
+        System.out.println(message);
 
         //SEND
         System.out.println("createTopic");
@@ -69,8 +70,8 @@ public class JavaKafka2Sample implements CommandLineRunner {
 
         //GET
         System.out.println("subscribeOneTopic");
-        MessageBus messageBus = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
-        System.out.println(messageBus);
+        MessageGandalf message = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
+        System.out.println(message);
 
         //SEND
         System.out.println("createTopic");
@@ -83,10 +84,22 @@ public class JavaKafka2Sample implements CommandLineRunner {
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
 
         String name = "tata";
-        String topic = "toto";
+        String topic = "zeebeW2J";
         for(int i=0; i < number ; i++) {
             System.out.println("sendMessage");
             grpcBusJavaClient.sendMessage(topic, name, name);
+        }
+    }
+
+    public void testMultipleTopics(int number) {
+        GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
+
+        String name = "tata";
+        String topic = "toto";
+        for(int i=0; i < number ; i++) {
+            System.out.println("sendMessage");
+            String topic_indice = topic + "_" + i;
+            grpcBusJavaClient.sendMessage(topic_indice, name, name);
         }
     }
 

@@ -3,7 +3,7 @@ package com.orness.gandalf.core.connector.connectorbusservice.grpc;
 import com.orness.gandalf.core.connector.connectorbusservice.manager.ConnectorBusManager;
 import com.orness.gandalf.core.connector.connectorbusservice.producer.ConnectorBusProducer;
 import com.orness.gandalf.core.module.connectorbusservice.grpc.*;
-import com.orness.gandalf.core.module.messagebusmodule.domain.MessageBus;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
     public void sendMessage(MessageRequest request, StreamObserver<DefaultResponse> responseObserver) {
         System.out.println("Request sendMessage received from sample:\n" + request);
 
-        MessageBus messageBus = new MessageBus(request.getMessage().getTopic(),
+        MessageGandalf messageGandalf = new MessageGandalf(request.getMessage().getTopic(),
                 request.getMessage().getSender(),
                 request.getMessage().getExpirationTime(),
                 request.getMessage().getCreationDate(),
                 request.getMessage().getContent());
-        connectorBusProducer.sendConnectorMessageKafka(request.getMessage().getTopic(), messageBus);
+        connectorBusProducer.sendConnectorMessageKafka(request.getMessage().getTopic(), messageGandalf);
 
         DefaultResponse response = DefaultResponse.newBuilder().setMessage("Ok").build();
         responseObserver.onNext(response);
@@ -69,19 +69,19 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
 
     public void getMessage(GetMessageRequest request, StreamObserver<MessageResponse> responseObserver) {
         System.out.println("Request getMessage received from sample:\n" + request);
-        MessageBus messageBus = connectorBusManager.getMessageTopicBySubscriber(request.getMessage().getTopic(), request.getMessage().getSubscriber());
+        MessageGandalf messageGandalfBus = connectorBusManager.getMessageTopicBySubscriber(request.getMessage().getTopic(), request.getMessage().getSubscriber());
 
-        Message.Builder builder = Message.newBuilder();
-        if(messageBus != null) {
-            builder.setTopic(messageBus.getTopic())
-                    .setSender(messageBus.getSender())
-                    .setCreationDate(messageBus.getCreationDate().toString())
-                    .setExpirationTime(messageBus.getExpirationTime().toString())
-                    .setContent(messageBus.getContent());
+        com.orness.gandalf.core.module.connectorbusservice.grpc.Message.Builder builder = com.orness.gandalf.core.module.connectorbusservice.grpc.Message.newBuilder();
+        if(messageGandalfBus != null) {
+            builder.setTopic(messageGandalfBus.getTopic())
+                    .setSender(messageGandalfBus.getSender())
+                    .setCreationDate(messageGandalfBus.getCreationDate().toString())
+                    .setExpirationTime(messageGandalfBus.getExpirationTime().toString())
+                    .setContent(messageGandalfBus.getContent());
 
 
         }
-        Message message = builder.build();
+        com.orness.gandalf.core.module.connectorbusservice.grpc.Message message = builder.build();
 
         MessageResponse response = MessageResponse.newBuilder().setMessage(message).build();
         responseObserver.onNext(response);
@@ -92,30 +92,27 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
         System.out.println("Request getMessageStream received from sample:\n" + request);
 
         boolean subscribe = true;
-        MessageBus messageBus;
-
-        int test = 0;
+        MessageGandalf messageGandalfBus;
+        int i =0;
         while(subscribe) {
-            System.out.println("test " + test);
-            test++;
+            System.out.println("INDICE " + i);
+            i++;
             while(connectorBusManager.isSubscriberIndexValid(request.getMessage().getTopic(), request.getMessage().getSubscriber())) {
-                System.out.println("IS SUBS");
-                messageBus = connectorBusManager.getMessageTopicBySubscriber(request.getMessage().getTopic(), request.getMessage().getSubscriber());
-                System.out.println("Message SUBS " + messageBus);
+                System.out.println("VALID");
+                messageGandalfBus = connectorBusManager.getMessageTopicBySubscriber(request.getMessage().getTopic(), request.getMessage().getSubscriber());
+                System.out.println("MESSAGE " + messageGandalfBus);
+                com.orness.gandalf.core.module.connectorbusservice.grpc.Message.Builder builder = com.orness.gandalf.core.module.connectorbusservice.grpc.Message.newBuilder();
+                builder.setTopic(messageGandalfBus.getTopic())
+                        .setSender(messageGandalfBus.getSender())
+                        .setCreationDate(messageGandalfBus.getCreationDate().toString())
+                        .setExpirationTime(messageGandalfBus.getExpirationTime().toString())
+                        .setContent(messageGandalfBus.getContent());
 
-                Message.Builder builder = Message.newBuilder();
-                builder.setTopic(messageBus.getTopic())
-                        .setSender(messageBus.getSender())
-                        .setCreationDate(messageBus.getCreationDate().toString())
-                        .setExpirationTime(messageBus.getExpirationTime().toString())
-                        .setContent(messageBus.getContent());
-
-                Message message = builder.build();
+                com.orness.gandalf.core.module.connectorbusservice.grpc.Message message = builder.build();
 
                 MessageResponse response = MessageResponse.newBuilder().setMessage(message).build();
                 responseObserver.onNext(response);
             }
-            System.out.println("SLEEP");
 
             try {
                 Thread.sleep(500);
@@ -124,9 +121,7 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
             }
 
             subscribe = connectorBusManager.isSubscriberInTopic(request.getMessage().getTopic(), request.getMessage().getSubscriber());
-            System.out.println("SU BOOL " + subscribe);
         }
-        System.out.println("OUT");
         responseObserver.onCompleted();
     }
 }

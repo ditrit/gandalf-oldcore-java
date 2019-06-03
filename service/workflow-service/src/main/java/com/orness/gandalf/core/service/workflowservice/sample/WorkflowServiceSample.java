@@ -21,7 +21,7 @@ public class WorkflowServiceSample implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
-        testPerformanceLoop(10, false);
+        testPerformanceLoop(100, false);
     }
 
     public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
@@ -52,7 +52,7 @@ public class WorkflowServiceSample implements CommandLineRunner {
         instance_content = "content_" + instance_name_continue + "_" + indice;
         workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue, instance_content,topicMultiple("zeebeW2W", multipleTopic, indice), topicMultiple("zeebeW2J", multipleTopic, indice));
         GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClientW2W = new GrpcWorkflowEngineJavaClient();
-        grpcWorkflowEngineJavaClientW2W.subscribeTopic("zeebeW2W", name+"_"+indice);
+        grpcWorkflowEngineJavaClientW2W.subscribeTopic("zeebeW2W", instance_name_continue);
 
         //WORKFLOW JAVA 2 WORKFLOW
         name = "diagram_kafka_print.bpmn";
@@ -63,7 +63,7 @@ public class WorkflowServiceSample implements CommandLineRunner {
         instance_content = "content_" + instance_name_continue + "_" + indice;
         workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue,instance_content, topicMultiple("zeebeJ2W", multipleTopic, indice),"");
         GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClientJ2W = new GrpcWorkflowEngineJavaClient();
-        grpcWorkflowEngineJavaClientJ2W.subscribeTopic("zeebeJ2W", name);
+        grpcWorkflowEngineJavaClientJ2W.subscribeTopic("zeebeJ2W", instance_name_continue);
     }
 
     private String topicMultiple(String topic, boolean multipleTopic, int indice) {
