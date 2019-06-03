@@ -42,7 +42,7 @@ Test job Zeebe d'affichage
 
 Procédure de test
 
-![Schéma test](/home/romain/Downloads/Test.png)
+![Schéma test](/picture/Test.png)
 
 
 - 1 Lancement de Zeebe/Zookeeper/Kafka
