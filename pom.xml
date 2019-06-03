@@ -17,38 +17,17 @@
 
     <repositories>
         <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+            <id>spring-milestone-repo</id>
+            <url>http://repo.spring.io/milestone/</url>
         </repository>
     </repositories>
 
-
     <modules>
-        <!-- TEST -->
-        <module>job-print</module>
-        <module>java-kafka-1</module>
-        <module>java-kafka-2</module>
-        <!-- JOB -->
-        <module>job-kafka-producer</module>
-        <!-- SERVICE -->
-        <module>connector-workflow-engine-service</module>
-        <module>connector-bus-service</module>
-        <module>database-bus-service</module>
-        <module>workflow-service</module>
-        <module>workflow-uid-service</module>
-        <module>grpc-java-client</module>
-        <!-- CONFIGURATION / DISCOVERY -->
-        <module>eureka-service</module>
-        <module>configuration-service</module>
-        <!-- MODULE -->
-        <module>subscriber-topic-module</module>
-        <module>workflow-uid-module</module>
-        <module>message-bus-module</module>
-        <module>grpc-message-bus-module</module>
-        <module>grpc-message-workflow-engine-module</module>
+        <module>configuration</module>
+        <module>connector</module>
+        <module>module</module>
+        <module>test</module>
+        <module>library</module>
+        <module>service</module>
     </modules>
 </project>
