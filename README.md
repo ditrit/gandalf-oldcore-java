@@ -1,28 +1,60 @@
-# Gandalf
-## Core
+# Gandalf Core 
 
-### Configuration
-#### configuration-service
-#### eureka-service
+## Configuration
+### configuration-service
+Service gérant les configurations des différents services.
+### eureka-service
+Service discovery Eureka
 
-### Connector
-#### connector-bus-service
-#### connector-workflow-engine-service
-#### database-bus-service
+## Connector
+### connector-bus-service
+Service permettant la communication avec le bus via gRPC.
+### connector-workflow-engine-service
+Service permettant la communication avec le workflow-engine via gRPC.
+### database-bus-service
+Service permettant la sauvegarde des différents message du bus.
 
-### Library
-#### grpc-message-bus-module
-#### grpc-message-workflow-engine-module
-#### message-module
-#### subscriber-topic-module
-#### workflow-uid-module
+## Library
+### grpc-message-bus-module
+Module contenant le fichier .proto pour le connector-bus-service
+### grpc-message-workflow-engine-module
+Module contenant le fichier .proto pour le connector-workflow-engine-service
+### message-module
+### subscriber-topic-module
+### workflow-uid-module
 
-### Service
-#### workflow-service
-#### workflow-uid-service
+## Service
+### workflow-service
+Service permettant la communication avec le workflow-engine Zeebe
+### workflow-uid-service
 
-### Test
-#### java-kafka-1
-#### java-kafka-2
-#### job-kafka-producer
-#### job-print
+## Test
+### java-kafka-1
+Test tâche externe Java numéro 1 
+### java-kafka-2
+Test tâche externe Java numéro 2
+### job-kafka-producer
+Test job Zeebe de production de message dans Kafka
+### job-print
+Test job Zeebe d'affichage
+
+
+
+Procédure de test
+
+![Schéma test](/home/romain/Downloads/Test.png)
+
+
+- 1 Lancement de Zeebe/Zookeeper/Kafka
+- 2 Execution de configuration-service et eureka-service
+- 3 Execution de connector-bus-service/connector-workflow-engine-service/database-bus-service
+
+- 4 Execution job-print/job-kafka-producer
+- 5 Execution workflow-service (CLR)
+    - Deploiment des 3 workflows
+    - Instanciation des 3 workflows
+
+- 6 Execution java-kafka-1
+- 7 Execution java-kafka-2
+
+- 8 Enjoy
