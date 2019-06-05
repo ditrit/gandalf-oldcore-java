@@ -16,8 +16,7 @@ public class Topic {
     @Column
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "topic_subscriber", joinColumns = @JoinColumn(name = "topic_id"), inverseJoinColumns = @JoinColumn(name = "subscriber_id"))
+    @OneToMany(mappedBy="topic")
     private Set<Subscriber> subscribers = new HashSet<>();
 
     //BUFFER

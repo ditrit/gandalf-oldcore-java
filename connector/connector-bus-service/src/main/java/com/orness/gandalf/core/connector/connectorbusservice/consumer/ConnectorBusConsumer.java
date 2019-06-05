@@ -1,6 +1,7 @@
 package com.orness.gandalf.core.connector.connectorbusservice.consumer;
 
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.zeromqmodule.publisher.PublisherZeroMQ;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Topic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -18,15 +19,19 @@ public class ConnectorBusConsumer {
 
     private final String brokerAddress;
     private final Topic topic;
+    private final String connection;
+    private final PublisherZeroMQ publisherZeroMQ;
 
     public ConnectorBusConsumer(Topic topic) {
         this.brokerAddress = "localhost:9092";
         this.topic = topic;
+        this.connection = "ipc://sub";
+        publisherZeroMQ = new PublisherZeroMQ(connection, topic.getName());
         this.start();
     }
 
     void start() {
-        MessageListener<String, MessageGandalf> messageListener = record -> this.topic.getMessageLinkedList().add(record.value());
+        MessageListener<String, MessageGandalf> messageListener = record -> publisherZeroMQ.setMessageGandalf(record.value());
         ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(consumerFactory(brokerAddress), containerProperties(messageListener));
         container.start();
     }

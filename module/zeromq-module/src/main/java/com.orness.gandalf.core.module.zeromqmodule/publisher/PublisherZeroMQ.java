@@ -6,48 +6,42 @@ import org.zeromq.ZContext;
 import org.zeromq.ZThread;
 import org.zeromq.ZMQ.Socket;
 
-public class Publisher implements ZThread.IDetachedRunnable {
+public class PublisherZeroMQ implements ZThread.IDetachedRunnable {
 
     private ZContext context;
     private Socket publisher;
     private String connection;
-    private int i;
+    private String topic;
+    private MessageGandalf messageGandalf;
 
-    /*public static void main(String... args) {
-        new Publisher("ipc://pub").run(null);
+    public void setMessageGandalf(MessageGandalf messageGandalf) {
+        this.messageGandalf = messageGandalf;
     }
 
-
-    public Publisher(String connection) {
+    public PublisherZeroMQ(String connection, String topic) {
         this.connection = connection;
+        this.topic = topic;
         this.run(null);
-    }*/
+    }
 
 
     @Override
     public void run(Object[] args) {
         open();
-        MessageGandalf messageGandalf = new MessageGandalf("toto", "toto", "2018-09-01 09:01:15", "2014-10-21", "toto");
         while (!Thread.currentThread().isInterrupted()) {
-            MessageGandalf current = messageGandalf;
-            current.setContent(messageGandalf.getContent()+"_"+i++);
-            //TOPIC
-            String topic = "test";
-            publisher.sendMore(topic);
-            //DATA
-            publisher.send(messageGandalf.toString());
-            //PRINT
-            System.out.println(topic + " " + messageGandalf.toString());
-            try {
-                Thread.sleep(10);
-            }
-            catch (InterruptedException e) {
-                e.printStackTrace();
+            if(messageGandalf != null) {
+                //TOPIC
+                publisher.sendMore(topic);
+                //DATA
+                publisher.send(messageGandalf.toString());
+                //PRINT
+                System.out.println(topic + " " + messageGandalf.toString());
+                //RESET
+                this.messageGandalf = null;
             }
         }
         close();
     }
-
 
     public void open() {
         context = new ZContext();

@@ -5,19 +5,21 @@ import org.zeromq.ZContext;
 import org.zeromq.ZThread;
 import org.zeromq.ZMQ.Socket;
 
-public class Subscriber implements ZThread.IDetachedRunnable {
+public class SubscriberZeroMQ implements ZThread.IDetachedRunnable {
     private String connection;
+    private String topic;
     private ZContext context;
     private Socket subscriber;
 
 
     /*public static void main(String... args) {
-        new Subscriber("ipc://sub").run(null);
+        new SubscriberZeroMQ("ipc://sub").run(null);
     }*/
 
 
-    public Subscriber(String connection) {
+    public SubscriberZeroMQ(String connection, String topic) {
         this.connection = connection;
+        this.topic = topic;
         this.run(null);
     }
 
@@ -27,8 +29,8 @@ public class Subscriber implements ZThread.IDetachedRunnable {
         open();
 
         while (!Thread.currentThread().isInterrupted()) {
-            String topic = subscriber.recvStr();
-            System.out.println(topic);
+            String header = subscriber.recvStr();
+            System.out.println(header);
             String content = subscriber.recvStr();
             System.out.println(content);
         }
@@ -43,7 +45,6 @@ public class Subscriber implements ZThread.IDetachedRunnable {
 
         subscriber.connect(connection);
         //subscriber.bind(connection);
-        String topic = "test";
         subscriber.subscribe(topic.getBytes());
     }
 

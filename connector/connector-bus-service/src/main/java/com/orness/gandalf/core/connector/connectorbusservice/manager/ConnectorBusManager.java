@@ -59,16 +59,7 @@ public class ConnectorBusManager {
         if(topic == null) {
             topic = this.topicCreation(topic_name);
         }
-        topic.getSubscribers().add(this.createNewSubscriber(subscriber_name));
-    }
-
-    public void topicSubscriptionZeroMQ(String topic_name, String subscriber_name) {
-        Topic topic = this.subscriptions.get(topic_name);
-        System.out.println("TOPIC SUB " + topic);
-        if(topic == null) {
-            topic = this.topicCreation(topic_name);
-        }
-        topic.getSubscribers().add(this.createNewSubscriber(subscriber_name));
+        topic.getSubscribers().add(this.createNewSubscriber(subscriber_name, topic));
     }
 
     public void topicUnsubscription(String topic_name, String subscriber_name) {
@@ -76,7 +67,7 @@ public class ConnectorBusManager {
         this.removeSubscriberInTopic(topic, subscriber_name);
     }
 
-    public boolean isSubscriberIndexValid(String topic_name, String subscriber_name) {
+  /*  public boolean isSubscriberIndexValid(String topic_name, String subscriber_name) {
         Topic topic = this.subscriptions.get(topic_name);
         System.out.println("TOPIC " + topic);
         Subscriber subscriber = this.getSubscriberByNameInTopic(topic, subscriber_name);
@@ -90,7 +81,7 @@ public class ConnectorBusManager {
         }
         System.out.println("FALSE");
         return false;
-    }
+    }*/
 
     public boolean isSubscriberInTopic(String topic_name, String subscriber_name) {
         Subscriber subscriber = this.getSubscriberByNameInTopic(this.subscriptions.get(topic_name), subscriber_name);
@@ -100,21 +91,23 @@ public class ConnectorBusManager {
         return false;
     }
 
-    public MessageGandalf getMessageTopicBySubscriber(String topic_name, String subscriber_name) {
+/*    public MessageGandalf getMessageTopicBySubscriber(String topic_name, String subscriber_name) {
         //Topic topic = this.subscriptions.get(topic_name);
         return this.getMessageBusBySubscriberIndexInTopic(this.subscriptions.get(topic_name), subscriber_name);
-    }
+    }*/
 
     //
-    private Subscriber createNewSubscriber(String name) {
-        return new Subscriber(name);
+    private Subscriber createNewSubscriber(String name, Topic topic) {
+        return new Subscriber(name, topic);
     }
 
     private void removeSubscriberInTopic(Topic topic, String name) {
-        topic.getSubscribers().remove(this.getSubscriberByNameInTopic(topic, name));
+        Subscriber subscriber = this.getSubscriberByNameInTopic(topic, name);
+        subscriber.stopSubscriberZeroMQ();
+        topic.getSubscribers().remove(subscriber);
     }
 
-    private MessageGandalf getMessageBusBySubscriberIndexInTopic(Topic topic, String subscriber_name)  {
+   /* private MessageGandalf getMessageBusBySubscriberIndexInTopic(Topic topic, String subscriber_name)  {
         Subscriber subscriber = this.getSubscriberByNameInTopic(topic, subscriber_name);
         MessageGandalf messageGandalf = null;
         System.out.println("GetSub" + subscriber);
@@ -125,7 +118,7 @@ public class ConnectorBusManager {
         }
         System.out.println("GetMessage return " + messageGandalf);
         return messageGandalf;
-    }
+    }*/
 
     private Subscriber getSubscriberByNameInTopic(Topic topic, String subscriber_name) {
         for(Subscriber topic_workflow : topic.getSubscribers()) {

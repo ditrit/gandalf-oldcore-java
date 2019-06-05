@@ -5,7 +5,7 @@ import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Socket;
 
-public class PubSubProxy {
+public class PubSubProxyZeroMQ {
 
     private static Socket subscriberSocket;
     private String subscriberConnection;
@@ -13,14 +13,14 @@ public class PubSubProxy {
     private String publisherConnection;
     private ZContext context;
 
-    public PubSubProxy(String subscriberConnection, String publisherConnection) {
+    public PubSubProxyZeroMQ(String subscriberConnection, String publisherConnection) {
         this.publisherConnection = publisherConnection;
         this.subscriberConnection = subscriberConnection;
         this.open();
     }
 
     /*public static void main(String[] args) {
-        new PubSubProxy("ipc://sub", "ipc://pub");
+        new PubSubProxyZeroMQ("ipc://sub", "ipc://pub");
     }*/
 
     public void open() {
@@ -29,12 +29,12 @@ public class PubSubProxy {
 
         //PUBLISHER ENDPOINT
         publisherSocket = context.createSocket(SocketType.XSUB);
-        System.out.println("Subscriber binding to: " + subscriberConnection);
+        System.out.println("SubscriberZeroMQ binding to: " + subscriberConnection);
         publisherSocket.bind(subscriberConnection);
 
         //SUBSCRIBER ENDPOINT
         subscriberSocket = context.createSocket(SocketType.XPUB);
-        System.out.println("Publisher binding to: " + publisherConnection);
+        System.out.println("PublisherZeroMQ binding to: " + publisherConnection);
         subscriberSocket.bind(publisherConnection);
 
         // Run the proxy until the user interrupts us

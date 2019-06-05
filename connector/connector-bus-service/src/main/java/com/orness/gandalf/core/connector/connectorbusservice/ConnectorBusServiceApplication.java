@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbusservice;
 
-import com.orness.gandalf.core.module.zeromqmodule.proxy.PubSubProxy;
+import com.orness.gandalf.core.module.zeromqmodule.proxy.PubSubProxyZeroMQ;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -17,8 +17,8 @@ public class ConnectorBusServiceApplication {
 	}
 
 	@Bean
-	public PubSubProxy proxy() {
-		PubSubProxy pubSubProxy = new PubSubProxy("ipc://sub", "ipc://pub");
-		return pubSubProxy;
+	public PubSubProxyZeroMQ proxy() {
+		PubSubProxyZeroMQ pubSubProxyZeroMQ = new PubSubProxyZeroMQ("ipc://sub", "ipc://pub");
+		return pubSubProxyZeroMQ;
 	}
 }
