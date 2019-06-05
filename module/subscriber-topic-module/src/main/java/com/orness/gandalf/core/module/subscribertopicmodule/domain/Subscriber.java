@@ -68,7 +68,7 @@ public class Subscriber {
 
     @Override
     public String toString() {
-        return "Subscriber{" +
+        return "subscriber{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", index=" + index +

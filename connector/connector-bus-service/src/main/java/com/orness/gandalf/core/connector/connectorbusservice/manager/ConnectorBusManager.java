@@ -62,6 +62,15 @@ public class ConnectorBusManager {
         topic.getSubscribers().add(this.createNewSubscriber(subscriber_name));
     }
 
+    public void topicSubscriptionZeroMQ(String topic_name, String subscriber_name) {
+        Topic topic = this.subscriptions.get(topic_name);
+        System.out.println("TOPIC SUB " + topic);
+        if(topic == null) {
+            topic = this.topicCreation(topic_name);
+        }
+        topic.getSubscribers().add(this.createNewSubscriber(subscriber_name));
+    }
+
     public void topicUnsubscription(String topic_name, String subscriber_name) {
         Topic topic = this.subscriptions.get(topic_name);
         this.removeSubscriberInTopic(topic, subscriber_name);

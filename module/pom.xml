@@ -20,6 +20,7 @@
         <module>message-module</module>
         <module>grpc-message-bus-module</module>
         <module>grpc-message-workflow-engine-module</module>
+        <module>zeromq-module</module>
     </modules>
 
     <properties>
