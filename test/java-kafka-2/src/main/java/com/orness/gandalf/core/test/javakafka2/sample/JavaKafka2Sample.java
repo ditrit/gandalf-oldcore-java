@@ -13,8 +13,9 @@ public class JavaKafka2Sample implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
+        testZeroMQSender();
         //testMultipleTopics(5);
-        testPerformanceLoop(100, false);
+        //testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage(10);
         //test();
@@ -114,5 +115,16 @@ public class JavaKafka2Sample implements CommandLineRunner {
 
         grpcWorkflowEngineJavaClient.subscribeTopic(topic_1, name_1);
         grpcWorkflowEngineJavaClient.subscribeTopic(topic_2, name_2);
+    }
+
+    public void testZeroMQSender() {
+        GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
+        int number = 5;
+        String name = "tata";
+        String topic = "toto";
+        for(int i=0; i < number ; i++) {
+            System.out.println("sendMessage");
+            grpcBusJavaClient.sendMessage(topic, name, name+"_"+i);
+        }
     }
 }

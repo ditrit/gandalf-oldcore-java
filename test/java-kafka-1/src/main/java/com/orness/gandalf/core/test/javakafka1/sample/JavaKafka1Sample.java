@@ -15,10 +15,11 @@ public class JavaKafka1Sample implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
         //testMultipleTopics();
-        testPerformanceLoop(100, false);
+        //testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage();
         //test();
+        testZeroMQSubscriber();
     }
 
     public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
@@ -143,5 +144,17 @@ public class JavaKafka1Sample implements CommandLineRunner {
         grpcBusJavaClient.createTopic(send_topic);
         System.out.println("sendMessage");
         grpcBusJavaClient.sendMessage(send_topic, name, content);
+    }
+
+    public void testZeroMQSubscriber() {
+        GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
+        int number = 5;
+        String name = "toto";
+        String topic = "toto";
+        grpcBusJavaClient.createTopic(name);
+
+        GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClient = new GrpcWorkflowEngineJavaClient();
+        grpcWorkflowEngineJavaClient.subscribeTopic(topic, name);
+
     }
 }

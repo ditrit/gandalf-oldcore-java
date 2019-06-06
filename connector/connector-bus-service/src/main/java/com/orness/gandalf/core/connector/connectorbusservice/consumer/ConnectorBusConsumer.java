@@ -25,15 +25,26 @@ public class ConnectorBusConsumer {
     public ConnectorBusConsumer(Topic topic) {
         this.brokerAddress = "localhost:9092";
         this.topic = topic;
-        this.connection = "ipc://sub";
-        publisherZeroMQ = new PublisherZeroMQ(connection, topic.getName());
+        this.connection = "ipc://pub";
+        publisherZeroMQ = new PublisherZeroMQ(connection);
         this.start();
     }
 
     void start() {
-        MessageListener<String, MessageGandalf> messageListener = record -> publisherZeroMQ.setMessageGandalf(record.value());
+        MessageListener<String, MessageGandalf> messageListener = record -> this.publish(record.value());
         ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(consumerFactory(brokerAddress), containerProperties(messageListener));
         container.start();
+    }
+
+    private void publish(MessageGandalf messageGandalf) {
+        if(messageGandalf != null) {
+            //TOPIC
+            this.publisherZeroMQ.getPublisher().sendMore(topic.getName());
+            //DATA
+            this.publisherZeroMQ.getPublisher().send(messageGandalf.toString());
+            //PRINT
+            System.out.println(topic + " " + messageGandalf.toString());
+        }
     }
 
     private ConsumerFactory<String, MessageGandalf> consumerFactory(String brokerAddress) {

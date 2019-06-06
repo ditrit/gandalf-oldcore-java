@@ -45,6 +45,7 @@ public class ConnectorWorkflowEngineGrpc extends ConnectorWorkflowEngineServiceG
         connectorWorkflowEngineManager.subscribeTopicBus(subscribe);
         //DefaultResponse response = DefaultResponse.newBuilder().setMessage("Ok").build();
        // MessageGandalf messageGandalfBus = connectorWorkflowEngineManager.getOneMessageStream(subscribe);
+
         Iterator<com.orness.gandalf.core.module.connectorbusservice.grpc.MessageResponse> messageResponseIterator = connectorWorkflowEngineManager.getOneMessageStream(subscribe);
         MessageGandalf messageGandalfBus = null;
         while(messageResponseIterator.hasNext()) {

@@ -120,11 +120,21 @@ public class ConnectorBusManager {
         return messageGandalf;
     }*/
 
-    private Subscriber getSubscriberByNameInTopic(Topic topic, String subscriber_name) {
-        for(Subscriber topic_workflow : topic.getSubscribers()) {
-           if(topic_workflow.getName().equals(subscriber_name)) {
-               return topic_workflow;
+    public Subscriber getSubscriberByNameInTopic(Topic topic, String subscriber_name) {
+        for(Subscriber topic_subscriber : topic.getSubscribers()) {
+           if(topic_subscriber.getName().equals(subscriber_name)) {
+               return topic_subscriber;
            }
+        }
+        return null;
+    }
+
+    public Subscriber getSubscriberByNameInTopic(String topic_name, String subscriber_name) {
+        Topic topic = this.subscriptions.get(topic_name);
+        for(Subscriber topic_subscriber : topic.getSubscribers()) {
+            if(topic_subscriber.getName().equals(subscriber_name)) {
+                return topic_subscriber;
+            }
         }
         return null;
     }

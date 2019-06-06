@@ -1,13 +1,18 @@
 package com.orness.gandalf.core.module.subscribertopicmodule.domain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import com.orness.gandalf.core.module.zeromqmodule.subscriber.SubscriberZeroMQ;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Subscriber {
+
+    private final String connection = "ipc://sub";
 
     @Id
     @GeneratedValue
@@ -16,6 +21,7 @@ public class Subscriber {
     private String name;
 
     private SubscriberZeroMQ subscriberZeroMQ;
+    private ObjectMapper mapper;
 
     @ManyToOne
     @JoinColumn(name="topic_id", nullable=false)
@@ -54,23 +60,43 @@ public class Subscriber {
     }*/
 
    public void startSubscriberZeroMQ() {
-
+        this.subscriberZeroMQ.open(this.name);
    }
 
    public void stopSubscriberZeroMQ() {
+        this.subscriberZeroMQ.close();
+   }
 
+   public MessageGandalf getSubscriberZeroMQMessage() {
+       String header = this.subscriberZeroMQ.getSubscriber().recvStr();
+       System.out.println(header);
+       String content = this.subscriberZeroMQ.getSubscriber().recvStr();
+       System.out.println(content);
+       if(header.equals(this.topic.getName())) {
+           mapper = new ObjectMapper();
+           MessageGandalf messageGandalf = null;
+           try {
+               messageGandalf = mapper.readValue(content, MessageGandalf.class);
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+           return messageGandalf;
+       }
+       return null;
    }
 
     public Subscriber() { //JPA
     }
 
     public Subscriber(String name) {
-        this.name = name;
+
+       this.name = name;
     }
 
     public Subscriber(String name, Topic topic) {
         this.name = name;
         this.topic = topic;
+        this.subscriberZeroMQ = new SubscriberZeroMQ(connection);
     }
 
     public Subscriber(Long id, String name) {

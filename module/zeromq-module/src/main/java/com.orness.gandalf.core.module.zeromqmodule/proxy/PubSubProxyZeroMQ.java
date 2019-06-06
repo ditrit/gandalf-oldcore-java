@@ -1,11 +1,14 @@
 package com.orness.gandalf.core.module.zeromqmodule.proxy;
 
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.stereotype.Component;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Socket;
 
-public class PubSubProxyZeroMQ {
+@Component
+public class PubSubProxyZeroMQ implements DisposableBean, Runnable {
 
     private static Socket subscriberSocket;
     private String subscriberConnection;
@@ -17,6 +20,7 @@ public class PubSubProxyZeroMQ {
         this.publisherConnection = publisherConnection;
         this.subscriberConnection = subscriberConnection;
         this.open();
+        this.run();
     }
 
     /*public static void main(String[] args) {
@@ -38,9 +42,9 @@ public class PubSubProxyZeroMQ {
         subscriberSocket.bind(publisherConnection);
 
         // Run the proxy until the user interrupts us
-        ZMQ.proxy(publisherSocket, subscriberSocket, null);
+        //ZMQ.proxy(publisherSocket, subscriberSocket, null);
 
-        this.close();
+        //this.close();
     }
 
 
@@ -48,5 +52,16 @@ public class PubSubProxyZeroMQ {
         publisherSocket.close();
         subscriberSocket.close();
         context.destroy();
+    }
+
+    @Override
+    public void run() {
+        // Run the proxy until the user interrupts us
+        ZMQ.proxy(publisherSocket, subscriberSocket, null);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        this.close();
     }
 }

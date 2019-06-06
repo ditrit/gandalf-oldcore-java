@@ -6,41 +6,18 @@ import org.zeromq.ZContext;
 import org.zeromq.ZThread;
 import org.zeromq.ZMQ.Socket;
 
-public class PublisherZeroMQ implements ZThread.IDetachedRunnable {
+public class PublisherZeroMQ {
 
     private ZContext context;
     private Socket publisher;
     private String connection;
-    private String topic;
-    private MessageGandalf messageGandalf;
 
-    public void setMessageGandalf(MessageGandalf messageGandalf) {
-        this.messageGandalf = messageGandalf;
-    }
-
-    public PublisherZeroMQ(String connection, String topic) {
+    public PublisherZeroMQ(String connectio) {
         this.connection = connection;
-        this.topic = topic;
-        this.run(null);
     }
 
-
-    @Override
-    public void run(Object[] args) {
-        open();
-        while (!Thread.currentThread().isInterrupted()) {
-            if(messageGandalf != null) {
-                //TOPIC
-                publisher.sendMore(topic);
-                //DATA
-                publisher.send(messageGandalf.toString());
-                //PRINT
-                System.out.println(topic + " " + messageGandalf.toString());
-                //RESET
-                this.messageGandalf = null;
-            }
-        }
-        close();
+    public Socket getPublisher() {
+        return publisher;
     }
 
     public void open() {
@@ -49,7 +26,6 @@ public class PublisherZeroMQ implements ZThread.IDetachedRunnable {
         //publisher.bind(connection);
         publisher.connect(connection);
     }
-
 
     public void close() {
         publisher.close();
