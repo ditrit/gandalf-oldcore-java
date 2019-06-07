@@ -55,7 +55,6 @@ public class ConnectorBusManager {
 
     public void topicSubscription(String topic_name, String subscriber_name) {
         Topic topic = this.subscriptions.get(topic_name);
-        System.out.println("TOPIC SUB " + topic);
         if(topic == null) {
             topic = this.topicCreation(topic_name);
         }
@@ -146,18 +145,14 @@ public class ConnectorBusManager {
     }
 
     private void addTopicBusContainer(Topic topic) {
-        System.out.println("ADD CONTAINER");
         AdminClient adminClient = AdminClient.create(configs);
-        System.out.println("ISREADY " + this.isTopicReady(topic.getName(), adminClient));
         while(!this.isTopicReady(topic.getName(), adminClient)) {
-            System.out.println("ISREADY 2 " + this.isTopicReady(topic.getName(), adminClient));
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println("ADD CONTAINER");
         ConnectorBusConsumer container = new ConnectorBusConsumer(topic);
     }
 

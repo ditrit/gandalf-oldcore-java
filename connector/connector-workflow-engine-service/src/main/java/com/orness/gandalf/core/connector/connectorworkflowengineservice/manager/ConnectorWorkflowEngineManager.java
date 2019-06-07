@@ -27,22 +27,7 @@ public class ConnectorWorkflowEngineManager {
         grpcBusJavaClient.subscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
     }
 
-    public MessageGandalf getOneMessageStream_old(Subscribe subscribe) {
-        //ConnectorWorkflowEngineBusGrpc connectorWorkflowEngineBusGrpc = new ConnectorWorkflowEngineBusGrpc(this.connectorWorkflowEngine);
-        //connectorWorkflowEngineBusGrpc.subscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
-        GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
-        Iterator<MessageResponse> messageResponseIterator = grpcBusJavaClient.getMessageStream(subscribe.getTopic(), subscribe.getSubscriber());
-        com.orness.gandalf.core.module.connectorbusservice.grpc.Message currentMessage =  messageResponseIterator.next().getMessage();
-        System.out.println("ONE");
-        System.out.println("MESSAGE " + currentMessage);
-        return new MessageGandalf(currentMessage.getTopic(),
-                    currentMessage.getSender(),
-                    currentMessage.getExpirationTime(),
-                    currentMessage.getCreationDate(),
-                    currentMessage.getContent());
-    }
-
-    public Iterator<MessageResponse> getOneMessageStream(Subscribe subscribe) {
+    public Iterator<MessageResponse> getMessageStream(Subscribe subscribe) {
         //ConnectorWorkflowEngineBusGrpc connectorWorkflowEngineBusGrpc = new ConnectorWorkflowEngineBusGrpc(this.connectorWorkflowEngine);
         //connectorWorkflowEngineBusGrpc.subscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
         System.out.println("Sub One" + subscribe);
@@ -64,7 +49,7 @@ public class ConnectorWorkflowEngineManager {
         return messageResponseIterator;
     }
 
-    public void getMessageStream(Subscribe subscribe) {
+    public void getMessageStreamWorkflow(Subscribe subscribe) {
         //ConnectorWorkflowEngineBusGrpc connectorWorkflowEngineBusGrpc = new ConnectorWorkflowEngineBusGrpc(this.connectorWorkflowEngine);
         //connectorWorkflowEngineBusGrpc.subscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
         System.out.println("Sub " + subscribe);

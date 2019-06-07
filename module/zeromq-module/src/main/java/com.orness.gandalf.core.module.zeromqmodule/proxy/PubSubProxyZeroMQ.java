@@ -1,18 +1,15 @@
 package com.orness.gandalf.core.module.zeromqmodule.proxy;
 
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.stereotype.Component;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Socket;
 
-@Component
-public class PubSubProxyZeroMQ implements DisposableBean, Runnable {
+public class PubSubProxyZeroMQ {
 
-    private static Socket subscriberSocket;
+    public static Socket frontend;
     private String subscriberConnection;
-    private static Socket publisherSocket;
+    public static Socket backend;
     private String publisherConnection;
     private ZContext context;
 
@@ -20,7 +17,6 @@ public class PubSubProxyZeroMQ implements DisposableBean, Runnable {
         this.publisherConnection = publisherConnection;
         this.subscriberConnection = subscriberConnection;
         this.open();
-        this.run();
     }
 
     /*public static void main(String[] args) {
@@ -32,36 +28,29 @@ public class PubSubProxyZeroMQ implements DisposableBean, Runnable {
         context = new ZContext();
 
         //PUBLISHER ENDPOINT
-        publisherSocket = context.createSocket(SocketType.XSUB);
-        System.out.println("SubscriberZeroMQ binding to: " + subscriberConnection);
-        publisherSocket.bind(subscriberConnection);
+        frontend = context.createSocket(SocketType.XSUB);
+        System.out.println("PublisherZeroMQ binding to: " + publisherConnection);
+        frontend.bind(publisherConnection);
 
         //SUBSCRIBER ENDPOINT
-        subscriberSocket = context.createSocket(SocketType.XPUB);
-        System.out.println("PublisherZeroMQ binding to: " + publisherConnection);
-        subscriberSocket.bind(publisherConnection);
+        backend = context.createSocket(SocketType.XPUB);
+        System.out.println("SubscriberZeroMQ binding to: " + subscriberConnection);
+        backend.bind(subscriberConnection);
+
+        //Socket captureSocket = context.createSocket(SocketType.XPUB);
+        //captureSocket.bind("ipc://capture");
 
         // Run the proxy until the user interrupts us
-        //ZMQ.proxy(publisherSocket, subscriberSocket, null);
+        ZMQ.proxy(frontend, backend, null);
 
-        //this.close();
+        this.close();
     }
 
 
     public void close() {
-        publisherSocket.close();
-        subscriberSocket.close();
+        frontend.close();
+        backend.close();
         context.destroy();
     }
 
-    @Override
-    public void run() {
-        // Run the proxy until the user interrupts us
-        ZMQ.proxy(publisherSocket, subscriberSocket, null);
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        this.close();
-    }
 }

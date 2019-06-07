@@ -8,6 +8,7 @@ import com.orness.gandalf.core.module.subscribertopicmodule.domain.Subscriber;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @GRpcService
 public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServiceImplBase {
@@ -71,7 +72,7 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
     public void getMessage(GetMessageRequest request, StreamObserver<MessageResponse> responseObserver) {
         System.out.println("Request getMessage received from sample:\n" + request);
         Subscriber subscriber = connectorBusManager.getSubscriberByNameInTopic(request.getMessage().getTopic(), request.getMessage().getSubscriber());
-
+        //subscriber.startSubscriberZeroMQ();
         MessageGandalf messageGandalfBus = subscriber.getSubscriberZeroMQMessage();
 
         com.orness.gandalf.core.module.connectorbusservice.grpc.Message.Builder builder = com.orness.gandalf.core.module.connectorbusservice.grpc.Message.newBuilder();
@@ -96,15 +97,19 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
         boolean subscribe = true;
         MessageGandalf messageGandalfBus;
         Subscriber subscriber = connectorBusManager.getSubscriberByNameInTopic(request.getMessage().getTopic(), request.getMessage().getSubscriber());
-
+        System.out.println("SUB SUB " + subscriber);
         while(subscribe) {
+            System.out.println("ISSUB");
             if(subscriber != null) {
-
-                subscriber.startSubscriberZeroMQ();
+                System.out.println("NOT NULL");
+                //subscriber.startSubscriberZeroMQ();
+                System.out.println("TOTO");
                 messageGandalfBus = subscriber.getSubscriberZeroMQMessage();
+                System.out.println("MESSAGE " + messageGandalfBus);
                 com.orness.gandalf.core.module.connectorbusservice.grpc.Message.Builder builder = com.orness.gandalf.core.module.connectorbusservice.grpc.Message.newBuilder();
 
                 if(messageGandalfBus != null) {
+                    System.out.println("MESS NOTNULL");
                     builder.setTopic(messageGandalfBus.getTopic())
                             .setSender(messageGandalfBus.getSender())
                             .setCreationDate(messageGandalfBus.getCreationDate().toString())
@@ -117,6 +122,7 @@ public class ConnectorBusGrpc extends ConnectorBusServiceGrpc.ConnectorBusServic
                 responseObserver.onNext(response);
             }
             subscribe = connectorBusManager.isSubscriberInTopic(request.getMessage().getTopic(), request.getMessage().getSubscriber());
+            System.out.println("ISSUB " + subscribe);
         }
         responseObserver.onCompleted();
     }

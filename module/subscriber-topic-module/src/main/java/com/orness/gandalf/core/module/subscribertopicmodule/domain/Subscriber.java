@@ -1,6 +1,7 @@
 package com.orness.gandalf.core.module.subscribertopicmodule.domain;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import com.orness.gandalf.core.module.zeromqmodule.subscriber.SubscriberZeroMQ;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 public class Subscriber {
 
     private final String connection = "ipc://sub";
+    //private final String connection = "tcp://*:11000";
 
     @Id
     @GeneratedValue
@@ -21,7 +23,8 @@ public class Subscriber {
     private String name;
 
     private SubscriberZeroMQ subscriberZeroMQ;
-    private ObjectMapper mapper;
+    //private ObjectMapper mapper;
+    private Gson mapper;
 
     @ManyToOne
     @JoinColumn(name="topic_id", nullable=false)
@@ -69,17 +72,17 @@ public class Subscriber {
 
    public MessageGandalf getSubscriberZeroMQMessage() {
        String header = this.subscriberZeroMQ.getSubscriber().recvStr();
-       System.out.println(header);
+       System.out.println("HEADER " + header);
        String content = this.subscriberZeroMQ.getSubscriber().recvStr();
-       System.out.println(content);
+       System.out.println("content " + content);
        if(header.equals(this.topic.getName())) {
-           mapper = new ObjectMapper();
+           //mapper = new ObjectMapper();
+           mapper = new Gson();
+
            MessageGandalf messageGandalf = null;
-           try {
-               messageGandalf = mapper.readValue(content, MessageGandalf.class);
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
+           //messageGandalf = mapper.readValue(content, MessageGandalf.class);
+           messageGandalf = mapper.fromJson(content, MessageGandalf.class);
+
            return messageGandalf;
        }
        return null;
@@ -96,7 +99,7 @@ public class Subscriber {
     public Subscriber(String name, Topic topic) {
         this.name = name;
         this.topic = topic;
-        this.subscriberZeroMQ = new SubscriberZeroMQ(connection);
+        this.subscriberZeroMQ = new SubscriberZeroMQ(connection, topic.getName());
     }
 
     public Subscriber(Long id, String name) {

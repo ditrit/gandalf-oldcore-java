@@ -2,6 +2,7 @@ package com.orness.gandalf.core.test.javakafka1.sample;
 
 import com.orness.gandalf.core.library.grpcjavaclient.bus.GrpcBusJavaClient;
 import com.orness.gandalf.core.library.grpcjavaclient.workflowengine.GrpcWorkflowEngineJavaClient;
+import com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.MessageResponse;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -154,7 +155,15 @@ public class JavaKafka1Sample implements CommandLineRunner {
         grpcBusJavaClient.createTopic(name);
 
         GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClient = new GrpcWorkflowEngineJavaClient();
-        grpcWorkflowEngineJavaClient.subscribeTopic(topic, name);
+        //TEST ONE
+        //MessageGandalf messageGandalf = grpcWorkflowEngineJavaClient.subscribeOneTopic(topic, name);
+        //System.out.println(messageGandalf);
+
+        //TEST MULTIPLE
+        Iterator<MessageResponse> iterator = grpcWorkflowEngineJavaClient.subscribeTopic(topic, name);
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next().getMessage());
+        }
 
     }
 }

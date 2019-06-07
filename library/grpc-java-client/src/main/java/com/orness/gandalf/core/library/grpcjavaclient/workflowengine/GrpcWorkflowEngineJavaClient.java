@@ -31,7 +31,7 @@ public class GrpcWorkflowEngineJavaClient {
         channel.shutdown();
     }
 
-    public void subscribeTopic(String topic, String subscriber) {
+/*    public void subscribeTopic(String topic, String subscriber) {
         Subscribe.Builder builder = Subscribe.newBuilder();
         builder.setTopic(topic)
                 .setSubscriber(subscriber);
@@ -39,6 +39,28 @@ public class GrpcWorkflowEngineJavaClient {
         System.out.println("subscribeTopic " + topic + " " + subscriber);
         SubscribeRequest request = SubscribeRequest.newBuilder().setSubscribe(subscribe).build();
         System.out.println(stub.subscribeTopic(request));
+    }*/
+
+    public void subscribeTopicWorkflow(String topic, String subscriber) {
+        Subscribe.Builder builder = Subscribe.newBuilder();
+        builder.setTopic(topic)
+                .setSubscriber(subscriber);
+        Subscribe subscribe = builder.build();
+        System.out.println("subscribeTopic " + topic + " " + subscriber);
+        SubscribeRequest request = SubscribeRequest.newBuilder().setSubscribe(subscribe).build();
+        System.out.println(stub.subscribeTopicWorkflow(request));
+    }
+
+    public Iterator<MessageResponse> subscribeTopic(String topic, String subscriber) {
+        Subscribe.Builder builder = Subscribe.newBuilder();
+        builder.setTopic(topic)
+                .setSubscriber(subscriber);
+        Subscribe subscribe = builder.build();
+        System.out.println("subscribeOneTopic " + topic + " " + subscriber);
+        SubscribeRequest request = SubscribeRequest.newBuilder().setSubscribe(subscribe).build();
+        Iterator<MessageResponse> messageResponseIterator = stub.subscribeTopic(request);
+        return messageResponseIterator;
+
     }
 
     public MessageGandalf subscribeOneTopic(String topic, String subscriber) {

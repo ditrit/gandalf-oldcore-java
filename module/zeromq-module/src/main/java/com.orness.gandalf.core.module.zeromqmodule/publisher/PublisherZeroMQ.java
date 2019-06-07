@@ -1,9 +1,7 @@
 package com.orness.gandalf.core.module.zeromqmodule.publisher;
 
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
-import org.zeromq.ZThread;
 import org.zeromq.ZMQ.Socket;
 
 public class PublisherZeroMQ {
@@ -12,8 +10,11 @@ public class PublisherZeroMQ {
     private Socket publisher;
     private String connection;
 
-    public PublisherZeroMQ(String connectio) {
+    public PublisherZeroMQ(String connection) {
+        System.out.println("CONST PUBLISH");
+        System.out.println("CONN " + connection);
         this.connection = connection;
+        this.open();
     }
 
     public Socket getPublisher() {
@@ -21,6 +22,7 @@ public class PublisherZeroMQ {
     }
 
     public void open() {
+        System.out.println("PUBLISH OPEN");
         context = new ZContext();
         publisher = context.createSocket(SocketType.PUB);
         //publisher.bind(connection);

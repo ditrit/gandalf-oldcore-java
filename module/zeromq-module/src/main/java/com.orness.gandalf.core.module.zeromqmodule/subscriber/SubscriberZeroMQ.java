@@ -9,8 +9,9 @@ public class SubscriberZeroMQ {
     private ZContext context;
     private Socket subscriber;
 
-    public SubscriberZeroMQ(String connection) {
+    public SubscriberZeroMQ(String connection, String topic) {
         this.connection = connection;
+        this.open(topic);
         //this.run(null);
     }
 
@@ -19,9 +20,11 @@ public class SubscriberZeroMQ {
     }
 
     public void open(String topic) {
+        System.out.println("OPEN");
+        System.out.println("TOPIC OPEN " + topic);
         context = new ZContext();
         subscriber = context.createSocket(SocketType.SUB);
-
+        System.out.println(connection);
         subscriber.connect(connection);
         //subscriber.bind(connection);
         subscriber.subscribe(topic.getBytes());

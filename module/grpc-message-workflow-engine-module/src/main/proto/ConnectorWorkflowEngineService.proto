@@ -41,7 +41,9 @@ message SubscribeResponse {
 //RPC Functions
 service ConnectorWorkflowEngineService {
 
-    rpc subscribeTopic(SubscribeRequest) returns (DefaultResponse);
+    rpc subscribeTopicWorkflow(SubscribeRequest) returns (DefaultResponse);
+
+    rpc subscribeTopic(SubscribeRequest) returns (stream MessageResponse);
 
     rpc subscribeOneTopic(SubscribeRequest) returns (stream MessageResponse);
 
