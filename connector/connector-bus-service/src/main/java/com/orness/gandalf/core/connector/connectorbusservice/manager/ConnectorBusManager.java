@@ -37,9 +37,12 @@ public class ConnectorBusManager {
     public Topic topicCreation(String topic_name) {
         Topic topic;
         if(this.isTopicExist(topic_name)) {
+            System.out.println("EXIST");
            topic = this.subscriptions.get(topic_name);
         }
         else {
+            System.out.println("CREATE");
+
             topic = new Topic(topic_name);
             this.addTopicBusAndTopicBusListener(topic);
             this.subscriptions.put(topic.getName(), topic);

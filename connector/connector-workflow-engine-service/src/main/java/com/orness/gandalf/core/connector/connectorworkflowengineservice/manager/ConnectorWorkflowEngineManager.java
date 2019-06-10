@@ -25,6 +25,7 @@ public class ConnectorWorkflowEngineManager {
         //connectorWorkflowEngineBusGrpc.subscribeTopicDefault(subscribe.getTopic(), subscribe.getSubscriber());
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
         grpcBusJavaClient.subscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
+        grpcBusJavaClient.stopClient();
     }
 
     public Iterator<MessageResponse> getMessageStream(Subscribe subscribe) {
@@ -46,6 +47,7 @@ public class ConnectorWorkflowEngineManager {
                     currentMessage.getContent());
             break;
         }*/
+        grpcBusJavaClient.stopClient();
         return messageResponseIterator;
     }
 
@@ -58,13 +60,18 @@ public class ConnectorWorkflowEngineManager {
         while(messageResponseIterator.hasNext()) {
             com.orness.gandalf.core.module.connectorbusservice.grpc.Message currentMessage =  messageResponseIterator.next().getMessage();
             System.out.println("MessageGandalf " + currentMessage);
+            System.out.println("1");
+            System.out.println("1" + this.connectorWorkflowEngine);
 
             this.connectorWorkflowEngine.sendMessageWorkflowEngine(new MessageGandalf(currentMessage.getTopic(),
                     currentMessage.getSender(),
                     currentMessage.getExpirationTime(),
                     currentMessage.getCreationDate(),
                     currentMessage.getContent()));
+            System.out.println("2");
+
         }
+        grpcBusJavaClient.stopClient();
     }
 
     public void unsubscribeTopicBus(Subscribe subscribe) {
@@ -72,6 +79,7 @@ public class ConnectorWorkflowEngineManager {
         //connectorWorkflowEngineBusGrpc.unsubscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
         grpcBusJavaClient.unsubscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
+        grpcBusJavaClient.stopClient();
     }
 
 }

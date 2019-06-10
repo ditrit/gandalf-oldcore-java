@@ -5,6 +5,9 @@ import com.orness.gandalf.core.library.grpcjavaclient.workflowengine.GrpcWorkflo
 import com.orness.gandalf.core.library.grpcjavaclient.bus.GrpcBusJavaClient;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,15 +18,23 @@ public class JavaKafka2Sample implements CommandLineRunner {
         System.out.println("Start sample");
         //testZeroMQSender();
         //testMultipleTopics(5);
-        testPerformanceLoop(10, false);
+        testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage(10);
         //test();
     }
 
     public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(ThreadConfig.class);
+        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         for(int indice = 0; indice < numberIteration; indice++) {
-            testPerformance(indice, multipleTopic);
+            int current_indice = indice;
+            taskExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    testPerformance(current_indice, multipleTopic);
+                }
+            });
         }
     }
 
@@ -73,12 +84,13 @@ public class JavaKafka2Sample implements CommandLineRunner {
         System.out.println("subscribeOneTopic");
         MessageGandalf message = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
         System.out.println(message);
-
+        grpcWorkflowEngineJavaClient.stopClient();
         //SEND
         System.out.println("createTopic");
         grpcBusJavaClient.createTopic(send_topic);
         System.out.println("sendMessage");
         grpcBusJavaClient.sendMessage(send_topic, name, content);
+        grpcBusJavaClient.stopClient();
     }
 
     public void testMultipleMessage(int number) {

@@ -25,9 +25,9 @@ public class ConnectorWorkflowEngine {
 
         Map<String, String> test_variables = new HashMap<>();
         test_variables.put("content", messageGandalf.getContent());
-
+        System.out.println("TOPIC " + messageGandalf.getTopic());
         zeebe.newPublishMessageCommand() //
-                .messageName("messageGandalf")
+                .messageName("message")
                 .correlationKey(messageGandalf.getTopic())
                 .variables(test_variables)
                 .timeToLive(Duration.ofMinutes(30))

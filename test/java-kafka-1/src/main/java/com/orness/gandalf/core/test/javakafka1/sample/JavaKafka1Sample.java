@@ -5,6 +5,9 @@ import com.orness.gandalf.core.library.grpcjavaclient.workflowengine.GrpcWorkflo
 import com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.MessageResponse;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
@@ -16,7 +19,7 @@ public class JavaKafka1Sample implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
         //testMultipleTopics();
-        testPerformanceLoop(10, false);
+        testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage();
         //test();
@@ -24,8 +27,17 @@ public class JavaKafka1Sample implements CommandLineRunner {
     }
 
     public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(ThreadConfig.class);
+        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         for(int indice = 0; indice < numberIteration; indice++) {
-            testPerformance(indice, multipleTopic);
+            int current_indice = indice;
+
+            taskExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    testPerformance(current_indice, multipleTopic);
+                }
+            });
         }
     }
 
@@ -44,12 +56,13 @@ public class JavaKafka1Sample implements CommandLineRunner {
         System.out.println("subscribeOneTopic");
         MessageGandalf message = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
         System.out.println(message);
-
+        grpcWorkflowEngineJavaClient.stopClient();
         //SEND
         System.out.println("createTopic");
         grpcBusJavaClient.createTopic(send_topic);
         System.out.println("sendMessage");
         grpcBusJavaClient.sendMessage(send_topic, name, content);
+        grpcBusJavaClient.stopClient();
     }
 
     private String topicMultiple(String topic, boolean multipleTopic, int indice) {
