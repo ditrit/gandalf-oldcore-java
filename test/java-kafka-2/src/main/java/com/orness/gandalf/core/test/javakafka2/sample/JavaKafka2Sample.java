@@ -13,9 +13,9 @@ public class JavaKafka2Sample implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
-        testZeroMQSender();
+        //testZeroMQSender();
         //testMultipleTopics(5);
-        //testPerformanceLoop(100, false);
+        testPerformanceLoop(10, false);
         //test_asynch();
         //testMultipleMessage(10);
         //test();
