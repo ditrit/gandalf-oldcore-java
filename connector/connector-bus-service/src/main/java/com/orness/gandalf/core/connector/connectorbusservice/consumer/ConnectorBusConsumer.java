@@ -1,6 +1,7 @@
 package com.orness.gandalf.core.connector.connectorbusservice.consumer;
 
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.zeromqmodule.publisher.PublisherZeroMQ;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Topic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -18,17 +19,37 @@ public class ConnectorBusConsumer {
 
     private final String brokerAddress;
     private final Topic topic;
+    private final String connection;
+    private final PublisherZeroMQ publisherZeroMQ;
 
     public ConnectorBusConsumer(Topic topic) {
         this.brokerAddress = "localhost:9092";
         this.topic = topic;
+        this.connection = "ipc://pub";
+        //this.connection = "tcp://*:11001";
+        publisherZeroMQ = new PublisherZeroMQ(connection);
         this.start();
     }
 
     void start() {
-        MessageListener<String, MessageGandalf> messageListener = record -> this.topic.getMessageLinkedList().add(record.value());
+        MessageListener<String, MessageGandalf> messageListener = record -> this.publish(record.value());
         ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(consumerFactory(brokerAddress), containerProperties(messageListener));
         container.start();
+    }
+
+    private void publish(MessageGandalf messageGandalf) {
+        System.out.println("publish");
+        System.out.println(messageGandalf);
+        if(messageGandalf != null) {
+            //TOPIC
+            this.publisherZeroMQ.getPublisher().sendMore(topic.getName());
+            //DATA
+            //this.publisherZeroMQ.getPublisher().send(messageGandalf.toString());
+            this.publisherZeroMQ.getPublisher().send(messageGandalf.toJson());
+            //PRINT
+
+            System.out.println(topic + " " + messageGandalf.toString());
+        }
     }
 
     private ConsumerFactory<String, MessageGandalf> consumerFactory(String brokerAddress) {

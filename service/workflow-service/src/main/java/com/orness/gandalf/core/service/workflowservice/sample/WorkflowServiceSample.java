@@ -34,14 +34,17 @@ public class WorkflowServiceSample implements CommandLineRunner {
     public void testPerformance(int indice, boolean multipleTopic) {
         DeploymentEvent deploymentEvent;
         WorkflowInstanceEvent workflowInstanceEvent;
-        //WORKFLOW WORKFLOW 2 WORKFLOW
-        String name = "diagram_kafka_producer.bpmn";
-        String instance_name_continue = name+"_"+indice;
-        String instance_content = "content_" + instance_name_continue + "_" + indice;
+
+        //WORKFLOW JAVA 2 WORKFLOW
+        String name = "diagram_kafka_print.bpmn";
         deploymentEvent = workflowManager.deployWorkflow(name);
         String id = workflowManager.getIdDeployment(deploymentEvent);
         System.out.println(id);
-        workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue, instance_content,"", topicMultiple("zeebeW2W", multipleTopic, indice));
+        String instance_name_continue = name+"_"+indice;
+        String instance_content = "content_" + instance_name_continue + "_" + indice;
+        workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue,instance_content, topicMultiple("zeebeJ2W", multipleTopic, indice),"");
+        GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClientJ2W = new GrpcWorkflowEngineJavaClient();
+        grpcWorkflowEngineJavaClientJ2W.subscribeTopicWorkflow("zeebeJ2W", instance_name_continue);
 
         //WORKFLOW WORKFLOW 2 JAVA
         name = "diagram_kafka_print_continue.bpmn";
@@ -52,18 +55,20 @@ public class WorkflowServiceSample implements CommandLineRunner {
         instance_content = "content_" + instance_name_continue + "_" + indice;
         workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue, instance_content,topicMultiple("zeebeW2W", multipleTopic, indice), topicMultiple("zeebeW2J", multipleTopic, indice));
         GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClientW2W = new GrpcWorkflowEngineJavaClient();
-        grpcWorkflowEngineJavaClientW2W.subscribeTopic("zeebeW2W", instance_name_continue);
+        grpcWorkflowEngineJavaClientW2W.subscribeTopicWorkflow("zeebeW2W", instance_name_continue);
 
-        //WORKFLOW JAVA 2 WORKFLOW
-        name = "diagram_kafka_print.bpmn";
+        //WORKFLOW WORKFLOW 2 WORKFLOW
+        name = "diagram_kafka_producer.bpmn";
+        instance_name_continue = name+"_"+indice;
+        instance_content = "content_" + instance_name_continue + "_" + indice;
         deploymentEvent = workflowManager.deployWorkflow(name);
         id = workflowManager.getIdDeployment(deploymentEvent);
         System.out.println(id);
-        instance_name_continue = name+"_"+indice;
-        instance_content = "content_" + instance_name_continue + "_" + indice;
-        workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue,instance_content, topicMultiple("zeebeJ2W", multipleTopic, indice),"");
-        GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClientJ2W = new GrpcWorkflowEngineJavaClient();
-        grpcWorkflowEngineJavaClientJ2W.subscribeTopic("zeebeJ2W", instance_name_continue);
+        workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue, instance_content,"", topicMultiple("zeebeW2W", multipleTopic, indice));
+
+
+
+
     }
 
     private String topicMultiple(String topic, boolean multipleTopic, int indice) {

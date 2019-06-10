@@ -8,11 +8,10 @@
         <artifactId>module</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
     <groupId>com.orness.gandalf.core.module</groupId>
-    <artifactId>message-module</artifactId>
+    <artifactId>zeromq-module</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>message-module</name>
+    <name>zeromq-module</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -21,22 +20,16 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
+            <groupId>org.zeromq</groupId>
+            <artifactId>jeromq</artifactId>
+            <version>0.5.1</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>2.2.0.M3</version>
+            <groupId>com.orness.gandalf.core.module</groupId>
+            <artifactId>message-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-        </dependency>
     </dependencies>
+
 </project>

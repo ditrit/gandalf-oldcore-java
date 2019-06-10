@@ -1,5 +1,7 @@
 package com.orness.gandalf.core.module.messagemodule.domain;
 
+import com.google.gson.Gson;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -100,6 +102,12 @@ public class MessageGandalf {
         this.expirationTime = Timestamp.valueOf(expirationTime);
         this.creationDate = Date.valueOf(creationDate);
         this.content = content;
+    }
+
+
+    public String toJson() {
+        Gson mapper = new Gson();
+        return mapper.toJson(this);
     }
 
     @Override
