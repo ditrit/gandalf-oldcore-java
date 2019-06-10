@@ -13,9 +13,9 @@ public class JavaKafka2Sample implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
-        testZeroMQSender();
+        //testZeroMQSender();
         //testMultipleTopics(5);
-        //testPerformanceLoop(100, false);
+        testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage(10);
         //test();
@@ -23,7 +23,13 @@ public class JavaKafka2Sample implements CommandLineRunner {
 
     public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
         for(int indice = 0; indice < numberIteration; indice++) {
-            testPerformance(indice, multipleTopic);
+            int current_indice = indice;
+            new Runnable() {
+                @Override
+                public void run() {
+                    testPerformance(current_indice, multipleTopic);
+                }
+            };
         }
     }
 

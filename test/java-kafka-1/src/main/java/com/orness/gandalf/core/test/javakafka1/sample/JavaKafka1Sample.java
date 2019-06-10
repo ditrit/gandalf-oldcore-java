@@ -16,16 +16,22 @@ public class JavaKafka1Sample implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
         //testMultipleTopics();
-        //testPerformanceLoop(100, false);
+        testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage();
         //test();
-        testZeroMQSubscriber();
+        //testZeroMQSubscriber();
     }
 
     public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
         for(int indice = 0; indice < numberIteration; indice++) {
-            testPerformance(indice, multipleTopic);
+            int current_indice = indice;
+            new Runnable() {
+                @Override
+                public void run() {
+                    testPerformance(current_indice, multipleTopic);
+                }
+            };
         }
     }
 
