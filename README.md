@@ -48,11 +48,9 @@ Test job Zeebe d'affichage
 - 3 Execution de connector-bus-service/connector-workflow-engine-service/database-bus-service
 
 - 4 Execution job-print/job-kafka-producer
-- 5 Execution workflow-service (CLR)
+- 5 Execution java-kafka-1/java-kafka-2
+- 6 Execution workflow-service (CLR)
     - Deploiment des 3 workflows
     - Instanciation des 3 workflows
 
-- 6 Execution java-kafka-1
-- 7 Execution java-kafka-2
-
-- 8 Enjoy
+- 7 Enjoy
