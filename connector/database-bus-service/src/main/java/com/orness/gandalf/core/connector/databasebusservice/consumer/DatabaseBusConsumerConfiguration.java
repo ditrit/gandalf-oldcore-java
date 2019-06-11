@@ -3,6 +3,7 @@ package com.orness.gandalf.core.connector.databasebusservice.consumer;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -18,10 +19,15 @@ import java.util.Map;
 @Configuration
 public class DatabaseBusConsumerConfiguration {
 
+    @Value("${gandalf.database.broker}")
+    private String broker;
+    @Value("${gandalf.database.group}")
+    private String group;
+
     public ConsumerFactory<String, MessageGandalf> databaseMessageKafkaConsumerFactory() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "kafkamessage");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, broker);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, group);
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(MessageGandalf.class));
     }
 

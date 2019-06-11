@@ -3,6 +3,7 @@ package com.orness.gandalf.core.connector.databasebusservice.consumer;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import com.orness.gandalf.core.module.messagemodule.repository.MessageGandalfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -14,14 +15,13 @@ public class DatabaseBusConsumer {
 
     private final MessageGandalfRepository messageGandalfRepository;
     public CountDownLatch latch = new CountDownLatch(3);
-    private final String topicName = "database";
 
     @Autowired
-    public DatabaseBusConsumer(MessageGandalfRepository messageGandalfRepository) {
+    public DatabaseBusConsumer(MessageGandalfRepository messageGandalfRepository, @Value("${gandalf.database.topic}") String topic, @Value("${gandalf.database.group}") String group) {
         this.messageGandalfRepository = messageGandalfRepository;
     }
 
-    @KafkaListener(topics = topicName, groupId = "database", containerFactory = "databaseMessageKafkaListenerContainerFactory")
+    @KafkaListener(topics = "#{'${gandalf.database.topic}'}", groupId = "#{'${gandalf.database.group}'}", containerFactory = "databaseMessageKafkaListenerContainerFactory")
     public void databaseMessageKafkaListener(MessageGandalf messageGandalf) {
         System.out.println("Received kafkaMessage messageGandalf: " + messageGandalf);
         this.latch.countDown();

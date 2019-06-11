@@ -19,9 +19,6 @@ public class Topic {
     @OneToMany(mappedBy="topic")
     private Set<Subscriber> subscribers = new HashSet<>();
 
-    //BUFFER
-    private LinkedList<MessageGandalf> messageLinkedList = new LinkedList<>();
-
     public Long getId() {
         return id;
     }
@@ -44,14 +41,6 @@ public class Topic {
 
     public void setSubscribers(Set<Subscriber> subscribers) {
         this.subscribers = subscribers;
-    }
-
-    public LinkedList<MessageGandalf> getMessageLinkedList() {
-        return messageLinkedList;
-    }
-
-    public void setMessageLinkedList(LinkedList<MessageGandalf> messageLinkedList) {
-        this.messageLinkedList = messageLinkedList;
     }
 
     public Topic() { //JPA

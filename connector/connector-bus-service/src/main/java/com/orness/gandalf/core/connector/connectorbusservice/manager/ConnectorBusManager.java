@@ -1,7 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbusservice.manager;
 
 import com.orness.gandalf.core.connector.connectorbusservice.consumer.ConnectorBusConsumer;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Subscriber;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Topic;
 import org.apache.kafka.clients.admin.AdminClient;
@@ -9,6 +8,7 @@ import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
@@ -20,29 +20,25 @@ import java.util.Map;
 @Component
 public class ConnectorBusManager {
 
-    private GenericWebApplicationContext applicationContext;
+    @Value("${gandalf.bus.broker}")
+    private String brokerAddress;
+
     private HashMap<String, Topic> subscriptions;
-    private String bootstrapAddress = "localhost:9092";
     private Map<String, Object> configs;
 
     @Autowired
-    public ConnectorBusManager(GenericWebApplicationContext  applicationContext) {
+    public ConnectorBusManager() {
         configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, brokerAddress);
         this.subscriptions = new HashMap<>();
-        //USELESS
-        this.applicationContext = applicationContext;
     }
 
     public Topic topicCreation(String topic_name) {
         Topic topic;
         if(this.isTopicExist(topic_name)) {
-            System.out.println("EXIST");
            topic = this.subscriptions.get(topic_name);
         }
         else {
-            System.out.println("CREATE");
-
             topic = new Topic(topic_name);
             this.addTopicBusAndTopicBusListener(topic);
             this.subscriptions.put(topic.getName(), topic);
@@ -69,22 +65,6 @@ public class ConnectorBusManager {
         this.removeSubscriberInTopic(topic, subscriber_name);
     }
 
-  /*  public boolean isSubscriberIndexValid(String topic_name, String subscriber_name) {
-        Topic topic = this.subscriptions.get(topic_name);
-        System.out.println("TOPIC " + topic);
-        Subscriber subscriber = this.getSubscriberByNameInTopic(topic, subscriber_name);
-        System.out.println("SUBS " + subscriber);
-        if(subscriber != null) {
-            System.out.println("MESSAGES " + topic.getMessageLinkedList().size());
-            if(subscriber.getIndex() < topic.getMessageLinkedList().size()) {
-                System.out.println("TRUE");
-                return true;
-            }
-        }
-        System.out.println("FALSE");
-        return false;
-    }*/
-
     public boolean isSubscriberInTopic(String topic_name, String subscriber_name) {
         Subscriber subscriber = this.getSubscriberByNameInTopic(this.subscriptions.get(topic_name), subscriber_name);
         if(subscriber != null) {
@@ -93,12 +73,6 @@ public class ConnectorBusManager {
         return false;
     }
 
-/*    public MessageGandalf getMessageTopicBySubscriber(String topic_name, String subscriber_name) {
-        //Topic topic = this.subscriptions.get(topic_name);
-        return this.getMessageBusBySubscriberIndexInTopic(this.subscriptions.get(topic_name), subscriber_name);
-    }*/
-
-    //
     private Subscriber createNewSubscriber(String name, Topic topic) {
         return new Subscriber(name, topic);
     }
@@ -108,19 +82,6 @@ public class ConnectorBusManager {
         subscriber.stopSubscriberZeroMQ();
         topic.getSubscribers().remove(subscriber);
     }
-
-   /* private MessageGandalf getMessageBusBySubscriberIndexInTopic(Topic topic, String subscriber_name)  {
-        Subscriber subscriber = this.getSubscriberByNameInTopic(topic, subscriber_name);
-        MessageGandalf messageGandalf = null;
-        System.out.println("GetSub" + subscriber);
-        if(this.isSubscriberIndexValid(topic.getName(), subscriber.getName())) {
-            System.out.println("valid");
-            messageGandalf = topic.getMessageLinkedList().get(subscriber.getIndex());
-            subscriber.IncrementIndex();
-        }
-        System.out.println("GetMessage return " + messageGandalf);
-        return messageGandalf;
-    }*/
 
     public Subscriber getSubscriberByNameInTopic(Topic topic, String subscriber_name) {
         for(Subscriber topic_subscriber : topic.getSubscribers()) {
@@ -144,7 +105,6 @@ public class ConnectorBusManager {
     private void addTopicBusAndTopicBusListener(Topic topic) {
         this.addTopicBus(topic.getName());
         this.addTopicBusContainer(topic);
-        //this.addTopicBusListener(topic);
     }
 
     private void addTopicBusContainer(Topic topic) {
@@ -174,17 +134,13 @@ public class ConnectorBusManager {
     }
 
     private void addTopicBus(String topic) {
-        System.out.println("ADD TOPIC");
         AdminClient adminClient = AdminClient.create(configs);
         NewTopic newTopic = new NewTopic(topic, 1, (short)1);
-        //new NewTopic(topicName, numPartitions, replicationFactor)
+
         List<NewTopic> newTopics = new ArrayList<NewTopic>();
         newTopics.add(newTopic);
         adminClient.createTopics(newTopics);
         adminClient.close();
-/*        if(!applicationContext.containsBeanDefinition(topic)) {
-            applicationContext.registerBean(topic, NewTopic.class, () -> new NewTopic(topic,1, (short) 1));
-        }*/
     }
 
     private void removeTopicBusAndTopicBusListener(String topic) {
@@ -192,13 +148,17 @@ public class ConnectorBusManager {
         this.removeTopicBusListener(topic);
     }
 
+    //TODO REVOIR USELESS ?
     private void removeTopicBus(String topic) {
-        applicationContext.removeBeanDefinition(topic);
+
+        //applicationContext.removeBeanDefinition(topic);
     }
 
-    //TODO REVOIR
-    private void removeTopicBusListener(String topic) {
-        applicationContext.removeBeanDefinition(topic+"BusListenerBean");
+    //TODO REVOIR USELESS ?
+    private void removeTopicBusListener(String topic_name) {
+        //Topic topic = this.subscriptions.get(topic_name);
+        //topic.getSubscribers().remove()
+
     }
 
 }

@@ -13,19 +13,22 @@ import java.util.Map;
 @Configuration
 public class DatabaseBusTopicConfiguration {
 
-    @Value(value = "localhost:9092")
-    private String bootstrapAddress;
+    @Value("${gandalf.database.broker}")
+    private String brokerAddress;
+
+    @Value("${gandalf.database.topic}")
+    private String topic;
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, brokerAddress);
         return new KafkaAdmin(configs);
     }
 
     @Bean
     public NewTopic topicDataBaseMessageKafka() {
-        return new NewTopic("database", 1, (short) 1);
+        return new NewTopic(topic, 1, (short) 1);
     }
 
 }

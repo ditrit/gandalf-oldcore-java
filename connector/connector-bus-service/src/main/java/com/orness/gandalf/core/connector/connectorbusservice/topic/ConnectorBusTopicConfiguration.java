@@ -13,13 +13,13 @@ import java.util.Map;
 @Configuration
 public class ConnectorBusTopicConfiguration {
 
-    @Value(value = "localhost:9092")
-    private String bootstrapAddress;
+    @Value("${gandalf.bus.broker}")
+    private String brokerAddress;
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, brokerAddress);
         return new KafkaAdmin(configs);
     }
 }

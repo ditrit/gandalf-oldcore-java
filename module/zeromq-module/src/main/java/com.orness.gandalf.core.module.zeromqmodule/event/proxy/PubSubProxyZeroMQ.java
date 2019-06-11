@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.module.zeromqmodule.proxy;
+package com.orness.gandalf.core.module.zeromqmodule.event.proxy;
 
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
@@ -19,33 +19,25 @@ public class PubSubProxyZeroMQ {
         this.open();
     }
 
-    /*public static void main(String[] args) {
-        new PubSubProxyZeroMQ("ipc://sub", "ipc://pub");
-    }*/
-
     public void open() {
 
         context = new ZContext();
 
-        //PUBLISHER ENDPOINT
+        // Publisher EndPoint
         frontend = context.createSocket(SocketType.XSUB);
         System.out.println("PublisherZeroMQ binding to: " + publisherConnection);
         frontend.bind(publisherConnection);
 
-        //SUBSCRIBER ENDPOINT
+        // Subscriber EndPoint
         backend = context.createSocket(SocketType.XPUB);
         System.out.println("SubscriberZeroMQ binding to: " + subscriberConnection);
         backend.bind(subscriberConnection);
 
-        //Socket captureSocket = context.createSocket(SocketType.XPUB);
-        //captureSocket.bind("ipc://capture");
-
-        // Run the proxy until the user interrupts us
+        // Run the proxy
         ZMQ.proxy(frontend, backend, null);
 
         this.close();
     }
-
 
     public void close() {
         frontend.close();

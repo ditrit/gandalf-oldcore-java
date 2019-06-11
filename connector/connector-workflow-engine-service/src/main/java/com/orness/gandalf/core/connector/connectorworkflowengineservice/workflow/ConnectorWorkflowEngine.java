@@ -20,16 +20,12 @@ public class ConnectorWorkflowEngine {
     }
 
     public void sendMessageWorkflowEngine(MessageGandalf messageGandalf) {
-
-        System.out.println("ZEEBE MESSAGE " + messageGandalf);
-
-        Map<String, String> test_variables = new HashMap<>();
-        test_variables.put("content", messageGandalf.getContent());
-        System.out.println("TOPIC " + messageGandalf.getTopic());
+        Map<String, String> variables = new HashMap<>();
+        variables.put("content", messageGandalf.getContent());
         zeebe.newPublishMessageCommand() //
                 .messageName("message")
                 .correlationKey(messageGandalf.getTopic())
-                .variables(test_variables)
+                .variables(variables)
                 .timeToLive(Duration.ofMinutes(30))
                 .send().join();
     }

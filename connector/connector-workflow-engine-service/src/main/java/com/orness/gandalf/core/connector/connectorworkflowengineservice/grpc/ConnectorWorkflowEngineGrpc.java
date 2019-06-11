@@ -15,17 +15,6 @@ public class ConnectorWorkflowEngineGrpc extends ConnectorWorkflowEngineServiceG
     @Autowired
     private ConnectorWorkflowEngineManager connectorWorkflowEngineManager;
 
-/*    public void subscribeTopicDefault(SubscribeRequest request, StreamObserver<DefaultResponse> responseObserver) {
-        System.out.println("Request received from sample:\n" + request);
-
-        Subscribe subscribe = request.getSubscribe();
-        connectorWorkflowEngineManager.subscribeTopicBus(subscribe);
-
-        DefaultResponse response = DefaultResponse.newBuilder().setMessage("Ok").build();
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }*/
-
     public void subscribeTopicWorkflow(SubscribeRequest request, StreamObserver<DefaultResponse> responseObserver) {
         System.out.println("Request subscribeTopic received from sample:\n" + request);
 
@@ -50,7 +39,6 @@ public class ConnectorWorkflowEngineGrpc extends ConnectorWorkflowEngineServiceG
         MessageGandalf messageGandalfBus = null;
         while(messageResponseIterator.hasNext()) {
             com.orness.gandalf.core.module.connectorbusservice.grpc.Message currentMessage =  messageResponseIterator.next().getMessage();
-            System.out.println("MessageGandalf " + currentMessage);
 
             messageGandalfBus = new MessageGandalf(currentMessage.getTopic(),
                     currentMessage.getSender(),
@@ -58,7 +46,6 @@ public class ConnectorWorkflowEngineGrpc extends ConnectorWorkflowEngineServiceG
                     currentMessage.getCreationDate(),
                     currentMessage.getContent());
 
-            System.out.println("MESSAGE BUS");
             System.out.println(messageGandalfBus);
 
             com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.Message.Builder builder = com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.Message.newBuilder();
@@ -81,14 +68,11 @@ public class ConnectorWorkflowEngineGrpc extends ConnectorWorkflowEngineServiceG
 
         Subscribe subscribe = request.getSubscribe();
         connectorWorkflowEngineManager.subscribeTopicBus(subscribe);
-        //DefaultResponse response = DefaultResponse.newBuilder().setMessage("Ok").build();
-       // MessageGandalf messageGandalfBus = connectorWorkflowEngineManager.getOneMessageStream(subscribe);
 
         Iterator<com.orness.gandalf.core.module.connectorbusservice.grpc.MessageResponse> messageResponseIterator = connectorWorkflowEngineManager.getMessageStream(subscribe);
         MessageGandalf messageGandalfBus = null;
         while(messageResponseIterator.hasNext()) {
             com.orness.gandalf.core.module.connectorbusservice.grpc.Message currentMessage =  messageResponseIterator.next().getMessage();
-            System.out.println("MessageGandalf " + currentMessage);
 
             messageGandalfBus = new MessageGandalf(currentMessage.getTopic(),
                     currentMessage.getSender(),
@@ -97,8 +81,6 @@ public class ConnectorWorkflowEngineGrpc extends ConnectorWorkflowEngineServiceG
                     currentMessage.getContent());
             break;
         }
-
-        System.out.println("MESSAGE BUS");
         System.out.println(messageGandalfBus);
 
         com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.Message.Builder builder = com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.Message.newBuilder();

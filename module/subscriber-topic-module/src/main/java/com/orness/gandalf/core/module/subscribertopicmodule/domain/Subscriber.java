@@ -1,14 +1,10 @@
 package com.orness.gandalf.core.module.subscribertopicmodule.domain;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
-import com.orness.gandalf.core.module.zeromqmodule.subscriber.SubscriberZeroMQ;
+import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.SubscriberZeroMQ;
 
 import javax.persistence.*;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Subscriber {
@@ -71,9 +67,9 @@ public class Subscriber {
    }
 
    public MessageGandalf getSubscriberZeroMQMessage() {
-       String header = this.subscriberZeroMQ.getSubscriber().recvStr();
+       String header = this.subscriberZeroMQ.getZeroMQMessage();
        System.out.println("HEADER " + header);
-       String content = this.subscriberZeroMQ.getSubscriber().recvStr();
+       String content = this.subscriberZeroMQ.getZeroMQMessage();
        System.out.println("content " + content);
        if(header.equals(this.topic.getName())) {
            //mapper = new ObjectMapper();

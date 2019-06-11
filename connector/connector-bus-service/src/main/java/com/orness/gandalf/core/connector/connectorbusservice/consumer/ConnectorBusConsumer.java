@@ -1,10 +1,11 @@
 package com.orness.gandalf.core.connector.connectorbusservice.consumer;
 
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
-import com.orness.gandalf.core.module.zeromqmodule.publisher.PublisherZeroMQ;
+import com.orness.gandalf.core.module.zeromqmodule.event.publisher.PublisherZeroMQ;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import com.orness.gandalf.core.module.subscribertopicmodule.domain.Topic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
@@ -17,15 +18,20 @@ import java.util.Map;
 
 public class ConnectorBusConsumer {
 
-    private final String brokerAddress;
+    @Value("${gandalf.bus.broker}")
+    private String brokerAddress;
+    @Value("${gandalf.bus.publisher}")
+    private String connection;
+    @Value("${gandalf.bus.group}")
+    private String group;
+
     private final Topic topic;
-    private final String connection;
     private final PublisherZeroMQ publisherZeroMQ;
 
     public ConnectorBusConsumer(Topic topic) {
-        this.brokerAddress = "localhost:9092";
+        //this.brokerAddress = "localhost:9092";
+        //this.connection = "ipc://pub";
         this.topic = topic;
-        this.connection = "ipc://pub";
         //this.connection = "tcp://*:11001";
         publisherZeroMQ = new PublisherZeroMQ(connection);
         this.start();
@@ -38,14 +44,13 @@ public class ConnectorBusConsumer {
     }
 
     private void publish(MessageGandalf messageGandalf) {
-        System.out.println("publish");
         System.out.println(messageGandalf);
         if(messageGandalf != null) {
             //TOPIC
-            this.publisherZeroMQ.getPublisher().sendMore(topic.getName());
+            this.publisherZeroMQ.sendTopic(topic.getName());
             //DATA
             //this.publisherZeroMQ.getPublisher().send(messageGandalf.toString());
-            this.publisherZeroMQ.getPublisher().send(messageGandalf.toJson());
+            this.publisherZeroMQ.sendMessage(messageGandalf.toJson());
             //PRINT
 
             System.out.println(topic + " " + messageGandalf.toString());
@@ -65,7 +70,7 @@ public class ConnectorBusConsumer {
     private Map<String, Object> consumerConfig(String brokerAddress) {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerAddress);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "toto");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, group);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         return props;
     }
