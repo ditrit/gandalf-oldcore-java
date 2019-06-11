@@ -20,24 +20,28 @@ public class ConnectorBusConsumer {
 
     @Value("${gandalf.bus.broker}")
     private String brokerAddress;
+
     @Value("${gandalf.bus.publisher}")
     private String connection;
+
     @Value("${gandalf.bus.group}")
     private String group;
 
     private final Topic topic;
-    private final PublisherZeroMQ publisherZeroMQ;
+    private PublisherZeroMQ publisherZeroMQ;
 
     public ConnectorBusConsumer(Topic topic) {
         //this.brokerAddress = "localhost:9092";
         //this.connection = "ipc://pub";
         this.topic = topic;
         //this.connection = "tcp://*:11001";
-        publisherZeroMQ = new PublisherZeroMQ(connection);
+        //publisherZeroMQ = new PublisherZeroMQ(connection);
         this.start();
     }
 
     void start() {
+        publisherZeroMQ = new PublisherZeroMQ(connection);
+
         MessageListener<String, MessageGandalf> messageListener = record -> this.publish(record.value());
         ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(consumerFactory(brokerAddress), containerProperties(messageListener));
         container.start();

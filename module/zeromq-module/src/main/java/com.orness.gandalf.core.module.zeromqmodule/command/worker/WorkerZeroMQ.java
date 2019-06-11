@@ -4,7 +4,7 @@ import org.zeromq.*;
 
 import java.util.Random;
 
-public class WorkerZeroMQ implements Runnable {
+public class WorkerZeroMQ {
 
     private static Random rand = new Random(System.nanoTime());
 
@@ -13,16 +13,16 @@ public class WorkerZeroMQ implements Runnable {
     private ZContext context;
     private ZMQ.Socket worker;
 
-    public WorkerZeroMQ(ZContext context, String connection, String topic) {
+    public WorkerZeroMQ(ZContext context, String connection) {
         this.context = context;
         this.connection = connection;
-        this.open(topic);
+        //this.open(topic);
         //this.run(null);
     }
 
-    public ZMQ.Socket getWorker() {
+    /*public ZMQ.Socket getWorker() {
         return worker;
-    }
+    }*/
 
     public void open(String topic) {
         this.worker = context.createSocket(SocketType.DEALER);
@@ -36,7 +36,21 @@ public class WorkerZeroMQ implements Runnable {
         context.close();
     }
 
-    @Override
+    public void reply() {
+        ZMsg msg = ZMsg.recvMsg(worker);
+        ZFrame address = msg.pop();
+        ZFrame content = msg.pop();
+        assert (content != null);
+        msg.destroy();
+
+        address.send(worker, ZFrame.REUSE + ZFrame.MORE);
+        content.send(worker, ZFrame.REUSE);
+
+        address.destroy();
+        content.destroy();
+    }
+
+/*    @Override
     public void run()
     {
         ZMQ.Socket worker = context.createSocket(SocketType.DEALER);
@@ -66,5 +80,5 @@ public class WorkerZeroMQ implements Runnable {
             content.destroy();
         }
         context.destroy();
-    }
+    }*/
 }

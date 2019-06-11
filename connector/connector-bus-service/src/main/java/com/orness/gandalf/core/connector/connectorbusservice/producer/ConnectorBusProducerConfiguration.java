@@ -17,7 +17,7 @@ import java.util.Map;
 @Configuration
 public class ConnectorBusProducerConfiguration {
 
-    @Value("${gandalf.database.broker}")
+    @Value("${gandalf.bus.broker}")
     private String broker;
 
     @Bean

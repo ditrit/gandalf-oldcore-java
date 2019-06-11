@@ -10,11 +10,13 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 public class ProxyBean implements Runnable {
 
-    @Value("${gandalf.bus.subscriber}")
     private String subscriber;
-
-    @Value("${gandalf.bus.publisher}")
     private String publisher;
+
+    public ProxyBean(@Value("${gandalf.bus.subscriber}") String subscriber, @Value("${gandalf.bus.publisher}") String publisher) {
+        this.subscriber = subscriber;
+        this.publisher = publisher;
+    }
 
     @Override
     public void run() {
