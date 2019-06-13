@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.service.communicationservice;
 
-import com.orness.gandalf.core.service.communicationservice.command.ProxyCommandBean;
+import com.orness.gandalf.core.service.communicationservice.command.BrokerCommandBean;
 import com.orness.gandalf.core.service.communicationservice.config.ProxyConfiguration;
 import com.orness.gandalf.core.service.communicationservice.event.ProxyEventBean;
 import org.springframework.boot.SpringApplication;
@@ -22,12 +22,12 @@ public class CommunicationServiceApplication {
 	}
 
 	@Bean
-	public void proxyCommand() {
+	public void brokerCommand() {
 		ApplicationContext context = new AnnotationConfigApplicationContext(ProxyConfiguration.class);
 		ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
 
-		ProxyCommandBean proxyCommandBean = (ProxyCommandBean) context.getBean("proxyCommandBean");
-		taskExecutor.execute(proxyCommandBean);
+		BrokerCommandBean brokerCommandBean = (BrokerCommandBean) context.getBean("brokerCommandBean");
+		taskExecutor.execute(brokerCommandBean);
 	}
 
 	@Bean

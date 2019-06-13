@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope("prototype")
-public class ProxyCommandBean implements Runnable {
+public class BrokerCommandBean implements Runnable {
 
     private String client;
     private String worker;
 
-    public ProxyCommandBean(@Value("${gandalf.communication.client}") String client, @Value("${gandalf.communication.worker}") String worker) {
+    public BrokerCommandBean(@Value("${gandalf.communication.client}") String client, @Value("${gandalf.communication.worker}") String worker) {
         this.client = client;
         this.worker = worker;
     }

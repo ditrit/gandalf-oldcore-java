@@ -4,11 +4,11 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ.Socket;
 
-public class PublisherZeroMQ {
+public abstract class PublisherZeroMQ {
 
     private ZContext context;
-    private Socket publisher;
     private String connection;
+    protected Socket publisher;
 
     public PublisherZeroMQ(String connection) {
         this.connection = connection;
@@ -18,21 +18,20 @@ public class PublisherZeroMQ {
     public void open() {
         context = new ZContext();
         publisher = context.createSocket(SocketType.PUB);
-        //publisher.bind(connection);
         publisher.connect(connection);
-    }
-
-    public void sendTopic(String topic) {
-        this.publisher.sendMore(topic);
-
-    }
-
-    public void sendMessage(String message) {
-        this.publisher.send(message);
     }
 
     public void close() {
         publisher.close();
         context.close();
     }
+
+   /* public void sendTopic(String topic) {
+        this.publisher.sendMore(topic);
+
+    }
+
+    public void sendMessage(String message) {
+        this.publisher.send(message);
+    }*/
 }
