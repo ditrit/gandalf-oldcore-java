@@ -17,6 +17,7 @@
     <modules>
         <module>workflow-service</module>
         <module>workflow-uid-service</module>
+        <module>communication-service</module>
     </modules>
 
     <properties>

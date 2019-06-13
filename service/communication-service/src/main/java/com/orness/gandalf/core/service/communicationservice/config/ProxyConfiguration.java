@@ -1,5 +1,4 @@
-
-package com.orness.gandalf.core.connector.connectorbusservice.proxy;
+package com.orness.gandalf.core.service.communicationservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,7 +9,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
 @PropertySource(value={"classpath:bootstrap.properties"}, ignoreResourceNotFound = true)
-@ComponentScan(basePackages = "com.orness.gandalf.core.connector.connectorbusservice.proxy")
+@ComponentScan(basePackages = {"com.orness.gandalf.core.service.communicationservice.command", "com.orness.gandalf.core.service.communicationservice.event"})
 public class ProxyConfiguration {
 
     @Bean

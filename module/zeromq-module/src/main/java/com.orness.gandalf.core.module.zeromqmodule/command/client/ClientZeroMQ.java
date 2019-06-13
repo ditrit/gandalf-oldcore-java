@@ -21,9 +21,9 @@ public class ClientZeroMQ {
         this.open();
     }
 
-    /*public ZMQ.Socket getClient() {
+    public ZMQ.Socket getClient() {
         return client;
-    }*/
+    }
 
     public void open() {
         context = new ZContext();
@@ -43,7 +43,7 @@ public class ClientZeroMQ {
         context.close();
     }
 
-    public void sendMessage() {
+/*    public void sendMessage() {
         for (int centitick = 0; centitick < 100; centitick++) {
             poller.poll(10);
             if (poller.pollin(0)) {
@@ -53,7 +53,7 @@ public class ClientZeroMQ {
             }
         }
         client.send("request #%d", 0);
-    }
+    }*/
 
 /*    @Override
     public void run()

@@ -34,8 +34,8 @@ public class BrokerZeroMQ {
         backend.bind(workerConnection);
 
         // Launch pool of worker threads, precise number is not critical
-        for (int threadNbr = 0; threadNbr < 5; threadNbr++)
-            new WorkerZeroMQ(context, workerConnection);
+        /*for (int threadNbr = 0; threadNbr < 5; threadNbr++)
+            new WorkerZeroMQ(context, workerConnection);*/
 
         // Run the proxy until the user interrupts us
         ZMQ.proxy(frontend, backend, null);
