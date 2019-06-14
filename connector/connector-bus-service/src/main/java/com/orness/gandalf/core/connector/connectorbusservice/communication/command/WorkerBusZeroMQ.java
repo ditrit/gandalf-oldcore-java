@@ -3,17 +3,22 @@ package com.orness.gandalf.core.connector.connectorbusservice.communication.comm
 import com.orness.gandalf.core.connector.connectorbusservice.manager.ConnectorBusManager;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.WorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.zeromq.ZFrame;
 import org.zeromq.ZMsg;
 
 import static com.orness.gandalf.core.module.constantmodule.communication.Constant.*;
 
+@Component
+@Scope("prototype")
 public class WorkerBusZeroMQ extends WorkerZeroMQ implements Runnable {
 
     @Autowired
     private ConnectorBusManager connectorBusManager;
 
-    public WorkerBusZeroMQ(String connection) {
+    public WorkerBusZeroMQ(@Value("${gandalf.communication.worker}") String connection) {
         super(connection);
     }
 
@@ -25,13 +30,6 @@ public class WorkerBusZeroMQ extends WorkerZeroMQ implements Runnable {
         System.out.println("REQ CONTENT " + content);
 
         switch(command) {
-            case COMMAND_UNSUBSCRIBE:
-                //connectorBusManager.topicUnsubscription();
-                break;
-            case COMMAND_SUBSCRIBE:
-
-                //connectorBusManager.topicSubscription();
-                break;
             case COMMAND_DELETE_TOPIC:
                 connectorBusManager.topicSuppression(content);
                 break;

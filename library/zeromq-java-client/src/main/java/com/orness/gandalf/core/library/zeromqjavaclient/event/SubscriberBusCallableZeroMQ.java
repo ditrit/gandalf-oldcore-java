@@ -4,30 +4,26 @@ import com.google.gson.Gson;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.SubscriberZeroMQ;
 
-public class SubscriberBusZeroMQ extends SubscriberZeroMQ {
+import java.util.concurrent.Callable;
+
+public class SubscriberBusCallableZeroMQ extends SubscriberZeroMQ implements Callable<MessageGandalf> {
 
     private String topic;
     private Gson mapper;
 
-    public SubscriberBusZeroMQ(String connection, String topic) {
+    public SubscriberBusCallableZeroMQ(String connection, String topic) {
         super(connection);
-        this.open();
+        this.open(topic);
+    }
+
+    public void open(String topic) {
+        super.open();
+        this.topic = topic;
         this.mapper = new Gson();
-        this.initTopic(topic);
+        this.subscriber.subscribe(topic.getBytes());
     }
 
-
-    public void initTopic(String topic) {
-        if(!this.topic.equals(topic)) {
-            if(this.topic.isEmpty()){
-                this.subscriber.unsubscribe(this.topic);
-            }
-            this.topic = topic;
-            this.subscriber.subscribe(topic.getBytes());
-        }
-    }
-
-    public MessageGandalf getMessage() {
+    public MessageGandalf call() {
 
         String header = this.subscriber.recvStr();
         System.out.println("HEADER " + header);

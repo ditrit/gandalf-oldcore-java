@@ -11,7 +11,7 @@ public abstract class SubscriberZeroMQ {
 
     public SubscriberZeroMQ(String connection) {
         this.connection = connection;
-        this.open();
+        //this.open();
         //this.run(null);
     }
 

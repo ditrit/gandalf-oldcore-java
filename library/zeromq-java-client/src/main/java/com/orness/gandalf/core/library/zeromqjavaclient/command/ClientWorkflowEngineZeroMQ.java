@@ -12,33 +12,41 @@ public class ClientWorkflowEngineZeroMQ extends ClientZeroMQ {
         super(connection);
     }
 
-    public void command(String command) {
-        switch(command) {
-            case COMMAND_UNSUBSCRIBE:
-                break;
-            //COMMAND_SUBSCRIBE:
-            default:
-                break;
-        }
+    public void subscribeTopic(String topic) {
+        //REQUEST
+        client.sendMore(identity);
+        client.sendMore(COMMAND_SUBSCRIBE);
+        client.send(topic, 0);
+
+        //RESPONSE
+        ZMsg msg = ZMsg.recvMsg(client);
+        ZFrame sender = msg.pop();
+        ZFrame command = msg.pop();
+        ZFrame content = msg.pop();
+
+        System.out.println("ID " + identity);
+        System.out.println("REP ADD " + sender);
+        System.out.println("REP COMM " + command);
+        System.out.println("REP CONT " + content);
+        msg.destroy();
     }
 
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            //this.command();
-            client.sendMore(identity);
-            client.sendMore("command");
-            client.send("toto", 0);
+    public void unsubscribeTopic(String topic) {
+        //REQUEST
+        client.sendMore(identity);
+        client.sendMore(COMMAND_UNSUBSCRIBE);
+        client.send(topic, 0);
 
-            ZMsg msg = ZMsg.recvMsg(client);
-            ZFrame address = msg.pop();
-            ZFrame command = msg.pop();
-            ZFrame content = msg.pop();
+        //RESPONSE
+        ZMsg msg = ZMsg.recvMsg(client);
+        ZFrame sender = msg.pop();
+        ZFrame command = msg.pop();
+        ZFrame content = msg.pop();
 
-            System.out.println("ID " + identity);
-            System.out.println("REP ADD " + address);
-            System.out.println("REP COMM " + command);
-            System.out.println("REP CONT " + content);
-            msg.destroy();
-        }
+        System.out.println("ID " + identity);
+        System.out.println("REP ADD " + sender);
+        System.out.println("REP COMM " + command);
+        System.out.println("REP CONT " + content);
+        msg.destroy();
     }
 }

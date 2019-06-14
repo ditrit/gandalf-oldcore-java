@@ -10,7 +10,6 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.support.GenericWebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,17 +22,63 @@ public class ConnectorBusManager {
     @Value("${gandalf.bus.broker}")
     private String brokerAddress;
 
-    private HashMap<String, Topic> subscriptions;
+    //private HashMap<String, Topic> subscriptions;
     private Map<String, Object> configs;
 
     @Autowired
     public ConnectorBusManager() {
         configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, brokerAddress);
-        this.subscriptions = new HashMap<>();
+        //this.subscriptions = new HashMap<>();
     }
 
-    public Topic topicCreation(String topic_name) {
+
+    public void createTopic(String topic) {
+        this.createTopicBus(topic);
+        this.createTopicBusConsumer(topic);
+
+    }
+
+    public void deleteTopic(String topic) {
+        AdminClient adminClient = AdminClient.create(configs);
+        //List<DeleteTo> deleteTopics = new ArrayList<NewTopic>();
+        //deleteTopics.add(topic);
+        //adminClient.deleteTopics()
+    }
+
+    private void createTopicBus(String topic) {
+        AdminClient adminClient = AdminClient.create(configs);
+        NewTopic newTopic = new NewTopic(topic, 1, (short)1);
+
+        List<NewTopic> createTopics = new ArrayList<NewTopic>();
+        createTopics.add(newTopic);
+        adminClient.createTopics(createTopics);
+        adminClient.close();
+    }
+
+    private void createTopicBusConsumer(String topic) {
+        AdminClient adminClient = AdminClient.create(configs);
+        while(!this.isTopicReady(topic, adminClient)) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        ConnectorBusConsumer container = new ConnectorBusConsumer(topic);
+    }
+
+    private boolean isTopicReady(String topic, AdminClient adminClient) {
+        ListTopicsResult listTopics = adminClient.listTopics();
+        try {
+            return  listTopics.names().get().contains(topic);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /*public Topic topicCreation(String topic_name) {
         Topic topic;
         if(this.isTopicExist(topic_name)) {
            topic = this.subscriptions.get(topic_name);
@@ -159,7 +204,7 @@ public class ConnectorBusManager {
         //Topic topic = this.subscriptions.get(topic_name);
         //topic.getSubscribers().remove()
 
-    }
+    }*/
 
 }
 

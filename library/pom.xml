@@ -15,7 +15,6 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>grpc-java-client</module>
         <module>zeromq-java-client</module>
     </modules>
 

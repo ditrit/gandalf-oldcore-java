@@ -14,8 +14,9 @@ public class SubscriberWorkflowEngineZeroMQ extends SubscriberZeroMQ implements 
     private String topic;
     private Gson mapper;
 
-    public SubscriberWorkflowEngineZeroMQ(String connection) {
+    public SubscriberWorkflowEngineZeroMQ(String connection, String topic) {
         super(connection);
+        this.open(topic);
     }
 
     public void open(String topic) {
@@ -26,17 +27,18 @@ public class SubscriberWorkflowEngineZeroMQ extends SubscriberZeroMQ implements 
     }
 
     public void run() {
+        while (!Thread.currentThread().isInterrupted()) {
+            String header = this.subscriber.recvStr();
+            System.out.println("HEADER " + header);
+            String content = this.subscriber.recvStr();
+            System.out.println("content " + content);
+            if(header.equals(this.topic)) {
 
-        String header = this.subscriber.recvStr();
-        System.out.println("HEADER " + header);
-        String content = this.subscriber.recvStr();
-        System.out.println("content " + content);
-        if(header.equals(this.topic)) {
+                MessageGandalf messageGandalf = null;
+                messageGandalf = mapper.fromJson(content, MessageGandalf.class);
 
-            MessageGandalf messageGandalf = null;
-            messageGandalf = mapper.fromJson(content, MessageGandalf.class);
-
-            connectorWorkflowEngine.sendMessageWorkflowEngine(messageGandalf);
+                connectorWorkflowEngine.sendMessageWorkflowEngine(messageGandalf);
+            }
         }
     }
 }
