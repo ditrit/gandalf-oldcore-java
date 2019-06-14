@@ -1,8 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbusservice.manager;
 
 import com.orness.gandalf.core.connector.connectorbusservice.consumer.ConnectorBusConsumer;
-import com.orness.gandalf.core.module.subscribertopicmodule.domain.Subscriber;
-import com.orness.gandalf.core.module.subscribertopicmodule.domain.Topic;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.ListTopicsResult;
@@ -34,9 +32,11 @@ public class ConnectorBusManager {
 
 
     public void createTopic(String topic) {
-        this.createTopicBus(topic);
-        this.createTopicBusConsumer(topic);
-
+        AdminClient adminClient = AdminClient.create(configs);
+        if(!isTopicReady(topic, adminClient)) {
+            this.createTopicBus(topic, adminClient);
+            this.createTopicBusConsumer(topic, adminClient);
+        }
     }
 
     public void deleteTopic(String topic) {
@@ -46,8 +46,7 @@ public class ConnectorBusManager {
         //adminClient.deleteTopics()
     }
 
-    private void createTopicBus(String topic) {
-        AdminClient adminClient = AdminClient.create(configs);
+    private void createTopicBus(String topic, AdminClient adminClient) {
         NewTopic newTopic = new NewTopic(topic, 1, (short)1);
 
         List<NewTopic> createTopics = new ArrayList<NewTopic>();
@@ -56,8 +55,7 @@ public class ConnectorBusManager {
         adminClient.close();
     }
 
-    private void createTopicBusConsumer(String topic) {
-        AdminClient adminClient = AdminClient.create(configs);
+    private void createTopicBusConsumer(String topic, AdminClient adminClient) {
         while(!this.isTopicReady(topic, adminClient)) {
             try {
                 Thread.sleep(500);

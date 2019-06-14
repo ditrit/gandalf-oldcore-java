@@ -3,6 +3,7 @@ package com.orness.gandalf.core.connector.connectorworkflowengineservice.communi
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.manager.ConnectorWorkflowEngineManager;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.WorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZFrame;
@@ -17,7 +18,7 @@ public class WorkerWorkflowEngineZeroMQ extends WorkerZeroMQ implements Runnable
     @Autowired
     private ConnectorWorkflowEngineManager connectorWorkflowEngineManager;
 
-    public WorkerWorkflowEngineZeroMQ(String connection) {
+    public WorkerWorkflowEngineZeroMQ(@Value("${gandalf.communication.worker}") String connection) {
         super(connection);
     }
 

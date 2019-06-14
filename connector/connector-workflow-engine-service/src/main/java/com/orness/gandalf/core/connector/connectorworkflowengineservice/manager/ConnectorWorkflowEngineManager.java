@@ -1,13 +1,8 @@
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.manager;
 
-import com.orness.gandalf.core.connector.connectorworkflowengineservice.communication.command.WorkerWorkflowEngineZeroMQ;
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.communication.event.SubscriberWorkflowEngineZeroMQ;
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.config.TaskExecutorConfiguration;
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.workflow.ConnectorWorkflowEngine;
-import com.orness.gandalf.core.module.connectorbusservice.grpc.MessageResponse;
-import com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.Subscribe;
-import com.orness.gandalf.core.library.grpcjavaclient.bus.GrpcBusJavaClient;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -15,8 +10,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
-
-import java.util.Iterator;
 
 @Component
 public class ConnectorWorkflowEngineManager {

@@ -9,16 +9,18 @@ import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 public class ZeroMQJavaClient {
 
 
-    public String connection;
+    public String connectionWorker;
+    public String connectionSubscriber;
     private ClientBusZeroMQ clientBusZeroMQ;
     private ClientWorkflowEngineZeroMQ clientWorkflowEngineZeroMQ;
     private SubscriberBusZeroMQ subscriberBusZeroMQ;
 
-    public ZeroMQJavaClient(String connection) {
-        this.connection = connection;
-        this.clientBusZeroMQ = new ClientBusZeroMQ(connection);
-        this.clientWorkflowEngineZeroMQ = new ClientWorkflowEngineZeroMQ(connection);
-        this.subscriberBusZeroMQ = new SubscriberBusZeroMQ(connection, "");
+    public ZeroMQJavaClient(String connectionWorker, String connectionSubscriber) {
+        this.connectionWorker = connectionWorker;
+        this.connectionSubscriber = connectionSubscriber;
+        this.clientBusZeroMQ = new ClientBusZeroMQ(connectionWorker);
+        this.clientWorkflowEngineZeroMQ = new ClientWorkflowEngineZeroMQ(connectionWorker);
+        this.subscriberBusZeroMQ = new SubscriberBusZeroMQ(connectionSubscriber, "");
     }
 
     public void createTopic(String topic) {
@@ -27,6 +29,10 @@ public class ZeroMQJavaClient {
 
     public void deleteTopic(String topic) {
         this.clientBusZeroMQ.deleteTopic(topic);
+    }
+
+    public void sendMessageTopic(String topic, String message) {
+        clientBusZeroMQ.sendMessageTopic(topic, message);
     }
 
     public void subscribeWorkflowEngineTopic(String topic) {
@@ -43,6 +49,6 @@ public class ZeroMQJavaClient {
     }
 
     public SubscriberBusCallableZeroMQ subscribeBusCallableTopic(String topic) {
-        return new SubscriberBusCallableZeroMQ(connection, topic);
+        return new SubscriberBusCallableZeroMQ(connectionSubscriber, topic);
     }
 }

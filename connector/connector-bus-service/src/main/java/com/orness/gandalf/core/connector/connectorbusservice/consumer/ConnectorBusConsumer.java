@@ -30,11 +30,7 @@ public class ConnectorBusConsumer {
     private PublisherBusZeroMQ publisherBusZeroMQ;
 
     public ConnectorBusConsumer(String topic) {
-        //this.brokerAddress = "localhost:9092";
-        //this.connection = "ipc://pub";
         this.topic = topic;
-        //this.connection = "tcp://*:11001";
-        //publisherZeroMQ = new PublisherZeroMQ(connection);
         this.start();
     }
 

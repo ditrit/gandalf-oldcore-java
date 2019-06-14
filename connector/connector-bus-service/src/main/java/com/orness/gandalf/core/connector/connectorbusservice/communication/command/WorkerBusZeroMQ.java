@@ -1,6 +1,9 @@
 package com.orness.gandalf.core.connector.connectorbusservice.communication.command;
 
+import com.google.gson.Gson;
 import com.orness.gandalf.core.connector.connectorbusservice.manager.ConnectorBusManager;
+import com.orness.gandalf.core.connector.connectorbusservice.producer.ConnectorBusProducer;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.WorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +21,11 @@ public class WorkerBusZeroMQ extends WorkerZeroMQ implements Runnable {
     @Autowired
     private ConnectorBusManager connectorBusManager;
 
+    @Autowired
+    private ConnectorBusProducer connectorBusProducer;
+
+    private Gson mapper = new Gson();
+
     public WorkerBusZeroMQ(@Value("${gandalf.communication.worker}") String connection) {
         super(connection);
     }
@@ -30,12 +38,18 @@ public class WorkerBusZeroMQ extends WorkerZeroMQ implements Runnable {
         System.out.println("REQ CONTENT " + content);
 
         switch(command) {
+            case COMMAND_SEND_MESSAGE_TOPIC:
+                String[] contents = content.split("#");
+                String topic = contents[0];
+                MessageGandalf messageGandalf = mapper.fromJson(contents[1], MessageGandalf.class);
+                connectorBusProducer.sendConnectorMessageKafka(topic, messageGandalf);
+                break;
             case COMMAND_DELETE_TOPIC:
-                connectorBusManager.topicSuppression(content);
+                connectorBusManager.deleteTopic(content);
                 break;
             //COMMAND_CREATE_TOPIC:
             default:
-                connectorBusManager.topicCreation(content);
+                connectorBusManager.createTopic(content);
                 break;
         }
     }
@@ -55,6 +69,5 @@ public class WorkerBusZeroMQ extends WorkerZeroMQ implements Runnable {
             content.send(worker, ZFrame.REUSE);
             //worker.send("World".getBytes(), 0);
         }
-
     }
 }
