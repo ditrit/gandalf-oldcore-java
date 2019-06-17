@@ -12,7 +12,7 @@ import org.zeromq.ZMsg;
 import static com.orness.gandalf.core.module.constantmodule.communication.Constant.*;
 
 @Component
-@Scope("prototype")
+@Scope("singleton")
 public class WorkerWorkflowEngineZeroMQ extends WorkerZeroMQ implements Runnable {
 
     @Autowired
@@ -25,17 +25,16 @@ public class WorkerWorkflowEngineZeroMQ extends WorkerZeroMQ implements Runnable
     public void command(ZFrame sender, String command, String content) {
         switch(command) {
             case COMMAND_UNSUBSCRIBE:
+                System.out.println("UNSUB" );
                 this.connectorWorkflowEngineManager.unsubscribeTopic(content);
                 break;
             case COMMAND_SUBSCRIBE:
+                System.out.println("SUB" );
                 this.connectorWorkflowEngineManager.subscribeTopic(content);
                 break;
-            case COMMAND_DELETE_TOPIC:
-                //CLIENT TO BUS COMMAND DELETE
-                break;
-            //COMMAND_CREATE_TOPIC:
             default:
-                //CLIENT TO BUS COMMAND CREATE
+                System.out.println("NOT" );
+                //DO NOTHING
                 break;
         }
     }

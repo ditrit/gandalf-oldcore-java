@@ -13,6 +13,7 @@ public abstract class WorkerZeroMQ {
     protected String identity;
 
     public WorkerZeroMQ(String connection) {
+
         context = new ZContext();
         this.connection = connection;
         this.open();

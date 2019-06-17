@@ -16,6 +16,8 @@ public class ZeroMQJavaClient {
     private SubscriberBusZeroMQ subscriberBusZeroMQ;
 
     public ZeroMQJavaClient(String connectionWorker, String connectionSubscriber) {
+        System.out.println("WO " + connectionWorker);
+        System.out.println("SU " + connectionSubscriber);
         this.connectionWorker = connectionWorker;
         this.connectionSubscriber = connectionSubscriber;
         this.clientBusZeroMQ = new ClientBusZeroMQ(connectionWorker);
@@ -32,6 +34,9 @@ public class ZeroMQJavaClient {
     }
 
     public void sendMessageTopic(String topic, String message) {
+        System.out.println("SEND CLIENT");
+        System.out.println("SEND CLIENT " + topic);
+        System.out.println("SEND CLIENT " + message);
         clientBusZeroMQ.sendMessageTopic(topic, message);
     }
 
@@ -48,7 +53,7 @@ public class ZeroMQJavaClient {
          return this.subscriberBusZeroMQ.getMessage();
     }
 
-    public SubscriberBusCallableZeroMQ subscribeBusCallableTopic(String topic) {
-        return new SubscriberBusCallableZeroMQ(connectionSubscriber, topic);
+    public MessageGandalf getMessageSubscriberCallableBusTopic(String topic) {
+        return new SubscriberBusCallableZeroMQ(connectionSubscriber, topic).call();
     }
 }

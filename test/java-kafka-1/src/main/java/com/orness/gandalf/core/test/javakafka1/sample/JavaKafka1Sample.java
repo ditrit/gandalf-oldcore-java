@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JavaKafka1Sample implements CommandLineRunner {
 
-    @Value("${gandalf.communication.worker}")
+    @Value("${gandalf.communication.client}")
     private String connectionWorker;
 
     @Value("${gandalf.communication.subscriber}")

@@ -54,7 +54,7 @@ public class ClientBusZeroMQ extends ClientZeroMQ {
         //REQUEST
         client.sendMore(identity);
         client.sendMore(COMMAND_SEND_MESSAGE_TOPIC);
-        client.sendMore(topic + "#" + message);
+        client.send(topic + "#" + message, 0);
 
         //RESPONSE
         ZMsg msg = ZMsg.recvMsg(client);

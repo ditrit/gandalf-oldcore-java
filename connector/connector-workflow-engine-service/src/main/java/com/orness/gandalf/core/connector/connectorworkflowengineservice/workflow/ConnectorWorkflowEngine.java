@@ -20,6 +20,7 @@ public class ConnectorWorkflowEngine {
     }
 
     public void sendMessageWorkflowEngine(MessageGandalf messageGandalf) {
+        System.out.println("SEND WORKFLOW " + messageGandalf);
         Map<String, String> variables = new HashMap<>();
         variables.put("content", messageGandalf.getContent());
         zeebe.newPublishMessageCommand() //

@@ -4,7 +4,7 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
-public class BrokerZeroMQ implements Runnable {
+public class BrokerZeroMQ {
 
     public static ZMQ.Socket frontend;
     private String clientConnection;
@@ -15,10 +15,10 @@ public class BrokerZeroMQ implements Runnable {
     public BrokerZeroMQ(String clientConnection, String workerConnection) {
         this.clientConnection = clientConnection;
         this.workerConnection = workerConnection;
-        //this.open();
+        this.open();
     }
 
-    public void run() {
+    public void open() {
 
         context = new ZContext();
 
@@ -93,7 +93,4 @@ public class BrokerZeroMQ implements Runnable {
         context.destroy();
     }
 
-    public static void main(String[] args) {
-        new Thread(new BrokerZeroMQ("tcp://*:5570", "tcp://*:5580")).start();
-    }
 }

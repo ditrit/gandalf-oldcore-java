@@ -15,12 +15,12 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConnectorBusConsumer {
+public class ConnectorBusConsumer implements Runnable {
 
     @Value("${gandalf.bus.broker}")
     private String brokerAddress;
 
-    @Value("${gandalf.bus.publisher}")
+    @Value("${gandalf.communication.publisher}")
     private String connection;
 
     @Value("${gandalf.bus.group}")
@@ -31,10 +31,10 @@ public class ConnectorBusConsumer {
 
     public ConnectorBusConsumer(String topic) {
         this.topic = topic;
-        this.start();
+        //this.start();
     }
 
-    void start() {
+    public void run() {
         publisherBusZeroMQ = new PublisherBusZeroMQ(connection);
 
         MessageListener<String, MessageGandalf> messageListener = record -> this.publish(record.value());

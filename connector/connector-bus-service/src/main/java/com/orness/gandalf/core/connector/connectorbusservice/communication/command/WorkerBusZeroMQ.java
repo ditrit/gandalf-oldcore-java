@@ -15,7 +15,7 @@ import org.zeromq.ZMsg;
 import static com.orness.gandalf.core.module.constantmodule.communication.Constant.*;
 
 @Component
-@Scope("prototype")
+@Scope("singleton")
 public class WorkerBusZeroMQ extends WorkerZeroMQ implements Runnable {
 
     @Autowired
@@ -41,15 +41,18 @@ public class WorkerBusZeroMQ extends WorkerZeroMQ implements Runnable {
             case COMMAND_SEND_MESSAGE_TOPIC:
                 String[] contents = content.split("#");
                 String topic = contents[0];
-                MessageGandalf messageGandalf = mapper.fromJson(contents[1], MessageGandalf.class);
+                MessageGandalf messageGandalf = new MessageGandalf(topic, sender.toString(), "2020-12-09 01:02:03.123456789", "2020-12-09", contents[1]);
+                //mapper.fromJson(contents[1], MessageGandalf.class);
                 connectorBusProducer.sendConnectorMessageKafka(topic, messageGandalf);
                 break;
             case COMMAND_DELETE_TOPIC:
                 connectorBusManager.deleteTopic(content);
                 break;
-            //COMMAND_CREATE_TOPIC:
-            default:
+            case COMMAND_CREATE_TOPIC:
                 connectorBusManager.createTopic(content);
+                break;
+            default:
+                //DO NOTHING
                 break;
         }
     }

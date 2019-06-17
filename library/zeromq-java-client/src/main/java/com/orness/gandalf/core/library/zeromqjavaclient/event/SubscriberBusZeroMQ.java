@@ -13,11 +13,14 @@ public class SubscriberBusZeroMQ extends SubscriberZeroMQ {
         super(connection);
         this.open();
         this.mapper = new Gson();
-        this.initTopic(topic);
+        //this.initTopic(topic);
+        this.topic = topic;
     }
 
 
     public void initTopic(String topic) {
+        System.out.println("TOPIC " + topic);
+        System.out.println("TOPIC 2 " + this.topic);
         if(!this.topic.equals(topic)) {
             if(this.topic.isEmpty()){
                 this.subscriber.unsubscribe(this.topic);

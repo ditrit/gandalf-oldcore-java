@@ -1,12 +1,13 @@
 package com.orness.gandalf.core.jobkafkaproducer.job;
 
-import com.orness.gandalf.core.library.grpcjavaclient.bus.GrpcBusJavaClient;
+import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;
 import io.zeebe.client.api.subscription.JobHandler;
 import io.zeebe.client.api.subscription.JobWorker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +17,12 @@ import java.util.Map;
 
 @Component
 public class JobKafkaProducer implements JobHandler {
+
+    @Value("${gandalf.communication.client}")
+    private String connectionWorker;
+
+    @Value("${gandalf.communication.subscriber}")
+    private String connectionSubscriber;
 
     private ZeebeClient zeebe;
     private JobWorker subscription;
@@ -46,10 +53,15 @@ public class JobKafkaProducer implements JobHandler {
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
 
         //Send message to ConnectorBus
-        GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
-        grpcBusJavaClient.createTopic(workflow_variables.get("send_topic").toString());
+        ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
+        zeroMQJavaClient.createTopic(workflow_variables.get("send_topic").toString());
+        //GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
+        //grpcBusJavaClient.createTopic(workflow_variables.get("send_topic").toString());
         System.out.println("SEND " + workflow_variables.get("send_topic").toString());
-        grpcBusJavaClient.sendMessage(workflow_variables.get("send_topic").toString(), workflow_variables.get("name").toString(), workflow_variables.get("content").toString());
+
+        zeroMQJavaClient.sendMessageTopic(workflow_variables.get("send_topic").toString(), workflow_variables.get("content").toString());
+        //grpcBusJavaClient.sendMessage(workflow_variables.get("send_topic").toString(), workflow_variables.get("name").toString(), workflow_variables.get("content").toString());
+        System.out.println("SEND 2 " + workflow_variables.get("send_topic").toString());
 
         //Send job complete command
         jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
