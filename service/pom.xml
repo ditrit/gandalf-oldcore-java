@@ -18,6 +18,7 @@
         <module>workflow-service</module>
         <module>workflow-uid-service</module>
         <module>communication-service</module>
+        <module>webhook-service</module>
     </modules>
 
     <properties>

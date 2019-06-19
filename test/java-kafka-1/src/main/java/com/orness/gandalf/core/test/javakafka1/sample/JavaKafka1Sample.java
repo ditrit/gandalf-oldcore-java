@@ -22,11 +22,12 @@ public class JavaKafka1Sample implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
         //testMultipleTopics();
-        testPerformanceLoop(100, false);
+        //testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage();
         //test();
         //testZeroMQSubscriber();
+        testCall();
     }
 
     public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
@@ -74,6 +75,20 @@ public class JavaKafka1Sample implements CommandLineRunner {
         else {
             return topic;
         }
+    }
+
+    public void testCall() {
+        ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
+
+        //PARAM
+        String name = "JavaW2J";
+        String listen_topic = "zeebeW2J";
+        String content = "content_"+name;
+
+        //GET
+        System.out.println("subscribeOneTopic");
+        MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(listen_topic);
+        System.out.println("RESULT " + message);
     }
 
   /*  public void test_asynch() {

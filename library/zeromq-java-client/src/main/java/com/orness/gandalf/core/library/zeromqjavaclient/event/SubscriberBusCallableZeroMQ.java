@@ -24,18 +24,18 @@ public class SubscriberBusCallableZeroMQ extends SubscriberZeroMQ implements Cal
     }
 
     public MessageGandalf call() {
+        MessageGandalf messageGandalf = null;
 
-        String header = this.subscriber.recvStr();
-        System.out.println("HEADER " + header);
-        String content = this.subscriber.recvStr();
-        System.out.println("content " + content);
-        if(header.equals(this.topic)) {
-
-            MessageGandalf messageGandalf = null;
-            messageGandalf = mapper.fromJson(content, MessageGandalf.class);
-
-            return messageGandalf;
+        while (messageGandalf == null) {
+            String header = this.subscriber.recvStr();
+            System.out.println("HEADER " + header);
+            String content = this.subscriber.recvStr();
+            System.out.println("content " + content);
+            if(header.equals(this.topic)) {
+                messageGandalf = mapper.fromJson(content, MessageGandalf.class);
+                break;
+            }
         }
-        return null;
+        return messageGandalf;
     }
 }

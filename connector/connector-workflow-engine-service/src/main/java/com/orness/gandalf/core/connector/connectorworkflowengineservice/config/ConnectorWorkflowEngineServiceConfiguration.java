@@ -3,6 +3,7 @@ package com.orness.gandalf.core.connector.connectorworkflowengineservice.config;
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.communication.command.WorkerWorkflowEngineZeroMQ;
 import io.zeebe.client.ZeebeClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.core.annotation.Order;
@@ -15,6 +16,9 @@ public class ConnectorWorkflowEngineServiceConfiguration {
 
     @Autowired
     private ApplicationContext context;
+
+    @Value("${gandalf.workflowengine.broker}")
+    private String brokerAddress;
 
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
@@ -36,7 +40,9 @@ public class ConnectorWorkflowEngineServiceConfiguration {
     @Bean
     public ZeebeClient zeebe() {
         //Client
-        ZeebeClient zeebeClient = ZeebeClient.newClient();
+        ZeebeClient zeebeClient = ZeebeClient.newClientBuilder()
+                .brokerContactPoint(brokerAddress)
+                .build();
         return zeebeClient;
     }
 }

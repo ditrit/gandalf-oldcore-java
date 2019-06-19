@@ -3,6 +3,7 @@ package com.orness.gandalf.core.connector.connectorworkflowengineservice.workflo
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -30,4 +31,5 @@ public class ConnectorWorkflowEngine {
                 .timeToLive(Duration.ofMinutes(30))
                 .send().join();
     }
+
 }

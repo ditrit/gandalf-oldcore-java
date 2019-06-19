@@ -6,6 +6,11 @@ import com.orness.gandalf.core.library.zeromqjavaclient.event.SubscriberBusCalla
 import com.orness.gandalf.core.library.zeromqjavaclient.event.SubscriberBusZeroMQ;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class ZeroMQJavaClient {
 
 
@@ -14,6 +19,7 @@ public class ZeroMQJavaClient {
     private ClientBusZeroMQ clientBusZeroMQ;
     private ClientWorkflowEngineZeroMQ clientWorkflowEngineZeroMQ;
     private SubscriberBusZeroMQ subscriberBusZeroMQ;
+    private ExecutorService executor;
 
     public ZeroMQJavaClient(String connectionWorker, String connectionSubscriber) {
         System.out.println("WO " + connectionWorker);
@@ -23,6 +29,7 @@ public class ZeroMQJavaClient {
         this.clientBusZeroMQ = new ClientBusZeroMQ(connectionWorker);
         this.clientWorkflowEngineZeroMQ = new ClientWorkflowEngineZeroMQ(connectionWorker);
         this.subscriberBusZeroMQ = new SubscriberBusZeroMQ(connectionSubscriber, "");
+        this.executor = Executors.newFixedThreadPool(10);
     }
 
     public void createTopic(String topic) {
@@ -54,6 +61,24 @@ public class ZeroMQJavaClient {
     }
 
     public MessageGandalf getMessageSubscriberCallableBusTopic(String topic) {
-        return new SubscriberBusCallableZeroMQ(connectionSubscriber, topic).call();
+        SubscriberBusCallableZeroMQ subscriberBusCallableZeroMQ = new SubscriberBusCallableZeroMQ(connectionSubscriber, topic);
+        Future<MessageGandalf> futureMessageGandalf = executor.submit(subscriberBusCallableZeroMQ);
+        MessageGandalf resultMessageGandalf = null;
+        while(!futureMessageGandalf.isDone() && !futureMessageGandalf.isCancelled()) {
+            System.out.println("Waiting...");
+            try {
+                Thread.sleep(400);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (futureMessageGandalf.isDone() && !futureMessageGandalf.isCancelled()) {
+            try {
+                resultMessageGandalf = futureMessageGandalf.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return resultMessageGandalf;
     }
 }

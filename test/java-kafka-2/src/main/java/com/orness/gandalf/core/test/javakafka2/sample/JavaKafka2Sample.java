@@ -23,10 +23,11 @@ public class JavaKafka2Sample implements CommandLineRunner {
         System.out.println("Start sample");
         //testZeroMQSender();
         //testMultipleTopics(5);
-        testPerformanceLoop(100, false);
+        //testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage(10);
         //test();
+        testCall();
     }
 
     public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
@@ -72,6 +73,21 @@ public class JavaKafka2Sample implements CommandLineRunner {
         else {
             return topic;
         }
+    }
+
+    public void testCall() {
+        ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
+
+        //PARAM
+        String name = "JavaW2J";
+        String send_topic = "zeebeW2J";
+        String content = "content_"+name;
+
+        //GET
+        System.out.println("subscribeOneTopic");
+        MessageGandalf messageGandalf = new MessageGandalf(send_topic, name, "2011-10-02 18:48:05.123", "2020-12-01", content);
+        zeroMQJavaClient.createTopic(send_topic);
+        zeroMQJavaClient.sendMessageTopic(send_topic, messageGandalf.toJson());
     }
 
     /*public void test() {
