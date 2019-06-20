@@ -4,14 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.orness.gandalf.core</groupId>
-		<artifactId>job</artifactId>
+		<artifactId>service</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.orness.gandalf.core.job</groupId>
-	<artifactId>build-job</artifactId>
+	<groupId>com.orness.gandalf.core.connector</groupId>
+	<artifactId>database-bus-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>build-job</name>
+	<name>database-bus-service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -21,13 +21,18 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>io.zeebe</groupId>
-			<artifactId>zeebe-client-java</artifactId>
-			<version>0.17.0</version>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>2.2.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -49,13 +54,19 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-		<!--	<dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-consul-all</artifactId>
-            </dependency>-->
+		<!--		<dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-consul-all</artifactId>
+                </dependency>-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-zipkin</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -63,26 +74,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.zeebe</groupId>
-			<artifactId>zeebe-test</artifactId>
-			<version>0.17.0</version>
-			<scope>test</scope>
-		</dependency>
-        <dependency>
-            <groupId>com.orness.gandalf.core.module</groupId>
-            <artifactId>message-module</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-		<dependency>
-			<groupId>com.orness.gandalf.core.library</groupId>
-			<artifactId>zeromq-java-client</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.orness.gandalf.core.module</groupId>
-			<artifactId>constant-module</artifactId>
+			<artifactId>message-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>

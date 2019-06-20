@@ -45,6 +45,14 @@ public class ZeroMQJavaClient {
         System.out.println("SEND CLIENT " + topic);
         System.out.println("SEND CLIENT " + message);
         clientBusZeroMQ.sendMessageTopic(topic, message);
+        //TODO ADD TOPIC DATABASE ???
+    }
+
+    public void sendMessageTopicDatabase(String topic, String message) {
+        System.out.println("SEND CLIENT");
+        System.out.println("SEND CLIENT " + topic);
+        System.out.println("SEND CLIENT " + message);
+        clientBusZeroMQ.sendMessageTopic(topic, message);
     }
 
     public void subscribeWorkflowEngineTopic(String topic) {

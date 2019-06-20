@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.zeromq.ZFrame;
 import org.zeromq.ZMsg;
 
-import static com.orness.gandalf.core.module.constantmodule.communication.Constant.*;
+import static com.orness.gandalf.core.module.constantmodule.communication.CommunicationConstant.*;
 
 @Component
 @Scope("singleton")

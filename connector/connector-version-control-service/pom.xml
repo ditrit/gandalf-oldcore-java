@@ -4,14 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.orness.gandalf.core</groupId>
-		<artifactId>job</artifactId>
+		<artifactId>connector</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.orness.gandalf.core.job</groupId>
-	<artifactId>build-job</artifactId>
+	<groupId>com.orness.gandalf.core.connector</groupId>
+	<artifactId>connector-version-control-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>build-job</name>
+	<name>connector-version-control-service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -20,11 +20,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>io.zeebe</groupId>
-			<artifactId>zeebe-client-java</artifactId>
-			<version>0.17.0</version>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -49,13 +44,22 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-		<!--	<dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-consul-all</artifactId>
-            </dependency>-->
+		<!--<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-consul-all</artifactId>
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-zipkin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.gitlab4j</groupId>
+			<artifactId>gitlab4j-api</artifactId>
+			<version>4.11.9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -63,26 +67,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.zeebe</groupId>
-			<artifactId>zeebe-test</artifactId>
-			<version>0.17.0</version>
-			<scope>test</scope>
-		</dependency>
-        <dependency>
-            <groupId>com.orness.gandalf.core.module</groupId>
-            <artifactId>message-module</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-		<dependency>
 			<groupId>com.orness.gandalf.core.library</groupId>
 			<artifactId>zeromq-java-client</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.orness.gandalf.core.module</groupId>
-			<artifactId>constant-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>

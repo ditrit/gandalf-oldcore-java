@@ -1,11 +1,13 @@
 package com.orness.gandalf.core.job.deployjob.job;
 
+import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;
 import io.zeebe.client.api.subscription.JobHandler;
 import io.zeebe.client.api.subscription.JobWorker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,8 +18,18 @@ import java.util.Map;
 @Component
 public class DeployJob implements JobHandler {
 
+    @Value("${gandalf.communication.client}")
+    private String connectionWorker;
+    @Value("${gandalf.communication.subscriber}")
+    private String connectionSubscriber;
+    @Value("${gandalf.deploy.topic}")
+    private String topicBuild;
+    @Value("${gandalf.deploy.topic}")
+    private String topicDatabase;
+
     private ZeebeClient zeebe;
     private JobWorker subscription;
+    private ZeroMQJavaClient zeroMQJavaClient;
 
     @Autowired
     public DeployJob(ZeebeClient zeebe) {
@@ -27,7 +39,7 @@ public class DeployJob implements JobHandler {
     @PostConstruct
     public void subscribe() {
         subscription = zeebe.newWorker()
-                .jobType("kafka_producer")
+                .jobType("job_deploy")
                 .handler(this)
                 .timeout(Duration.ofMinutes(20))
                 .open();
@@ -43,10 +55,19 @@ public class DeployJob implements JobHandler {
 
         //Get workflow variables
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
+        zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
+        boolean succes = false;
 
-       //TODO SOME SHIT
+       //TODO DEPLOY
 
-        //Send job complete command
-        jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
+        if(succes) {
+            //Send job complete command
+            jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
+            //SEND MESSAGE DATABASE SUCCES
+        }
+        else {
+            jobClient.newFailCommand(activatedJob.getKey());
+            //SEND MESSAGE DATABASE FAIL
+        }
     }
 }

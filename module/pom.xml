@@ -19,7 +19,6 @@
         <module>message-module</module>
         <module>zeromq-module</module>
         <module>constant-module</module>
-        <module>webhook-module</module>
     </modules>
 
     <properties>
