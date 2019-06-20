@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.job.deployjob.job;
 
+import com.orness.gandalf.core.job.deployjob.bash.BashExecutor;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
@@ -15,6 +16,8 @@ import javax.annotation.PreDestroy;
 import java.time.Duration;
 import java.util.Map;
 
+import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.KEY_VARIABLE_PROJECT_NAME;
+
 @Component
 public class DeployJob implements JobHandler {
 
@@ -28,12 +31,14 @@ public class DeployJob implements JobHandler {
     private String topicDatabase;
 
     private ZeebeClient zeebe;
+    private BashExecutor bashExecutor;
     private JobWorker subscription;
     private ZeroMQJavaClient zeroMQJavaClient;
 
     @Autowired
-    public DeployJob(ZeebeClient zeebe) {
+    public DeployJob(ZeebeClient zeebe, BashExecutor bashExecutor) {
         this.zeebe = zeebe;
+        this.bashExecutor = bashExecutor;
     }
 
     @PostConstruct
@@ -56,9 +61,10 @@ public class DeployJob implements JobHandler {
         //Get workflow variables
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
-        boolean succes = false;
+        boolean succes = true;
 
-       //TODO DEPLOY
+       //TODO FINISH PREFIX
+        succes = bashExecutor.deployProject(workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString(), 0);
 
         if(succes) {
             //Send job complete command

@@ -62,13 +62,13 @@ public class BuildJob implements JobHandler {
         //Get workflow variables
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
-        boolean succes = false;
+        boolean succes = true;
         MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
 
         //CLONE
-        bashExecutor.cloneProject(workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString());
+        succes &= bashExecutor.cloneProject(workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString());
         //MVN CLEAN INSTALL
-        bashExecutor.buildProject(workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString());
+        succes &= bashExecutor.buildProject(workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString());
         //ADD WORKFLOW VARIABLE ADD REPERTORY
 
         if(succes) {
