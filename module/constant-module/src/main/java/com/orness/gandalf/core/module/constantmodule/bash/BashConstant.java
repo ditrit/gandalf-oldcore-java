@@ -8,6 +8,5 @@ public class BashConstant {
     public static final String SCRIPT_DEPLOY_DIRECTORY = "/";
     public static final String SCRIPT_DEPLOY_FILE = "cgms.sh";
     public static final String SCRIPT_DEPLOY = SCRIPT_DEPLOY_DIRECTORY + "./" + SCRIPT_DEPLOY_FILE;
-    public static final String SCRIPT_DEPLOY_PREFIX_TARGET = "cgms.sh";
-
+    public static final String SCRIPT_DEPLOY_PREFIX_TARGET = "/";
 }

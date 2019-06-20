@@ -5,6 +5,7 @@ import com.orness.gandalf.core.library.zeromqjavaclient.command.ClientWorkflowEn
 import com.orness.gandalf.core.library.zeromqjavaclient.event.SubscriberBusCallableZeroMQ;
 import com.orness.gandalf.core.library.zeromqjavaclient.event.SubscriberBusZeroMQ;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -13,17 +14,16 @@ import java.util.concurrent.Future;
 
 public class ZeroMQJavaClient {
 
-
-    public String connectionWorker;
-    public String connectionSubscriber;
+    @Value("${gandalf.database.topic}")
+    private String databaseTopic;
+    private String connectionWorker;
+    private String connectionSubscriber;
     private ClientBusZeroMQ clientBusZeroMQ;
     private ClientWorkflowEngineZeroMQ clientWorkflowEngineZeroMQ;
     private SubscriberBusZeroMQ subscriberBusZeroMQ;
     private ExecutorService executor;
 
     public ZeroMQJavaClient(String connectionWorker, String connectionSubscriber) {
-        System.out.println("WO " + connectionWorker);
-        System.out.println("SU " + connectionSubscriber);
         this.connectionWorker = connectionWorker;
         this.connectionSubscriber = connectionSubscriber;
         this.clientBusZeroMQ = new ClientBusZeroMQ(connectionWorker);
@@ -45,14 +45,14 @@ public class ZeroMQJavaClient {
         System.out.println("SEND CLIENT " + topic);
         System.out.println("SEND CLIENT " + message);
         clientBusZeroMQ.sendMessageTopic(topic, message);
-        //TODO ADD TOPIC DATABASE ???
+        clientBusZeroMQ.sendMessageTopic(databaseTopic, message);
     }
 
-    public void sendMessageTopicDatabase(String topic, String message) {
+    public void sendMessageTopicDatabase(String message) {
         System.out.println("SEND CLIENT");
-        System.out.println("SEND CLIENT " + topic);
+        System.out.println("SEND CLIENT " + databaseTopic);
         System.out.println("SEND CLIENT " + message);
-        clientBusZeroMQ.sendMessageTopic(topic, message);
+        clientBusZeroMQ.sendMessageTopic(databaseTopic, message);
     }
 
     public void subscribeWorkflowEngineTopic(String topic) {

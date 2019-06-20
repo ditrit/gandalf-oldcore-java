@@ -1,6 +1,8 @@
 package com.orness.gandalf.core.job.deployjob.job;
 
-import com.orness.gandalf.core.job.deployjob.bash.BashExecutor;
+import com.orness.gandalf.core.job.deployjob.archive.ArchiveService;
+import com.orness.gandalf.core.job.deployjob.bash.BashService;
+import com.orness.gandalf.core.job.deployjob.storage.StorageService;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
@@ -31,14 +33,18 @@ public class DeployJob implements JobHandler {
     private String topicDatabase;
 
     private ZeebeClient zeebe;
-    private BashExecutor bashExecutor;
+    private BashService bashService;
+    private ArchiveService archiveService;
+    private StorageService storageService;
     private JobWorker subscription;
     private ZeroMQJavaClient zeroMQJavaClient;
 
     @Autowired
-    public DeployJob(ZeebeClient zeebe, BashExecutor bashExecutor) {
+    public DeployJob(ZeebeClient zeebe, BashService bashService, ArchiveService archiveService, StorageService storageService) {
         this.zeebe = zeebe;
-        this.bashExecutor = bashExecutor;
+        this.bashService = bashService;
+        this.archiveService = archiveService;
+        this.storageService = storageService;
     }
 
     @PostConstruct
@@ -63,8 +69,12 @@ public class DeployJob implements JobHandler {
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
 
-       //TODO FINISH PREFIX
-        succes = bashExecutor.deployProject(workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString(), 0);
+        //GET BUILD
+        succes &= storageService.getBuildFromStorage();
+        //UNZIP
+        succes &= archiveService.unzipBuildArchive();
+        //DEPLOY
+        succes &= bashService.deployProject(workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString(), 0);
 
         if(succes) {
             //Send job complete command

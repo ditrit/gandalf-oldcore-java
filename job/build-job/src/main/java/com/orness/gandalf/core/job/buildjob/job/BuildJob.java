@@ -1,6 +1,8 @@
 package com.orness.gandalf.core.job.buildjob.job;
 
-import com.orness.gandalf.core.job.buildjob.bash.BashExecutor;
+import com.orness.gandalf.core.job.buildjob.archive.ArchiveService;
+import com.orness.gandalf.core.job.buildjob.bash.BashService;
+import com.orness.gandalf.core.job.buildjob.storage.StorageService;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;
@@ -32,14 +34,18 @@ public class BuildJob implements JobHandler {
     private String topicDatabase;
 
     private ZeebeClient zeebe;
-    private BashExecutor bashExecutor;
+    private BashService bashService;
+    private ArchiveService archiveService;
+    private StorageService storageService;
     private JobWorker subscription;
     private ZeroMQJavaClient zeroMQJavaClient;
 
     @Autowired
-    public BuildJob(ZeebeClient zeebe, BashExecutor bashExecutor) {
+    public BuildJob(ZeebeClient zeebe, BashService bashService, ArchiveService archiveService, StorageService storageService) {
         this.zeebe = zeebe;
-        this.bashExecutor = bashExecutor;
+        this.bashService = bashService;
+        this.archiveService = archiveService;
+        this.storageService = storageService;
     }
 
     @PostConstruct
@@ -66,9 +72,14 @@ public class BuildJob implements JobHandler {
         MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
 
         //CLONE
-        succes &= bashExecutor.cloneProject(workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString());
+        succes &= bashService.cloneProject(workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString());
         //MVN CLEAN INSTALL
-        succes &= bashExecutor.buildProject(workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString());
+        succes &= bashService.buildProject(workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString());
+        //TAR
+        //TODO PATH
+        succes &= archiveService.zipArchive("");
+        //SEND TO STORAGE
+        succes &= storageService.sendBuildToStorage();
         //ADD WORKFLOW VARIABLE ADD REPERTORY
 
         if(succes) {

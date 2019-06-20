@@ -1,14 +1,14 @@
 package com.orness.gandalf.core.job.deployjob.bash;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY;
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_PREFIX_TARGET;
 
-@Component
-public class BashExecutor {
+@Service
+public class BashService {
 
 
     public boolean deployProject(String path, int indice) {

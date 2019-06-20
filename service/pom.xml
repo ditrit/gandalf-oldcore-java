@@ -19,6 +19,7 @@
         <module>workflow-uid-service</module>
         <module>communication-service</module>
         <module>database-bus-service</module>
+        <module>build-storage-service</module>
     </modules>
 
     <properties>

@@ -1,12 +1,13 @@
 package com.orness.gandalf.core.job.buildjob.bash;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.*;
 
-@Component
-public class BashExecutor {
+@Service
+public class BashService {
 
     public boolean cloneProject(String url) {
         Process process;

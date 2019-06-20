@@ -9,9 +9,9 @@
 	</parent>
 
 	<groupId>com.orness.gandalf.core.service</groupId>
-	<artifactId>workflow-uid-service</artifactId>
+	<artifactId>build-storage-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>workflow-uid-service</name>
+	<name>build-storage-service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
