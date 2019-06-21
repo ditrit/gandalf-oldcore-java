@@ -29,8 +29,6 @@ public class DeployJob implements JobHandler {
     private String connectionSubscriber;
     @Value("${gandalf.deploy.topic}")
     private String topicBuild;
-    @Value("${gandalf.deploy.topic}")
-    private String topicDatabase;
 
     private ZeebeClient zeebe;
     private BashService bashService;
@@ -68,22 +66,22 @@ public class DeployJob implements JobHandler {
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
-
+        String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString();
         //GET BUILD
-        succes &= storageService.getBuildFromStorage();
+        succes &= storageService.getBuildFromStorage(projectName);
         //UNZIP
-        succes &= archiveService.unzipBuildArchive();
+        succes &= archiveService.unzipBuildArchive(projectName);
         //DEPLOY
-        succes &= bashService.deployProject(workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString(), 0);
+        succes &= bashService.deployProject(projectName, 0);
 
         if(succes) {
             //Send job complete command
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
-            //SEND MESSAGE DATABASE SUCCES
         }
         else {
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
-            //SEND MESSAGE DATABASE FAIL
         }
     }
 }

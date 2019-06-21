@@ -6,16 +6,18 @@ import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_DIRECTORY;
+
 @Service
 public class ArchiveService {
 
-    public boolean zipArchive(String path) {
+    public boolean zipArchive(String projectName) {
         boolean succes = false;
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream("dirCompressed.zip");
+            fos = new FileOutputStream(SCRIPT_DEPLOY_DIRECTORY + projectName);
             ZipOutputStream zipOut = new ZipOutputStream(fos);
-            File fileToZip = new File(path);
+            File fileToZip = new File(SCRIPT_DEPLOY_DIRECTORY + projectName + ".zip");
 
             zipFile(fileToZip, fileToZip.getName(), zipOut);
             zipOut.close();

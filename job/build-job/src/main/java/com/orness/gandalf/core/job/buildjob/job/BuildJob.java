@@ -69,23 +69,23 @@ public class BuildJob implements JobHandler {
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
-        MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
-
+        //MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
+        String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString();
         //CLONE
-        succes &= bashService.cloneProject(workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString());
+        succes &= bashService.cloneProject(projectName);
         //MVN CLEAN INSTALL
-        succes &= bashService.buildProject(workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString());
+        succes &= bashService.buildProject(projectName);
         //TAR
         //TODO PATH
-        succes &= archiveService.zipArchive("");
+        succes &= archiveService.zipArchive(projectName);
         //SEND TO STORAGE
-        succes &= storageService.sendBuildToStorage();
+        succes &= storageService.sendBuildToStorage(projectName);
         //ADD WORKFLOW VARIABLE ADD REPERTORY
 
         if(succes) {
             //Send job complete command
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
-            //SEND MESSAGE DATABASE SUCCES
         }
         else {
             jobClient.newFailCommand(activatedJob.getKey());

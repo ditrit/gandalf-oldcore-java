@@ -12,7 +12,7 @@ public class BashService {
     public boolean cloneProject(String url) {
         Process process;
         try {
-            process = new ProcessBuilder(SCRIPT_CLONE + url).start();
+            process = new ProcessBuilder(SCRIPT_BUILD_DIRECTORY + SCRIPT_CLONE + url).start();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -20,10 +20,10 @@ public class BashService {
         return process.exitValue() == 0 ? true : false;
     }
 
-    public boolean buildProject(String path) {
+    public boolean buildProject(String projectName) {
         Process process;
         try {
-            process = new ProcessBuilder(SCRIPT_BUILD_DIRECTORY + path + SCRIPT_BUILD).start();
+            process = new ProcessBuilder(SCRIPT_BUILD_DIRECTORY + projectName + SCRIPT_BUILD).start();
         } catch (IOException e) {
             e.printStackTrace();
             return false;

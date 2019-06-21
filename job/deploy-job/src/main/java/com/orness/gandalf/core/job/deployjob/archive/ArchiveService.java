@@ -6,13 +6,15 @@ import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_DIRECTORY;
+
 @Service
 public class ArchiveService {
 
-    public boolean unzipBuildArchive() {
+    public boolean unzipBuildArchive(String projectName) {
         boolean succes = false;
-        String fileZip = "src/main/resources/unzipTest/compressed.zip";
-        File destDir = new File("src/main/resources/unzipTest");
+        String fileZip = SCRIPT_DEPLOY_DIRECTORY + projectName + ".zip";
+        File destDir = new File(SCRIPT_DEPLOY_DIRECTORY + projectName);
         byte[] buffer = new byte[1024];
         ZipInputStream zis = null;
         try {
