@@ -3,8 +3,11 @@ package com.orness.gandalf.core.job.deployjob.storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_DIRECTORY;
 
@@ -20,13 +23,12 @@ public class StorageService {
     }
 
     public boolean getBuildFromStorage(String projectName) {
-        FileOutputStream stream = null;
         try {
-            stream = new FileOutputStream(SCRIPT_DEPLOY_DIRECTORY + projectName);
-            stream.write(this.buildStorageFeign.downloadBuild(projectName));
+            File downloadFile = this.buildStorageFeign.downloadBuild(projectName).getBody().getFile();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return true;
+        return false;
     }
 }
