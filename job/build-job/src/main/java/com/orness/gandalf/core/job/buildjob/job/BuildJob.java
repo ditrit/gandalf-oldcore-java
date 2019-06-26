@@ -2,9 +2,8 @@ package com.orness.gandalf.core.job.buildjob.job;
 
 import com.orness.gandalf.core.job.buildjob.archive.ArchiveService;
 import com.orness.gandalf.core.job.buildjob.bash.BashService;
-import com.orness.gandalf.core.job.buildjob.storage.StorageService;
+import com.orness.gandalf.core.job.buildjob.artifact.ArtifactService;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;
@@ -35,16 +34,16 @@ public class BuildJob implements JobHandler {
     private ZeebeClient zeebe;
     private BashService bashService;
     private ArchiveService archiveService;
-    private StorageService storageService;
+    private ArtifactService artifactService;
     private JobWorker subscription;
     private ZeroMQJavaClient zeroMQJavaClient;
 
     @Autowired
-    public BuildJob(ZeebeClient zeebe, BashService bashService, ArchiveService archiveService, StorageService storageService) {
+    public BuildJob(ZeebeClient zeebe, BashService bashService, ArchiveService archiveService, ArtifactService artifactService) {
         this.zeebe = zeebe;
         this.bashService = bashService;
         this.archiveService = archiveService;
-        this.storageService = storageService;
+        this.artifactService = artifactService;
     }
 
     @PostConstruct
@@ -82,7 +81,7 @@ public class BuildJob implements JobHandler {
         //TODO PATH
         succes &= archiveService.zipArchive(projectName);
         //SEND TO STORAGE
-        succes &= storageService.sendBuildToStorage(projectName);
+        succes &= artifactService.sendBuildToStorage(projectName);
         //ADD WORKFLOW VARIABLE ADD REPERTORY
 
         zeebe.newPublishMessageCommand()

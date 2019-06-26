@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,6 +11,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import static com.orness.gandalf.core.module.constantmodule.storage.StorageConstant.BUILD_PROJECT_DIRECTORY;
 
@@ -31,12 +31,17 @@ public class ArtifactStorageService {
         }
     }
 
-    public String storeFile(MultipartFile file) throws Exception {
-        // Normalize file name
-        File fileSave = new File(fileStorageLocation + file.getOriginalFilename());
-        file.transferTo(fileSave);
+    public String storeFile(File file, File conf, String version) throws Exception {
 
-        return fileSave.getName();
+        File confSaveVersion = new File(fileStorageLocation + "/" + getNameWithoutExtension(conf.getName()) + "_" +  version + ".ini");
+        confSaveVersion.createNewFile();
+        Files.copy(conf.toPath(), confSaveVersion.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+        File fileSaveVersion = new File(fileStorageLocation + "/" + getNameWithoutExtension(file.getName()) + "_" + version + ".zip");
+        fileSaveVersion.createNewFile();
+        Files.copy(file.toPath(), fileSaveVersion.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+        return confSaveVersion.getName();
     }
 
     public Resource loadFileAsResource(String fileName) throws FileNotFoundException {
@@ -51,5 +56,14 @@ public class ArtifactStorageService {
         } catch (MalformedURLException ex) {
             throw new FileNotFoundException();
         }
+    }
+
+    private String getNameWithoutExtension(String name) {
+        String resultName = "";
+        int pos = name.lastIndexOf(".");
+        if (pos > 0) {
+            resultName = name.substring(0, pos);
+        }
+        return resultName;
     }
 }

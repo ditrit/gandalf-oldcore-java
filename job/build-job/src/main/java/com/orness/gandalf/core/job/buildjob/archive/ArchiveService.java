@@ -18,6 +18,7 @@ public class ArchiveService {
             fos = new FileOutputStream(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + ".zip");
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             File fileToZip = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName);
+            fileToZip.createNewFile();
 
             zipFile(fileToZip, fileToZip.getName(), zipOut);
             zipOut.close();

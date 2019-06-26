@@ -25,11 +25,11 @@ public class ArtifactRestController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     @Headers("Content-Type: application/zip")
-    public void uploadBuild(@RequestParam("file") File file) {
+    public void uploadBuild(@RequestParam("file") File file, @RequestParam("conf") File conf, @RequestParam("version") String version) {
         String fileName = null;
         System.out.println(file.getName());
         try {
-            //fileName = fileStorageService.storeFile(file);
+            fileName = artifactStorageService.storeFile(file, conf, version);
         } catch (Exception e) {
             e.printStackTrace();
         }
