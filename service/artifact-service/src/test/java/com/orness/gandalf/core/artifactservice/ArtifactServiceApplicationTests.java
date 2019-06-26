@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.service.buildstorageservice;
+package com.orness.gandalf.core.artifactservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BuildStorageServiceApplicationTests {
+public class ArtifactServiceApplicationTests {
 
 	@Test
 	public void contextLoads() {

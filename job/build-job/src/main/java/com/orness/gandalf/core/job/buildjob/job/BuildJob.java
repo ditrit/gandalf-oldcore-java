@@ -30,8 +30,7 @@ public class BuildJob implements JobHandler {
     private String connectionSubscriber;
     @Value("${gandalf.build.topic}")
     private String topicWebhook;
-    @Value("${gandalf.database.topic}")
-    private String topicDatabase;
+
 
     private ZeebeClient zeebe;
     private BashService bashService;
@@ -70,10 +69,14 @@ public class BuildJob implements JobHandler {
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
         //MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
-        String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString();
+        String projectUrl = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString();
         //CLONE
-        succes &= bashService.cloneProject(projectName);
+        succes &= bashService.cloneProject(projectUrl);
         //MVN CLEAN INSTALL
+        String projectFileName = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString().split("/")[1];
+        System.out.println(projectFileName);
+        String projectName = projectFileName.substring(0, projectFileName.length()-4);
+        System.out.println(projectName);
         succes &= bashService.buildProject(projectName);
         //TAR
         //TODO PATH
@@ -82,9 +85,15 @@ public class BuildJob implements JobHandler {
         succes &= storageService.sendBuildToStorage(projectName);
         //ADD WORKFLOW VARIABLE ADD REPERTORY
 
+        zeebe.newPublishMessageCommand()
+                .messageName("message")
+                .correlationKey("build")
+                .timeToLive(Duration.ofMinutes(30))
+                .send().join();
+
         if(succes) {
             //Send job complete command
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : success" );
+            //zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
