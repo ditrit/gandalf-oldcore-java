@@ -11,10 +11,8 @@ import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.*;
 public class BashService {
 
     public boolean cloneProject(String url) {
-        //Process process_cd;
         Process process;
         try {
-            //process_cd = new ProcessBuilder("bash", "-c", "cd " + SCRIPT_BUILD_DIRECTORY + "/").start();
             process = new ProcessBuilder( "bash", "-c", SCRIPT_CLONE + " " + url).directory(new File(SCRIPT_BUILD_DIRECTORY + "/")).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {

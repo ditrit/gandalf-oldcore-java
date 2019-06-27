@@ -4,6 +4,7 @@ import com.orness.gandalf.core.job.buildjob.archive.ArchiveService;
 import com.orness.gandalf.core.job.buildjob.bash.BashService;
 import com.orness.gandalf.core.job.buildjob.artifact.ArtifactService;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
+import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;
@@ -67,7 +68,7 @@ public class BuildJob implements JobHandler {
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
-        //MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
+        MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
         String projectUrl = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString();
         //CLONE
         succes &= bashService.cloneProject(projectUrl);
@@ -78,7 +79,6 @@ public class BuildJob implements JobHandler {
         System.out.println(projectName);
         succes &= bashService.buildProject(projectName);
         //TAR
-        //TODO PATH
         succes &= archiveService.zipArchive(projectName);
         //SEND TO STORAGE
         succes &= artifactService.sendBuildToStorage(projectName);
@@ -92,10 +92,11 @@ public class BuildJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            //zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : success" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }

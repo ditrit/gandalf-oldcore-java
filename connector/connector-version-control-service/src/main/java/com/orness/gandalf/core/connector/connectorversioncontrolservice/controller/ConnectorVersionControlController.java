@@ -34,12 +34,10 @@ public class ConnectorVersionControlController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/merge")
     public void mergeRequestEvents(@RequestBody String mergeRequest) throws IOException {
-        System.out.println(mergeRequest);
+        
         CustomMergeRequest customMergeRequest = connectorVersionControlManager.parseEventMergeRequest(mergeRequest);
-        System.out.println("TRIGGER");
-        System.out.println(customMergeRequest);
+
         if(connectorVersionControlManager.validWebhookMergeRequest(customMergeRequest)) {
-            System.out.println("VALID");
             ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
             zeroMQJavaClient.sendMessageTopic(topicWebhook, customMergeRequest.getProjectUrl());
         }
