@@ -34,7 +34,7 @@ public class ConnectorVersionControlController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/merge")
     public void mergeRequestEvents(@RequestBody String mergeRequest) throws IOException {
-        
+
         CustomMergeRequest customMergeRequest = connectorVersionControlManager.parseEventMergeRequest(mergeRequest);
 
         if(connectorVersionControlManager.validWebhookMergeRequest(customMergeRequest)) {
