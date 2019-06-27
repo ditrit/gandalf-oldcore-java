@@ -33,7 +33,7 @@ public class ArtifactStorageService {
 
     public String storeFile(File file, File conf, String version) throws Exception {
 
-        File confSaveVersion = new File(fileStorageLocation + "/" + getNameWithoutExtension(conf.getName()) + "_" +  version + ".ini");
+        File confSaveVersion = new File(fileStorageLocation + "/" + getNameWithoutExtension(file.getName()) + "_" +  version + ".ini");
         confSaveVersion.createNewFile();
         Files.copy(conf.toPath(), confSaveVersion.toPath(), StandardCopyOption.REPLACE_EXISTING);
 

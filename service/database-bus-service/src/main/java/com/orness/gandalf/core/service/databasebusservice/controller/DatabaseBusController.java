@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@Controller("/database")
+@Controller
 public class DatabaseBusController {
 
     private MessageGandalfRepository messageGandalfRepository;
@@ -21,7 +21,7 @@ public class DatabaseBusController {
         this.messageGandalfRepository = messageGandalfRepository;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/index")
+    @RequestMapping(method = RequestMethod.GET, value = "/database/index")
     public String index(Model model) {
         List<MessageGandalf> messageGandalfList = messageGandalfRepository.findAll();
         model.addAttribute("messageGandalfList", messageGandalfList);
