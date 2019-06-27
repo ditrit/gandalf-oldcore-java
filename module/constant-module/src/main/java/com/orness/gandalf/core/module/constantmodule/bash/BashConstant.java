@@ -8,6 +8,6 @@ public class BashConstant {
     public static final String SCRIPT_DEPLOY_CONF_FILE = "conf.ini";
     public static final String SCRIPT_DEPLOY_DIRECTORY = System.getProperty("user.dir") + "/builds";
     public static final String SCRIPT_DEPLOY_FILE = "cgms.sh";
-    public static final String SCRIPT_DEPLOY = SCRIPT_DEPLOY_DIRECTORY + "./" + SCRIPT_DEPLOY_FILE;
+    public static final String SCRIPT_DEPLOY_RESSOURCES_FILE = "classpath:script/";
     //public static final String SCRIPT_DEPLOY_PREFIX_TARGET = "/";
 }

@@ -20,6 +20,7 @@
         <module>communication-service</module>
         <module>database-bus-service</module>
         <module>artifact-service</module>
+        <module>orchestrator-service</module>
     </modules>
 
     <properties>
