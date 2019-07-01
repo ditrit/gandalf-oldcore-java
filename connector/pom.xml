@@ -17,7 +17,7 @@
     <modules>
         <module>connector-workflow-engine-service</module>
         <module>connector-bus-service</module>
-        <module>database-bus-service</module>
+        <module>connector-version-control-service</module>
     </modules>
 
     <properties>

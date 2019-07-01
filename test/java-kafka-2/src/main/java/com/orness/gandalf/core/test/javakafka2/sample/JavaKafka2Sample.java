@@ -1,9 +1,8 @@
 package com.orness.gandalf.core.test.javakafka2.sample;
 
-
-import com.orness.gandalf.core.library.grpcjavaclient.workflowengine.GrpcWorkflowEngineJavaClient;
-import com.orness.gandalf.core.library.grpcjavaclient.bus.GrpcBusJavaClient;
+import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -13,15 +12,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class JavaKafka2Sample implements CommandLineRunner {
 
+    @Value("${gandalf.communication.client}")
+    private String connectionWorker;
+
+    @Value("${gandalf.communication.subscriber}")
+    private String connectionSubscriber;
+
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Start sample");
         //testZeroMQSender();
         //testMultipleTopics(5);
-        testPerformanceLoop(100, false);
+        //testPerformanceLoop(100, false);
         //test_asynch();
         //testMultipleMessage(10);
         //test();
+        testCall();
     }
 
     public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
@@ -40,8 +46,7 @@ public class JavaKafka2Sample implements CommandLineRunner {
 
     public void testPerformance(int indice, boolean multipleTopic) {
 
-        GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
-        GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClient = new GrpcWorkflowEngineJavaClient();
+        ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
 
         //PARAM
         String name = "JavaJ2J_"+indice;
@@ -51,14 +56,14 @@ public class JavaKafka2Sample implements CommandLineRunner {
 
         //GET
         System.out.println("subscribeOneTopic");
-        MessageGandalf message = grpcWorkflowEngineJavaClient.subscribeOneTopic(listen_topic, name);
+        MessageGandalf message = zeroMQJavaClient.getMessageSubscriberBusTopic(listen_topic);
         System.out.println(message);
 
         //SEND
         System.out.println("createTopic");
-        grpcBusJavaClient.createTopic(send_topic);
+        zeroMQJavaClient.createTopic(send_topic);
         System.out.println("sendMessage");
-        grpcBusJavaClient.sendMessage(send_topic, name, content);
+        zeroMQJavaClient.sendMessageTopic(send_topic, content);
     }
 
     private String topicMultiple(String topic, boolean multipleTopic, int indice) {
@@ -70,7 +75,22 @@ public class JavaKafka2Sample implements CommandLineRunner {
         }
     }
 
-    public void test() {
+    public void testCall() {
+        ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
+
+        //PARAM
+        String name = "JavaW2J";
+        String send_topic = "zeebeW2J";
+        String content = "content_"+name;
+
+        //GET
+        System.out.println("subscribeOneTopic");
+        MessageGandalf messageGandalf = new MessageGandalf(send_topic, name, "2011-10-02 18:48:05.123", "2020-12-01", content);
+        zeroMQJavaClient.createTopic(send_topic);
+        zeroMQJavaClient.sendMessageTopic(send_topic, messageGandalf.toJson());
+    }
+
+    /*public void test() {
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
         GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClient = new GrpcWorkflowEngineJavaClient();
 
@@ -138,5 +158,5 @@ public class JavaKafka2Sample implements CommandLineRunner {
             System.out.println("sendMessage");
             grpcBusJavaClient.sendMessage(topic, name, name+"_"+i);
         }
-    }
+    }*/
 }
