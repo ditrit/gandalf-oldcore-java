@@ -72,7 +72,7 @@ public class DeployJob implements JobHandler {
         //UNZIP
         succes &= archiveService.unzipBuildArchive(projectName);
         //DEPLOY
-        succes &= bashService.deployProject(projectName, 0);
+        //succes &= bashService.deployProject(projectName, 0);
 
         if(succes) {
             //Send job complete command

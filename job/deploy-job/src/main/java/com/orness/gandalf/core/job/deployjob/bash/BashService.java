@@ -10,7 +10,7 @@ import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.*;
 public class BashService {
 
 
-    public boolean deployProject(String projectName, int indice) {
+/*    public boolean deployProject(String projectName, int indice) {
         Process process;
         try {
             process = new ProcessBuilder(SCRIPT_DEPLOY, projectName+"-"+indice, projectName, SCRIPT_DEPLOY_DIRECTORY+projectName+"/target").start();
@@ -19,5 +19,5 @@ public class BashService {
             return false;
         }
         return process.exitValue() == 0 ? true : false;
-    }
+    }*/
 }
