@@ -23,7 +23,7 @@ public class BuildController {
     }
 
     @RequestMapping("/build/build/{projectUrl}")
-    public boolean register(@PathVariable("projectUrl") String projectUrl) {
+    public boolean build(@PathVariable("projectUrl") String projectUrl) {
         boolean succes = true;
         //CLONE
         succes &= bashService.cloneProject(projectUrl);
