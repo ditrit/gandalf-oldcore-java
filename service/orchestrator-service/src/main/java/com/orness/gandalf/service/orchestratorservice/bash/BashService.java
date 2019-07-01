@@ -1,6 +1,7 @@
 package com.orness.gandalf.service.orchestratorservice.bash;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class BashService {
     public boolean execute(String service, String command) {
         Process process;
         try {
-            process = new ProcessBuilder( SCRIPT_COMMAND_FILE, command, service).directory(new File(SCRIPT_RESSOURCES_FILE + "/")).start();
+            process = new ProcessBuilder(ResourceUtils.getFile(SCRIPT_RESSOURCES_FILE + "/./" + SCRIPT_COMMAND_FILE).getPath(), command, service).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -25,7 +26,7 @@ public class BashService {
     public boolean register(String service, String version) {
         Process process;
         try {
-            process = new ProcessBuilder( SCRIPT_REGISTER_FILE, service, version).directory(new File(SCRIPT_RESSOURCES_FILE + "/")).start();
+            process = new ProcessBuilder(ResourceUtils.getFile(SCRIPT_RESSOURCES_FILE + "/./" + SCRIPT_REGISTER_FILE).getPath(), service, version).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
