@@ -17,35 +17,44 @@ public class OrchestratorController {
     }
 
     @RequestMapping("/orchestrator/register/{service}/{version}")
-    public void register(@PathVariable("service") String service, @PathVariable("version") String version) { this.bashService.register(service, version); }
+    public boolean register(@PathVariable("service") String service, @PathVariable("version") String version) {
+        this.bashService.register(service, version);
+        return true;
+    }
 
     @RequestMapping("/orchestrator/deploy/{service}")
-    public void deploy(@PathVariable("service") String service) {
+    public boolean deploy(@PathVariable("service") String service) {
         this.bashService.execute(service, "deploy");
+        return true;
     }
 
     @RequestMapping("/orchestrator/undeploy/{service}")
-    public void undeploy(@PathVariable("service") String service) {
+    public boolean undeploy(@PathVariable("service") String service) {
         this.bashService.execute(service, "undeploy");
+        return true;
     }
 
     @RequestMapping("/orchestrator/stop/{service}")
-    public void stop(@PathVariable("service") String service) {
+    public boolean stop(@PathVariable("service") String service) {
         this.bashService.execute(service, "stop");
+        return true;
     }
 
     @RequestMapping("/orchestrator/start/{service}")
-    public void start(@PathVariable("service") String service) {
+    public boolean start(@PathVariable("service") String service) {
         this.bashService.execute(service, "start");
+        return true;
     }
 
     @RequestMapping("/orchestrator/scale_down/{service}")
-    public void scaleDown(@PathVariable("service") String service) {
+    public boolean scaleDown(@PathVariable("service") String service) {
         this.bashService.execute(service, "scale_down");
+        return true;
     }
 
     @RequestMapping("/orchestrator/scale_up/{service}")
-    public void scaleUp(@PathVariable("service") String service) {
+    public boolean scaleUp(@PathVariable("service") String service) {
         this.bashService.execute(service, "scale_up");
+        return true;
     }
 }

@@ -1,6 +1,6 @@
-package com.orness.gandalf.core.job.buildjob.job;
+package com.orness.gandalf.core.job.registerjob.job;
 
-import com.orness.gandalf.core.job.buildjob.build.BuildFeign;
+import com.orness.gandalf.core.job.registerjob.register.RegisterFeign;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;
@@ -17,10 +17,10 @@ import javax.annotation.PreDestroy;
 import java.time.Duration;
 import java.util.Map;
 
-import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.*;
+import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.KEY_VARIABLE_PROJECT_NAME;
 
 @Component
-public class BuildJob implements JobHandler {
+public class RegisterJob implements JobHandler {
 
     @Value("${gandalf.communication.client}")
     private String connectionWorker;
@@ -31,14 +31,14 @@ public class BuildJob implements JobHandler {
 
 
     private ZeebeClient zeebe;
-    private BuildFeign buildFeign;
+    private RegisterFeign registerFeign;
     private JobWorker subscription;
     private ZeroMQJavaClient zeroMQJavaClient;
 
     @Autowired
-    public BuildJob(ZeebeClient zeebe, BuildFeign buildFeign) {
+    public RegisterJob(ZeebeClient zeebe, RegisterFeign registerFeign) {
         this.zeebe = zeebe;
-        this.buildFeign = buildFeign;
+        this.registerFeign = registerFeign;
     }
 
     @PostConstruct
@@ -63,25 +63,26 @@ public class BuildJob implements JobHandler {
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
         MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
-        String projectUrl = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString();
-        //Build
-        succes = buildFeign.build(projectUrl);
+        String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString();
+        //Register
+        //TODO VAR
+        succes = registerFeign.register(projectName, "0");
 
         //ADD WORKFLOW VARIABLE ADD REPERTORY
 
         zeebe.newPublishMessageCommand()
                 .messageName("message")
-                .correlationKey("build")
+                .correlationKey("register")
                 .timeToLive(Duration.ofMinutes(30))
                 .send().join();
 
         if(succes) {
             //Send job complete command
-            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "build : success" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "register : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "build : fail" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "register : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }
