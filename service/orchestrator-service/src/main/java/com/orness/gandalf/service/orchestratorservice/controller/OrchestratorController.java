@@ -17,15 +17,10 @@ public class OrchestratorController {
     }
 
     @RequestMapping("/orchestrator/register/{service}/{version}")
-<<<<<<< HEAD
     public boolean register(@PathVariable("service") String service, @PathVariable("version") String version) {
         this.bashService.register(service, version);
         return true;
     }
-=======
-
-    public void register(@PathVariable("service") String service, @PathVariable("version") String version) { this.bashService.register(service, version); }
->>>>>>> 4ff4fde2665bde3c30afdf59875ced5129b3870c
 
     @RequestMapping("/orchestrator/deploy/{service}")
     public boolean deploy(@PathVariable("service") String service) {
