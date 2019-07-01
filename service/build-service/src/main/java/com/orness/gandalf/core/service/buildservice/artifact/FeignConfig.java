@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.job.buildjob.artifact;
+package com.orness.gandalf.core.service.buildservice.artifact;
 
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;

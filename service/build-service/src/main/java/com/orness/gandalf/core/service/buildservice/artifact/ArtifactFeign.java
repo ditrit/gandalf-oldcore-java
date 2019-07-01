@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.job.buildjob.artifact;
+package com.orness.gandalf.core.service.buildservice.artifact;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;

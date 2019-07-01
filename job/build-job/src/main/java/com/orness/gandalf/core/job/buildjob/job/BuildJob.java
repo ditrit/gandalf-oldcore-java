@@ -1,8 +1,6 @@
 package com.orness.gandalf.core.job.buildjob.job;
 
-import com.orness.gandalf.core.job.buildjob.archive.ArchiveService;
-import com.orness.gandalf.core.job.buildjob.bash.BashService;
-import com.orness.gandalf.core.job.buildjob.artifact.ArtifactService;
+import com.orness.gandalf.core.job.buildjob.build.BuildFeign;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;
@@ -33,18 +31,14 @@ public class BuildJob implements JobHandler {
 
 
     private ZeebeClient zeebe;
-    private BashService bashService;
-    private ArchiveService archiveService;
-    private ArtifactService artifactService;
+    private BuildFeign buildFeign;
     private JobWorker subscription;
     private ZeroMQJavaClient zeroMQJavaClient;
 
     @Autowired
-    public BuildJob(ZeebeClient zeebe, BashService bashService, ArchiveService archiveService, ArtifactService artifactService) {
+    public BuildJob(ZeebeClient zeebe, BuildFeign buildFeign) {
         this.zeebe = zeebe;
-        this.bashService = bashService;
-        this.archiveService = archiveService;
-        this.artifactService = artifactService;
+        this.buildFeign = buildFeign;
     }
 
     @PostConstruct
@@ -70,18 +64,9 @@ public class BuildJob implements JobHandler {
         boolean succes = true;
         MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
         String projectUrl = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString();
-        //CLONE
-        succes &= bashService.cloneProject(projectUrl);
-        //MVN CLEAN INSTALL
-        String projectFileName = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString().split("/")[1];
-        System.out.println(projectFileName);
-        String projectName = projectFileName.substring(0, projectFileName.length()-4);
-        System.out.println(projectName);
-        succes &= bashService.buildProject(projectName);
-        //TAR
-        succes &= archiveService.zipArchive(projectName);
-        //SEND TO STORAGE
-        succes &= artifactService.sendBuildToStorage(projectName);
+        //Build
+        succes = buildFeign.build(projectUrl);
+
         //ADD WORKFLOW VARIABLE ADD REPERTORY
 
         zeebe.newPublishMessageCommand()
@@ -92,11 +77,11 @@ public class BuildJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : success" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "build : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : fail" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "build : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }

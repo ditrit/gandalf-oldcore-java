@@ -17,6 +17,7 @@
     <modules>
         <module>build-job</module>
         <module>deploy-job</module>
+        <module>register-job</module>
     </modules>
 
     <properties>

@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.job.buildjob.bash;
+package com.orness.gandalf.core.service.buildservice.bash;
 
 import org.springframework.stereotype.Service;
 
@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.*;
+import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_BUILD_DIRECTORY;
 
 @Service
 public class BashService {

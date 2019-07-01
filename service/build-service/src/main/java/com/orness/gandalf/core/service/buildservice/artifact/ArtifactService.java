@@ -1,9 +1,10 @@
-package com.orness.gandalf.core.job.buildjob.artifact;
+package com.orness.gandalf.core.service.buildservice.artifact;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_CONF_FILE;
