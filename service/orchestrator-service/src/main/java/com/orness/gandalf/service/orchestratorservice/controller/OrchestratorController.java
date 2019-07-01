@@ -16,6 +16,9 @@ public class OrchestratorController {
         this.bashService = bashService;
     }
 
+    @RequestMapping("/orchestrator/register/{service}/{version}")
+    public void register(@PathVariable("service") String service, @PathVariable("version") String version) { this.bashService.execute(service, version); }
+
     @RequestMapping("/orchestrator/deploy/{service}")
     public void deploy(@PathVariable("service") String service) {
         this.bashService.execute(service, "deploy");

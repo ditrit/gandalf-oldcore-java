@@ -1,0 +1,213 @@
+# expected env : VERSION, NAME, ARTIFACT, SCALING
+
+mkdir -p /etc/gandalf
+
+usage() {
+	echo "service.sh execute service life-cycle operation"
+	echo "USAGE : $0 deploy|undeploy|stop|start|scale_up|scale_down"
+	exit 1
+}
+
+svc_name=$NAME
+artifact_zip=${ARTIFACT}_${VERSION}.zip
+pushd /tmp/$svc_name
+[ -d $svc_name ] || unzip $artifact_zip
+popd
+
+  cat > /tmp/$svc_name.sh <<EOF
+#!/bin/bash
+
+cat > $svc_name.hcl <<EOB
+{
+  "service": {
+    "id": "$svc_name",
+    "name": "$svc_name",
+  }
+}
+EOB
+
+cat > /usr/local/bin/$svc_name << EOB
+#!/bin/bash
+
+java -jar /opt/$svc_name/*.jar
+EOB
+
+chmod a+rx /usr/local/bin/$svc_name
+chmod a+r /opt/$svc_name
+
+cat > /etc/systemd/system/$svc_name-gandalf.service << EOB
+[Unit]
+Description=My Webapp Java REST Service
+[Service]
+User=root
+# The configuration file application.properties should be here:
+
+#change this to your workspace
+WorkingDirectory=/root/
+
+#path to executable. 
+ExecStart=/usr/local/bin/$svc_name
+
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=multi-user.target
+EOB
+
+sleep 30
+consul services register $svc_name.hcl
+
+systemctl enable $svc_name-gandalf
+systemctl start $svc_name-gandalf
+
+EOF
+
+deploy_svc() {
+  if [ -f "/etc/gandalf/$svc_name" ] 
+  then 
+    echo ERROR: $svc_name already deployed 
+    exit 1
+  fi
+  for inst_nb in `seq 1 $SCALING`
+  do
+    inst_name=${svc_name}-${inst_nb}
+    lxc launch gandalfimg $inst_name
+    lxc file push /tmp/$svc_name/$svc_name $inst_name/opt/ -p -r
+    lxc file push /tmp/$svc_name.sh $inst_name/root/
+    lxc exec $inst_name bash /root/$svc_name.sh 
+    echo $inst_nb > /etc/gandalf/$svc_name
+  done
+}
+
+undeploy_svc() {
+  if [ -f "/etc/gandalf/$svc_name" ] 
+  then 
+    nb=`cat /etc/gandalf/$svc_name`
+    for inst_nb in `seq $nb -1 1`
+    do
+      echo $inst_nb > /etc/gandalf/$svc_name
+      inst_name=${svc_name}-${inst_nb}
+      lxc stop $inst_name
+      lxc delete $inst_name
+    done
+    rm /etc/gandalf/$svc_name
+  else
+    echo ERROR : $svc_name not already deployed
+    echo exit 1
+  fi
+}
+
+stop_svc() {
+  if [ -f "/etc/gandalf/$svc_name" ] 
+  then 
+    nb=`cat /etc/gandalf/$svc_name`
+    if [ `expr $nb` -le 0 ] 
+    then 
+      echo "No instance to stop"
+      echo 0 > /etc/gandalf/$svc_name
+      exit 1
+    fi
+    for inst_nb in `seq 1 $nb`
+    do
+      inst_name=${svc_name}-${inst_nb}
+      lxc exec $inst_name systemctl stop $svc_name-gandalf
+    done
+  else
+    echo ERROR : $svc_name not already deployed
+    echo exit 1
+  fi
+}
+
+start_svc() {
+  if [ -f "/etc/gandalf/$svc_name" ] 
+  then 
+    nb=`cat /etc/gandalf/$svc_name`
+    if [ `expr $nb` -le 0 ] 
+    then 
+      echo "No instance to start"
+      echo 0 > /etc/gandalf/$svc_name
+      exit 1
+    fi
+    for inst_nb in `seq 1 $nb`
+    do
+      inst_name=${svc_name}-${inst_nb}
+      lxc exec $inst_name systemctl start $svc_name-gandalf
+    done
+  else
+    echo ERROR : $svc_name not already deployed
+    echo exit 1
+  fi
+}
+
+scale_down_svc() {
+  if [ -f "/etc/gandalf/$svc_name" ] 
+  then 
+    nb=`cat /etc/gandalf/$svc_name`
+    if [ `expr $nb` -le 0 ] 
+    then 
+      echo "Can not scale down"
+      echo 0 > /etc/gandalf/$svc_name
+      exit 1
+    fi
+    new_nb=`expr $nb - 1`
+    inst_name=${svc_name}-${nb}
+    lxc stop $inst_name
+    lxc delete $inst_name
+    echo $new_nb > /etc/gandalf/$svc_name
+  else
+    echo ERROR : $svc_name not already deployed
+    echo exit 1
+  fi
+}
+
+scale_up_svc() {
+  if [ -f "/etc/gandalf/$svc_name" ] 
+  then 
+    nb=`cat /etc/gandalf/$svc_name`
+    if [ `expr $nb` -lt 0 ] 
+    then 
+      nb=0
+      echo $nb > /etc/gandalf/$svc_name
+    fi
+    new_nb=`expr $nb + 1`
+    inst_name=${svc_name}-${new_nb}
+    lxc launch gandalfimg $inst_name
+    lxc file push /tmp/$svc_name/ $inst_name/opt/ -p -r
+    lxc file push /tmp/$svc_name.sh $inst_name/root/
+    lxc exec $inst_name bash $svc_name.sh 
+    echo $new_nb > /etc/gandalf/$svc_name
+  else
+    echo ERROR : $svc_name not already deployed
+    echo exit 1
+  fi
+}
+
+command=$1
+[ -z "$command" ] && usage
+case "$command" in
+  deploy)
+    deploy_svc
+    ;;
+  undeploy)
+    undeploy_svc
+    ;;
+         
+  start)
+    start_svc
+    ;;
+  stop)
+    stop_svc
+    ;;
+         
+  scale_up)
+    scale_up_svc
+    ;;
+  scale_down)
+    scale_down_svc
+    ;;
+  *)
+    usage
+esac
+
