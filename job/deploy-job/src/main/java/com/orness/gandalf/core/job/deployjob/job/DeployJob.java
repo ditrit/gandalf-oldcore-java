@@ -63,11 +63,7 @@ public class DeployJob implements JobHandler {
         String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString();
 
         //DEPLOY
-<<<<<<< HEAD
         succes &= deployFeign.deploy(projectName);
-=======
-        //succes &= bashService.deployProject(projectName, 0);
->>>>>>> 4ff4fde2665bde3c30afdf59875ced5129b3870c
 
         if(succes) {
             //Send job complete command
