@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.job.buildjob.job;
 
-import com.orness.gandalf.core.job.buildjob.build.BuildFeign;
+import com.orness.gandalf.core.job.buildjob.feign.BuildFeign;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;

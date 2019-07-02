@@ -24,7 +24,7 @@ public class OrchestratorController {
 
     @RequestMapping("/orchestrator/deploy/{service}")
     public boolean deploy(@PathVariable("service") String service) {
-        this.bashService.execute(service, "deploy");
+        this.bashService.execute(service, "feign");
         return true;
     }
 
