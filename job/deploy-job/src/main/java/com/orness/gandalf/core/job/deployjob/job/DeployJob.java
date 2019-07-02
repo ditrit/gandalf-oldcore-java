@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.job.deployjob.job;
 
-import com.orness.gandalf.core.job.deployjob.deploy.DeployFeign;
+import com.orness.gandalf.core.job.deployjob.feign.DeployFeign;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
@@ -25,7 +25,7 @@ public class DeployJob implements JobHandler {
     private String connectionWorker;
     @Value("${gandalf.communication.subscriber}")
     private String connectionSubscriber;
-    @Value("${gandalf.deploy.topic}")
+    @Value("${gandalf.feign.topic}")
     private String topicBuild;
 
     private ZeebeClient zeebe;
