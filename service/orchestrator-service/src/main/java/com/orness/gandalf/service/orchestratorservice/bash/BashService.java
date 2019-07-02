@@ -14,7 +14,7 @@ public class BashService {
     public boolean execute(String service, String command) {
         Process process;
         try {
-            process = new ProcessBuilder(ResourceUtils.getFile(SCRIPT_RESSOURCES_FILE + "/./" + SCRIPT_COMMAND_FILE).getPath(), command, service).start();
+            process = new ProcessBuilder( SCRIPT_COMMAND_FILE, command, service).directory(new File(SCRIPT_RESSOURCES_FILE + "/")).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
