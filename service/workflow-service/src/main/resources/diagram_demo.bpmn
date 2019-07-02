@@ -40,7 +40,7 @@
   </bpmn:process>
   <bpmn:message id="Message_17swi1f" name="message">
     <bpmn:extensionElements>
-      <zeebe:subscription correlationKey="correlation" />
+      <zeebe:subscription correlationKey="listen_topic" />
     </bpmn:extensionElements>
   </bpmn:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
