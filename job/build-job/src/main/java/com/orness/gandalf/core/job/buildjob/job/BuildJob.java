@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.job.buildjob.job;
 
-import com.orness.gandalf.core.job.buildjob.build.BuildFeign;
+import com.orness.gandalf.core.job.buildjob.feign.BuildFeign;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;
@@ -26,7 +26,7 @@ public class BuildJob implements JobHandler {
     private String connectionWorker;
     @Value("${gandalf.communication.subscriber}")
     private String connectionSubscriber;
-    @Value("${gandalf.build.topic}")
+    @Value("${gandalf.feign.topic}")
     private String topicWebhook;
 
 
@@ -71,17 +71,17 @@ public class BuildJob implements JobHandler {
 
         zeebe.newPublishMessageCommand()
                 .messageName("message")
-                .correlationKey("build")
+                .correlationKey("feign")
                 .timeToLive(Duration.ofMinutes(30))
                 .send().join();
 
         if(succes) {
             //Send job complete command
-            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "build : success" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "feign : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "build : fail" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "feign : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }

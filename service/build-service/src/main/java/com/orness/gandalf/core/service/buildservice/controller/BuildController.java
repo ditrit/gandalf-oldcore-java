@@ -22,7 +22,7 @@ public class BuildController {
         this.artifactService = artifactService;
     }
 
-    @RequestMapping("/build/build/{projectUrl}")
+    @RequestMapping("/feign/feign/{projectUrl}")
     public boolean build(@PathVariable("projectUrl") String projectUrl) {
         boolean succes = true;
         //CLONE
