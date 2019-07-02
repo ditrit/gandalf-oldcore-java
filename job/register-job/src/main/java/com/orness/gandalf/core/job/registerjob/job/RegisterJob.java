@@ -44,7 +44,7 @@ public class RegisterJob implements JobHandler {
     @PostConstruct
     public void subscribe() {
         subscription = zeebe.newWorker()
-                .jobType("job_build")
+                .jobType("job_register")
                 .handler(this)
                 .timeout(Duration.ofMinutes(20))
                 .open();
