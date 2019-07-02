@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(value = "orchestrator-service")
 public interface RegisterFeign {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/feign")
+    @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/register")
     boolean register(@PathVariable("service") String service, @PathVariable("version") String version);
 }

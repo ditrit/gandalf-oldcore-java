@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(value = "feign-service")
 public interface BuildFeign {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/feign/feign")
+    @RequestMapping(method = RequestMethod.GET, value = "/build/build")
     boolean build(@PathVariable("projectUrl") String projectUrl);
 }
