@@ -37,29 +37,21 @@ public class ConnectorWorkflowEngineManager {
     }
 
     public void subscribeTopic(String topic) {
-        System.out.println("SUBOLOLOL");
-
         String beanName = topic + "SubscriberWorkflowEngineZeroMQ";
         //BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(SubscriberWorkflowEngineZeroMQ.class).setLazyInit(true);
         //beanDefinitionRegistry.registerBeanDefinition(beanName, builder.getBeanDefinition());
         if(!this.context.containsBean(beanName)) {
-            System.out.println("CREATE");
             this.context.registerBean(beanName, SubscriberWorkflowEngineZeroMQ.class, () -> new SubscriberWorkflowEngineZeroMQ(connectionSubscriber, topic));
             ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
 
             SubscriberWorkflowEngineZeroMQ subscriberWorkflowEngineZeroMQ = (SubscriberWorkflowEngineZeroMQ) context.getBean(beanName);
             taskExecutor.execute(subscriberWorkflowEngineZeroMQ);
         }
-
-
     }
 
     public void unsubscribeTopic(String topic) {
-        System.out.println("SUBOLOLOL");
         String beanName = topic + "SubscriberWorkflowEngineZeroMQ";
-
         //ApplicationContext context = new AnnotationConfigApplicationContext(ConnectorWorkflowEngineServiceConfiguration.class);
-
         SubscriberWorkflowEngineZeroMQ subscriberWorkflowEngineZeroMQ = (SubscriberWorkflowEngineZeroMQ) context.getBean(beanName);
         subscriberWorkflowEngineZeroMQ.close();
     }

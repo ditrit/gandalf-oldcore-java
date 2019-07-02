@@ -36,7 +36,6 @@ public class WorkflowManager {
         workflow_variables.put("content", workflow_content);
         workflow_variables.put("listen_topic", workflow_listen_topic);
         workflow_variables.put("send_topic", workflow_send_topic);
-        workflow_variables.put("build", "build");
         workflow_variables.put(KEY_VARIABLE_PROJECT_URL, "git@gitlab:romain.fairant/test.git");
 
         System.out.println(workflow_bpmn_process_id);
