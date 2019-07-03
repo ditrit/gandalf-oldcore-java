@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/version-control")
 public class ConnectorVersionControlController {
 
     @Value("${gandalf.communication.client}")
@@ -22,8 +21,8 @@ public class ConnectorVersionControlController {
     private String connectionSubscriber;
     @Value("${gandalf.webhook.topic}")
     private String topicWebhook;
-    @Value("${gandalf.database.topic}")
-    private String topicDatabase;
+//    @Value("${gandalf.database.topic}")
+//    private String topicDatabase;
 
     private ConnectorVersionControlManager connectorVersionControlManager;
 
@@ -32,7 +31,7 @@ public class ConnectorVersionControlController {
         this.connectorVersionControlManager = connectorVersionControlManager;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/merge")
+    @RequestMapping(method = RequestMethod.POST, value = "/version-control/merge")
     public void mergeRequestEvents(@RequestBody String mergeRequest) throws IOException {
 
         CustomMergeRequest customMergeRequest = connectorVersionControlManager.parseEventMergeRequest(mergeRequest);

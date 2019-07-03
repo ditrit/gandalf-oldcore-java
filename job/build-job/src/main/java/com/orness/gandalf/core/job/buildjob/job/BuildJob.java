@@ -27,7 +27,7 @@ public class BuildJob implements JobHandler {
     @Value("${gandalf.communication.subscriber}")
     private String connectionSubscriber;
     @Value("${gandalf.build.topic}")
-    private String topicWebhook;
+    private String topicBuild;
 
 
     private ZeebeClient zeebe;
@@ -62,13 +62,11 @@ public class BuildJob implements JobHandler {
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
-        MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
         String projectUrl = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString();
         //Build
         succes = buildFeign.build(projectUrl);
 
         //ADD WORKFLOW VARIABLE ADD REPERTORY
-
         zeebe.newPublishMessageCommand()
                 .messageName("message")
                 .correlationKey("build")
