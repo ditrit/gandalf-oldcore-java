@@ -26,8 +26,8 @@ public class RegisterJob implements JobHandler {
     private String connectionWorker;
     @Value("${gandalf.communication.subscriber}")
     private String connectionSubscriber;
-    @Value("${gandalf.feign.topic}")
-    private String topicWebhook;
+    @Value("${gandalf.register.topic}")
+    private String topicRegister;
 
 
     private ZeebeClient zeebe;
@@ -62,7 +62,7 @@ public class RegisterJob implements JobHandler {
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
-        MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
+        MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicRegister);
         String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString();
         //Register
         //TODO VAR
@@ -72,17 +72,17 @@ public class RegisterJob implements JobHandler {
 
         zeebe.newPublishMessageCommand()
                 .messageName("message")
-                .correlationKey("feign")
+                .correlationKey("register")
                 .timeToLive(Duration.ofMinutes(30))
                 .send().join();
 
         if(succes) {
             //Send job complete command
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "feign : success" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "register : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "feign : fail" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "register : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }

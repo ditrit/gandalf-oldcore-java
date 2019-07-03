@@ -26,8 +26,8 @@ public class BuildJob implements JobHandler {
     private String connectionWorker;
     @Value("${gandalf.communication.subscriber}")
     private String connectionSubscriber;
-    @Value("${gandalf.feign.topic}")
-    private String topicWebhook;
+    @Value("${gandalf.build.topic}")
+    private String topicBuild;
 
 
     private ZeebeClient zeebe;
@@ -62,7 +62,6 @@ public class BuildJob implements JobHandler {
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
-        MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
         String projectUrl = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString();
         //Build
         succes = buildFeign.build(projectUrl);
@@ -71,17 +70,17 @@ public class BuildJob implements JobHandler {
 
         zeebe.newPublishMessageCommand()
                 .messageName("message")
-                .correlationKey("feign")
+                .correlationKey("build")
                 .timeToLive(Duration.ofMinutes(30))
                 .send().join();
 
         if(succes) {
             //Send job complete command
-            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "feign : success" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "build : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "feign : fail" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectUrl + "build : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }

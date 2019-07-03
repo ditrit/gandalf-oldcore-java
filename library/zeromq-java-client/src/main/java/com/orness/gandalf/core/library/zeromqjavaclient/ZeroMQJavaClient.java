@@ -14,8 +14,7 @@ import java.util.concurrent.Future;
 
 public class ZeroMQJavaClient {
 
-    @Value("${gandalf.database.topic}")
-    private String databaseTopic;
+    private String databaseTopic = "database";
     private String connectionWorker;
     private String connectionSubscriber;
     private ClientBusZeroMQ clientBusZeroMQ;
@@ -44,6 +43,7 @@ public class ZeroMQJavaClient {
         System.out.println("SEND CLIENT");
         System.out.println("SEND CLIENT " + topic);
         System.out.println("SEND CLIENT " + message);
+        System.out.println("DB " + databaseTopic);
         clientBusZeroMQ.sendMessageTopic(topic, message);
         clientBusZeroMQ.sendMessageTopic(databaseTopic, message);
     }
