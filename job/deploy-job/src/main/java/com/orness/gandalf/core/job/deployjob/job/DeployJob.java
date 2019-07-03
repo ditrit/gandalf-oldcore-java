@@ -25,8 +25,8 @@ public class DeployJob implements JobHandler {
     private String connectionWorker;
     @Value("${gandalf.communication.subscriber}")
     private String connectionSubscriber;
-    @Value("${gandalf.feign.topic}")
-    private String topicBuild;
+    @Value("${gandalf.deploy.topic}")
+    private String topicDeploy;
 
     private ZeebeClient zeebe;
     private DeployFeign deployFeign;
@@ -65,13 +65,19 @@ public class DeployJob implements JobHandler {
         //DEPLOY
         succes &= deployFeign.deploy(projectName);
 
+        zeebe.newPublishMessageCommand()
+                .messageName("message")
+                .correlationKey("deploy")
+                .timeToLive(Duration.ofMinutes(30))
+                .send().join();
+
         if(succes) {
             //Send job complete command
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : success" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "deploy : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "build : fail" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "deploy : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
         }
     }

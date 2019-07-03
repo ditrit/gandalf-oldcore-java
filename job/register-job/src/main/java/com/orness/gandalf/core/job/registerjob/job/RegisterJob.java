@@ -26,8 +26,8 @@ public class RegisterJob implements JobHandler {
     private String connectionWorker;
     @Value("${gandalf.communication.subscriber}")
     private String connectionSubscriber;
-    @Value("${gandalf.build.topic}")
-    private String topicWebhook;
+    @Value("${gandalf.register.topic}")
+    private String topicRegister;
 
 
     private ZeebeClient zeebe;
@@ -62,7 +62,7 @@ public class RegisterJob implements JobHandler {
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
-        MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicWebhook);
+        //MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicRegister);
         String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString();
         //Register
         //TODO VAR

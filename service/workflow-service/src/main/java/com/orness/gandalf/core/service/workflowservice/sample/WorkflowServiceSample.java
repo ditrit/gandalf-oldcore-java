@@ -37,15 +37,20 @@ public class WorkflowServiceSample implements CommandLineRunner {
         DeploymentEvent deploymentEvent;
         WorkflowInstanceEvent workflowInstanceEvent;
         ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
-        zeroMQJavaClient.subscribeWorkflowEngineTopic("webhook");
+        //CREATE TOPIC
+        zeroMQJavaClient.createTopic("webhook");
+
         //WORKFLOW
-        String name = "diagram_1.bpmn";
+        String name = "diagram_demo.bpmn";
         deploymentEvent = workflowManager.deployWorkflow(name);
         String id = workflowManager.getIdDeployment(deploymentEvent);
         System.out.println(id);
         String instance_name_continue = name;
         String instance_content = "content_" + instance_name_continue;
         workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue,instance_content, "webhook","");
+
+        //SUB TOPIC
+        zeroMQJavaClient.subscribeWorkflowEngineTopic("webhook");
     }
 
     public void testJob() {
