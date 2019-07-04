@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(value = "orchestrator-service")
+@FeignClient(value = "orchestrator-service.service.gandalf")
 public interface RegisterFeign {
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/register")
