@@ -42,7 +42,7 @@ public class WorkflowServiceSample implements CommandLineRunner {
 
         //SUB TOPIC
         zeroMQJavaClient.subscribeWorkflowEngineTopic("webhook");
-        
+
         //WORKFLOW
         String name = "diagram_demo.bpmn";
         deploymentEvent = workflowManager.deployWorkflow(name);
