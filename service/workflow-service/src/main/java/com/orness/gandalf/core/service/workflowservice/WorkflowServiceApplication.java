@@ -17,13 +17,5 @@ public class WorkflowServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WorkflowServiceApplication.class, args);
 	}
-
-	@Bean
-	public ZeebeClient zeebe() {
-		//Client
-		ZeebeClient zeebeClient = ZeebeClient.newClient();
-
-		return zeebeClient;
-	}
-
+	
 }
