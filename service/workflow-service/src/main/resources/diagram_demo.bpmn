@@ -85,8 +85,4 @@
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
-<<<<<<< HEAD
 </bpmn:definitions>
-=======
-</bpmn:definitions>
->>>>>>> core_dev
