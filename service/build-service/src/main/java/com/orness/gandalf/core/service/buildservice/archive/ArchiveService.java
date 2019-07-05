@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -18,6 +21,14 @@ public class ArchiveService {
         boolean succes = false;
         FileOutputStream fos = null;
         try {
+            Path path = Paths.get(SCRIPT_DEPLOY_DIRECTORY);
+            if (!Files.exists(path)) {
+                Files.createDirectory(path);
+                System.out.println("Directory created");
+            } else {
+                System.out.println("Directory already exists");
+            }
+
             new File(SCRIPT_DEPLOY_DIRECTORY).createNewFile();
             fos = new FileOutputStream(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + ".zip");
             ZipOutputStream zipOut = new ZipOutputStream(fos);

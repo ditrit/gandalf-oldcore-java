@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.*;
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_BUILD_DIRECTORY;
@@ -16,8 +19,14 @@ public class BashService {
     public boolean cloneProject(String url) {
         Process process;
         try {
-            build_directory = new File(SCRIPT_BUILD_DIRECTORY + "/");
-            build_directory.createNewFile();
+            Path path = Paths.get(SCRIPT_BUILD_DIRECTORY);
+            if (!Files.exists(path)) {
+                Files.createDirectory(path);
+                System.out.println("Directory created");
+            } else {
+                System.out.println("Directory already exists");
+            }
+
             process = new ProcessBuilder( "bash", "-c", SCRIPT_CLONE + " " + url).directory(build_directory).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
