@@ -1,6 +1,6 @@
+/*
 package com.orness.gandalf.core.service.buildservice.artifact;
 
-import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,4 +19,4 @@ public class FeignConfig {
     public Encoder encoder() {
         return new SpringFormEncoder(new SpringEncoder(messageConverters));
     }
-}
+}*/
