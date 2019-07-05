@@ -36,7 +36,8 @@ public class ArtifactStorageService {
 
     public String storeFile(File file, File conf, String version) throws Exception {
 
-        File confSaveVersion = new File(fileStorageLocation + "/" + (file.getName()) + "_" +  version + ".ini");
+        conf.createNewFile();
+	File confSaveVersion = new File(fileStorageLocation + "/" + (file.getName()) + "_" +  version + ".ini");
         confSaveVersion.createNewFile();
         System.out.println("toto 1");
         FileChannel src = new FileInputStream(conf).getChannel();
