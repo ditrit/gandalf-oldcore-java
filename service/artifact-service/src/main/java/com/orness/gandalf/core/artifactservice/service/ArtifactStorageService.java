@@ -6,8 +6,11 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.net.MalformedURLException;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,9 +36,16 @@ public class ArtifactStorageService {
 
     public String storeFile(File file, File conf, String version) throws Exception {
 
-        File confSaveVersion = new File(fileStorageLocation + "/" + getNameWithoutExtension(file.getName()) + "_" +  version + ".ini");
+        File confSaveVersion = new File(fileStorageLocation + "/" + (file.getName()) + "_" +  version + ".ini");
         confSaveVersion.createNewFile();
-        Files.copy(conf.toPath(), confSaveVersion.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("toto 1");
+        FileChannel src = new FileInputStream(conf).getChannel();
+        System.out.println("toto 2");
+        FileChannel dest = new FileOutputStream(confSaveVersion).getChannel();
+        System.out.println("toto 3");
+        dest.transferFrom(src, 0, src.size());
+        System.out.println("toto 4");
+        //Files.copy(conf.toPath(), confSaveVersion.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         File fileSaveVersion = new File(fileStorageLocation + "/" + getNameWithoutExtension(file.getName()) + "_" + version + ".zip");
         fileSaveVersion.createNewFile();

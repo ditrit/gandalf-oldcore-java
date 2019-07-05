@@ -26,7 +26,9 @@ public class ArtifactRestController {
     @Headers("Content-Type: application/zip")
     public void uploadBuild(@RequestParam("file") File file, @RequestParam("conf") File conf, @RequestParam("version") String version) {
         String fileName = null;
-        System.out.println(file.getName());
+        System.out.println(file.getAbsolutePath());
+        System.out.println(conf.getAbsolutePath());
+
         try {
             fileName = artifactStorageService.storeFile(file, conf, version);
         } catch (Exception e) {
