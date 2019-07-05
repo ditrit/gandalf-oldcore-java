@@ -36,6 +36,17 @@ public class ArtifactStorageService {
 
         File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getFileName()) + "_" +  version + ".ini");
         FileUtils.writeByteArrayToFile(confSaveVersion, conf.getData());
+        conf.createNewFile();
+	    File confSaveVersin = new File(fileStorageLocation + "/" + (file.getName()) + "_" +  version + ".ini");
+        confSaveVersion.createNewFile();
+        System.out.println("toto 1");
+        FileChannel src = new FileInputStream(conf).getChannel();
+        System.out.println("toto 2");
+        FileChannel dest = new FileOutputStream(confSaveVersion).getChannel();
+        System.out.println("toto 3");
+        dest.transferFrom(src, 0, src.size());
+        System.out.println("toto 4");
+        //Files.copy(conf.toPath(), confSaveVersion.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         File fileSaveVersion = new File(fileStorageLocation + "/" + (file.getFileName()) + "_" +  version + ".zip");
         FileUtils.writeByteArrayToFile(fileSaveVersion, file.getData());
