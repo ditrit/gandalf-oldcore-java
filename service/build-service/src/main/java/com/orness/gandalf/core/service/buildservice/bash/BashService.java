@@ -14,8 +14,6 @@ import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SC
 @Service
 public class BashService {
 
-    private File build_directory;
-
     public boolean cloneProject(String url) {
         Process process;
         try {
@@ -27,7 +25,7 @@ public class BashService {
                 System.out.println("Directory already exists");
             }
 
-            process = new ProcessBuilder( "bash", "-c", SCRIPT_CLONE + " " + url).directory(build_directory).start();
+            process = new ProcessBuilder( "bash", "-c", SCRIPT_CLONE + " " + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -39,7 +37,7 @@ public class BashService {
     public boolean buildProject(String projectName) {
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", SCRIPT_BUILD).directory(build_directory).start();
+            process = new ProcessBuilder("bash", "-c", SCRIPT_BUILD).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
