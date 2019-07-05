@@ -2,12 +2,15 @@ package com.orness.gandalf.core.artifactservice.controller;
 
 import com.orness.gandalf.core.artifactservice.service.ArtifactStorageService;
 import feign.Headers;
+import feign.Param;
+import feign.form.FormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,12 +26,9 @@ public class ArtifactRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
-    @Headers("Content-Type: application/zip")
-    public void uploadBuild(@RequestParam("file") File file, @RequestParam("conf") File conf, @RequestParam("version") String version) {
+    @Headers("Content-Type: multipart/form-data")
+    public void uploadBuild(@Param("file") FormData file, @Param("conf") FormData conf, @Param("version") String version) {
         String fileName = null;
-        System.out.println(file.getAbsolutePath());
-        System.out.println(conf.getAbsolutePath());
-
         try {
             fileName = artifactStorageService.storeFile(file, conf, version);
         } catch (Exception e) {

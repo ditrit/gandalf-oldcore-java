@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.service.buildservice.artifact;
 
+import feign.form.FormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +25,18 @@ public class ArtifactService {
         File file = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + ".zip");
         File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + projectName + ".ini");
         String version = null;
+        FormData formDataFile = null;
+        FormData formDataConf = null;
         try {
             version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
+            formDataFile = new FormData("", projectName+".zip", Files.readAllBytes(file.toPath()));
+            formDataConf = new FormData("", projectName+".ini", Files.readAllBytes(conf.toPath()));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        this.artifactFeign.uploadBuild(file, conf, version);
+        this.artifactFeign.uploadBuild(formDataFile, formDataConf, version);
 
         return true;
     }

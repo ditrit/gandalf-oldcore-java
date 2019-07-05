@@ -1,20 +1,18 @@
 package com.orness.gandalf.core.artifactservice.service;
 
+import feign.form.FormData;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.net.MalformedURLException;
-import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 import static com.orness.gandalf.core.module.constantmodule.storage.StorageConstant.BUILD_PROJECT_DIRECTORY;
 
@@ -34,22 +32,13 @@ public class ArtifactStorageService {
         }
     }
 
-    public String storeFile(File file, File conf, String version) throws Exception {
+    public String storeFile(FormData file, FormData conf, String version) throws Exception {
 
-        File confSaveVersion = new File(fileStorageLocation + "/" + (file.getName()) + "_" +  version + ".ini");
-        confSaveVersion.createNewFile();
-        System.out.println("toto 1");
-        FileChannel src = new FileInputStream(conf).getChannel();
-        System.out.println("toto 2");
-        FileChannel dest = new FileOutputStream(confSaveVersion).getChannel();
-        System.out.println("toto 3");
-        dest.transferFrom(src, 0, src.size());
-        System.out.println("toto 4");
-        //Files.copy(conf.toPath(), confSaveVersion.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getFileName()) + "_" +  version + ".ini");
+        FileUtils.writeByteArrayToFile(confSaveVersion, conf.getData());
 
-        File fileSaveVersion = new File(fileStorageLocation + "/" + getNameWithoutExtension(file.getName()) + "_" + version + ".zip");
-        fileSaveVersion.createNewFile();
-        Files.copy(file.toPath(), fileSaveVersion.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        File fileSaveVersion = new File(fileStorageLocation + "/" + (file.getFileName()) + "_" +  version + ".zip");
+        FileUtils.writeByteArrayToFile(fileSaveVersion, file.getData());
 
         return confSaveVersion.getName();
     }
