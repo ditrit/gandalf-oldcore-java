@@ -11,10 +11,14 @@ import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SC
 @Service
 public class BashService {
 
+    private File build_directory;
+
     public boolean cloneProject(String url) {
         Process process;
         try {
-            process = new ProcessBuilder( "bash", "-c", SCRIPT_CLONE + " " + url).directory(new File(SCRIPT_BUILD_DIRECTORY + "/")).start();
+            build_directory = new File(SCRIPT_BUILD_DIRECTORY + "/");
+            build_directory.createNewFile();
+            process = new ProcessBuilder( "bash", "-c", SCRIPT_CLONE + " " + url).directory(build_directory).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -26,7 +30,7 @@ public class BashService {
     public boolean buildProject(String projectName) {
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", SCRIPT_BUILD).directory(new File(SCRIPT_BUILD_DIRECTORY + "/" + projectName + "/")).start();
+            process = new ProcessBuilder("bash", "-c", SCRIPT_BUILD).directory(build_directory).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
