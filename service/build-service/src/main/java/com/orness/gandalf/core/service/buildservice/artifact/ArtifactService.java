@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_CONF_FILE;
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_DIRECTORY;
 
 @Service
@@ -23,7 +22,7 @@ public class ArtifactService {
 
     public boolean sendBuildToStorage(String projectName) {
         File file = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + ".zip");
-        File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + SCRIPT_DEPLOY_CONF_FILE);
+        File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + projectName + ".ini");
         String version = null;
         try {
             version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
