@@ -25,6 +25,13 @@ public class ArtifactService {
         File file = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + ".tar.gz");
         File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + projectName + ".ini");
         String version = null;
+        try {
+            version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+      /*  String version = null;
         FormData formDataFile = null;
         FormData formDataConf = null;
         try {
@@ -37,7 +44,12 @@ public class ArtifactService {
         }
         System.out.println(formDataFile.getFileName());
         System.out.println(formDataConf.getFileName());
-        this.artifactFeign.uploadBuild(formDataFile, formDataConf, version);
+        this.artifactFeign.uploadBuild(formDataFile, formDataConf, version);*/
+        File[] files = new File[2];
+        files[0] = file;
+        files[1] = conf;
+
+        this.artifactFeign.uploadBuild(files, version);
 
         return true;
     }

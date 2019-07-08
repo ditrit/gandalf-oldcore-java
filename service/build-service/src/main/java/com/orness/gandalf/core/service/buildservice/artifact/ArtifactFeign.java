@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
+
 @FeignClient(name = "artifact-service", url = "artifact-service.service.gandalf:10000", configuration = FeignConfig.class)
 public interface ArtifactFeign {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     @Headers("Content-Type: multipart/form-data")
-    void uploadBuild(@RequestParam("file") FormData file, @RequestParam("conf") FormData conf, @RequestParam("version") String version);
+    void uploadBuild(@Param("files") File[] files, @Param("version") String version);
 }

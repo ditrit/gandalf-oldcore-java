@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,13 +33,13 @@ public class ArtifactStorageService {
         }
     }
 
-    public String storeFile(FormData file, FormData conf, String version) throws Exception {
+    public String storeFile(MultipartFile file, MultipartFile conf, String version) throws Exception {
 
-        File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getFileName()) + "_" +  version + ".ini");
-        FileUtils.writeByteArrayToFile(confSaveVersion, conf.getData());
+        File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getOriginalFilename()) + "_" +  version + ".ini");
+        FileUtils.writeByteArrayToFile(confSaveVersion, conf.getBytes());
 
-        File fileSaveVersion = new File(fileStorageLocation + "/" + (file.getFileName()) + "_" +  version + ".tar.gz");
-        FileUtils.writeByteArrayToFile(fileSaveVersion, file.getData());
+        File fileSaveVersion = new File(fileStorageLocation + "/" + (file.getOriginalFilename()) + "_" +  version + ".tar.gz");
+        FileUtils.writeByteArrayToFile(fileSaveVersion, file.getBytes());
 
         return confSaveVersion.getName();
     }

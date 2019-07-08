@@ -27,10 +27,10 @@ public class ArtifactRestController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     @Headers("Content-Type: multipart/form-data")
-    public void uploadBuild(@RequestParam("file") FormData file, @RequestParam("conf") FormData conf, @RequestParam("version") String version) {
+    public void uploadBuild(@RequestParam("file")  MultipartFile[] files, @RequestParam("version") String version) {
         String fileName = null;
         try {
-            fileName = artifactStorageService.storeFile(file, conf, version);
+            fileName = artifactStorageService.storeFile(files[0], files[1], version);
         } catch (Exception e) {
             e.printStackTrace();
         }
