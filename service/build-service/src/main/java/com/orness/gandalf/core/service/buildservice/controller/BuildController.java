@@ -34,7 +34,8 @@ public class BuildController {
         System.out.println(projectName);
         succes &= bashService.buildProject(projectName);
         //TAR
-        succes &= archiveService.zipArchive(projectName);
+        //succes &= archiveService.zipArchive(projectName);
+        succes &= bashService.tarProject(projectName);
         //SEND TO STORAGE
         succes &= artifactService.sendBuildToStorage(projectName);
          return succes;
