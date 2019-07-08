@@ -35,7 +35,8 @@ public class ArtifactService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        System.out.println(formDataFile.getFileName());
+        System.out.println(formDataConf.getFileName());
         this.artifactFeign.uploadBuild(formDataFile, formDataConf, version);
 
         return true;
