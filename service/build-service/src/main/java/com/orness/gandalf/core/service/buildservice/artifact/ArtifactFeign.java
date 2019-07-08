@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "artifact-service", url = "artifact-service.service.gandalf:10000")
+@FeignClient(name = "artifact-service", url = "artifact-service.service.gandalf:10000", configuration = FeignConfig.class)
 public interface ArtifactFeign {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
