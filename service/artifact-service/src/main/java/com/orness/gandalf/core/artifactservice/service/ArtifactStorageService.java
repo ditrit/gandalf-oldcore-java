@@ -37,7 +37,7 @@ public class ArtifactStorageService {
         File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getFileName()) + "_" +  version + ".ini");
         FileUtils.writeByteArrayToFile(confSaveVersion, conf.getData());
 
-        File fileSaveVersion = new File(fileStorageLocation + "/" + (file.getFileName()) + "_" +  version + ".zip");
+        File fileSaveVersion = new File(fileStorageLocation + "/" + (file.getFileName()) + "_" +  version + ".tar.gz");
         FileUtils.writeByteArrayToFile(fileSaveVersion, file.getData());
 
         return confSaveVersion.getName();

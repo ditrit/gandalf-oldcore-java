@@ -22,14 +22,14 @@ public class ArtifactService {
     }
 
     public boolean sendBuildToStorage(String projectName) {
-        File file = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + ".zip");
+        File file = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + ".tar.gz");
         File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + projectName + ".ini");
         String version = null;
         FormData formDataFile = null;
         FormData formDataConf = null;
         try {
             version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
-            formDataFile = new FormData("", projectName+".zip", Files.readAllBytes(file.toPath()));
+            formDataFile = new FormData("", projectName+".tar.gz", Files.readAllBytes(file.toPath()));
             formDataConf = new FormData("", projectName+".ini", Files.readAllBytes(conf.toPath()));
 
         } catch (IOException e) {
