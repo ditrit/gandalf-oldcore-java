@@ -27,7 +27,7 @@ public class ArtifactRestController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     @Headers("Content-Type: multipart/form-data")
-    public void uploadBuild(@RequestParam("file")  MultipartFile[] files, @RequestParam("version") String version) {
+    public void uploadBuild(@RequestParam("file")  MultipartFile[] files, @RequestPart("version") String version) {
         String fileName = null;
         try {
             fileName = artifactStorageService.storeFile(files[0], files[1], version);

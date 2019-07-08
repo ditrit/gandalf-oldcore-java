@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
 import java.io.File;
 
@@ -15,5 +16,5 @@ public interface ArtifactFeign {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     @Headers("Content-Type: multipart/form-data")
-    void uploadBuild(@Param("files") File[] files, @Param("version") String version);
+    void uploadBuild(@RequestParam("files") File[] files, @RequestPart("version") String version);
 }
