@@ -1,6 +1,5 @@
 package com.orness.gandalf.core.service.buildservice.artifact;
 
-import feign.form.FormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
