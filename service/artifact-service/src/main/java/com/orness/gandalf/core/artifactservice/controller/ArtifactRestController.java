@@ -25,12 +25,23 @@ public class ArtifactRestController {
         this.artifactStorageService = artifactStorageService;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/upload")
+    @RequestMapping(method = RequestMethod.POST, value = "/upload/file")
     @Headers("Content-Type: multipart/form-data")
-    public void uploadBuild(@RequestParam("file")  MultipartFile[] files, @RequestPart("version") String version) {
+    public void uploadBuildFile(@RequestParam("version") String version, @RequestPart("file")  MultipartFile file) {
         String fileName = null;
         try {
-            fileName = artifactStorageService.storeFile(files[0], files[1], version);
+            fileName = artifactStorageService.storeFile(file, version);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/upload/conf")
+    @Headers("Content-Type: multipart/form-data")
+    public void uploadBuildConf(@RequestParam("version") String version, @RequestPart("file")  MultipartFile conf) {
+        String fileName = null;
+        try {
+            fileName = artifactStorageService.storeConf(conf, version);
         } catch (Exception e) {
             e.printStackTrace();
         }

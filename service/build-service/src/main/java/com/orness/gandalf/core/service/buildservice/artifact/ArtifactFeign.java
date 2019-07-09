@@ -14,7 +14,11 @@ import java.io.File;
 @FeignClient(name = "artifact-service", url = "artifact-service.service.gandalf:10000", configuration = FeignConfig.class)
 public interface ArtifactFeign {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/upload")
+    @RequestMapping(method = RequestMethod.POST, value = "/upload/file")
     @Headers("Content-Type: multipart/form-data")
-    void uploadBuild(@RequestPart("files") File[] files, @RequestPart("version") String version);
+    void uploadBuildFile(@RequestParam("file") File file, @RequestPart("version") String version);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/upload/conf")
+    @Headers("Content-Type: multipart/form-data")
+    void uploadBuildConf(@RequestParam("conf") File conf, @RequestPart("version") String version);
 }

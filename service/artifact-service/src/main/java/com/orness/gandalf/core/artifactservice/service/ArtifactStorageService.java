@@ -33,13 +33,18 @@ public class ArtifactStorageService {
         }
     }
 
-    public String storeFile(MultipartFile file, MultipartFile conf, String version) throws Exception {
-
-        File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getOriginalFilename()) + "_" +  version + ".ini");
-        FileUtils.writeByteArrayToFile(confSaveVersion, conf.getBytes());
+    public String storeFile(MultipartFile file, String version) throws Exception {
 
         File fileSaveVersion = new File(fileStorageLocation + "/" + (file.getOriginalFilename()) + "_" +  version + ".tar.gz");
         FileUtils.writeByteArrayToFile(fileSaveVersion, file.getBytes());
+
+        return fileSaveVersion.getName();
+    }
+
+    public String storeConf(MultipartFile conf, String version) throws Exception {
+
+        File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getOriginalFilename()) + "_" +  version + ".ini");
+        FileUtils.writeByteArrayToFile(confSaveVersion, conf.getBytes());
 
         return confSaveVersion.getName();
     }
