@@ -29,8 +29,8 @@ public class ArtifactService {
         MultipartFile MPfile = null;
         MultipartFile MPconf = null;
         try {
-            MPfile = new MockMultipartFile(file.getName(), file.getName(), "application/tar+gzip", Files.readAllBytes(file.toPath()));
-            MPconf = new MockMultipartFile(conf.getName(), conf.getName(), "text/plain" , Files.readAllBytes(conf.toPath()));
+            MPfile = new MockMultipartFile(getNameWithoutExtension(file.getName()) + "_" + version + ".tar.gz", file.getName(), "application/tar+gzip", Files.readAllBytes(file.toPath()));
+            MPconf = new MockMultipartFile(getNameWithoutExtension(conf.getName()) + "_" + version + ".ini", conf.getName(), "text/plain" , Files.readAllBytes(conf.toPath()));
             version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,9 +54,18 @@ public class ArtifactService {
         System.out.println(version);
 
 
-        this.artifactFeign.uploadBuildFile(MPfile, version);
-        this.artifactFeign.uploadBuildConf(MPconf, version);
+        this.artifactFeign.uploadBuildFile(MPfile);
+        this.artifactFeign.uploadBuildConf(MPconf);
 
         return true;
+    }
+
+    private String getNameWithoutExtension(String name) {
+        String resultName = "";
+        int pos = name.lastIndexOf(".");
+        if (pos > 0) {
+            resultName = name.substring(0, pos);
+        }
+        return resultName;
     }
 }

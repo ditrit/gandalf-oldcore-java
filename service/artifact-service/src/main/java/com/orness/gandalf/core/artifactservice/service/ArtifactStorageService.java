@@ -32,17 +32,17 @@ public class ArtifactStorageService {
         }
     }
 
-    public String storeFile(MultipartFile file, String version) throws Exception {
+    public String storeFile(MultipartFile file) throws Exception {
 
-        File fileSaveVersion = new File(fileStorageLocation + "/" + (file.getOriginalFilename()) + "_" +  version + ".tar.gz");
+        File fileSaveVersion = new File(fileStorageLocation + "/" + (file.getName()));
         FileUtils.writeByteArrayToFile(fileSaveVersion, file.getBytes());
 
         return fileSaveVersion.getName();
     }
 
-    public String storeConf(MultipartFile conf, String version) throws Exception {
+    public String storeConf(MultipartFile conf) throws Exception {
 
-        File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getOriginalFilename()) + "_" +  version + ".ini");
+        File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getName()));
         FileUtils.writeByteArrayToFile(confSaveVersion, conf.getBytes());
 
         return confSaveVersion.getName();
@@ -60,14 +60,5 @@ public class ArtifactStorageService {
         } catch (MalformedURLException ex) {
             throw new FileNotFoundException();
         }
-    }
-
-    private String getNameWithoutExtension(String name) {
-        String resultName = "";
-        int pos = name.lastIndexOf(".");
-        if (pos > 0) {
-            resultName = name.substring(0, pos);
-        }
-        return resultName;
     }
 }

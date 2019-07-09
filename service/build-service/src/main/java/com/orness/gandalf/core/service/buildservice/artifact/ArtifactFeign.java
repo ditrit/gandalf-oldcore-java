@@ -1,23 +1,18 @@
 package com.orness.gandalf.core.service.buildservice.artifact;
 
-import feign.Headers;
 import feign.Param;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 
 @FeignClient(name = "artifact-service", url = "artifact-service.service.gandalf:10000", configuration = FeignConfig.class)
 public interface ArtifactFeign {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/file")
-    void uploadBuildFile(@RequestParam("file") MultipartFile file, @RequestParam("version") String version);
+    void uploadBuildFile(@Param("file") MultipartFile file);
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/conf")
-    void uploadBuildConf(@RequestParam("conf") MultipartFile conf, @RequestParam("version") String version);
+    void uploadBuildConf(@Param("conf") MultipartFile conf);
 }

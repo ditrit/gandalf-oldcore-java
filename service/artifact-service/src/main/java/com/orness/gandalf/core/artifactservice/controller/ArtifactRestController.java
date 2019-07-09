@@ -31,20 +31,20 @@ public class ArtifactRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/file")
-    public void uploadBuildFile(@RequestParam("file")  MultipartFile file, @RequestParam("version") String version) {
+    public void uploadBuildFile(@RequestParam("file")  MultipartFile file) {
         String fileName = null;
         try {
-            fileName = artifactStorageService.storeFile(file, version);
+            fileName = artifactStorageService.storeFile(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/conf")
-    public void uploadBuildConf(@RequestParam("file")  MultipartFile conf, @RequestParam("version") String version) {
+    public void uploadBuildConf(@RequestParam("file")  MultipartFile conf) {
         String fileName = null;
         try {
-            fileName = artifactStorageService.storeConf(conf, version);
+            fileName = artifactStorageService.storeConf(conf);
         } catch (Exception e) {
             e.printStackTrace();
         }
