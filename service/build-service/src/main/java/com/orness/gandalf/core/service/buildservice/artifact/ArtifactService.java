@@ -2,6 +2,7 @@ package com.orness.gandalf.core.service.buildservice.artifact;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,11 @@ public class ArtifactService {
         File file = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + ".tar.gz");
         File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + projectName + ".ini");
         String version = null;
+        MultipartFile MPfile = null;
+        MultipartFile MPconf = null;
         try {
+            MPfile = new GandalfMultipartFile(file.getName(), Files.readAllBytes(file.toPath()));
+            MPconf = new GandalfMultipartFile(conf.getName(), Files.readAllBytes(conf.toPath()));
             version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,8 +52,9 @@ public class ArtifactService {
         System.out.println("VERSION");
         System.out.println(version);
 
-        this.artifactFeign.uploadBuildFile(version, file);
-        this.artifactFeign.uploadBuildConf(version, conf);
+
+        this.artifactFeign.uploadBuildFile(version, MPfile);
+        this.artifactFeign.uploadBuildConf(version, MPconf);
 
         return true;
     }

@@ -26,6 +26,7 @@ public class ArtifactRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/file")
+    @Headers("Content-Type: multipart/form-data")
     public void uploadBuildFile(@RequestParam("version") String version, @RequestPart("file")  MultipartFile file) {
         String fileName = null;
         try {
@@ -36,6 +37,7 @@ public class ArtifactRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/conf")
+    @Headers("Content-Type: multipart/form-data")
     public void uploadBuildConf(@RequestParam("version") String version, @RequestPart("file")  MultipartFile conf) {
         String fileName = null;
         try {
