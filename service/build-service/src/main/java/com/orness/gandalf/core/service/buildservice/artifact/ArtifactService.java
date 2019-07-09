@@ -45,10 +45,12 @@ public class ArtifactService {
         System.out.println(formDataFile.getFileName());
         System.out.println(formDataConf.getFileName());
         this.artifactFeign.uploadBuild(formDataFile, formDataConf, version);*/
+        System.out.println("VERSION");
+        System.out.println(version);
 
         this.artifactFeign.uploadBuildFile(file, version);
         this.artifactFeign.uploadBuildConf(conf, version);
-        
+
         return true;
     }
 }
