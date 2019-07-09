@@ -26,8 +26,7 @@ public class ArtifactRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/file")
-    @Headers("Content-Type: multipart/form-data")
-    public void uploadBuildFile(@RequestParam("version") String version, @RequestPart("file")  MultipartFile file) {
+    public void uploadBuildFile(@RequestPart("file")  MultipartFile file, @RequestPart("version") String version) {
         String fileName = null;
         try {
             fileName = artifactStorageService.storeFile(file, version);
@@ -37,8 +36,7 @@ public class ArtifactRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/conf")
-    @Headers("Content-Type: multipart/form-data")
-    public void uploadBuildConf(@RequestParam("version") String version, @RequestPart("file")  MultipartFile conf) {
+    public void uploadBuildConf(@RequestPart("file")  MultipartFile conf, @RequestPart("version") String version) {
         String fileName = null;
         try {
             fileName = artifactStorageService.storeConf(conf, version);

@@ -1,6 +1,7 @@
 package com.orness.gandalf.core.service.buildservice.artifact;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,8 +29,9 @@ public class ArtifactService {
         MultipartFile MPfile = null;
         MultipartFile MPconf = null;
         try {
-            MPfile = new GandalfMultipartFile(file.getName(), Files.readAllBytes(file.toPath()));
-            MPconf = new GandalfMultipartFile(conf.getName(), Files.readAllBytes(conf.toPath()));
+            //MPfile = new MultipartFilePojo(file.getName(), Files.readAllBytes(file.toPath()));
+            MPfile = new MockMultipartFile(file.getName(), file.getName(), "application/tar+gzip", Files.readAllBytes(file.toPath()));
+            MPconf = new MockMultipartFile(conf.getName(), conf.getName(), "text/plain" , Files.readAllBytes(conf.toPath()));
             version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,8 +55,8 @@ public class ArtifactService {
         System.out.println(version);
 
 
-        this.artifactFeign.uploadBuildFile(version, MPfile);
-        this.artifactFeign.uploadBuildConf(version, MPconf);
+        this.artifactFeign.uploadBuildFile(MPfile, version);
+        this.artifactFeign.uploadBuildConf(MPconf, version);
 
         return true;
     }
