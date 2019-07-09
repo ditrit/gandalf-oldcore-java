@@ -1,6 +1,5 @@
 package com.orness.gandalf.core.artifactservice.service;
 
-import feign.form.FormData;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
