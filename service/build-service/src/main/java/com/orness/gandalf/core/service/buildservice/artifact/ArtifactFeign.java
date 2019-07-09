@@ -1,9 +1,6 @@
 package com.orness.gandalf.core.service.buildservice.artifact;
 
-import feign.Headers;
-import feign.form.FormData;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,5 +15,5 @@ public interface ArtifactFeign {
     void uploadBuildFile(@RequestParam("version") String version, @RequestPart("file") File file);
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/conf")
-    void uploadBuildConf(@RequestPart("version") String version, @RequestParam("conf") File conf);
+    void uploadBuildConf(@RequestParam("version") String version, @RequestPart("conf") File conf);
 }
