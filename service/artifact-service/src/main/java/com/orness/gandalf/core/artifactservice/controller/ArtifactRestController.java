@@ -5,6 +5,9 @@ import feign.Headers;
 import feign.Param;
 import feign.form.FormData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 
 @RestController
+@EnableAutoConfiguration
+@Import(value = MultipartAutoConfiguration.class)
 public class ArtifactRestController {
 
     private ArtifactStorageService artifactStorageService;
