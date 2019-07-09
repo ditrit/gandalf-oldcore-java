@@ -16,5 +16,5 @@ public interface ArtifactFeign {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     @Headers("Content-Type: multipart/form-data")
-    void uploadBuild(@RequestParam("files") File[] files, @RequestPart("version") String version);
+    void uploadBuild(@RequestPart("files") File[] files, @RequestPart("version") String version);
 }
