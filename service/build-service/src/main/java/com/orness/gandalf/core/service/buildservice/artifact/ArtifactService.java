@@ -29,7 +29,6 @@ public class ArtifactService {
         MultipartFile MPfile = null;
         MultipartFile MPconf = null;
         try {
-            //MPfile = new MultipartFilePojo(file.getName(), Files.readAllBytes(file.toPath()));
             MPfile = new MockMultipartFile(file.getName(), file.getName(), "application/tar+gzip", Files.readAllBytes(file.toPath()));
             MPconf = new MockMultipartFile(conf.getName(), conf.getName(), "text/plain" , Files.readAllBytes(conf.toPath()));
             version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
