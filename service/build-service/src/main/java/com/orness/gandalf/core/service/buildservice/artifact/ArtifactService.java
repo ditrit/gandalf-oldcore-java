@@ -48,8 +48,8 @@ public class ArtifactService {
         System.out.println("VERSION");
         System.out.println(version);
 
-        this.artifactFeign.uploadBuildFile(file, version);
-        this.artifactFeign.uploadBuildConf(conf, version);
+        this.artifactFeign.uploadBuildFile(version, file);
+        this.artifactFeign.uploadBuildConf(version, conf);
 
         return true;
     }
