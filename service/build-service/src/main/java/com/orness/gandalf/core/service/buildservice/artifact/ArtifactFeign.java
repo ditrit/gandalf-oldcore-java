@@ -15,8 +15,8 @@ import java.io.File;
 public interface ArtifactFeign {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/file")
-    void uploadBuildFile(@Param("version") String version, @Param("file") MultipartFile file);
+    void uploadBuildFile(@RequestParam("version") String version, @RequestPart("file") MultipartFile file);
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/conf")
-    void uploadBuildConf(@Param("version") String version, @Param("conf") MultipartFile conf);
+    void uploadBuildConf(@RequestParam("version") String version, @RequestPart("conf") MultipartFile conf);
 }
