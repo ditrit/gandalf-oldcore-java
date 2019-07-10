@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "orchestrator-service", url = "orchestrator-service.service.gandalf:10000")
 public interface DeployFeign {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/deploy")
+    @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/deploy/{service}")
     boolean deploy(@PathVariable("service") String service);
 }
