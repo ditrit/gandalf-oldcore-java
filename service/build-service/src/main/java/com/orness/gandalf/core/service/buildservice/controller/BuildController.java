@@ -3,6 +3,7 @@ package com.orness.gandalf.core.service.buildservice.controller;
 import com.orness.gandalf.core.service.buildservice.archive.ArchiveService;
 import com.orness.gandalf.core.service.buildservice.artifact.ArtifactService;
 import com.orness.gandalf.core.service.buildservice.bash.BashService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +61,7 @@ public class BuildController {
         succes &= bashService.uploadConf(conf_version);
         //succes &= artifactService.sendBuildToStorage(projectName);
         //CLEAN
-        file.delete();
+        FileUtils.deleteDirectory(file);
         conf.delete();
 
          return succes;
