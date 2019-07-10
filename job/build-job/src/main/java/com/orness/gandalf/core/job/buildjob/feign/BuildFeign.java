@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "build-service", url = "build-service.service.gandalf:10000")
 public interface BuildFeign {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/build")
-    boolean build(@RequestBody String projectUrl);
+    @RequestMapping(method = RequestMethod.GET, value = "/build/{url}")
+    boolean build(@PathVariable("url") String projectUrl);
 }
