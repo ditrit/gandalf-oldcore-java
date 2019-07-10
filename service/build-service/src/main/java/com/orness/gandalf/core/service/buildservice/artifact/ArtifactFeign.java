@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartResolver;
@@ -26,10 +27,10 @@ import javax.servlet.MultipartConfigElement;
 public interface ArtifactFeign {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    void uploadBuildFile(@RequestPart("file") MultipartFile file);
+    void uploadBuildFile(@RequestParam("file") MultipartFile file);
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/conf", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    void uploadBuildConf(@RequestPart("conf") MultipartFile conf);
+    void uploadBuildConf(@RequestParam("conf") MultipartFile conf);
 
     @Configuration
     class FeignConfig {
