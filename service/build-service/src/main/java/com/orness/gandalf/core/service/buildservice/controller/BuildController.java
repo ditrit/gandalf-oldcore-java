@@ -49,7 +49,9 @@ public class BuildController {
         File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + projectName + ".ini");
         String version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
         File file_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "_" + version + ".tar.gz");
+        file_version.createNewFile();
         File conf_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "_" + version + ".ini");
+        conf_version.createNewFile();
 
         Files.copy(file.toPath(), file_version.toPath(), StandardCopyOption.REPLACE_EXISTING);
         Files.copy(conf.toPath(), file_version.toPath(), StandardCopyOption.REPLACE_EXISTING);
