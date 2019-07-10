@@ -26,10 +26,10 @@ import javax.servlet.MultipartConfigElement;
 @FeignClient(name = "artifact-service", url = "artifact-service.service.gandalf:10000", configuration = ArtifactFeign.FeignConfig.class)
 public interface ArtifactFeign {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/upload/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "/upload/file")
     void uploadBuildFile(@RequestParam("file") MultipartFile file);
 
-    @RequestMapping(method = RequestMethod.POST, value = "/upload/conf", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "/upload/conf")
     void uploadBuildConf(@RequestParam("conf") MultipartFile conf);
 
     @Configuration
