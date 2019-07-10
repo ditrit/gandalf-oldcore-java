@@ -22,8 +22,6 @@ import java.io.File;
 import java.io.IOException;
 
 @RestController
-@EnableAutoConfiguration
-@Import(value = MultipartAutoConfiguration.class)
 public class ArtifactRestController {
 
     private ArtifactStorageService artifactStorageService;
