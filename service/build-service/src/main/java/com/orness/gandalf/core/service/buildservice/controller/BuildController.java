@@ -7,6 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+
+import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_DIRECTORY;
+
 @RestController
 public class BuildController {
 
@@ -22,7 +30,7 @@ public class BuildController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/build")
-    public boolean build(@RequestBody String projectUrl) {
+    public boolean build(@RequestBody String projectUrl) throws IOException {
         System.out.println(projectUrl);
         boolean succes = true;
         //CLONE
@@ -36,8 +44,23 @@ public class BuildController {
         //TAR
         //succes &= archiveService.zipArchive(projectName);
         succes &= bashService.tarProject(projectName);
+
+        File file = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + ".tar.gz");
+        File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + projectName + ".ini");
+        String version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
+        File file_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "_" + version + ".tar.gz");
+        File conf_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "_" + version + ".ini");
+
+        Files.copy(file.toPath(), file_version.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(conf.toPath(), file_version.toPath(), StandardCopyOption.REPLACE_EXISTING);
         //SEND TO STORAGE
-        succes &= artifactService.sendBuildToStorage(projectName);
+        succes &= bashService.uploadProject(file_version);
+        succes &= bashService.uploadConf(conf_version);
+        //succes &= artifactService.sendBuildToStorage(projectName);
+        //CLEAN
+        file.delete();
+        conf.delete();
+
          return succes;
     }
 

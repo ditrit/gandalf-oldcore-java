@@ -58,4 +58,28 @@ public class BashService {
         return process.exitValue() == 0 ? true : false;
     }
 
+    public boolean uploadProject(File file) {
+        Process process;
+        try {
+            process = new ProcessBuilder("bash", "-c", "curl -F ‘data=@" + file.getPath() +  "artifact-service-0.service.gandalf/upload").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return process.exitValue() == 0 ? true : false;
+    }
+
+    public boolean uploadConf(File conf) {
+        Process process;
+        try {
+            process = new ProcessBuilder("bash", "-c", "curl -F ‘data=@" + conf.getPath() +  "artifact-service-0.service.gandalf/upload").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return process.exitValue() == 0 ? true : false;
+    }
+
 }

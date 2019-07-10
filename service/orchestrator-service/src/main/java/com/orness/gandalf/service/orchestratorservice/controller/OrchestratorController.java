@@ -18,13 +18,15 @@ public class OrchestratorController {
 
     @RequestMapping("/orchestrator/register/{service}/{version}")
     public boolean register(@PathVariable("service") String service, @PathVariable("version") String version) {
+        this.bashService.downloadProject(service, version);
+        this.bashService.downloadConf(service, version);
         this.bashService.register(service, version);
         return true;
     }
 
     @RequestMapping("/orchestrator/deploy/{service}")
     public boolean deploy(@PathVariable("service") String service) {
-        this.bashService.execute(service, "feign");
+        this.bashService.execute(service, "deploy");
         return true;
     }
 
