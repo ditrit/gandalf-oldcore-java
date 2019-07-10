@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 
 @FeignClient(name = "artifact-service", url = "artifact-service.service.gandalf:10000", configuration = ArtifactFeign.FeignConfig.class)
@@ -39,6 +41,9 @@ public interface ArtifactFeign {
         public Encoder feignEncoder() {
             return new SpringFormEncoder(new SpringEncoder(messageConverters));
         }
+
+        @Bean
+        public MultipartResolver multipartResolver() { return new CommonsMultipartResolver(); }
     }
 }
 
