@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.servlet.MultipartConfigElement;
+
 
 @FeignClient(name = "artifact-service", url = "artifact-service.service.gandalf:10000", configuration = ArtifactFeign.FeignConfig.class)
 public interface ArtifactFeign {
@@ -43,7 +45,16 @@ public interface ArtifactFeign {
         }
 
         @Bean
-        public MultipartResolver multipartResolver() { return new CommonsMultipartResolver(); }
+        public MultipartConfigElement multipartConfigElement() {
+            return new MultipartConfigElement("");
+        }
+
+        @Bean
+        public MultipartResolver multipartResolver() {
+            org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+            multipartResolver.setMaxUploadSize(1000000);
+            return multipartResolver;
+        }
     }
 }
 
