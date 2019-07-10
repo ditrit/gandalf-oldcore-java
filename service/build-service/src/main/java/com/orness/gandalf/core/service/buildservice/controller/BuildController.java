@@ -61,8 +61,7 @@ public class BuildController {
         succes &= bashService.uploadConf(conf_version);
         //succes &= artifactService.sendBuildToStorage(projectName);
         //CLEAN
-        FileUtils.deleteDirectory(file);
-        conf.delete();
+        FileUtils.deleteDirectory(new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName));
 
          return succes;
     }
