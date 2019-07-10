@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.service.buildservice.artifact;
 
 import feign.codec.Encoder;
@@ -23,4 +24,4 @@ public class FeignConfig {
     public Encoder feignEncoder() {
         return new SpringFormEncoder(new SpringEncoder(messageConverters));
     }
-}
+}*/
