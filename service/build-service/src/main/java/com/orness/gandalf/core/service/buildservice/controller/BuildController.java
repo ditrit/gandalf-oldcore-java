@@ -30,8 +30,8 @@ public class BuildController {
         this.artifactService = artifactService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/build/{url}")
-    public boolean build(@PathVariable("url") String projectUrl) throws IOException {
+    @RequestMapping(method = RequestMethod.POST, value = "/build")
+    public boolean build(@RequestBody String projectUrl) throws IOException {
         System.out.println(projectUrl);
         boolean succes = true;
         //CLONE
