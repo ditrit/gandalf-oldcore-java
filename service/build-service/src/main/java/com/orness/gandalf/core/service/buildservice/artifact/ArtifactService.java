@@ -30,8 +30,8 @@ public class ArtifactService {
         MultipartFile MPconf = null;
         try {
             version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
-            MPfile = new MockMultipartFile(getNameWithoutExtension(getNameWithoutExtension(file.getName())) + "_" + version + ".tar.gz", file.getName(), "", Files.readAllBytes(file.toPath()));
-            MPconf = new MockMultipartFile(getNameWithoutExtension(conf.getName()) + "_" + version + ".ini", conf.getName(), "" , Files.readAllBytes(conf.toPath()));
+            MPfile = new MockMultipartFile(getNameWithoutExtension(getNameWithoutExtension(file.getName())) + "_" + version + ".tar.gz", file.getName(), null, Files.readAllBytes(file.toPath()));
+            MPconf = new MockMultipartFile(getNameWithoutExtension(conf.getName()) + "_" + version + ".ini", conf.getName(), null, Files.readAllBytes(conf.toPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }
