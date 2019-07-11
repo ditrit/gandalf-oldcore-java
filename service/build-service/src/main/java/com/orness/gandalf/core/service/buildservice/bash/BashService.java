@@ -49,7 +49,7 @@ public class BashService {
     public boolean tarProject(String projectName) {
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", SCRIPT_TAR + projectName + ".tar.gz " + SCRIPT_BUILD_DIRECTORY + "/" + projectName).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", SCRIPT_TAR + projectName + ".tar.gz " + projectName).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

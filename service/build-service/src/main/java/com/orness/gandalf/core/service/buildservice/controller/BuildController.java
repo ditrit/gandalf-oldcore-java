@@ -44,19 +44,17 @@ public class BuildController {
         succes &= bashService.buildProject(projectName);
         //TAR
         //succes &= archiveService.zipArchive(projectName);
-        succes &= bashService.tarProject(projectName);
-
-        File file = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + ".tar.gz");
         File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + projectName + ".ini");
         String version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
-        File file_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "_" + version + ".tar.gz");
-        file_version.createNewFile();
-        File conf_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "_" + version + ".ini");
+        String projectNameVersion = projectName + "_" + version;
+        File conf_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectNameVersion + ".ini");
+        Files.copy(conf.toPath(), conf_version.toPath(), StandardCopyOption.REPLACE_EXISTING);
         conf_version.createNewFile();
 
-        Files.copy(file.toPath(), file_version.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        Files.copy(conf.toPath(), file_version.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        succes &= bashService.tarProject(projectNameVersion);
+
         //SEND TO STORAGE
+        File file_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectNameVersion + ".tar.gz");
         succes &= bashService.uploadProject(file_version);
         succes &= bashService.uploadConf(conf_version);
         //succes &= artifactService.sendBuildToStorage(projectName);
