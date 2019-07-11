@@ -60,10 +60,12 @@ public class RegisterJob implements JobHandler {
 
         //Get workflow variables
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
+        System.out.println(workflow_variables);
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
         //MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicRegister);
         String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString();
+        System.out.println(projectName);
         //Register
         //TODO VAR
         succes = registerFeign.register(projectName, "0");
