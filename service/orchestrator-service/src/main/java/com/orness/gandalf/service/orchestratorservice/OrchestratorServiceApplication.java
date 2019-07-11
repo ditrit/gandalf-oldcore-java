@@ -12,8 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @SpringBootApplication
 public class OrchestratorServiceApplication {
 
+
 	public static void main(String[] args) {
 		SpringApplication.run(OrchestratorServiceApplication.class, args);
 	}
+
 
 }

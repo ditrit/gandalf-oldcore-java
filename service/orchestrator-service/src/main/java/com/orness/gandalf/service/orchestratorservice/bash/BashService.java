@@ -19,13 +19,8 @@ public class BashService {
     public boolean execute(String service, String command) {
         Process process;
         try {
-            Resource resource = new ClassPathResource(SCRIPT_RESSOURCES_FILE + "/" + SCRIPT_COMMAND_FILE);
-            InputStream input = resource.getInputStream();
-            File file = resource.getFile();
-            System.out.println(file.getPath());
-            System.out.println(file.getAbsolutePath());
-            System.out.println(file.getCanonicalPath());
-            process = new ProcessBuilder(file.getPath(), command, service).start();
+
+            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_COMMAND_FILE, command, service).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -37,13 +32,7 @@ public class BashService {
     public boolean register(String service, String version) {
         Process process;
         try {
-            Resource resource = new ClassPathResource(SCRIPT_RESSOURCES_FILE + "/" + SCRIPT_REGISTER_FILE);
-            InputStream input = resource.getInputStream();
-            File file = resource.getFile();
-            System.out.println(file.getPath());
-            System.out.println(file.getAbsolutePath());
-            System.out.println(file.getCanonicalPath());
-            process = new ProcessBuilder(file.getPath(), service, version).start();
+            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
