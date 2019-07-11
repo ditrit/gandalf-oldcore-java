@@ -19,6 +19,8 @@ public class OrchestratorController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/register/{service}/{version}")
     public boolean register(@PathVariable("service") String service, @PathVariable("version") String version) {
+        System.out.println(service);
+        System.out.println(version);
         this.bashService.downloadProject(service, version);
         this.bashService.downloadConf(service, version);
         this.bashService.untarProject(service, version);
@@ -28,24 +30,28 @@ public class OrchestratorController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/deploy/{service}")
     public boolean deploy(@PathVariable("service") String service) {
+        System.out.println(service);
         this.bashService.execute(service, "deploy");
         return true;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/undeploy/{service}")
     public boolean undeploy(@PathVariable("service") String service) {
+        System.out.println(service);
         this.bashService.execute(service, "undeploy");
         return true;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/stop/{service}")
     public boolean stop(@PathVariable("service") String service) {
+        System.out.println(service);
         this.bashService.execute(service, "stop");
         return true;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/start/{service}")
     public boolean start(@PathVariable("service") String service) {
+        System.out.println(service);
         this.bashService.execute(service, "start");
         return true;
     }
@@ -58,6 +64,7 @@ public class OrchestratorController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/scale_up/{service}")
     public boolean scaleUp(@PathVariable("service") String service) {
+        System.out.println(service);
         this.bashService.execute(service, "scale_up");
         return true;
     }
