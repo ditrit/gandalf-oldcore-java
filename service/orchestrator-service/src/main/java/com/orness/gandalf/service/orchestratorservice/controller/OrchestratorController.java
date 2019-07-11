@@ -21,6 +21,7 @@ public class OrchestratorController {
     public boolean register(@PathVariable("service") String service, @PathVariable("version") String version) {
         this.bashService.downloadProject(service, version);
         this.bashService.downloadConf(service, version);
+        this.bashService.untarProject(service, version);
         this.bashService.register(service, version);
         return true;
     }

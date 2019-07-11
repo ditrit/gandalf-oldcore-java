@@ -41,6 +41,18 @@ public class BashService {
         return process.exitValue() == 0 ? true : false;
     }
 
+    public boolean untarProject(String service, String version) {
+        Process process;
+        try {
+            process = new ProcessBuilder("bash", "-c", SCRIPT_UNTAR + service + "_" + version + ".tar.gz").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return process.exitValue() == 0 ? true : false;
+    }
+
     public boolean downloadProject(String projectName, String version) {
         Process process;
         try {
