@@ -64,7 +64,7 @@ public class BashService {
         System.out.println(file.getPath());
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", "curl -X POST artifact-service.service.gandalf/upload/single/file -F \"file=@" + file.getPath() +  "\"").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "curl -F 'file=@" + file.getPath() +  "' artifact-service.service.gandalf:10000/upload/single/file").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class BashService {
     public boolean uploadConf(File conf) {
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", "curl -X POST artifact-service.service.gandalf/upload/single/conf -F \"file=@" + conf.getPath() +  "\"").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "curl -F 'conf=@" + conf.getPath() +  "' artifact-service.service.gandalf:10000/upload/single/conf").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

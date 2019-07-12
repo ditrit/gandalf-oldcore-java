@@ -53,7 +53,7 @@ public class ArtifactRestController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/single/file")
     @Headers("Content-Type: multipart/form-data")
-    public void uploadBuildSingleFile(@RequestPart MultipartFile file) {
+    public void uploadBuildSingleFile(@RequestParam("file") MultipartFile file) {
         String fileName = null;
         try {
             fileName = artifactStorageService.storeSingleFile(file);
@@ -63,10 +63,10 @@ public class ArtifactRestController {
     }
     @RequestMapping(method = RequestMethod.POST, value = "/upload/single/conf")
     @Headers("Content-Type: multipart/form-data")
-    public void uploadBuildSingleConf(@RequestPart  MultipartFile file) {
+    public void uploadBuildSingleConf(@RequestParam("conf")  MultipartFile conf) {
         String fileName = null;
         try {
-            fileName = artifactStorageService.storeSingleConf(file);
+            fileName = artifactStorageService.storeSingleConf(conf);
         } catch (Exception e) {
             e.printStackTrace();
         }
