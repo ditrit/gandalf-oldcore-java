@@ -51,7 +51,7 @@ public class BashService {
     public boolean tarProject(String projectName) {
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", SCRIPT_TAR + projectName + ".tar.gz " + projectName).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", SCRIPT_TAR + projectName + ".tar.gz " + SCRIPT_BUILD_DIRECTORY + "/" + projectName).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -64,7 +64,7 @@ public class BashService {
         System.out.println(file.getPath());
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", "curl -X POST -d @" + file.getPath() +  " artifact-service.service.gandalf/upload/" + file.getName()).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "curl -X POST artifact-service.service.gandalf/upload/single/file -F \"file=@" + file.getPath() +  "\"").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class BashService {
     public boolean uploadConf(File conf) {
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", "curl -X POST -d @" + conf.getPath() +  " artifact-service.service.gandalf/upload/" + conf.getName()).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "curl -X POST artifact-service.service.gandalf/upload/single/conf -F \"file=@" + conf.getPath() +  "\"").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

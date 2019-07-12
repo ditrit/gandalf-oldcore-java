@@ -48,6 +48,17 @@ public class ArtifactStorageService {
         return confSaveVersion.getName();
     }
 
+    public String storeSingleFile(MultipartFile file) throws Exception {
+        File fileSaveVersion = new File(fileStorageLocation + "/" + (file.getOriginalFilename()));
+        FileUtils.writeByteArrayToFile(fileSaveVersion, file.getBytes());
+        return fileSaveVersion.getName();
+    }
+    public String storeSingleConf(MultipartFile conf) throws Exception {
+        File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getOriginalFilename()));
+        FileUtils.writeByteArrayToFile(confSaveVersion, conf.getBytes());
+        return confSaveVersion.getName();
+    }
+
     public Resource loadFileAsResource(String fileName) throws FileNotFoundException {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
