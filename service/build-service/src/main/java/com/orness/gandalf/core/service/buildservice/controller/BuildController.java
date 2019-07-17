@@ -53,7 +53,7 @@ public class BuildController {
         Files.copy(conf.toPath(), conf_version.toPath(), StandardCopyOption.REPLACE_EXISTING);
         conf_version.createNewFile();
 
-        succes &= bashService.tarProject(projectNameVersion);
+        succes &= bashService.tarProject(projectName, projectNameVersion);
 
         //SEND TO STORAGE
         File file_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectNameVersion + ".tar.gz");

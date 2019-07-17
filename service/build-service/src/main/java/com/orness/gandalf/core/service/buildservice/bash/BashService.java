@@ -48,10 +48,10 @@ public class BashService {
         return process.exitValue() == 0 ? true : false;
     }
 
-    public boolean tarProject(String projectName) {
+    public boolean tarProject(String projectName, String projectNameVersion) {
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", SCRIPT_TAR + projectName + ".tar.gz " + SCRIPT_BUILD_DIRECTORY + "/" + projectName).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", SCRIPT_TAR + projectNameVersion + ".tar.gz " + projectName).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
