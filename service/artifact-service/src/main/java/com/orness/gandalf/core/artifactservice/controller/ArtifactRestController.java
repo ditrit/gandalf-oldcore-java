@@ -52,7 +52,7 @@ public class ArtifactRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/single/file")
-    @Headers("Content-Type: multipart/form-data")
+    //@Headers("Content-Type: multipart/form-data")
     public void uploadBuildSingleFile(@RequestParam("file") MultipartFile file) {
         String fileName = null;
         try {
@@ -62,7 +62,7 @@ public class ArtifactRestController {
         }
     }
     @RequestMapping(method = RequestMethod.POST, value = "/upload/single/conf")
-    @Headers("Content-Type: multipart/form-data")
+    //@Headers("Content-Type: multipart/form-data")
     public void uploadBuildSingleConf(@RequestParam("conf")  MultipartFile conf) {
         String fileName = null;
         try {
