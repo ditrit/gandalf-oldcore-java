@@ -63,7 +63,7 @@ public class BashService {
             } else {
                 System.out.println("Directory already exists");
             }
-            process = new ProcessBuilder("bash", "-c", "wget artifact-service.service.gandalf/download/" + projectName + "_" + version + ".tar.gz").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "wget artifact-service.service.gandalf:10000/download/" + projectName + "_" + version + ".tar.gz").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -82,7 +82,7 @@ public class BashService {
             } else {
                 System.out.println("Directory already exists");
             }
-            process = new ProcessBuilder("bash", "-c", "wget artifact-service.service.gandalf/download/" + projectName + "_" + version + ".ini").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "wget artifact-service.service.gandalf:10000/download/" + projectName + "_" + version + ".ini").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
