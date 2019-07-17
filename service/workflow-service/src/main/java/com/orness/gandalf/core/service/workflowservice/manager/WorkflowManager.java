@@ -8,9 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
-import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.KEY_VARIABLE_PROJECT_NAME;
-import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.KEY_VARIABLE_PROJECT_URL;
-
 @Component
 public class WorkflowManager {
 
@@ -29,16 +26,8 @@ public class WorkflowManager {
         return deploymentEvent;
     }
 
-    public WorkflowInstanceEvent InstanceWorkflow(String workflow_bpmn_process_id, String workflow_name, String workflow_content, String workflow_listen_topic, String workflow_send_topic) {
-        //INSTANCE VARIABLES
-        HashMap<String, String> workflow_variables = new HashMap();
-        workflow_variables.put("process_id", workflow_bpmn_process_id);
-        workflow_variables.put("name", workflow_name);
-        workflow_variables.put("content", workflow_content);
-        workflow_variables.put("listen_topic", workflow_listen_topic);
-        workflow_variables.put("send_topic", workflow_send_topic);
-        workflow_variables.put(KEY_VARIABLE_PROJECT_URL, "git@gitlab.orness.local:romain.fairant/test.git");
-        workflow_variables.put(KEY_VARIABLE_PROJECT_NAME, "test");
+    public WorkflowInstanceEvent InstanceWorkflow(HashMap<String, String> workflow_variables) {
+        String workflow_bpmn_process_id = workflow_variables.get("process_id");
 
         System.out.println(workflow_bpmn_process_id);
         //INSTANCE

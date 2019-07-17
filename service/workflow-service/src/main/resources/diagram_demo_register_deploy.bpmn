@@ -7,7 +7,9 @@
     <bpmn:receiveTask id="ReceiveTask_1ajq1ld" name="webhook" messageRef="Message_17swi1f">
       <bpmn:extensionElements>
         <zeebe:ioMapping>
-          <zeebe:output source="KEY_VARIABLE_PROJECT_URL" target="KEY_VARIABLE_PROJECT_URL" />
+          <zeebe:output source="project_url" target="project_url" />
+          <zeebe:output source="project_name" target="project_name" />
+          <zeebe:output source="project_version" target="project_version" />
         </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ok6ywl</bpmn:incoming>

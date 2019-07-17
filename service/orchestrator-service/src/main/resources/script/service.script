@@ -9,9 +9,9 @@ usage() {
 }
 
 svc_name=$NAME
-artifact_zip=${ARTIFACT}_${VERSION}.zip
+artifact_tar=${ARTIFACT}_${VERSION}.tar.gz
 pushd /tmp/$svc_name
-[ -d $svc_name ] || unzip $artifact_zip
+[ -d $svc_name ] || tar xf $artifact_tar
 popd
 
   cat > /tmp/$svc_name.sh <<EOF

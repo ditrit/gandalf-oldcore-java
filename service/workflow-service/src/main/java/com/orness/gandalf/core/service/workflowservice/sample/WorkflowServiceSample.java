@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+
+import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.*;
+
 @Component
 public class WorkflowServiceSample implements CommandLineRunner {
 
@@ -50,7 +54,19 @@ public class WorkflowServiceSample implements CommandLineRunner {
         System.out.println(id);
         String instance_name_continue = name;
         String instance_content = "content_" + instance_name_continue;
-        workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue,instance_content, "webhook","");
+
+        //INSTANCE VARIABLES
+        HashMap<String, String> workflow_variables = new HashMap();
+        workflow_variables.put("process_id", id);
+        workflow_variables.put("name", name);
+        workflow_variables.put("content", instance_content);
+        workflow_variables.put("listen_topic", "webhook");
+        workflow_variables.put("send_topic", "");
+        workflow_variables.put(KEY_VARIABLE_PROJECT_URL, "");
+        workflow_variables.put(KEY_VARIABLE_PROJECT_NAME, "");
+        workflow_variables.put(KEY_VARIABLE_PROJECT_VERSION, "");
+
+        workflowInstanceEvent = workflowManager.InstanceWorkflow(workflow_variables);
 
 
     }
@@ -67,7 +83,7 @@ public class WorkflowServiceSample implements CommandLineRunner {
         System.out.println(id);
         String instance_name_continue = name;
         String instance_content = "content_" + instance_name_continue;
-        workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue,instance_content, "job","job");
+        //workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue,instance_content, "job","job");
     }
 
     public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
@@ -89,7 +105,7 @@ public class WorkflowServiceSample implements CommandLineRunner {
         System.out.println(id);
         String instance_name_continue = name+"_"+indice;
         String instance_content = "content_" + instance_name_continue + "_" + indice;
-        workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue,instance_content, topicMultiple("zeebeJ2W", multipleTopic, indice),"");
+        //workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue,instance_content, topicMultiple("zeebeJ2W", multipleTopic, indice),"");
         System.out.println("TOTO");
         zeroMQJavaClient.subscribeWorkflowEngineTopic("zeebeJ2W");
         System.out.println("TATA");
@@ -102,7 +118,7 @@ public class WorkflowServiceSample implements CommandLineRunner {
         System.out.println(id);
         instance_name_continue = name+"_"+indice;
         instance_content = "content_" + instance_name_continue + "_" + indice;
-        workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue, instance_content,topicMultiple("zeebeW2W", multipleTopic, indice), topicMultiple("zeebeW2J", multipleTopic, indice));
+        //workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue, instance_content,topicMultiple("zeebeW2W", multipleTopic, indice), topicMultiple("zeebeW2J", multipleTopic, indice));
         zeroMQJavaClient.subscribeWorkflowEngineTopic("zeebeW2W");
         //grpcWorkflowEngineJavaClientW2W.subscribeTopicWorkflow("zeebeW2W", instance_name_continue);
 
@@ -113,7 +129,7 @@ public class WorkflowServiceSample implements CommandLineRunner {
         deploymentEvent = workflowManager.deployWorkflow(name);
         id = workflowManager.getIdDeployment(deploymentEvent);
         System.out.println(id);
-        workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue, instance_content,"", topicMultiple("zeebeW2W", multipleTopic, indice));
+        //workflowInstanceEvent = workflowManager.InstanceWorkflow(id, instance_name_continue, instance_content,"", topicMultiple("zeebeW2W", multipleTopic, indice));
 
 
 

@@ -73,11 +73,11 @@ public class DeployJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "deploy : success" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + " deploy : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "deploy : fail" );
+            zeroMQJavaClient.sendMessageTopicDatabase(projectName + " deploy : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
         }
     }
