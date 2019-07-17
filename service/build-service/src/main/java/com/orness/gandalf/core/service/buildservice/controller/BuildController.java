@@ -31,11 +31,12 @@ public class BuildController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/build")
-    public boolean build(@RequestBody String projectUrl) throws IOException {
+    public boolean build(@RequestBody String projectUrl) throws IOException, InterruptedException {
         System.out.println(projectUrl);
         boolean succes = true;
         //CLONE
         succes &= bashService.cloneProject(projectUrl);
+        Thread.sleep(500);
         //MVN CLEAN INSTALL
         String projectFileName = projectUrl.split("/")[1];
         System.out.println(projectFileName);
