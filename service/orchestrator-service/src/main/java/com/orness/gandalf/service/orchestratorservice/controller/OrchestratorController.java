@@ -21,12 +21,12 @@ public class OrchestratorController {
     public boolean register(@PathVariable("service") String service, @PathVariable("version") String version) {
         System.out.println(service);
         System.out.println(version);
-        System.out.println("DOWNLOAD PROJECT");
+/*        System.out.println("DOWNLOAD PROJECT");
         this.bashService.downloadProject(service, version);
         System.out.println("DOWNLOAD CONF");
         this.bashService.downloadConf(service, version);
         System.out.println("UNTAR");
-        this.bashService.untarProject(service, version);
+        this.bashService.untarProject(service, version);*/
         System.out.println("REGISTER");
         this.bashService.register(service, version);
         return true;
