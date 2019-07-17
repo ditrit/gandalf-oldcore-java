@@ -36,14 +36,14 @@ public class BuildController {
         boolean succes = true;
         //CLONE
         succes &= bashService.cloneProject(projectUrl);
-        Thread.sleep(500);
+        //Thread.sleep(500);
         //MVN CLEAN INSTALL
         String projectFileName = projectUrl.split("/")[1];
         System.out.println(projectFileName);
         String projectName = projectFileName.substring(0, projectFileName.length()-4);
         System.out.println(projectName);
         succes &= bashService.buildProject(projectName);
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
         //TAR
         //succes &= archiveService.zipArchive(projectName);
         File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + projectName + ".ini");
@@ -61,7 +61,7 @@ public class BuildController {
         succes &= bashService.uploadConf(conf_version);
         //succes &= artifactService.sendBuildToStorage(projectName);
         //CLEAN
-        //FileUtils.deleteDirectory(new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName));
+        FileUtils.deleteDirectory(new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName));
 
          //return succes;
         return true;
