@@ -26,12 +26,10 @@ public class WorkflowController {
     private String connectionSubscriber;
 
     private WorkflowManager workflowManager;
-    private ZeebeClient zeebe;
 
     @Autowired
-    public WorkflowController(WorkflowManager workflowManager, ZeebeClient zeebe) {
+    public WorkflowController(WorkflowManager workflowManager) {
         this.workflowManager = workflowManager;
-        this.zeebe = zeebe;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/workflow/deploy/{workflow}")
