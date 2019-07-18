@@ -53,6 +53,7 @@ public class WorkflowController {
         workflow_variables.put(KEY_VARIABLE_WORKFLOW_ID, id);
         workflow_variables.put(KEY_VARIABLE_WORKFLOW_NAME, workflow);
         workflow_variables.put(KEY_VARIABLE_WORKFLOW_TOPIC, "webhook");
+        workflow_variables.put(KEY_VARIABLE_WORKFLOW_MESSAGE, "");
         workflow_variables.put(KEY_VARIABLE_PROJECT_URL, "");
         workflow_variables.put(KEY_VARIABLE_PROJECT_NAME, "");
         workflow_variables.put(KEY_VARIABLE_PROJECT_VERSION, "");

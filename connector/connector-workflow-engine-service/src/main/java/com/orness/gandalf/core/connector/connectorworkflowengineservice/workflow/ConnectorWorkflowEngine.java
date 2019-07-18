@@ -10,6 +10,8 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.KEY_VARIABLE_WORKFLOW_MESSAGE;
+
 @Component
 public class ConnectorWorkflowEngine {
 
@@ -23,7 +25,7 @@ public class ConnectorWorkflowEngine {
     public void sendMessageWorkflowEngine(MessageGandalf messageGandalf) {
         System.out.println("SEND WORKFLOW " + messageGandalf);
         Map<String, String> variables = new HashMap<>();
-        variables.put("content", messageGandalf.getContent());
+        variables.put(KEY_VARIABLE_WORKFLOW_MESSAGE, messageGandalf.getContent());
         zeebe.newPublishMessageCommand() //
                 .messageName("message")
                 .correlationKey(messageGandalf.getTopic())

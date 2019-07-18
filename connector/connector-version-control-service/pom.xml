@@ -72,6 +72,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.orness.gandalf.core.module</groupId>
+			<artifactId>webhook-module</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.orness.gandalf.core.library</groupId>
 			<artifactId>zeromq-java-client</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.connector.connectorversioncontrolservice.controller;
 
-import com.orness.gandalf.core.connector.connectorversioncontrolservice.domain.CustomMergeRequest;
 import com.orness.gandalf.core.connector.connectorversioncontrolservice.manager.ConnectorVersionControlManager;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
+import com.orness.gandalf.core.module.webhookmodule.domain.CustomMergeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +38,7 @@ public class ConnectorVersionControlController {
 
         if(connectorVersionControlManager.validWebhookMergeRequest(customMergeRequest)) {
             ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
-            zeroMQJavaClient.sendMessageTopic(topicWebhook, customMergeRequest.getProjectUrl());
+            zeroMQJavaClient.sendMessageTopic(topicWebhook, customMergeRequest.toString());
         }
     }
 }

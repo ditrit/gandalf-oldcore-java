@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.job.buildjob.job;
 
 import com.orness.gandalf.core.job.buildjob.feign.BuildFeign;
+import com.orness.gandalf.core.job.buildjob.manager.BuildJobManager;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;
@@ -34,11 +34,13 @@ public class BuildJob implements JobHandler {
     private BuildFeign buildFeign;
     private JobWorker subscription;
     private ZeroMQJavaClient zeroMQJavaClient;
+    private BuildJobManager buildJobManager;
 
     @Autowired
-    public BuildJob(ZeebeClient zeebe, BuildFeign buildFeign) {
+    public BuildJob(ZeebeClient zeebe, BuildFeign buildFeign, BuildJobManager buildJobManager) {
         this.zeebe = zeebe;
         this.buildFeign = buildFeign;
+        this.buildJobManager = buildJobManager;
     }
 
     @PostConstruct
@@ -57,19 +59,25 @@ public class BuildJob implements JobHandler {
 
     @Override
     public void handle(JobClient jobClient, ActivatedJob activatedJob) {
-
-        //Get workflow variables
-        Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
-        String projectUrl = workflow_variables.get(KEY_VARIABLE_PROJECT_URL).toString();
+
+        //Get workflow variables
+        Map<String, Object> current_workflow_variables = activatedJob.getVariablesAsMap();
+        Map<String, String> workflow_variables = buildJobManager.createWorkflowVariables(current_workflow_variables);
+        String projectUrl = workflow_variables.get(KEY_VARIABLE_PROJECT_URL);
+
         //Build
-        succes = buildFeign.build(projectUrl);
+        String projectVersion = buildFeign.build(projectUrl);
+        succes &= projectVersion == null;
+
+        workflow_variables.put(KEY_VARIABLE_PROJECT_VERSION, projectVersion);
 
         //ADD WORKFLOW VARIABLE ADD REPERTORY
         zeebe.newPublishMessageCommand()
                 .messageName("message")
                 .correlationKey("build")
+                .variables(workflow_variables)
                 .timeToLive(Duration.ofMinutes(30))
                 .send().join();
 

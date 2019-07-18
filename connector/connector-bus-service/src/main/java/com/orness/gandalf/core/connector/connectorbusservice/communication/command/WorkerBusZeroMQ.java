@@ -41,7 +41,8 @@ public class WorkerBusZeroMQ extends WorkerZeroMQ implements Runnable {
             case COMMAND_SEND_MESSAGE_TOPIC:
                 String[] contents = content.split("#");
                 String topic = contents[0];
-                MessageGandalf messageGandalf = new MessageGandalf(topic, sender.toString(), "2020-12-09 01:02:03.123456789", "2020-12-09", contents[1]);
+                String message = contents[1];
+                MessageGandalf messageGandalf = new MessageGandalf(topic, sender.toString(), "2020-12-09 01:02:03.123456789", "2020-12-09", message);
                 //mapper.fromJson(contents[1], MessageGandalf.class);
                 connectorBusProducer.sendConnectorMessageKafka(topic, messageGandalf);
                 break;

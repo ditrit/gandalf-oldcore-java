@@ -18,6 +18,7 @@ import java.time.Duration;
 import java.util.Map;
 
 import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.KEY_VARIABLE_PROJECT_NAME;
+import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.KEY_VARIABLE_PROJECT_VERSION;
 
 @Component
 public class RegisterJob implements JobHandler {
@@ -65,13 +66,14 @@ public class RegisterJob implements JobHandler {
         boolean succes = true;
         //MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicRegister);
         String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString();
+        String projectVersion = workflow_variables.get(KEY_VARIABLE_PROJECT_VERSION).toString();
         System.out.println(projectName);
+        System.out.println(projectVersion);
+
         //Register
-        //TODO VAR
-        succes = registerFeign.register(projectName, "0");
+        succes = registerFeign.register(projectName, projectVersion);
 
         //ADD WORKFLOW VARIABLE ADD REPERTORY
-
         zeebe.newPublishMessageCommand()
                 .messageName("message")
                 .correlationKey("feign")

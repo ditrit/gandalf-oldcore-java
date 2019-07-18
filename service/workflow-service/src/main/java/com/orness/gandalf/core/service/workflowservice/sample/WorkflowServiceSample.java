@@ -38,6 +38,14 @@ public class WorkflowServiceSample implements CommandLineRunner {
     }
 
     public void demoPresentation() {
+        ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
+        //CREATE TOPIC
+        zeroMQJavaClient.createTopic("webhook");
+        //SUB TOPIC
+        zeroMQJavaClient.subscribeWorkflowEngineTopic("webhook");
+    }
+
+    public void demoPresentation_old() {
         DeploymentEvent deploymentEvent;
         WorkflowInstanceEvent workflowInstanceEvent;
         ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);

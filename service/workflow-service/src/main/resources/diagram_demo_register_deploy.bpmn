@@ -10,6 +10,7 @@
           <zeebe:output source="project_url" target="project_url" />
           <zeebe:output source="project_name" target="project_name" />
           <zeebe:output source="project_version" target="project_version" />
+          <zeebe:output source="workflow_message" target="workflow_message" />
         </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ok6ywl</bpmn:incoming>
@@ -47,7 +48,7 @@
   </bpmn:process>
   <bpmn:message id="Message_17swi1f" name="message">
     <bpmn:extensionElements>
-      <zeebe:subscription correlationKey="listen_topic" />
+      <zeebe:subscription correlationKey="workflow_topic" />
     </bpmn:extensionElements>
   </bpmn:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -63,17 +64,21 @@
         <di:waypoint x="265" y="121" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1skkl34_di" bpmnElement="ServiceTask_1skkl34">
-        <dc:Bounds x="415" y="81" width="100" height="80" />
+        <dc:Bounds x="409" y="83" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0yeizqb_di" bpmnElement="SequenceFlow_0yeizqb">
         <di:waypoint x="365" y="121" />
-        <di:waypoint x="415" y="121" />
+        <di:waypoint x="387" y="121" />
+        <di:waypoint x="387" y="123" />
+        <di:waypoint x="409" y="123" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1nkczcb_di" bpmnElement="ServiceTask_1nkczcb">
         <dc:Bounds x="565" y="81" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_04iva9b_di" bpmnElement="SequenceFlow_04iva9b">
-        <di:waypoint x="515" y="121" />
+        <di:waypoint x="509" y="123" />
+        <di:waypoint x="537" y="123" />
+        <di:waypoint x="537" y="121" />
         <di:waypoint x="565" y="121" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1h72bdr_di" bpmnElement="ServiceTask_1h72bdr">
