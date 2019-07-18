@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
+import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.KEY_VARIABLE_WORKFLOW_ID;
+
 @Component
 public class WorkflowManager {
 
@@ -27,9 +29,9 @@ public class WorkflowManager {
     }
 
     public WorkflowInstanceEvent InstanceWorkflow(HashMap<String, String> workflow_variables) {
-        String workflow_bpmn_process_id = workflow_variables.get("process_id");
-
+        String workflow_bpmn_process_id = workflow_variables.get(KEY_VARIABLE_WORKFLOW_ID);
         System.out.println(workflow_bpmn_process_id);
+        
         //INSTANCE
         return zeebeClient.newCreateInstanceCommand()
                 .bpmnProcessId(workflow_bpmn_process_id)
