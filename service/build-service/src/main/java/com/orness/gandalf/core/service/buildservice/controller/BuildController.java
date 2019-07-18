@@ -31,7 +31,7 @@ public class BuildController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/build")
-    public String build(@RequestBody String projectUrl) throws IOException, InterruptedException {
+    public String build(@RequestBody String projectUrl) throws IOException {
         System.out.println(projectUrl);
         boolean succes = true;
         //CLONE
@@ -63,7 +63,7 @@ public class BuildController {
         //CLEAN
         FileUtils.deleteDirectory(new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName));
 
-         //return succes;
+        //return succes;
         return version;
     }
 
