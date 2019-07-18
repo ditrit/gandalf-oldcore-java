@@ -56,6 +56,8 @@ public class WorkflowController {
         workflow_variables.put(KEY_VARIABLE_PROJECT_NAME, "");
         workflow_variables.put(KEY_VARIABLE_PROJECT_VERSION, "");
 
+        System.out.println(workflow_variables);
+        
         WorkflowInstanceEvent workflowInstanceEvent = workflowManager.InstanceWorkflow(workflow_variables);
         return true;
     }

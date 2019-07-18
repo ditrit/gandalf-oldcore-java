@@ -31,7 +31,7 @@ public class WorkflowManager {
     public WorkflowInstanceEvent InstanceWorkflow(HashMap<String, String> workflow_variables) {
         String workflow_bpmn_process_id = workflow_variables.get(KEY_VARIABLE_WORKFLOW_ID);
         System.out.println(workflow_bpmn_process_id);
-        
+
         //INSTANCE
         return zeebeClient.newCreateInstanceCommand()
                 .bpmnProcessId(workflow_bpmn_process_id)
