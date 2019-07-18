@@ -78,6 +78,9 @@ public class CustomMergeRequest {
         this.mergeTarget = mergeTarget;
     }
 
+    public CustomMergeRequest() {
+    }
+
     @Override
     public String toString() {
         return "CustomMergeRequest{" +
