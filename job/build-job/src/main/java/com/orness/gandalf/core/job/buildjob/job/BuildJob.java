@@ -70,7 +70,10 @@ public class BuildJob implements JobHandler {
         //Build
         String projectVersion = buildFeign.build(projectUrl);
         System.out.println(projectUrl);
+        System.out.println(projectVersion);
+        System.out.println(succes);
         succes &= projectVersion == null;
+        System.out.println(succes);
 
         workflow_variables.put(KEY_VARIABLE_PROJECT_VERSION, projectVersion);
 
