@@ -26,17 +26,35 @@ public class BashService {
             } else {
                 System.out.println("Directory already exists");
             }
-
-            process = new ProcessBuilder( "bash", "-c", SCRIPT_CLONE + " " + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
-            bw.write("testgandalf");
-            bw.flush();
+            System.out.println("URL");
+            System.out.println(url);
+            String updatedUrl = updateUrl(url);
+            System.out.println("URL UPDATED");
+            System.out.println(updatedUrl);
+            process = new ProcessBuilder( "bash", "-c", SCRIPT_CLONE + " " + updatedUrl).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return false;
         }
         return process.exitValue() == 0 ? true : false;
+    }
+
+    private String updateUrl(String url) {
+        String username = "root";
+        String pwd = "testgandalf";
+        String beginUrl = url.substring(0,7);
+        String endURl = url.substring(21);
+
+        StringBuilder resultUrl = new StringBuilder(beginUrl);
+        resultUrl.append(username);
+        resultUrl.append(":");
+        resultUrl.append(pwd);
+        resultUrl.append("@gitlab");
+        resultUrl.append(endURl);
+
+        return resultUrl.toString();
+
     }
 
     public boolean buildProject(String projectName) {
