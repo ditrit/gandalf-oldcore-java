@@ -22,7 +22,7 @@ public class ConnectorVersionControlManager {
     public CustomMergeRequest parseEventMergeRequest(String mergeRequestBody) throws IOException {
         System.out.println(mergeRequestBody);
         JsonNode rootNode = objectMapper.readTree(mergeRequestBody);
-        CustomMergeRequest customMergeRequest = new CustomMergeRequest(rootNode.path("project").path("name").textValue(), rootNode.path("project").path("ssh_url").textValue(), rootNode.path("project").path("http_url").textValue(), rootNode.path("project").path("git_http_url").textValue(), rootNode.path("project").path("git_ssh_url").textValue(), rootNode.path("object_attributes").path("source_branch").textValue(), rootNode.path("object_attributes").path("target_branch").textValue());
+        CustomMergeRequest customMergeRequest = new CustomMergeRequest(rootNode.path("project").path("name").textValue(), rootNode.path("project").path("http_url").textValue(), rootNode.path("project").path("ssh_url").textValue(), rootNode.path("project").path("git_http_url").textValue(), rootNode.path("project").path("git_ssh_url").textValue(), rootNode.path("object_attributes").path("source_branch").textValue(), rootNode.path("object_attributes").path("target_branch").textValue());
         System.out.println(customMergeRequest);
         return customMergeRequest;
     }
