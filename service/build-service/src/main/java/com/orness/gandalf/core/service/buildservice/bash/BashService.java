@@ -28,6 +28,9 @@ public class BashService {
             }
 
             process = new ProcessBuilder( "bash", "-c", SCRIPT_CLONE + " " + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
+            bw.write("testgandalf");
+            bw.flush();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
