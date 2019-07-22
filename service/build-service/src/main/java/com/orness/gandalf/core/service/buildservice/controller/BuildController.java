@@ -30,17 +30,17 @@ public class BuildController {
         this.artifactService = artifactService;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/build")
-    public String build(@RequestBody String projectUrl) throws IOException {
+    @RequestMapping(method = RequestMethod.POST, value = "/build/{projectName}")
+    public String build(@PathVariable("projectName") String projectName, @RequestBody String projectUrl) throws IOException {
         System.out.println(projectUrl);
         boolean succes = true;
         //CLONE
         succes &= bashService.cloneProject(projectUrl);
         //Thread.sleep(500);
         //MVN CLEAN INSTALL
-        String projectFileName = projectUrl.split("/")[1];
-        System.out.println(projectFileName);
-        String projectName = projectFileName.substring(0, projectFileName.length()-4);
+        //String projectFileName = projectUrl.split("/")[1];
+        //System.out.println(projectFileName);
+        //String projectName = projectFileName.substring(0, projectFileName.length()-4);
         System.out.println(projectName);
         succes &= bashService.buildProject(projectName);
         //Thread.sleep(1000);

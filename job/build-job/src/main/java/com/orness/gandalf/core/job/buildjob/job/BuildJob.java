@@ -66,9 +66,10 @@ public class BuildJob implements JobHandler {
         Map<String, Object> current_workflow_variables = activatedJob.getVariablesAsMap();
         Map<String, String> workflow_variables = buildJobManager.createWorkflowVariables(current_workflow_variables);
         String projectUrl = workflow_variables.get(KEY_VARIABLE_PROJECT_URL);
+        String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_NAME);
 
         //Build
-        String projectVersion = buildFeign.build(projectUrl);
+        String projectVersion = buildFeign.build(projectName, projectUrl);
         System.out.println(projectUrl);
         System.out.println(projectVersion);
         succes &= projectVersion != null;
