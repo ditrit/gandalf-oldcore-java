@@ -15,12 +15,11 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>subscriber-topic-module</module>
         <module>workflow-uid-module</module>
         <module>message-module</module>
-        <module>grpc-message-bus-module</module>
-        <module>grpc-message-workflow-engine-module</module>
         <module>zeromq-module</module>
+        <module>constant-module</module>
+        <module>webhook-module</module>
     </modules>
 
     <properties>

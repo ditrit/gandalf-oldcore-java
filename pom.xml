@@ -29,5 +29,6 @@
         <module>test</module>
         <module>library</module>
         <module>service</module>
+        <module>job</module>
     </modules>
 </project>

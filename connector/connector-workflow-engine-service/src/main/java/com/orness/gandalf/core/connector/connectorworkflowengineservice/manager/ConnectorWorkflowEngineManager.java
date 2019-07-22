@@ -1,85 +1,104 @@
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.manager;
 
+import com.orness.gandalf.core.connector.connectorworkflowengineservice.communication.event.SubscriberWorkflowEngineZeroMQ;
+import com.orness.gandalf.core.connector.connectorworkflowengineservice.config.ConnectorWorkflowEngineServiceConfiguration;
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.workflow.ConnectorWorkflowEngine;
-import com.orness.gandalf.core.module.connectorbusservice.grpc.MessageResponse;
-import com.orness.gandalf.core.module.connectorworkflowengineservice.grpc.Subscribe;
-import com.orness.gandalf.core.library.grpcjavaclient.bus.GrpcBusJavaClient;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
-
-import java.util.Iterator;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 
 @Component
+@Order(0)
 public class ConnectorWorkflowEngineManager {
 
+    @Autowired
+    private GenericWebApplicationContext context;
+
     private ConnectorWorkflowEngine connectorWorkflowEngine;
+
+    @Value("${gandalf.communication.worker}")
+    private String connectionWorker;
+
+    @Value("${gandalf.communication.subscriber}")
+    private String connectionSubscriber;
 
     @Autowired
     public ConnectorWorkflowEngineManager(ConnectorWorkflowEngine connectorWorkflowEngine) {
         this.connectorWorkflowEngine = connectorWorkflowEngine;
+
     }
 
-    public void subscribeTopicBus(Subscribe subscribe) {
-        //ConnectorWorkflowEngineBusGrpc connectorWorkflowEngineBusGrpc = new ConnectorWorkflowEngineBusGrpc(this.connectorWorkflowEngine);
-        //connectorWorkflowEngineBusGrpc.subscribeTopicDefault(subscribe.getTopic(), subscribe.getSubscriber());
-        GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
-        grpcBusJavaClient.subscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
-        grpcBusJavaClient.stopClient();
+    public void subscribeTopic(String topic) {
+        String beanName = topic + "SubscriberWorkflowEngineZeroMQ";
+        //BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(SubscriberWorkflowEngineZeroMQ.class).setLazyInit(true);
+        //beanDefinitionRegistry.registerBeanDefinition(beanName, builder.getBeanDefinition());
+        if(!this.context.containsBean(beanName)) {
+            this.context.registerBean(beanName, SubscriberWorkflowEngineZeroMQ.class, () -> new SubscriberWorkflowEngineZeroMQ(connectionSubscriber, topic));
+            ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
+
+            SubscriberWorkflowEngineZeroMQ subscriberWorkflowEngineZeroMQ = (SubscriberWorkflowEngineZeroMQ) context.getBean(beanName);
+            taskExecutor.execute(subscriberWorkflowEngineZeroMQ);
+        }
     }
 
-    public Iterator<MessageResponse> getMessageStream(Subscribe subscribe) {
-        //ConnectorWorkflowEngineBusGrpc connectorWorkflowEngineBusGrpc = new ConnectorWorkflowEngineBusGrpc(this.connectorWorkflowEngine);
-        //connectorWorkflowEngineBusGrpc.subscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
-        System.out.println("Sub One" + subscribe);
+    public void unsubscribeTopic(String topic) {
+        String beanName = topic + "SubscriberWorkflowEngineZeroMQ";
+        //ApplicationContext context = new AnnotationConfigApplicationContext(ConnectorWorkflowEngineServiceConfiguration.class);
+        SubscriberWorkflowEngineZeroMQ subscriberWorkflowEngineZeroMQ = (SubscriberWorkflowEngineZeroMQ) context.getBean(beanName);
+        subscriberWorkflowEngineZeroMQ.close();
+    }
 
+    public void createBusTopic(String topic) {
+        ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
+        zeroMQJavaClient.createTopic(topic);
+    }
+
+    public void deleteBusTopic(String topic) {
+        ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
+        zeroMQJavaClient.deleteTopic(topic);
+    }
+
+/*    public Iterator<MessageResponse> getMessageStream(Subscribe subscribe) {
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
         Iterator<MessageResponse> messageResponseIterator = grpcBusJavaClient.getMessageStream(subscribe.getTopic(), subscribe.getSubscriber());
-        /*MessageGandalf result = null;
-        while(messageResponseIterator.hasNext()) {
-            MessageGandalf currentMessage =  messageResponseIterator.next().getMessage();
-            System.out.println("MessageGandalf " + currentMessage);
 
-            result = new MessageGandalf(currentMessage.getTopic(),
-                    currentMessage.getSender(),
-                    currentMessage.getExpirationTime(),
-                    currentMessage.getCreationDate(),
-                    currentMessage.getContent());
-            break;
-        }*/
         grpcBusJavaClient.stopClient();
         return messageResponseIterator;
     }
 
     public void getMessageStreamWorkflow(Subscribe subscribe) {
-        //ConnectorWorkflowEngineBusGrpc connectorWorkflowEngineBusGrpc = new ConnectorWorkflowEngineBusGrpc(this.connectorWorkflowEngine);
-        //connectorWorkflowEngineBusGrpc.subscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
-        System.out.println("Sub " + subscribe);
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
         Iterator<MessageResponse> messageResponseIterator = grpcBusJavaClient.getMessageStream(subscribe.getTopic(), subscribe.getSubscriber());
         while(messageResponseIterator.hasNext()) {
             com.orness.gandalf.core.module.connectorbusservice.grpc.Message currentMessage =  messageResponseIterator.next().getMessage();
-            System.out.println("MessageGandalf " + currentMessage);
-            System.out.println("1");
-            System.out.println("1" + this.connectorWorkflowEngine);
 
             this.connectorWorkflowEngine.sendMessageWorkflowEngine(new MessageGandalf(currentMessage.getTopic(),
                     currentMessage.getSender(),
                     currentMessage.getExpirationTime(),
                     currentMessage.getCreationDate(),
                     currentMessage.getContent()));
-            System.out.println("2");
-
         }
         grpcBusJavaClient.stopClient();
     }
 
-    public void unsubscribeTopicBus(Subscribe subscribe) {
-        //ConnectorWorkflowEngineBusGrpc connectorWorkflowEngineBusGrpc = new ConnectorWorkflowEngineBusGrpc(this.connectorWorkflowEngine);
-        //connectorWorkflowEngineBusGrpc.unsubscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
+    public void subscribeTopicBus(Subscribe subscribe) {
+
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
-        grpcBusJavaClient.unsubscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
+        grpcBusJavaClient.subscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
         grpcBusJavaClient.stopClient();
     }
 
+    public void unsubscribeTopicBus(Subscribe subscribe) {
+        GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
+        grpcBusJavaClient.unsubscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
+        grpcBusJavaClient.stopClient();
+    }*/
 }
