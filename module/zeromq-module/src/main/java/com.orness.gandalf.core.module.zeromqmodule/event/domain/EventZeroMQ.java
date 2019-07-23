@@ -10,7 +10,22 @@ public class EventZeroMQ {
         socket.send(event);
     }
 
-    public static ResponseEventZeroMQ subscribeEvent(ZMQ.Socket socket) {
-        return new ResponseEventZeroMQ(socket);
+    public static void subscribeEvent(ZMQ.Socket socket, String topic) {
+        socket.subscribe(topic.getBytes());
+    }
+
+    public static MessageEventZeroMQ getEvent(ZMQ.Socket socket) {
+        return new MessageEventZeroMQ(socket);
+    }
+
+    public static MessageEventZeroMQ getEventByTopic(ZMQ.Socket socket, String topic) {
+        MessageEventZeroMQ messageEventZeroMQ = null;
+        String current_event_topic = socket.recvStr();
+        if(current_event_topic.equals(topic)) {
+            String typeEvent = socket.recvStr();
+            String event = socket.recvStr();
+            messageEventZeroMQ = new MessageEventZeroMQ(current_event_topic, typeEvent, event);
+        }
+        return messageEventZeroMQ;
     }
 }

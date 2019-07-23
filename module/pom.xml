@@ -20,6 +20,7 @@
         <module>zeromq-module</module>
         <module>constant-module</module>
         <module>webhook-module</module>
+        <module>connector-module</module>
     </modules>
 
     <properties>

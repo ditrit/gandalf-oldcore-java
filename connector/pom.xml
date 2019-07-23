@@ -18,6 +18,7 @@
         <module>connector-workflow-engine-service</module>
         <module>connector-bus-service</module>
         <module>connector-version-control-service</module>
+        <module>connector-gandalf-service</module>
     </modules>
 
     <properties>
