@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.connector.connectorbusservice.gandalf.communication.event;
+package com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.communication.event;
 
 import com.orness.gandalf.core.module.zeromqmodule.event.publisher.PublisherZeroMQ;
 

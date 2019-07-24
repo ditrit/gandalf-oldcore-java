@@ -1,12 +1,17 @@
 package com.orness.gandalf.core.module.connectormodule.gandalf.communication.command;
 
+import com.orness.gandalf.core.module.connectormodule.gandalf.manager.GandalfConnectorManager;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import static com.orness.gandalf.core.module.constantmodule.communication.CommunicationConstant.*;
 
 public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
+
+    @Autowired
+    private GandalfConnectorManager gandalfConnectorManager;
 
     public GandalfWorkerCommand(@Value("${gandalf.communication.worker}") String connection) {
         super(connection);
@@ -23,16 +28,19 @@ public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
 
         switch(messageCommandZeroMQ.getCommand().toString()) {
             case COMMAND_START:
-                //
+                this.gandalfConnectorManager.start();
                 break;
             case COMMAND_STOP:
-                //connectorBusManager.deleteTopic(content);
+                this.gandalfConnectorManager.stop();
+                break;
+            case COMMAND_PUBLISH:
+                this.gandalfConnectorManager.publish();
                 break;
             case COMMAND_SUBSCRIBE:
-                //connectorBusManager.createTopic(content);
+                this.gandalfConnectorManager.subscribe();
                 break;
             case COMMAND_UNSUBSCRIBE:
-                //connectorBusManager.createTopic(content);
+                this.gandalfConnectorManager.unsubscribe();
                 break;
             default:
                 //DO NOTHING

@@ -13,22 +13,22 @@ public class GandalfClientCommand extends ClientZeroMQ {
     }
 
     public MessageCommandZeroMQ sendStartCommand() {
-        CommandZeroMQ.sendCommand(client, identity, "" , COMMAND_TYPE_GANDALF, COMMAND_START);
-        return CommandZeroMQ.receiveCommand(client);
+        CommandZeroMQ.sendCommand(this.client, this.identity, "" , COMMAND_TYPE_GANDALF, COMMAND_START);
+        return CommandZeroMQ.receiveCommand(this.client);
     }
 
     public MessageCommandZeroMQ sendStopCommand() {
-        CommandZeroMQ.sendCommand(client, identity, "" , COMMAND_TYPE_GANDALF, COMMAND_STOP);
-        return CommandZeroMQ.receiveCommand(client);
+        CommandZeroMQ.sendCommand(this.client, this.identity, "" , COMMAND_TYPE_GANDALF, COMMAND_STOP);
+        return CommandZeroMQ.receiveCommand(this.client);
     }
 
     public MessageCommandZeroMQ sendSubscriberCommand() {
-        CommandZeroMQ.sendCommand(client, identity, "" , COMMAND_TYPE_GANDALF, COMMAND_SUBSCRIBE);
-        return CommandZeroMQ.receiveCommand(client);
+        CommandZeroMQ.sendCommand(this.client, this.identity, "" , COMMAND_TYPE_GANDALF, COMMAND_SUBSCRIBE);
+        return CommandZeroMQ.receiveCommand(this.client);
     }
 
     public MessageCommandZeroMQ sendUnsubscribeCommand() {
-        CommandZeroMQ.sendCommand(client, identity, "" , COMMAND_TYPE_GANDALF, COMMAND_UNSUBSCRIBE);
-        return CommandZeroMQ.receiveCommand(client);
+        CommandZeroMQ.sendCommand(this.client, this.identity, "" , COMMAND_TYPE_GANDALF, COMMAND_UNSUBSCRIBE);
+        return CommandZeroMQ.receiveCommand(this.client);
     }
 }

@@ -21,28 +21,28 @@ public class PubSubProxyZeroMQ {
 
     public void open() {
 
-        context = new ZContext();
+        this.context = new ZContext();
 
         // Publisher EndPoint
-        frontend = context.createSocket(SocketType.XSUB);
+        this.frontend = this.context.createSocket(SocketType.XSUB);
         System.out.println("PublisherZeroMQ binding to: " + publisherConnection);
-        frontend.bind(publisherConnection);
+        this.frontend.bind(this.publisherConnection);
 
         // Subscriber EndPoint
-        backend = context.createSocket(SocketType.XPUB);
-        System.out.println("SubscriberZeroMQ binding to: " + subscriberConnection);
-        backend.bind(subscriberConnection);
+        this.backend = this.context.createSocket(SocketType.XPUB);
+        System.out.println("SubscriberZeroMQ binding to: " + this.subscriberConnection);
+        this.backend.bind(this.subscriberConnection);
 
         // Run the proxy
-        ZMQ.proxy(frontend, backend, null);
+        ZMQ.proxy(this.frontend, this.backend, null);
 
         this.close();
     }
 
     public void close() {
-        frontend.close();
-        backend.close();
-        context.destroy();
+        this.frontend.close();
+        this.backend.close();
+        this.context.destroy();
     }
 
 }

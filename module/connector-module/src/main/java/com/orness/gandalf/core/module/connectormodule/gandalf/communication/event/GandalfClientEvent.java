@@ -11,7 +11,7 @@ public class GandalfClientEvent extends ClientZeroMQ {
     }
 
     public MessageCommandZeroMQ sendEventCommand(String typeEvent, String event) {
-        CommandZeroMQ.sendCommand(client, identity, "" , typeEvent, event);
-        return CommandZeroMQ.receiveCommand(client);
+        CommandZeroMQ.sendCommand(this.client, this.identity, "" , typeEvent, event);
+        return CommandZeroMQ.receiveCommand(this.client);
     }
 }

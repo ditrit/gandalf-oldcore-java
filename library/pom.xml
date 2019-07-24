@@ -16,6 +16,7 @@
 
     <modules>
         <module>zeromq-java-client</module>
+        <module>gandalf-java-client</module>
     </modules>
 
     <properties>

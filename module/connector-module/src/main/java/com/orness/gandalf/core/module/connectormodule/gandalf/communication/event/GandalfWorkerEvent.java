@@ -13,12 +13,13 @@ public class GandalfWorkerEvent extends RunnableWorkerZeroMQ {
 
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
-            MessageCommandZeroMQ messageCommandZeroMQ = CommandZeroMQ.receiveCommand(worker);
+            MessageCommandZeroMQ messageCommandZeroMQ = CommandZeroMQ.receiveCommand(this.worker);
             this.command(messageCommandZeroMQ);
-            CommandZeroMQ.replyCommand(worker, messageCommandZeroMQ);
+            CommandZeroMQ.replyCommand(this.worker, messageCommandZeroMQ);
         }
     }
 
+    //TODO FINISH
     @Override
     public void command(MessageCommandZeroMQ messageCommandZeroMQ) {
 

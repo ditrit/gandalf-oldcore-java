@@ -20,25 +20,18 @@ public class BrokerZeroMQ {
 
     public void open() {
 
-        context = new ZContext();
+        this.context = new ZContext();
 
         // Client EndPoint
-        frontend = context.createSocket(SocketType.ROUTER);
-        System.out.println("ClientZeroMQ binding to: " + clientConnection);
-        frontend.bind(clientConnection);
+        this.frontend = this.context.createSocket(SocketType.ROUTER);
+        System.out.println("ClientZeroMQ binding to: " + this.clientConnection);
+        this.frontend.bind(this.clientConnection);
 
         // Worker EndPoint
-        backend = context.createSocket(SocketType.DEALER);
-        System.out.println("WorkerZeroMQ binding to: " + workerConnection);
-        backend.bind(workerConnection);
+        this.backend = this.context.createSocket(SocketType.DEALER);
+        System.out.println("WorkerZeroMQ binding to: " + this.workerConnection);
+        this.backend.bind(this.workerConnection);
 
-        // Launch pool of worker threads, precise number is not critical
-        /*for (int threadNbr = 0; threadNbr < 5; threadNbr++)
-            new WorkerZeroMQ(context, workerConnection);*/
-        //new Thread(new WorkerZeroMQ(context, workerConnection)).start();
-
-        // Run the proxy until the user interrupts us
-        //ZMQ.proxy(frontend, backend, null);
         this.broker();
 
         this.close();
@@ -47,8 +40,8 @@ public class BrokerZeroMQ {
     public void broker() {
         //  Initialize poll set
         ZMQ.Poller items = context.createPoller(2);
-        items.register(frontend, ZMQ.Poller.POLLIN);
-        items.register(backend, ZMQ.Poller.POLLIN);
+        items.register(this.frontend, ZMQ.Poller.POLLIN);
+        items.register(this.backend, ZMQ.Poller.POLLIN);
 
         boolean more = false;
         byte[] message;
@@ -61,11 +54,11 @@ public class BrokerZeroMQ {
             if (items.pollin(0)) {
                 while (true) {
                     // receive message
-                    message = frontend.recv(0);
-                    more = frontend.hasReceiveMore();
+                    message = this.frontend.recv(0);
+                    more = this.frontend.hasReceiveMore();
 
                     // Broker it
-                    backend.send(message, more ? ZMQ.SNDMORE : 0);
+                    this.backend.send(message, more ? ZMQ.SNDMORE : 0);
                     if (!more) {
                         break;
                     }
@@ -75,10 +68,10 @@ public class BrokerZeroMQ {
             if (items.pollin(1)) {
                 while (true) {
                     // receive message
-                    message = backend.recv(0);
-                    more = backend.hasReceiveMore();
+                    message = this.backend.recv(0);
+                    more = this.backend.hasReceiveMore();
                     // Broker it
-                    frontend.send(message, more ? ZMQ.SNDMORE : 0);
+                    this.frontend.send(message, more ? ZMQ.SNDMORE : 0);
                     if (!more) {
                         break;
                     }
@@ -88,9 +81,9 @@ public class BrokerZeroMQ {
     }
 
     public void close() {
-        frontend.close();
-        backend.close();
-        context.destroy();
+        this.frontend.close();
+        this.backend.close();
+        this.context.destroy();
     }
 
 }

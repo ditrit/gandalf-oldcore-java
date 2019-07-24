@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbusservice.gandalf.config;
 
-import com.orness.gandalf.core.connector.connectorbusservice.gandalf.communication.command.BusWorkerZeroMQ;
+import com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.communication.command.BusWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;

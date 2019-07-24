@@ -5,6 +5,7 @@ import com.orness.gandalf.core.library.zeromqjavaclient.command.ClientWorkflowEn
 import com.orness.gandalf.core.library.zeromqjavaclient.event.SubscriberBusCallableZeroMQ;
 import com.orness.gandalf.core.library.zeromqjavaclient.event.SubscriberBusZeroMQ;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.zeromqmodule.event.domain.MessageEventZeroMQ;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.concurrent.ExecutionException;
@@ -68,10 +69,10 @@ public class ZeroMQJavaClient {
          return this.subscriberBusZeroMQ.getMessage();
     }
 
-    public MessageGandalf getMessageSubscriberCallableBusTopic(String topic) {
+    public MessageEventZeroMQ getMessageSubscriberCallableBusTopic(String topic) {
         SubscriberBusCallableZeroMQ subscriberBusCallableZeroMQ = new SubscriberBusCallableZeroMQ(connectionSubscriber, topic);
-        Future<MessageGandalf> futureMessageGandalf = executor.submit(subscriberBusCallableZeroMQ);
-        MessageGandalf resultMessageGandalf = null;
+        Future<MessageEventZeroMQ> futureMessageGandalf = executor.submit(subscriberBusCallableZeroMQ);
+        MessageEventZeroMQ resultMessageGandalf = null;
         while(!futureMessageGandalf.isDone() && !futureMessageGandalf.isCancelled()) {
             System.out.println("Waiting...");
             try {

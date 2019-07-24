@@ -9,7 +9,7 @@ public class GandalfPublisherEvent extends PublisherZeroMQ {
         super(connection);
     }
 
-    private void sendEvent(String topic, String typeEvent, String event) {
-        EventZeroMQ.publishEvent(publisher, topic, typeEvent, event);
+    public void sendEvent(String topic, String typeEvent, String event) {
+        EventZeroMQ.publishEvent(this.publisher, topic, typeEvent, event);
     }
 }
