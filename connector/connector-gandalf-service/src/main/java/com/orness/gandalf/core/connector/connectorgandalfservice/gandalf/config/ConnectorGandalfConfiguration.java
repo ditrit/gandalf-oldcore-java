@@ -22,7 +22,7 @@ public class ConnectorGandalfConfiguration {
     }
 
     @Bean
-    public void workerBusCommand() {
+    public void workerGandalfCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
 
         //TODO REVOIR

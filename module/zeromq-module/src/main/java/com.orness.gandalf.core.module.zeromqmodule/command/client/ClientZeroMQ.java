@@ -12,47 +12,25 @@ public abstract class ClientZeroMQ {
     protected ZMQ.Socket client;
     protected String identity;
 
-    public ClientZeroMQ(String connection) {
+    protected void setConnection(String connection) {
         this.connection = connection;
-        this.open();
     }
 
-    public void open() {
-        context = new ZContext();
-        client = context.createSocket(SocketType.REQ);
-        //publisher.bind(connection);
-        //  Set random identity to make tracing easier
-        identity = String.format("%04X-%04X", rand.nextInt(), rand.nextInt());
-        client.setIdentity(identity.getBytes(ZMQ.CHARSET));
-        client.connect(connection);
+    public ClientZeroMQ(String connection) {
+        this.connection = connection;
+        this.context = new ZContext();
+        this.client = this.context.createSocket(SocketType.REQ);
+        this.identity = String.format("%04X-%04X", rand.nextInt(), rand.nextInt());
+        this.client.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
+        this.connect();
+    }
+
+    public void connect() {
+        this.client.connect(this.connection);
     }
 
     public void close() {
-        client.close();
-        context.close();
+        this.client.close();
+        this.context.close();
     }
-
-/*    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            client.sendMore(identity);
-            client.sendMore("command");
-            client.send("toto", 0);
-
-            ZMsg msg = ZMsg.recvMsg(client);
-            ZFrame address = msg.pop();
-            ZFrame command = msg.pop();
-            ZFrame content = msg.pop();
-
-            System.out.println("ID " + identity);
-            System.out.println("REP ADD " + address);
-            System.out.println("REP COMM " + command);
-            System.out.println("REP CONT " + content);
-            msg.destroy();
-        }
-    }
-
-    public static void main(String[] args) {
-        new Thread(new ClientZeroMQ("tcp://localhost:5570")).start();
-        new Thread(new ClientZeroMQ("tcp://localhost:5570")).start();
-    }*/
 }

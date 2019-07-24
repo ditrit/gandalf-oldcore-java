@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbusservice.gandalf.config;
 
-import com.orness.gandalf.core.connector.connectorbusservice.gandalf.communication.command.WorkerBusZeroMQ;
+import com.orness.gandalf.core.connector.connectorbusservice.gandalf.communication.command.BusWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
@@ -28,8 +28,8 @@ public class ConnectorBusConfiguration {
     public void workerBusCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
 
-        WorkerBusZeroMQ workerBusZeroMQ = (WorkerBusZeroMQ) context.getBean("workerBusZeroMQ");
-        taskExecutor.execute(workerBusZeroMQ);
+        BusWorkerZeroMQ busWorkerZeroMQ = (BusWorkerZeroMQ) context.getBean("busWorkerZeroMQ");
+        taskExecutor.execute(busWorkerZeroMQ);
     }
 }
 

@@ -2,9 +2,9 @@ package com.orness.gandalf.core.connector.connectorbusservice.gandalf.communicat
 
 import com.orness.gandalf.core.module.zeromqmodule.event.publisher.PublisherZeroMQ;
 
-public class PublisherBusZeroMQ extends PublisherZeroMQ {
+public class BusPublisherZeroMQ extends PublisherZeroMQ {
 
-    public PublisherBusZeroMQ(String connection) {
+    public BusPublisherZeroMQ(String connection) {
         super(connection);
     }
 

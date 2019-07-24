@@ -11,25 +11,17 @@ public abstract class SubscriberZeroMQ {
 
     public SubscriberZeroMQ(String connection) {
         this.connection = connection;
-        //this.open();
-        //this.run(null);
+        this.context = new ZContext();
+        this.subscriber = this.context.createSocket(SocketType.SUB);
+        this.connect();
     }
 
-    public void open() {
-        context = new ZContext();
-        subscriber = context.createSocket(SocketType.SUB);
-        System.out.println(connection);
-        subscriber.connect(connection);
-        //subscriber.bind(connection);
-        //subscriber.subscribe(topic.getBytes());
+    public void connect() {
+        this.subscriber.connect(this.connection);
     }
 
     public void close() {
-        subscriber.close();
-        context.close();
+        this.subscriber.close();
+        this.context.close();
     }
-
-    /*public String getZeroMQMessage() {
-        return this.subscriber.recvStr();
-    }*/
 }

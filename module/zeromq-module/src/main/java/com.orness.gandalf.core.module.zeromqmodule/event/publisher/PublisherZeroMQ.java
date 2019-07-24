@@ -12,26 +12,17 @@ public abstract class PublisherZeroMQ {
 
     public PublisherZeroMQ(String connection) {
         this.connection = connection;
-        this.open();
+        this.context = new ZContext();
+        this.publisher = this.context.createSocket(SocketType.PUB);
+        this.connect();
     }
 
-    public void open() {
-        context = new ZContext();
-        publisher = context.createSocket(SocketType.PUB);
-        publisher.connect(connection);
+    public void connect() {
+        this.publisher.connect(this.connection);
     }
 
     public void close() {
-        publisher.close();
-        context.close();
+        this.publisher.close();
+        this.context.close();
     }
-
-   /* public void sendTopic(String topic) {
-        this.publisher.sendMore(topic);
-
-    }
-
-    public void sendMessage(String message) {
-        this.publisher.send(message);
-    }*/
 }

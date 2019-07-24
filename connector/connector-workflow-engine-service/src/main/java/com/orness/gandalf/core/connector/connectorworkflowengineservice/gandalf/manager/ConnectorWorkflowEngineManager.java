@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.gandalf.manager;
 
-import com.orness.gandalf.core.connector.connectorworkflowengineservice.gandalf.communication.event.SubscriberWorkflowEngineZeroMQ;
+import com.orness.gandalf.core.connector.connectorworkflowengineservice.gandalf.communication.event.WorkflowEngineSubscriberZeroMQ;
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.specific.zeebe.workflow.ConnectorWorkflowEngine;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,23 +32,23 @@ public class ConnectorWorkflowEngineManager {
     }
 
     public void subscribeTopic(String topic) {
-        String beanName = topic + "SubscriberWorkflowEngineZeroMQ";
-        //BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(SubscriberWorkflowEngineZeroMQ.class).setLazyInit(true);
+        String beanName = topic + "WorkflowEngineSubscriberZeroMQ";
+        //BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(WorkflowEngineSubscriberZeroMQ.class).setLazyInit(true);
         //beanDefinitionRegistry.registerBeanDefinition(beanName, builder.getBeanDefinition());
         if(!this.context.containsBean(beanName)) {
-            this.context.registerBean(beanName, SubscriberWorkflowEngineZeroMQ.class, () -> new SubscriberWorkflowEngineZeroMQ(connectionSubscriber, topic));
+            this.context.registerBean(beanName, WorkflowEngineSubscriberZeroMQ.class, () -> new WorkflowEngineSubscriberZeroMQ(connectionSubscriber, topic));
             ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
 
-            SubscriberWorkflowEngineZeroMQ subscriberWorkflowEngineZeroMQ = (SubscriberWorkflowEngineZeroMQ) context.getBean(beanName);
-            taskExecutor.execute(subscriberWorkflowEngineZeroMQ);
+            WorkflowEngineSubscriberZeroMQ workflowEngineSubscriberZeroMQ = (WorkflowEngineSubscriberZeroMQ) context.getBean(beanName);
+            taskExecutor.execute(workflowEngineSubscriberZeroMQ);
         }
     }
 
     public void unsubscribeTopic(String topic) {
-        String beanName = topic + "SubscriberWorkflowEngineZeroMQ";
+        String beanName = topic + "WorkflowEngineSubscriberZeroMQ";
         //ApplicationContext context = new AnnotationConfigApplicationContext(ConnectorWorkflowEngineServiceConfiguration.class);
-        SubscriberWorkflowEngineZeroMQ subscriberWorkflowEngineZeroMQ = (SubscriberWorkflowEngineZeroMQ) context.getBean(beanName);
-        subscriberWorkflowEngineZeroMQ.close();
+        WorkflowEngineSubscriberZeroMQ workflowEngineSubscriberZeroMQ = (WorkflowEngineSubscriberZeroMQ) context.getBean(beanName);
+        workflowEngineSubscriberZeroMQ.close();
     }
 
     public void createBusTopic(String topic) {

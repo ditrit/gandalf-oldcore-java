@@ -14,7 +14,7 @@ import org.zeromq.ZMsg;
 
 @Component
 @Scope("singleton")
-public class WorkerBusZeroMQ extends WorkerZeroMQ implements Runnable {
+public class BusWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
 
     @Autowired
     private ConnectorBusManager connectorBusManager;
@@ -24,7 +24,7 @@ public class WorkerBusZeroMQ extends WorkerZeroMQ implements Runnable {
 
     private Gson mapper = new Gson();
 
-    public WorkerBusZeroMQ(@Value("${gandalf.communication.worker}") String connection) {
+    public BusWorkerZeroMQ(@Value("${gandalf.communication.worker}") String connection) {
         super(connection);
     }
 

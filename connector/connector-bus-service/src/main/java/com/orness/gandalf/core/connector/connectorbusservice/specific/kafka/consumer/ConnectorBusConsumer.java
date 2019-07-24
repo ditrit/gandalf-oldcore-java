@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.consumer;
 
-import com.orness.gandalf.core.connector.connectorbusservice.gandalf.communication.event.PublisherBusZeroMQ;
+import com.orness.gandalf.core.connector.connectorbusservice.gandalf.communication.event.BusPublisherZeroMQ;
 import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -27,7 +27,7 @@ public class ConnectorBusConsumer implements Runnable {
     private String group;
 
     private final String topic;
-    private PublisherBusZeroMQ publisherBusZeroMQ;
+    private BusPublisherZeroMQ busPublisherZeroMQ;
 
     public ConnectorBusConsumer(String topic) {
         this.topic = topic;
@@ -35,7 +35,7 @@ public class ConnectorBusConsumer implements Runnable {
     }
 
     public void run() {
-        publisherBusZeroMQ = new PublisherBusZeroMQ(connection);
+        busPublisherZeroMQ = new BusPublisherZeroMQ(connection);
 
         MessageListener<String, MessageGandalf> messageListener = record -> this.publish(record.value());
         ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(consumerFactory(brokerAddress), containerProperties(messageListener));
@@ -45,7 +45,7 @@ public class ConnectorBusConsumer implements Runnable {
     private void publish(MessageGandalf messageGandalf) {
         System.out.println(messageGandalf);
         if(messageGandalf != null) {
-            this.publisherBusZeroMQ.sendMessageTopic(topic, messageGandalf.toJson());
+            this.busPublisherZeroMQ.sendMessageTopic(topic, messageGandalf.toJson());
             System.out.println(topic + " " + messageGandalf.toString());
         }
     }

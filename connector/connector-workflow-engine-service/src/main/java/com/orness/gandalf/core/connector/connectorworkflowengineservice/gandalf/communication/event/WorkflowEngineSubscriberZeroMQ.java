@@ -6,7 +6,7 @@ import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.SubscriberZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SubscriberWorkflowEngineZeroMQ extends SubscriberZeroMQ implements Runnable {
+public class WorkflowEngineSubscriberZeroMQ extends SubscriberZeroMQ implements Runnable {
 
     @Autowired
     private ConnectorWorkflowEngine connectorWorkflowEngine;
@@ -14,7 +14,7 @@ public class SubscriberWorkflowEngineZeroMQ extends SubscriberZeroMQ implements 
     private String topic;
     private Gson mapper;
 
-    public SubscriberWorkflowEngineZeroMQ( String connection, String topic) {
+    public WorkflowEngineSubscriberZeroMQ(String connection, String topic) {
         super(connection);
         this.open(topic);
     }

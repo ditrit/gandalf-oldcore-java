@@ -6,9 +6,9 @@ import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommand
 
 import static com.orness.gandalf.core.module.constantmodule.communication.CommunicationConstant.*;
 
-public class ClientGandalfCommand extends ClientZeroMQ {
+public class GandalfClientCommand extends ClientZeroMQ {
 
-    public ClientGandalfCommand(String connection) {
+    public GandalfClientCommand(String connection) {
         super(connection);
     }
 

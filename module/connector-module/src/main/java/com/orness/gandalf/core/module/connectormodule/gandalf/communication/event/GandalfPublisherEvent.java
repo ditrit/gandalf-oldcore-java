@@ -3,9 +3,9 @@ package com.orness.gandalf.core.module.connectormodule.gandalf.communication.eve
 import com.orness.gandalf.core.module.zeromqmodule.event.domain.EventZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.event.publisher.PublisherZeroMQ;
 
-public class PublisherGandalfEvent extends PublisherZeroMQ {
+public class GandalfPublisherEvent extends PublisherZeroMQ {
 
-    public PublisherGandalfEvent(String connection) {
+    public GandalfPublisherEvent(String connection) {
         super(connection);
     }
 

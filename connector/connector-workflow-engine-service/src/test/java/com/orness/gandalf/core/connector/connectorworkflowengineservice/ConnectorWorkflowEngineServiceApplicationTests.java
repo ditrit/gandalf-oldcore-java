@@ -30,31 +30,6 @@ public class ConnectorWorkflowEngineServiceApplicationTests {
 
 	@Test
 	public void test() {
-        /*//TODO VOIR TEST JUNIT GRPC
-		//GRPC
-		ConnectorBusGrpc connectorKafkaService = mock(ConnectorBusGrpc.class);
-
-		//INPUT
-		//ConnectorBusGrpc.message()
-		//OUTPUT
-
-		//KAFKA
-		ConnectorBusManager connectorKafkaConsumer = mock(ConnectorBusManager.class);
-		ConnectorBusProducer connectorBusProducer = mock(ConnectorBusProducer.class);
-		MessageGandalf messageBus = new MessageGandalf("test_kafka_id_0", "test_kafka_nom_0", "test_kafka_topic_0", "test_kafka_content_0");
-
-		//TODO VOIR TOPIC DYNAMIQUE
-		//TOPIC
-
-		//TODO CREATE TOPIC TEST
-		//PRODUCER
-		connectorBusProducer.sendConnectorMessageKafka("test", messageBus);
-		assertThat(outContent.toString(), containsString("test_kafka_id_0"));
-		assertThat(outContent.toString(), containsString("test_kafka_nom_0"));
-		assertThat(outContent.toString(), containsString("test_kafka_topic_0"));
-		assertThat(outContent.toString(), containsString("test_kafka_content_0"));
-
-		//CONSUMER*/
 	}
 
 }

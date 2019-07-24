@@ -13,12 +13,12 @@ import static com.orness.gandalf.core.module.constantmodule.communication.Commun
 
 @Component
 @Scope("singleton")
-public class WorkerWorkflowEngineZeroMQ extends WorkerZeroMQ implements Runnable {
+public class WorkflowEngineWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
 
     @Autowired
     private ConnectorWorkflowEngineManager connectorWorkflowEngineManager;
 
-    public WorkerWorkflowEngineZeroMQ(@Value("${gandalf.communication.worker}") String connection) {
+    public WorkflowEngineWorkerZeroMQ(@Value("${gandalf.communication.worker}") String connection) {
         super(connection);
     }
 
