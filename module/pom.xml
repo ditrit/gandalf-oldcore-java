@@ -21,6 +21,10 @@
         <module>constant-module</module>
         <module>webhook-module</module>
         <module>connector-module</module>
+        <module>gitlab-module</module>
+        <module>zeebe-module</module>
+        <module>kafka-module</module>
+        <module>nexus-module</module>
     </modules>
 
     <properties>

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EntityScan(basePackages = {"com.orness.gandalf.core.module.messagemodule.domain", "com.orness.gandalf.core.module.zeromqmodule"})
+//TODO REVOIR ALL
 public class ConnectorBusServiceApplication {
 
 	public static void main(String[] args) {

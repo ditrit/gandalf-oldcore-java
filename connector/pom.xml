@@ -19,6 +19,8 @@
         <module>connector-bus-service</module>
         <module>connector-version-control-service</module>
         <module>connector-gandalf-service</module>
+        <module>connector-artifact-service</module>
+        <module>connector-database-service</module>
     </modules>
 
     <properties>
