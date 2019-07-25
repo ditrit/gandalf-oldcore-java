@@ -84,23 +84,17 @@
 		</dependency>
 		<dependency>
 			<groupId>com.orness.gandalf.core.module</groupId>
-			<artifactId>connector-module</artifactId>
+			<artifactId>gandalf-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.orness.gandalf.core.module</groupId>
-			<artifactId>zeromq-module</artifactId>
+			<groupId>com.orness.gandalf.core.library</groupId>
+			<artifactId>gandalf-java-client</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.orness.gandalf.core.module</groupId>
-			<artifactId>constant-module</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-	</dependencies>
+    </dependencies>
 
 	<dependencyManagement>
 		<dependencies>

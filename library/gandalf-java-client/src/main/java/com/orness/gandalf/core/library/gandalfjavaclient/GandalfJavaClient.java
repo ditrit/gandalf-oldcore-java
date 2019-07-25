@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.library.gandalfjavaclient;
 
-import com.orness.gandalf.core.module.connectormodule.gandalf.communication.command.GandalfClientCommand;
-import com.orness.gandalf.core.module.connectormodule.gandalf.communication.event.GandalfPublisherEvent;
+import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfClientCommand;
+import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfPublisherEvent;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 
 import java.util.concurrent.ExecutorService;

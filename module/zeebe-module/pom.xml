@@ -37,5 +37,11 @@
 			<version>5.2.0.M1</version>
 			<scope>compile</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.orness.gandalf.core.module</groupId>
+            <artifactId>message-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>

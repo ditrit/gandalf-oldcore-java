@@ -2,7 +2,7 @@ package com.orness.gandalf.core.connector.connectorworkflowengineservice.gandalf
 
 import com.google.gson.Gson;
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.specific.zeebe.workflow.ConnectorWorkflowEngine;
-import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfMessage;
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.SubscriberZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,10 +37,10 @@ public class WorkflowEngineSubscriberZeroMQ extends SubscriberZeroMQ implements 
             System.out.println("content " + content);
             if(header.equals(this.topic)) {
 
-                MessageGandalf messageGandalf = null;
-                messageGandalf = mapper.fromJson(content, MessageGandalf.class);
+                GandalfMessage gandalfMessage = null;
+                gandalfMessage = mapper.fromJson(content, GandalfMessage.class);
 
-                connectorWorkflowEngine.sendMessageWorkflowEngine(messageGandalf);
+                connectorWorkflowEngine.sendMessageWorkflowEngine(gandalfMessage);
             }
         }
     }

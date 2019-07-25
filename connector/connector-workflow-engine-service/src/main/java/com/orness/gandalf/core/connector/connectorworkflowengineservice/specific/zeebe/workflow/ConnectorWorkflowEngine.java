@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.specific.zeebe.workflow;
 
-import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfMessage;
 import io.zeebe.client.ZeebeClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,13 +21,13 @@ public class ConnectorWorkflowEngine {
         this.zeebe = zeebeClient;
     }
 
-    public void sendMessageWorkflowEngine(MessageGandalf messageGandalf) {
-        System.out.println("SEND WORKFLOW " + messageGandalf);
+    public void sendMessageWorkflowEngine(GandalfMessage gandalfMessage) {
+        System.out.println("SEND WORKFLOW " + gandalfMessage);
         Map<String, String> variables = new HashMap<>();
-        variables.put(KEY_VARIABLE_WORKFLOW_MESSAGE, messageGandalf.getContent());
+        variables.put(KEY_VARIABLE_WORKFLOW_MESSAGE, gandalfMessage.getContent());
         zeebe.newPublishMessageCommand() //
                 .messageName("message")
-                .correlationKey(messageGandalf.getTopic())
+                .correlationKey(gandalfMessage.getTopic())
                 .variables(variables)
                 .timeToLive(Duration.ofMinutes(30))
                 .send().join();

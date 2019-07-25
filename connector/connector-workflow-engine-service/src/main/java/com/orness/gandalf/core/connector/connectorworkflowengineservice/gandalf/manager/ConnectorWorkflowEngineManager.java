@@ -75,7 +75,7 @@ public class ConnectorWorkflowEngineManager {
         while(messageResponseIterator.hasNext()) {
             com.orness.gandalf.core.module.connectorbusservice.grpc.Message currentMessage =  messageResponseIterator.next().getMessage();
 
-            this.connectorWorkflowEngine.sendMessageWorkflowEngine(new MessageGandalf(currentMessage.getTopic(),
+            this.connectorWorkflowEngine.sendMessageWorkflowEngine(new GandalfMessage(currentMessage.getTopic(),
                     currentMessage.getSender(),
                     currentMessage.getExpirationTime(),
                     currentMessage.getCreationDate(),

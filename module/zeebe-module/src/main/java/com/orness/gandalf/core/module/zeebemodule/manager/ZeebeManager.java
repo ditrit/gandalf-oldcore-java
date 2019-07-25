@@ -1,5 +1,7 @@
 package com.orness.gandalf.core.module.zeebemodule.manager;
 
+import com.google.gson.Gson;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.events.DeploymentEvent;
 import io.zeebe.client.api.events.WorkflowInstanceEvent;
@@ -14,20 +16,20 @@ import java.util.Map;
 public class ZeebeManager {
 
     private ZeebeClient zeebe;
-
+    private Gson mapper;
     @Autowired
     public ZeebeManager(ZeebeClient zeebeClient) {
         this.zeebe = zeebeClient;
+        this.mapper = new Gson();
     }
 
-    //TODO REVOIR
+    //TODO REVOIR CORRLATIONKEY
     public void sendMessageWorkflow(String message) {
-        System.out.println("SEND WORKFLOW " + message);
+        GandalfEvent gandalfEvent = mapper.fromJson(message, GandalfEvent.class);
         Map<String, String> variables = new HashMap<>();
-        //variables.put(KEY_VARIABLE_WORKFLOW_MESSAGE, messageGandalf.getContent());
         zeebe.newPublishMessageCommand() //
                 .messageName("message")
-                .correlationKey(messageGandalf.getTopic())
+                .correlationKey(gandalfEvent.getTopic())
                 .variables(variables)
                 .timeToLive(Duration.ofMinutes(30))
                 .send().join();

@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorgandalfservice.gandalf.controller;
 
-import com.orness.gandalf.core.module.connectormodule.gandalf.manager.GandalfConnectorManager;
+import com.orness.gandalf.core.module.gandalfmodule.manager.GandalfConnectorManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

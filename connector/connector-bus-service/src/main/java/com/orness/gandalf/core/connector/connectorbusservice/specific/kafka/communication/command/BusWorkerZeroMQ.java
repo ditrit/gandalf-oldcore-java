@@ -3,7 +3,7 @@ package com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.com
 import com.google.gson.Gson;
 import com.orness.gandalf.core.connector.connectorbusservice.gandalf.manager.ConnectorBusManager;
 import com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.producer.ConnectorBusProducer;
-import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfMessage;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +41,9 @@ public class BusWorkerZeroMQ extends RunnableWorkerZeroMQ {
                 String[] contents = content.split("#");
                 String topic = contents[0];
                 String message = contents[1];
-                MessageGandalf messageGandalf = new MessageGandalf(topic, sender.toString(), "2020-12-09 01:02:03.123456789", "2020-12-09", message);
-                //mapper.fromJson(contents[1], MessageGandalf.class);
-                connectorBusProducer.sendConnectorMessageKafka(topic, messageGandalf);
+                GandalfMessage gandalfMessage = new GandalfMessage(topic, sender.toString(), "2020-12-09 01:02:03.123456789", "2020-12-09", message);
+                //mapper.fromJson(contents[1], GandalfMessage.class);
+                connectorBusProducer.sendConnectorMessageKafka(topic, gandalfMessage);
                 break;
             case COMMAND_DELETE_TOPIC:
                 connectorBusManager.deleteTopic(content);

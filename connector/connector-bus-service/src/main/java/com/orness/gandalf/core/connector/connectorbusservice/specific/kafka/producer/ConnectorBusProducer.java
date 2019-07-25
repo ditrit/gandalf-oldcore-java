@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.producer;
 
-import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
@@ -15,12 +15,12 @@ public class ConnectorBusProducer {
     private String databaseTopic;
 
     @Autowired
-    private KafkaTemplate<String, MessageGandalf> connectorMessageKafkaTemplate;
+    private KafkaTemplate<String, GandalfMessage> connectorMessageKafkaTemplate;
 
-    public void sendConnectorMessageKafka(String topicName, MessageGandalf messageGandalf) {
+    public void sendConnectorMessageKafka(String topicName, GandalfMessage gandalfMessage) {
         //Database Send
-        connectorMessageKafkaTemplate.send(databaseTopic, messageGandalf);
+        connectorMessageKafkaTemplate.send(databaseTopic, gandalfMessage);
         //Send
-        connectorMessageKafkaTemplate.send(topicName, messageGandalf);
+        connectorMessageKafkaTemplate.send(topicName, gandalfMessage);
     }
 }

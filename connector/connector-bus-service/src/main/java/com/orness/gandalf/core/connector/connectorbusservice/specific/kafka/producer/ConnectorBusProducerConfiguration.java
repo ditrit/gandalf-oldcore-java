@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.producer;
 
-import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfMessage;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +21,7 @@ public class ConnectorBusProducerConfiguration {
     private String broker;
 
     @Bean
-    public ProducerFactory<String, MessageGandalf> connectorMessageKafkaProducerFactory() {
+    public ProducerFactory<String, GandalfMessage> connectorMessageKafkaProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, broker);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -30,6 +30,6 @@ public class ConnectorBusProducerConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, MessageGandalf> connectorMessageKafkaTemplate() { return new KafkaTemplate<>(connectorMessageKafkaProducerFactory());
+    public KafkaTemplate<String, GandalfMessage> connectorMessageKafkaTemplate() { return new KafkaTemplate<>(connectorMessageKafkaProducerFactory());
     }
 }
