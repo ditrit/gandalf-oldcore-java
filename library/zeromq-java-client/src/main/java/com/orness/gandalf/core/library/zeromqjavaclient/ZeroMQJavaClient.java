@@ -4,9 +4,8 @@ import com.orness.gandalf.core.library.zeromqjavaclient.command.ClientBusZeroMQ;
 import com.orness.gandalf.core.library.zeromqjavaclient.command.ClientWorkflowEngineZeroMQ;
 import com.orness.gandalf.core.library.zeromqjavaclient.event.SubscriberBusCallableZeroMQ;
 import com.orness.gandalf.core.library.zeromqjavaclient.event.SubscriberBusZeroMQ;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
 import com.orness.gandalf.core.module.zeromqmodule.event.domain.MessageEventZeroMQ;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;

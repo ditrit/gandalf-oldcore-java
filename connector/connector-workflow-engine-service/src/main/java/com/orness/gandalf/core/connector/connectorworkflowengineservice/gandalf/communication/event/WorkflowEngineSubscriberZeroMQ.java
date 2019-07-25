@@ -2,7 +2,7 @@ package com.orness.gandalf.core.connector.connectorworkflowengineservice.gandalf
 
 import com.google.gson.Gson;
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.specific.zeebe.workflow.ConnectorWorkflowEngine;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.SubscriberZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 

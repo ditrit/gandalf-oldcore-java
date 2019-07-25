@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.test.javakafka1.sample;
 
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;

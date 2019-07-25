@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.service.databasebusservice.producer;
 
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.consumer;
 
 import com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.communication.event.BusPublisherZeroMQ;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.beans.factory.annotation.Value;

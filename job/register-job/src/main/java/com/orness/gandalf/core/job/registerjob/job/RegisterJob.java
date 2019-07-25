@@ -2,7 +2,6 @@ package com.orness.gandalf.core.job.registerjob.job;
 
 import com.orness.gandalf.core.job.registerjob.feign.RegisterFeign;
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;

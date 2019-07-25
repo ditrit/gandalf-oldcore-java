@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableAutoConfiguration
 @SpringBootApplication
 @EnableDiscoveryClient
-@EntityScan(basePackages = {"com.orness.gandalf.core.module.messagemodule.domain"})
-@EnableJpaRepositories(basePackages = {"com.orness.gandalf.core.module.messagemodule.repository"})
+@EntityScan(basePackages = {"com.orness.gandalf.core.module.messagemodule.gandalf.domain"})
+@EnableJpaRepositories(basePackages = {"com.orness.gandalf.core.module.messagemodule.gandalf.repository"})
 public class DatabaseBusServiceApplication {
 
 	public static void main(String[] args) {

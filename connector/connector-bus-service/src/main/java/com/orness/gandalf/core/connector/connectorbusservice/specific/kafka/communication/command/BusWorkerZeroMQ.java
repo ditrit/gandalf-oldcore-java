@@ -3,7 +3,7 @@ package com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.com
 import com.google.gson.Gson;
 import com.orness.gandalf.core.connector.connectorbusservice.gandalf.manager.ConnectorBusManager;
 import com.orness.gandalf.core.connector.connectorbusservice.specific.kafka.producer.ConnectorBusProducer;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.specific.zeebe.workflow;
 
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
 import io.zeebe.client.ZeebeClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.library.zeromqjavaclient.event;
 
 import com.google.gson.Gson;
-import com.orness.gandalf.core.module.messagemodule.domain.MessageGandalf;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.SubscriberZeroMQ;
 
 public class SubscriberBusZeroMQ extends SubscriberZeroMQ {

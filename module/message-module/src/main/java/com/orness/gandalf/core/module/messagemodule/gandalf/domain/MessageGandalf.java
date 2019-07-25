@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.module.messagemodule.domain;
+package com.orness.gandalf.core.module.messagemodule.gandalf.domain;
 
 import com.google.gson.Gson;
 
