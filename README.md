@@ -1,4 +1,4 @@
-# Gandalf Core Architecture
+# Gandalf Core Architecture OBSOLETE !!!
 
 ## Configuration
 ### configuration-service
