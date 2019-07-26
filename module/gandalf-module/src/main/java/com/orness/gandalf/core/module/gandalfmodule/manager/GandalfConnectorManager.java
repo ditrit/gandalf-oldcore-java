@@ -24,8 +24,7 @@ public class GandalfConnectorManager {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void publish(String command) {
-        GandalfEvent gandalfEvent = mapper.fromJson(command, GandalfEvent.class);
+    public void publish(GandalfEvent gandalfEvent) {
         this.gandalfPublisherEvent.sendEvent(gandalfEvent.getTopic(), gandalfEvent.getTypeEvent(), gandalfEvent.getEvent());
     }
 

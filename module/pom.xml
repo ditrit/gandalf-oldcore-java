@@ -15,6 +15,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
+
         <module>workflow-uid-module</module>
         <module>message-module</module>
         <module>zeromq-module</module>
@@ -26,6 +27,11 @@
         <module>zeebe-module</module>
         <module>kafka-module</module>
         <module>nexus-module</module>
+        <module>bus-module</module>
+        <module>artifact-module</module>
+        <module>database-module</module>
+        <module>version-control-module</module>
+        <module>workflow-engine-module</module>
     </modules>
 
     <properties>

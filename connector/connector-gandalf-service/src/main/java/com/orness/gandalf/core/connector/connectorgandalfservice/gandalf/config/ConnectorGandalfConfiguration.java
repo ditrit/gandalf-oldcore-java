@@ -27,7 +27,6 @@ public class ConnectorGandalfConfiguration {
     @Bean
     public void brokerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-
         GandalfBrokerCommandBean gandalfBrokerCommandBean = (GandalfBrokerCommandBean) context.getBean("gandalfBrokerCommandBean");
         taskExecutor.execute(gandalfBrokerCommandBean);
     }
@@ -35,7 +34,6 @@ public class ConnectorGandalfConfiguration {
     @Bean
     public void proxyEvent() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-
         GandalfProxyEventBean gandalfProxyEventBean = (GandalfProxyEventBean) context.getBean("gandalfProxyEventBean");
         taskExecutor.execute(gandalfProxyEventBean);
     }
