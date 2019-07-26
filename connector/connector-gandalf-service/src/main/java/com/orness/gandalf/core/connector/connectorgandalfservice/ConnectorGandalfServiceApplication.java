@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @EntityScan(basePackages = {"com.orness.gandalf.core.module.zeromqmodule"})
 public class ConnectorGandalfServiceApplication {
 
+	//TODO REVOIR CONFIGURATION
 	public static void main(String[] args) {
 		SpringApplication.run(ConnectorGandalfServiceApplication.class, args);
 	}

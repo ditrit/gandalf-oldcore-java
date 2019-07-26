@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 @SpringBootApplication
 @EnableDiscoveryClient
-@EntityScan(basePackages = {"com.orness.gandalf.core.module.messagemodule.gandalf.domain", "com.orness.gandalf.core.module.zeromqmodule"})
 //TODO REVOIR ALL
 public class ConnectorBusServiceApplication {
 
