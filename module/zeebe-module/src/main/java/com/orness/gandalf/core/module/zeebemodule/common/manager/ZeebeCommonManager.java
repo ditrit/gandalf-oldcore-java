@@ -1,53 +1,49 @@
 package com.orness.gandalf.core.module.zeebemodule.common.manager;
 
-import com.google.gson.Gson;
-import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
 import com.orness.gandalf.core.module.workflowenginemodule.common.manager.WorkflowEngineCommonManager;
+import com.orness.gandalf.core.module.zeebemodule.core.domain.ZeebeMessage;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.events.DeploymentEvent;
-import io.zeebe.client.api.events.WorkflowInstanceEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class ZeebeCommonManager extends WorkflowEngineCommonManager {
 
     private ZeebeClient zeebe;
-    private Gson mapper;
+
     @Autowired
     public ZeebeCommonManager(ZeebeClient zeebeClient) {
         this.zeebe = zeebeClient;
-        this.mapper = new Gson();
     }
 
-    //TODO REVOIR CORRLATIONKEY
-    public void sendMessageWorkflow(String message) {
-        GandalfEvent gandalfEvent = mapper.fromJson(message, GandalfEvent.class);
-        Map<String, String> variables = new HashMap<>();
-        zeebe.newPublishMessageCommand() //
-                .messageName("message")
-                .correlationKey(gandalfEvent.getTopic())
-                .variables(variables)
-                .timeToLive(Duration.ofMinutes(30))
-                .send().join();
-    }
-
-    public String deployWorkflow(String workflow_name) {
+    @Override
+    public String deployWorkflow(String workflow) {
         DeploymentEvent deploymentEvent = zeebe.newDeployCommand()
-                .addResourceFromClasspath(workflow_name)
+                .addResourceFromClasspath(workflow)
                 .send().join();
         return this.getIdDeployment(deploymentEvent);
     }
 
-    public WorkflowInstanceEvent instanciateWorkflow(String workflow_id, HashMap<String, String> workflow_variables) {
-        return zeebe.newCreateInstanceCommand()
-                .bpmnProcessId(workflow_id)
+    @Override
+    public void instanciateWorkflow(String id, Object variables) {
+        zeebe.newCreateInstanceCommand()
+                .bpmnProcessId(id)
                 .latestVersion()
-                .variables(workflow_variables)
+                .variables(variables)
+                .send().join();
+    }
+
+    @Override
+    public void sendMessage(Object message) {
+        ZeebeMessage zeebeMessage = ((ZeebeMessage) message);
+        zeebe.newPublishMessageCommand() //
+                .messageName(zeebeMessage.getName())
+                .correlationKey(zeebeMessage.getCorrelationKey())
+                .variables(zeebeMessage.getVariables())
+                .timeToLive(Duration.ofMinutes(zeebeMessage.getDuration()))
                 .send().join();
     }
 
