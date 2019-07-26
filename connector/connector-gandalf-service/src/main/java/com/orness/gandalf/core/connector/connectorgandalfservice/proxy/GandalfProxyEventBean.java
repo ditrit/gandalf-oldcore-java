@@ -1,5 +1,5 @@
 
-package com.orness.gandalf.core.connector.connectorgandalfservice.gandalf.communication.event;
+package com.orness.gandalf.core.connector.connectorgandalfservice.proxy;
 
 import com.orness.gandalf.core.module.zeromqmodule.event.proxy.PubSubProxyZeroMQ;
 import org.springframework.beans.factory.annotation.Value;

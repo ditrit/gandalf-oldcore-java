@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorbusservice.other.manager;
 
 import com.orness.gandalf.core.connector.connectorbusservice.other.kafka.consumer.ConnectorBusConsumer;
@@ -94,3 +95,4 @@ public class ConnectorBusManager {
     }
 }
 
+*/

@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorbusservice.other.config;
 
 import com.orness.gandalf.core.connector.connectorbusservice.other.kafka.communication.command.BusWorkerZeroMQ;
@@ -32,3 +33,4 @@ public class ConnectorBusConfiguration {
     }
 }
 
+*/

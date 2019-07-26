@@ -1,5 +1,5 @@
 
-package com.orness.gandalf.core.connector.connectorgandalfservice.gandalf.communication.command;
+package com.orness.gandalf.core.connector.connectorgandalfservice.broker;
 
 import com.orness.gandalf.core.module.zeromqmodule.command.broker.BrokerZeroMQ;
 import org.springframework.beans.factory.annotation.Value;

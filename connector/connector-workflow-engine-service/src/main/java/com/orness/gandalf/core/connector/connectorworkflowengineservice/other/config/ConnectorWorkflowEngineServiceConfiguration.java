@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.other.config;
 
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.other.communication.command.WorkflowEngineWorkerZeroMQ;
@@ -33,3 +34,4 @@ public class ConnectorWorkflowEngineServiceConfiguration {
     }
 }
 
+*/

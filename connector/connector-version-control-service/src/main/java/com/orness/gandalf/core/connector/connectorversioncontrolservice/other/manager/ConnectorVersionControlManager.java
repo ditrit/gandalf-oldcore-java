@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorversioncontrolservice.other.manager;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -35,3 +36,4 @@ public class ConnectorVersionControlManager {
         return valid;
     }
 }
+*/

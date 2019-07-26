@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.other.communication.event;
 
 import com.google.gson.Gson;
@@ -45,3 +46,4 @@ public class WorkflowEngineSubscriberZeroMQ extends SubscriberZeroMQ implements 
         }
     }
 }
+*/

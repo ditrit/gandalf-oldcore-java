@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.other.zeebe.workflow;
 
 import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfMessage;
@@ -34,3 +35,4 @@ public class ConnectorWorkflowEngine {
     }
 
 }
+*/

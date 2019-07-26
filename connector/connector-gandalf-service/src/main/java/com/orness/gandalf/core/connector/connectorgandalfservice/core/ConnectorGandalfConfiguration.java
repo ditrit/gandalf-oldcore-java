@@ -1,7 +1,7 @@
-package com.orness.gandalf.core.connector.connectorgandalfservice.gandalf.config;
+package com.orness.gandalf.core.connector.connectorgandalfservice.core;
 
-import com.orness.gandalf.core.connector.connectorgandalfservice.gandalf.communication.command.GandalfBrokerCommandBean;
-import com.orness.gandalf.core.connector.connectorgandalfservice.gandalf.communication.event.GandalfProxyEventBean;
+import com.orness.gandalf.core.connector.connectorgandalfservice.broker.GandalfBrokerCommandBean;
+import com.orness.gandalf.core.connector.connectorgandalfservice.proxy.GandalfProxyEventBean;
 import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfWorkerCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

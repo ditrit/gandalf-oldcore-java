@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorbusservice.other.kafka.producer;
 
 import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfMessage;
@@ -33,3 +34,4 @@ public class ConnectorBusProducerConfiguration {
     public KafkaTemplate<String, GandalfMessage> connectorMessageKafkaTemplate() { return new KafkaTemplate<>(connectorMessageKafkaProducerFactory());
     }
 }
+*/

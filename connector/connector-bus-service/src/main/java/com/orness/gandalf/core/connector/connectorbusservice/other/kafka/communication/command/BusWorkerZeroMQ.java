@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorbusservice.other.kafka.communication.command;
 
 import com.google.gson.Gson;
@@ -57,3 +58,4 @@ public class BusWorkerZeroMQ extends RunnableWorkerZeroMQ {
         }
     }
 }
+*/

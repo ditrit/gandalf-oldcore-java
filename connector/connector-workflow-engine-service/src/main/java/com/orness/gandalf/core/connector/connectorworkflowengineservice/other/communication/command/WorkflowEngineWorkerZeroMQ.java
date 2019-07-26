@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.other.communication.command;
 
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.other.manager.ConnectorWorkflowEngineManager;
@@ -62,3 +63,4 @@ public class WorkflowEngineWorkerZeroMQ extends WorkerZeroMQ implements Runnable
 
     }
 }
+*/

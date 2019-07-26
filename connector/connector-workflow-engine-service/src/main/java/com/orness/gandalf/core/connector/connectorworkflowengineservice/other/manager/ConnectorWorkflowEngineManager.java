@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.other.manager;
 
 import com.orness.gandalf.core.connector.connectorworkflowengineservice.other.communication.event.WorkflowEngineSubscriberZeroMQ;
@@ -61,6 +62,7 @@ public class ConnectorWorkflowEngineManager {
         zeroMQJavaClient.deleteTopic(topic);
     }
 
+*/
 /*    public Iterator<MessageResponse> getMessageStream(Subscribe subscribe) {
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
         Iterator<MessageResponse> messageResponseIterator = grpcBusJavaClient.getMessageStream(subscribe.getTopic(), subscribe.getSubscriber());
@@ -95,5 +97,7 @@ public class ConnectorWorkflowEngineManager {
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
         grpcBusJavaClient.unsubscribeTopic(subscribe.getTopic(), subscribe.getSubscriber());
         grpcBusJavaClient.stopClient();
-    }*/
+    }*//*
+
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorbusservice.other.kafka.topic;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
@@ -22,3 +23,4 @@ public class ConnectorBusTopicConfiguration {
         return new KafkaAdmin(configs);
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorbusservice.other.kafka.communication.event;
 
 import com.orness.gandalf.core.module.zeromqmodule.event.publisher.PublisherZeroMQ;
@@ -22,3 +23,4 @@ public class BusPublisherZeroMQ extends PublisherZeroMQ {
         this.sendMessage(message);
     }
 }
+*/

@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.connector.connectorgandalfservice.gandalf.controller;
+package com.orness.gandalf.core.connector.connectorgandalfservice.controller;
 
 import com.orness.gandalf.core.module.gandalfmodule.manager.GandalfConnectorManager;
 import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;

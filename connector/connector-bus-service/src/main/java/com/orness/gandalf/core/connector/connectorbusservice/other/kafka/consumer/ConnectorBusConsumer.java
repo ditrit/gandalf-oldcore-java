@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorbusservice.other.kafka.consumer;
 
 import com.orness.gandalf.core.connector.connectorbusservice.other.kafka.communication.event.BusPublisherZeroMQ;
@@ -69,3 +70,4 @@ public class ConnectorBusConsumer implements Runnable {
     }
 
 }
+*/

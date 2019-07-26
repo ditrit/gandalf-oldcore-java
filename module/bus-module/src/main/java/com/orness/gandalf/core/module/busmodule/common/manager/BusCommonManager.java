@@ -9,4 +9,8 @@ public abstract class BusCommonManager {
     public abstract void sendTopic();
 
     public abstract void receiveTopic();
+
+    public abstract void synchronizeTopicGandalf();
+
+    public abstract void synchronizeBusTopicBus();
 }

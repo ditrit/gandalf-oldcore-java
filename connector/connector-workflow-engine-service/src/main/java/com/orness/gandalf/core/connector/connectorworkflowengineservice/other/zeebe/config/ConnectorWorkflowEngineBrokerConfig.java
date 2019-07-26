@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.other.zeebe.config;
 
 import io.zeebe.client.ZeebeClient;
@@ -20,3 +21,4 @@ public class ConnectorWorkflowEngineBrokerConfig {
         return zeebeClient;
     }
 }
+*/

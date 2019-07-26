@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.connector.connectorversioncontrolservice.other.controller;
 
 import com.orness.gandalf.core.connector.connectorversioncontrolservice.other.manager.ConnectorVersionControlManager;
@@ -42,4 +43,4 @@ public class ConnectorVersionControlController {
             zeroMQJavaClient.sendMessageTopic(topicWebhook, CustomMergeRequestParser.parseObjectToString(customMergeRequest));
         }
     }
-}
+}*/
