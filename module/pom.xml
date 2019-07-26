@@ -32,6 +32,7 @@
         <module>database-module</module>
         <module>version-control-module</module>
         <module>workflow-engine-module</module>
+        <module>job-module</module>
     </modules>
 
     <properties>
