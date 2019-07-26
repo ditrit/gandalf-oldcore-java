@@ -45,6 +45,12 @@
         </dependency>
 		<dependency>
 			<groupId>com.orness.gandalf.core.module</groupId>
+			<artifactId>workflow-engine-module</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.orness.gandalf.core.module</groupId>
 			<artifactId>zeromq-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>

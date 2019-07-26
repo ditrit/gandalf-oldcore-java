@@ -2,6 +2,7 @@ package com.orness.gandalf.core.module.zeebemodule.common.manager;
 
 import com.google.gson.Gson;
 import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
+import com.orness.gandalf.core.module.workflowenginemodule.common.manager.WorkflowEngineCommonManager;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.events.DeploymentEvent;
 import io.zeebe.client.api.events.WorkflowInstanceEvent;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class ZeebeCommonManager {
+public class ZeebeCommonManager extends WorkflowEngineCommonManager {
 
     private ZeebeClient zeebe;
     private Gson mapper;

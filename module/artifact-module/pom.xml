@@ -29,12 +29,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-autoconfigure</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.orness.gandalf.core.module</groupId>
-			<artifactId>nexus-module</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
 	</dependencies>
 
 </project>

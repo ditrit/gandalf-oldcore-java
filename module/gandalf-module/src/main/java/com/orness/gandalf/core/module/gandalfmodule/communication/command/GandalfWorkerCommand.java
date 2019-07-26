@@ -1,20 +1,25 @@
 package com.orness.gandalf.core.module.gandalfmodule.communication.command;
 
+import com.google.gson.Gson;
 import com.orness.gandalf.core.module.gandalfmodule.manager.GandalfConnectorManager;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
+import com.orness.gandalf.core.module.zeromqmodule.event.domain.EventZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import static com.orness.gandalf.core.module.constantmodule.communication.CommunicationConstant.*;
 
 public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
-
+//TODO REVOIR
     @Autowired
     private GandalfConnectorManager gandalfConnectorManager;
+    private Gson mapper;
 
     public GandalfWorkerCommand(@Value("${gandalf.communication.worker}") String connection) {
         super(connection);
+        mapper = new Gson();
     }
 
     @Override
@@ -34,7 +39,7 @@ public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
                 this.gandalfConnectorManager.stop();
                 break;
             case COMMAND_PUBLISH:
-                this.gandalfConnectorManager.publish(messageCommandZeroMQ.getCommand().toString());
+                this.gandalfConnectorManager.publish(mapper.fromJson(messageCommandZeroMQ.getCommand().toString(), GandalfEvent.class));
                 break;
             case COMMAND_SUBSCRIBE:
                 this.gandalfConnectorManager.subscribe();
