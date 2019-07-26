@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>List MessageGandalf</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col"> Id </th>
+                <th scope="col"> Topic </th>
+                <th scope="col"> Sender </th>
+                <th scope="col"> ExpirationTime </th>
+                <th scope="col"> CreationDate </th>
+                <th scope="col"> Content </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${messageGandalfList.empty}">
+                <td colspan="2"> No MessageGandalf Available </td>
+            </tr>
+            <tr th:each="messageGandalf : ${messageGandalfList}">
+                <th scope="row"><span th:text="${messageGandalf.id}"> Id </span></th>
+                <td><span th:text="${messageGandalf.topic}"> Topic </span></td>
+                <td><span th:text="${messageGandalf.sender}"> Sender </span></td>
+                <td><span th:text="${messageGandalf.expirationTime}"> ExpirationTime </span></td>
+                <td><span th:text="${messageGandalf.creationDate}"> CreationDate </span></td>
+                <td><span th:text="${messageGandalf.content}"> Content </span></td>
+            </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
