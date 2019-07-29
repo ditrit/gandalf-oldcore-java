@@ -21,6 +21,7 @@
         <module>connector-gandalf-service</module>
         <module>connector-artifact-service</module>
         <module>connector-database-service</module>
+        <module>connector-orchestrator-service</module>
     </modules>
 
     <properties>

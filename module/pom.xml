@@ -33,6 +33,10 @@
         <module>version-control-module</module>
         <module>workflow-engine-module</module>
         <module>job-module</module>
+        <module>custom-artifact-module</module>
+        <module>custom-orchestrator-module</module>
+        <module>jenkins-module</module>
+        <module>orchestrator-module</module>
     </modules>
 
     <properties>

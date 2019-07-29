@@ -1,7 +1,5 @@
 package com.orness.gandalf.core.module.workflowenginemodule.common.manager;
 
-import java.util.HashMap;
-
 public abstract class WorkflowEngineCommonManager {
 
     public abstract String deployWorkflow(String workflow);

@@ -13,20 +13,20 @@ public class ConnectorArtifactCommonConfiguration {
     @Autowired
     private ApplicationContext context;
 
-/*    @Bean
+    @Bean
     public void commonWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand;
+        RunnableWorkerZeroMQ commonWorkerCommand = null;
         //TODO PROPERTIES
         String type ="";
         switch(type) {
-            *//*case "RABBITMQ":
-                commonWorkerCommand = (KafkaCommonWorkerCommand) context.getBean("commonWorkerCommand");
-                break;*//*
+            case "CUSTOM":
+                //commonWorkerCommand = (CustomArtifact) context.getBean("commonWorkerCommand");
+                break;
             default:
-                commonWorkerCommand = (KafkaCommonWorkerCommand) context.getBean("commonWorkerCommand");
+                //commonWorkerCommand = (KafkaCommonWorkerCommand) context.getBean("commonWorkerCommand");
                 break;
         }
         taskExecutor.execute(commonWorkerCommand);
-    }*/
+    }
 }
