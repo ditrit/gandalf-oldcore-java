@@ -15,7 +15,6 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-
         <module>workflow-uid-module</module>
         <module>message-module</module>
         <module>zeromq-module</module>
@@ -32,11 +31,11 @@
         <module>database-module</module>
         <module>version-control-module</module>
         <module>workflow-engine-module</module>
-        <module>job-module</module>
         <module>custom-artifact-module</module>
         <module>custom-orchestrator-module</module>
         <module>jenkins-module</module>
         <module>orchestrator-module</module>
+        <module>h2-module</module>
     </modules>
 
     <properties>

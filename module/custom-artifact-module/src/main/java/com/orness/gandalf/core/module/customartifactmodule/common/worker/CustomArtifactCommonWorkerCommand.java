@@ -13,11 +13,9 @@ public class CustomArtifactCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
     @Autowired
     private CustomArtifactCommonManager customArtifactCommonManager;
-    private Gson mapper;
 
     public CustomArtifactCommonWorkerCommand(String connection) {
         super(connection);
-        mapper = new Gson();
     }
 
     @Override

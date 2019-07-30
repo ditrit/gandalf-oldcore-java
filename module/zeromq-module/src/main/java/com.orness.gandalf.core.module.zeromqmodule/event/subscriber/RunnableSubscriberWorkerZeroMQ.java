@@ -1,14 +1,16 @@
-package com.orness.gandalf.core.module.zeromqmodule.command.worker;
+package com.orness.gandalf.core.module.zeromqmodule.event.subscriber;
 
 import com.google.gson.Gson;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.CommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
+import com.orness.gandalf.core.module.zeromqmodule.command.worker.WorkerZeroMQ;
 
-public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
+public abstract class RunnableSubscriberWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
 
     protected Gson mapper;
 
-    public RunnableWorkerZeroMQ(String connection) {
+    public RunnableSubscriberWorkerZeroMQ(String connection) {
         super(connection);
         mapper = new Gson();
     }
@@ -22,7 +24,9 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
         }
     }
 
-    public abstract Object parse(String messageContent);
+    protected GandalfEvent parse(String messageContent) {
+        return this.mapper.fromJson(messageContent, GandalfEvent.class);
+    }
 
     public abstract void command(MessageCommandZeroMQ messageCommandZeroMQ);
 }

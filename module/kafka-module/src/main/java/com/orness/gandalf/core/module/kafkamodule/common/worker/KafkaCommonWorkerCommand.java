@@ -13,7 +13,6 @@ public class KafkaCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
     @Autowired
     private KafkaCommonManager kafkaCommonManager;
-    private Gson mapper;
 
     public KafkaCommonWorkerCommand(String connection) {
         super(connection);
@@ -21,7 +20,7 @@ public class KafkaCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
     @Override
     public Object parse(String messageContent) {
-        return mapper.fromJson(messageContent, KafkaCommand.class);
+        return this.mapper.fromJson(messageContent, KafkaCommand.class);
     }
 
     @Override

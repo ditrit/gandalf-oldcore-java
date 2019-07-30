@@ -10,6 +10,11 @@ public class NexusCommonWorkerCommand extends RunnableWorkerZeroMQ {
     }
 
     @Override
+    public Object parse(String messageContent) {
+        return null;
+    }
+
+    @Override
     public void command(MessageCommandZeroMQ messageCommandZeroMQ) {
 
     }

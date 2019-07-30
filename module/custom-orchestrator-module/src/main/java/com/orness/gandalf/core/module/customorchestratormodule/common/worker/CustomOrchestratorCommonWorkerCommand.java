@@ -14,16 +14,14 @@ public class CustomOrchestratorCommonWorkerCommand extends RunnableWorkerZeroMQ 
 
     @Autowired
     private CustomOrchestratorCommonManager customOrchestratorCommonManager;
-    private Gson mapper;
 
     public CustomOrchestratorCommonWorkerCommand(String connection) {
         super(connection);
-        mapper = new Gson();
     }
 
     @Override
     public Object parse(String messageContent) {
-        return mapper.fromJson(messageContent, CustomOrchestratorCommand.class);
+        return this.mapper.fromJson(messageContent, CustomOrchestratorCommand.class);
     }
 
     //TODO ARGS

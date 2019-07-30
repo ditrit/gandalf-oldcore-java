@@ -14,16 +14,14 @@ public class ZeebeCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
     @Autowired
     private ZeebeCommonManager zeebeCommonManager;
-    private Gson mapper;
 
     public ZeebeCommonWorkerCommand(String connection) {
         super(connection);
-        mapper = new Gson();
     }
 
     @Override
     public Object parse(String messageContent) {
-        return mapper.fromJson(messageContent, ZeebeCommand.class);    }
+        return this.mapper.fromJson(messageContent, ZeebeCommand.class);    }
 
     @Override
     public void command(MessageCommandZeroMQ messageCommandZeroMQ) {
