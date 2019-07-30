@@ -34,6 +34,12 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.orness.gandalf.core.module</groupId>
 			<artifactId>constant-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -46,11 +52,12 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
+			<groupId>com.orness.gandalf.core.module</groupId>
+			<artifactId>zeromq-module</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
+
 	</dependencies>
 
 </project>

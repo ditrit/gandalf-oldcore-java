@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.gitmodule.config.common.manager;
 
-import com.orness.gandalf.core.module.versioncontrolmodule.common.manager.VersionControlCommonManager;
+import com.orness.gandalf.core.module.versioncontrolmodule.manager.VersionControlCommonManager;
 import org.springframework.stereotype.Component;
 
 @Component

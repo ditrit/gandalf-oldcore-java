@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.kafkamodule.common.manager;
 
-import com.orness.gandalf.core.module.busmodule.common.manager.BusCommonManager;
+import com.orness.gandalf.core.module.busmodule.manager.BusCommonManager;
 import com.orness.gandalf.core.module.kafkamodule.core.producer.KafkaProducer;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsResult;
@@ -58,12 +58,12 @@ public class KafkaCommonManager extends BusCommonManager {
     }
 
     @Override
-    public void synchronizeTopicGandalf() {
+    public void synchronizeGandalf() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void synchronizeBusTopicBus() {
+    public void synchronizeBus() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

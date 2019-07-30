@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.module.busmodule.common.manager;
+package com.orness.gandalf.core.module.busmodule.manager;
 
 public abstract class BusCommonManager {
 
@@ -10,7 +10,7 @@ public abstract class BusCommonManager {
 
     public abstract void receiveMessage();
 
-    public abstract void synchronizeTopicGandalf();
+    public abstract void synchronizeGandalf();
 
-    public abstract void synchronizeBusTopicBus();
+    public abstract void synchronizeBus();
 }

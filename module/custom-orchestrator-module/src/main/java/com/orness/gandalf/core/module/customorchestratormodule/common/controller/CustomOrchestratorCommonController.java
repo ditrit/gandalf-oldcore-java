@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.module.customorchestratormodule.common.controller;
 
 import com.orness.gandalf.core.module.customorchestratormodule.common.manager.CustomOrchestratorCommonManager;
-import com.orness.gandalf.core.module.orchestratormodule.common.controller.OrchestratorCommonController;
+import com.orness.gandalf.core.module.orchestratormodule.controller.OrchestratorCommonController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 

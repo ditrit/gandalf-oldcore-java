@@ -23,6 +23,11 @@ public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
     }
 
     @Override
+    public Object parse(String messageContent) {
+        return mapper.fromJson(messageContent, GandalfEvent.class);
+    }
+
+    @Override
     public void command(MessageCommandZeroMQ messageCommandZeroMQ) {
 
         System.out.println("ID " + this.identity);
@@ -39,7 +44,7 @@ public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
                 this.gandalfConnectorManager.stop();
                 break;
             case COMMAND_PUBLISH:
-                this.gandalfConnectorManager.publish(mapper.fromJson(messageCommandZeroMQ.getCommand().toString(), GandalfEvent.class));
+                this.gandalfConnectorManager.publish((GandalfEvent) this.parse(messageCommandZeroMQ.getCommand().toString()));
                 break;
             case COMMAND_SUBSCRIBE:
                 this.gandalfConnectorManager.subscribe();

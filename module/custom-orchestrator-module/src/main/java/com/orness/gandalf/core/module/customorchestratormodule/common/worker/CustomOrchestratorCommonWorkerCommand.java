@@ -1,18 +1,29 @@
 package com.orness.gandalf.core.module.customorchestratormodule.common.worker;
 
+import com.google.gson.Gson;
 import com.orness.gandalf.core.module.customorchestratormodule.common.manager.CustomOrchestratorCommonManager;
+import com.orness.gandalf.core.module.customorchestratormodule.core.CustomOrchestratorCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.orness.gandalf.core.module.orchestratormodule.constant.OrchestratorConstant.*;
+
 //TODO
-public class CustomOrchestratorCommonWorker extends RunnableWorkerZeroMQ {
+public class CustomOrchestratorCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
     @Autowired
     private CustomOrchestratorCommonManager customOrchestratorCommonManager;
+    private Gson mapper;
 
-    public CustomOrchestratorCommonWorker(String connection) {
+    public CustomOrchestratorCommonWorkerCommand(String connection) {
         super(connection);
+        mapper = new Gson();
+    }
+
+    @Override
+    public Object parse(String messageContent) {
+        return mapper.fromJson(messageContent, CustomOrchestratorCommand.class);
     }
 
     //TODO ARGS
@@ -20,28 +31,28 @@ public class CustomOrchestratorCommonWorker extends RunnableWorkerZeroMQ {
     @Override
     public void command(MessageCommandZeroMQ messageCommandZeroMQ) {
         switch (messageCommandZeroMQ.getCommand().toString()) {
-            case "register":
+            case COMMAND_REGISTER:
                 this.customOrchestratorCommonManager.register("", "");
                 break;
-            case "unregister":
+            case COMMAND_UNREGISTER:
                 this.customOrchestratorCommonManager.unregister("", "");
                 break;
-            case "deploy":
+            case COMMAND_DEPLOY:
                 this.customOrchestratorCommonManager.deploy("");
                 break;
-            case "undeploy":
+            case COMMAND_UNDEPLOY:
                 this.customOrchestratorCommonManager.undeploy("");
                 break;
-            case "start":
+            case COMMAND_START:
                 this.customOrchestratorCommonManager.start("");
                 break;
-            case "stop":
+            case COMMAND_STOP:
                 this.customOrchestratorCommonManager.stop("");
                 break;
-            case "scaleUp":
+            case COMMAND_SCALE_UP:
                 this.customOrchestratorCommonManager.scaleUp("");
                 break;
-            case "scaleDown":
+            case COMMAND_SCALE_DOWN:
                 this.customOrchestratorCommonManager.scaleDown("");
                 break;
             default:

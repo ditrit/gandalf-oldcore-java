@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+//TODO USELESS ?
 @RestController
 public class CustomArtifactSpecificController {
 
@@ -16,11 +17,11 @@ public class CustomArtifactSpecificController {
 
     @Autowired
     public CustomArtifactSpecificController(CustomArtifactCommonManager customArtifactCommonManager) {
-        this.customArtifactCommonManager = customArtifactCommonManager;
+        //this.customArtifactCommonManager = customArtifactCommonManager;
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/upload/single/file")
+   /* @RequestMapping(method = RequestMethod.POST, value = "/upload/single/file")
     //@Headers("Content-Type: multipart/form-data")
     public void uploadBuildSingleFile(@RequestParam MultipartFile file) {
         String fileName = null;
@@ -57,6 +58,6 @@ public class CustomArtifactSpecificController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
-    }
+    }*/
 
 }

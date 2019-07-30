@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.module.versioncontrolmodule.common.manager;
+package com.orness.gandalf.core.module.versioncontrolmodule.manager;
 
 public abstract class VersionControlCommonManager {
 

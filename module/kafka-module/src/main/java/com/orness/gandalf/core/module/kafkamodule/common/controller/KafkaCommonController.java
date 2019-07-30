@@ -1,9 +1,11 @@
 package com.orness.gandalf.core.module.kafkamodule.common.controller;
 
-import com.orness.gandalf.core.module.busmodule.common.controller.BusCommonController;
+import com.orness.gandalf.core.module.busmodule.controller.BusCommonController;
 import com.orness.gandalf.core.module.kafkamodule.common.manager.KafkaCommonManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class KafkaCommonController extends BusCommonController {
 
     private KafkaCommonManager kafkaCommonManager;
@@ -34,12 +36,12 @@ public class KafkaCommonController extends BusCommonController {
     }
 
     @Override
-    public void synchronizeTopicGandalf() {
-        this.kafkaCommonManager.synchronizeTopicGandalf();
+    public void synchronizeGandalf() {
+        this.kafkaCommonManager.synchronizeGandalf();
     }
 
     @Override
-    public void synchronizeBusTopicBus() {
-        this.kafkaCommonManager.synchronizeBusTopicBus();
+    public void synchronizeBus() {
+        this.kafkaCommonManager.synchronizeBus();
     }
 }

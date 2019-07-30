@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.module.orchestratormodule.common.manager;
+package com.orness.gandalf.core.module.orchestratormodule.manager;
 
 public abstract class OrchestratorCommonManager {
 

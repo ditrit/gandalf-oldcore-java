@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.nexusmodule.common.manager;
 
-import com.orness.gandalf.core.module.artifactmodule.common.manager.ArtifactCommonManager;
+import com.orness.gandalf.core.module.artifactmodule.manager.ArtifactCommonManager;
 import com.orness.gandalf.core.module.nexusmodule.common.manager.feign.NexusFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

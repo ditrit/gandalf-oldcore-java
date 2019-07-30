@@ -8,6 +8,12 @@ public class KafkaSpecificWorkerCommand extends RunnableWorkerZeroMQ {
     public KafkaSpecificWorkerCommand(String connection) {
         super(connection);
     }
+
+    @Override
+    public Object parse(String messageContent) {
+        return null;
+    }
+
     //TODO
     @Override
     public void command(MessageCommandZeroMQ messageCommandZeroMQ) {

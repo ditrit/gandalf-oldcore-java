@@ -18,5 +18,7 @@ public abstract  class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runn
         }
     }
 
+    public abstract Object parse(String messageContent);
+
     public abstract void command(MessageCommandZeroMQ messageCommandZeroMQ);
 }

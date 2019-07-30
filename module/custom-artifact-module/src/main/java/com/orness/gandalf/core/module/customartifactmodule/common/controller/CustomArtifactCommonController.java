@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.customartifactmodule.common.controller;
 
-import com.orness.gandalf.core.module.artifactmodule.common.controller.ArtifactCommonController;
+import com.orness.gandalf.core.module.artifactmodule.controller.ArtifactCommonController;
 import com.orness.gandalf.core.module.customartifactmodule.common.manager.CustomArtifactCommonManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -27,7 +27,6 @@ public class CustomArtifactCommonController extends ArtifactCommonController {
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.POST, value = "/upload/artifact")
     public void upload(@RequestParam MultipartFile artifact) {
         String fileName = null;
         try {
@@ -38,7 +37,6 @@ public class CustomArtifactCommonController extends ArtifactCommonController {
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.GET, value = "/download/{artifact}")
     public Object download(@PathVariable("artifact") String artifact) {
         Resource resource = null;
         String contentType = null;

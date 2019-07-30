@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.customartifactmodule.common.manager;
 
-import com.orness.gandalf.core.module.artifactmodule.common.manager.ArtifactCommonManager;
+import com.orness.gandalf.core.module.artifactmodule.manager.ArtifactCommonManager;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
