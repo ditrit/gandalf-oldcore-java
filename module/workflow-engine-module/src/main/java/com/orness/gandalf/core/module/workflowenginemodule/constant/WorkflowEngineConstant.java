@@ -6,4 +6,10 @@ public abstract class WorkflowEngineConstant {
     public static final String COMMAND_INSTANCIATE = "COMMAND_INSTANCIATE";
     public static final String COMMAND_SEND = "COMMAND_SEND";
 
+    public static final String URL_CONTROLLER = "/workflowengine";
+    public static final String URL_CONTROLLER_DEPLOY = "/deploy/";
+    public static final String URL_CONTROLLER_INSTANCIATE = "/instanciate/";
+    public static final String URL_CONTROLLER_SEND = "/send/";
+
+
 }
