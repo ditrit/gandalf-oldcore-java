@@ -12,6 +12,7 @@ import org.springframework.kafka.listener.MessageListener;
 import java.util.HashMap;
 import java.util.Map;
 //TODO REVOIR PROP
+//TODO REVOIR ???
 public abstract class KafkaConsumer implements Runnable {
 
     @Value("${gandalf.bus.broker}")

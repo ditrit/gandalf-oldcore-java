@@ -2,7 +2,11 @@ package com.orness.gandalf.core.module.customorchestratormodule.specific.manager
 
 import com.orness.gandalf.core.module.customorchestratormodule.core.CustomOrchestratorBashService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
+@Component(value = "specificManager")
+@Profile(value = "custom-orchestrator-module")
 public class CustomOrchestratorSpecificManager {
 
     private CustomOrchestratorBashService customOrchestratorBashService;

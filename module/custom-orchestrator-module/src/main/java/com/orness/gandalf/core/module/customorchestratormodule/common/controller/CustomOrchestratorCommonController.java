@@ -3,9 +3,11 @@ package com.orness.gandalf.core.module.customorchestratormodule.common.controlle
 import com.orness.gandalf.core.module.customorchestratormodule.common.manager.CustomOrchestratorCommonManager;
 import com.orness.gandalf.core.module.orchestratormodule.controller.OrchestratorCommonController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController(value = "commonController")
+@Profile(value = "custom-orchestrator-module")
 public class CustomOrchestratorCommonController extends OrchestratorCommonController {
 
     private CustomOrchestratorCommonManager  customOrchestratorCommonManager;

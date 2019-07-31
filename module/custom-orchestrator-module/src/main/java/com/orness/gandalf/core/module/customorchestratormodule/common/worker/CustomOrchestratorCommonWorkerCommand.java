@@ -6,10 +6,14 @@ import com.orness.gandalf.core.module.customorchestratormodule.core.CustomOrches
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import static com.orness.gandalf.core.module.orchestratormodule.constant.OrchestratorConstant.*;
 
 //TODO
+@Component(value = "commonWorkerCommand")
+@Profile(value = "custom-orchestrator-module")
 public class CustomOrchestratorCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
     @Autowired

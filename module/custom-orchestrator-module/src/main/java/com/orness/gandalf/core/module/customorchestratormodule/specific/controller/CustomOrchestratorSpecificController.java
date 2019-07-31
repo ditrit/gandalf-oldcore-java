@@ -2,9 +2,11 @@ package com.orness.gandalf.core.module.customorchestratormodule.specific.control
 
 import com.orness.gandalf.core.module.customorchestratormodule.specific.manager.CustomOrchestratorSpecificManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController(value = "specificController")
+@Profile(value = "custom-orchestrator-module")
 public class CustomOrchestratorSpecificController {
 
     private CustomOrchestratorSpecificManager customOrchestratorSpecificManager;

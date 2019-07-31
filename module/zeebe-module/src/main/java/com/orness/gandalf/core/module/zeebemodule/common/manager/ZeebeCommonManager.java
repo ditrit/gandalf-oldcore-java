@@ -1,15 +1,17 @@
 package com.orness.gandalf.core.module.zeebemodule.common.manager;
 
-import com.orness.gandalf.core.module.workflowenginemodule.common.manager.WorkflowEngineCommonManager;
+import com.orness.gandalf.core.module.workflowenginemodule.manager.WorkflowEngineCommonManager;
 import com.orness.gandalf.core.module.zeebemodule.core.domain.ZeebeMessage;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.events.DeploymentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 
-@Component
+@Component(value = "commonManager")
+@Profile(value = "zeebe-module")
 public class ZeebeCommonManager extends WorkflowEngineCommonManager {
 
     private ZeebeClient zeebe;

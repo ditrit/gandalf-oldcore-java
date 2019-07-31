@@ -1,14 +1,17 @@
 package com.orness.gandalf.core.module.customartifactmodule.common.worker;
 
-import com.google.gson.Gson;
 import com.orness.gandalf.core.module.customartifactmodule.common.manager.CustomArtifactCommonManager;
 import com.orness.gandalf.core.module.customartifactmodule.core.CustomArtifactCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import static com.orness.gandalf.core.module.artifactmodule.constant.ArtifactConstant.*;
 
+@Component(value = "commonWorkerCommand")
+@Profile(value = "custom-artifact-module")
 public class CustomArtifactCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
     @Autowired

@@ -3,9 +3,11 @@ package com.orness.gandalf.core.module.kafkamodule.common.controller;
 import com.orness.gandalf.core.module.busmodule.controller.BusCommonController;
 import com.orness.gandalf.core.module.kafkamodule.common.manager.KafkaCommonManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController(value = "commonController")
+@Profile(value = "kafka-module")
 public class KafkaCommonController extends BusCommonController {
 
     private KafkaCommonManager kafkaCommonManager;

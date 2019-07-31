@@ -4,7 +4,7 @@ import com.orness.gandalf.core.module.zeromqmodule.command.client.ClientZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.CommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 
-import static com.orness.gandalf.core.module.constantmodule.communication.CommunicationConstant.*;
+import static com.orness.gandalf.core.module.gandalfmodule.constant.GandalfConstant.*;
 
 public class GandalfClientCommand extends ClientZeroMQ {
 

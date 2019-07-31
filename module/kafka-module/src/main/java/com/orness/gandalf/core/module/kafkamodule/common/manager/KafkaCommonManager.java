@@ -6,13 +6,15 @@ import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component(value = "commonManager")
+@Profile(value = "kafka-module")
 public class KafkaCommonManager extends BusCommonManager {
 
     private KafkaAdmin kafkaAdmin;

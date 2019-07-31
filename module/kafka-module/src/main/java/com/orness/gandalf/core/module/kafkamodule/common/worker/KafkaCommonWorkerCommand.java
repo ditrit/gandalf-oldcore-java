@@ -1,14 +1,17 @@
 package com.orness.gandalf.core.module.kafkamodule.common.worker;
 
-import com.google.gson.Gson;
 import com.orness.gandalf.core.module.kafkamodule.common.manager.KafkaCommonManager;
 import com.orness.gandalf.core.module.kafkamodule.core.KafkaCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import static com.orness.gandalf.core.module.busmodule.constant.BusConstant.*;
 
+@Component(value = "commonWorkerCommand")
+@Profile(value = "kafka-module")
 public class KafkaCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
     @Autowired
@@ -38,23 +41,18 @@ public class KafkaCommonWorkerCommand extends RunnableWorkerZeroMQ {
                 this.kafkaCommonManager.createTopic("");
                 break;
             case COMMAND_DELETE_TOPIC:
-                //TODO ADD ARTIFACT COMMAND
                 this.kafkaCommonManager.deleteTopic("");
                 break;
             case COMMAND_SEND_MESSAGE:
-                //TODO ADD ARTIFACT COMMAND
                 this.kafkaCommonManager.sendMessage("","");
                 break;
             case COMMAND_RECEIVE_MESSAGE:
-                //TODO ADD ARTIFACT COMMAND
                 this.kafkaCommonManager.receiveMessage();
                 break;
             case COMMAND_SYNCHRONIZE_GANDALF:
-                //TODO ADD ARTIFACT COMMAND
                 this.kafkaCommonManager.synchronizeGandalf();
                 break;
             case COMMAND_SYNCHRONIZE_BUS:
-                //TODO ADD ARTIFACT COMMAND
                 this.kafkaCommonManager.synchronizeBus();
                 break;
             default:

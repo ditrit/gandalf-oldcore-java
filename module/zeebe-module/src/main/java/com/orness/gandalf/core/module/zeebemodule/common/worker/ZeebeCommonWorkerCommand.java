@@ -1,15 +1,18 @@
 package com.orness.gandalf.core.module.zeebemodule.common.worker;
 
-import com.google.gson.Gson;
 import com.orness.gandalf.core.module.zeebemodule.common.manager.ZeebeCommonManager;
 import com.orness.gandalf.core.module.zeebemodule.core.ZeebeCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
-import static com.orness.gandalf.core.module.workflowenginemodule.common.constant.WorkflowEngineConstant.*;
+import static com.orness.gandalf.core.module.workflowenginemodule.constant.WorkflowEngineConstant.*;
 
 //TODO REVOIR ARGS
+@Component(value = "commonWorkerCommand")
+@Profile(value = "zeebe-module")
 public class ZeebeCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
     @Autowired

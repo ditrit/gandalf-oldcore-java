@@ -1,8 +1,9 @@
 package com.orness.gandalf.core.module.zeebemodule.specific.manager;
 
-import com.orness.gandalf.core.module.workflowenginemodule.specific.manager.WorkflowEngineSpecificManager;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Component
-public class ZeebeSpecificManager extends WorkflowEngineSpecificManager {
+@Component(value = "specificManager")
+@Profile(value = "zeebe-module")
+public class ZeebeSpecificManager {
 }

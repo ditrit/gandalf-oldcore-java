@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.module.customorchestratormodule.core;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -12,6 +13,7 @@ import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.*;
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_BUILD_DIRECTORY;
 
 @Service
+@Profile(value = "custom-orchestrator-module")
 public class CustomOrchestratorBashService {
 
     public boolean execute(String service, String command) {

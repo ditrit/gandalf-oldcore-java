@@ -15,27 +15,39 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>workflow-uid-module</module>
-        <module>message-module</module>
+        <!-- Core -->
         <module>zeromq-module</module>
-        <module>constant-module</module>
-        <module>webhook-module</module>
+
+        <!-- Gandalf -->
         <module>gandalf-module</module>
+
+        <!-- Common -->
+        <module>job-module</module>
+        <module>workflow-engine-module</module>
+        <module>bus-module</module>
+        <module>version-control-module</module>
+        <module>artifact-module</module>
+        <module>database-module</module>
+        <module>orchestrator-module</module>
+
+        <!-- Specific -->
         <module>gitlab-module</module>
         <module>git-module</module>
         <module>zeebe-module</module>
         <module>kafka-module</module>
         <module>nexus-module</module>
-        <module>bus-module</module>
-        <module>artifact-module</module>
-        <module>database-module</module>
-        <module>version-control-module</module>
-        <module>workflow-engine-module</module>
         <module>custom-artifact-module</module>
         <module>custom-orchestrator-module</module>
         <module>jenkins-module</module>
-        <module>orchestrator-module</module>
         <module>h2-module</module>
+        <module>job-zeebe-module</module>
+
+        <!-- Utils -->
+        <module>message-module</module>
+        <module>workflow-uid-module</module>
+        <module>constant-module</module>
+        <module>webhook-module</module>
+
     </modules>
 
     <properties>

@@ -15,6 +15,16 @@ public class ConnectorGandalfConfiguration {
     @Autowired
     private ApplicationContext context;
 
+    //                            _  .-')     ('-.
+    //                       ( \( -O )  _(  OO)
+    //   .-----.  .-'),-----. ,------. (,------.
+    //  '  .--./ ( OO'  .-.  '|   /`. ' |  .---'
+    //  |  |('-. /   |  | |  ||  /  | | |  |
+    // /_) |OO  )\_) |  |\|  ||  |_.' |(|  '--.
+    // ||  |`-'|   \ |  | |  ||  .  '.' |  .--'
+    //(_'  '--'\    `'  '-'  '|  |\  \  |  `---.
+    //   `-----'      `-----' `--' '--' `------'
+
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
@@ -24,6 +34,32 @@ public class ConnectorGandalfConfiguration {
         return pool;
     }
 
+    //                   ('-.         .-') _  _ .-') _     ('-.
+    //              ( OO ).-.    ( OO ) )( (  OO) )   ( OO ).-.
+    //  ,----.      / . --. /,--./ ,--,'  \     .'_   / . --. / ,--.        ,------.
+    // '  .-./-')   | \-.  \ |   \ |  |\  ,`'--..._)  | \-.  \  |  |.-') ('-| _.---'
+    // |  |_( O- ).-'-'  |  ||    \|  | ) |  |  \  '.-'-'  |  | |  | OO )(OO|(_\
+    // |  | .--, \ \| |_.'  ||  .     |/  |  |   ' | \| |_.'  | |  |`-' |/  |  '--.
+    //(|  | '. (_/  |  .-.  ||  |\    |   |  |   / :  |  .-.  |(|  '---.'\_)|  .--'
+    // |  '--'  |   |  | |  ||  | \   |   |  '--'  /  |  | |  | |      |   \|  |_)
+    //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
+
+    @Bean
+    public void workerGandalfCommand() {
+        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
+        taskExecutor.execute((GandalfWorkerCommand) context.getBean("gandalfWorkerCommand"));
+    }
+
+    //    .-. .-')  _  .-')               .-. .-')     ('-.  _  .-')
+    //\  ( OO )( \( -O )              \  ( OO )  _(  OO)( \( -O )
+    // ;-----.\ ,------.  .-'),-----. ,--. ,--. (,------.,------.
+    // | .-.  | |   /`. '( OO'  .-.  '|  .'   /  |  .---'|   /`. '
+    // | '-' /_)|  /  | |/   |  | |  ||      /,  |  |    |  /  | |
+    // | .-. `. |  |_.' |\_) |  |\|  ||     ' _)(|  '--. |  |_.' |
+    // | |  \  ||  .  '.'  \ |  | |  ||  .   \   |  .--' |  .  '.'
+    // | '--'  /|  |\  \    `'  '-'  '|  |\   \  |  `---.|  |\  \
+    // `------' `--' '--'     `-----' `--' '--'  `------'`--' '--'
+
     @Bean
     public void brokerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
@@ -31,16 +67,20 @@ public class ConnectorGandalfConfiguration {
         taskExecutor.execute(gandalfBrokerCommandBean);
     }
 
+    //       _ (`-.  _  .-')              ) (`-.
+    //  ( (OO  )( \( -O )              ( OO ).
+    // _.`     \ ,------.  .-'),-----.(_/.  \_)-. ,--.   ,--.
+    //(__...--'' |   /`. '( OO'  .-.  '\  `.'  /   \  `.'  /
+    // |  /  | | |  /  | |/   |  | |  | \     /\ .-')     /
+    // |  |_.' | |  |_.' |\_) |  |\|  |  \   \ |(OO  \   /
+    // |  .___.' |  .  '.'  \ |  | |  | .'    \_)|   /  /\_
+    // |  |      |  |\  \    `'  '-'  '/  .'.  \ `-./  /.__)
+    // `--'      `--' '--'     `-----''--'   '--'  `--'
+
     @Bean
     public void proxyEvent() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         GandalfProxyEventBean gandalfProxyEventBean = (GandalfProxyEventBean) context.getBean("gandalfProxyEventBean");
         taskExecutor.execute(gandalfProxyEventBean);
-    }
-
-    @Bean
-    public void workerGandalfCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        taskExecutor.execute((GandalfWorkerCommand) context.getBean("gandalfWorkerCommand"));
     }
 }

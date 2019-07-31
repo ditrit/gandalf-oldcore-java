@@ -3,6 +3,7 @@ package com.orness.gandalf.core.module.customartifactmodule.common.controller;
 import com.orness.gandalf.core.module.artifactmodule.controller.ArtifactCommonController;
 import com.orness.gandalf.core.module.customartifactmodule.common.manager.CustomArtifactCommonManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -10,7 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
+@RestController(value = "commonController")
+@Profile(value = "custom-artifact-module")
 public class CustomArtifactCommonController extends ArtifactCommonController {
 
     private CustomArtifactCommonManager customArtifactCommonManager;

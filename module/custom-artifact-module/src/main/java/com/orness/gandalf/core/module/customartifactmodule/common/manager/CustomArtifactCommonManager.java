@@ -3,8 +3,10 @@ package com.orness.gandalf.core.module.customartifactmodule.common.manager;
 import com.orness.gandalf.core.module.artifactmodule.manager.ArtifactCommonManager;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -16,6 +18,8 @@ import java.nio.file.Paths;
 
 import static com.orness.gandalf.core.module.constantmodule.storage.StorageConstant.BUILD_PROJECT_DIRECTORY;
 
+@Component(value = "commonManager")
+@Profile(value = "custom-artifact-module")
 public class CustomArtifactCommonManager extends ArtifactCommonManager {
 
     private final Path fileStorageLocation;
