@@ -50,10 +50,10 @@ public class KafkaCommonWorkerCommand extends RunnableWorkerZeroMQ {
                 this.kafkaCommonManager.receiveMessage();
                 break;
             case COMMAND_SYNCHRONIZE_GANDALF:
-                this.kafkaCommonManager.synchronizeGandalf();
+                this.kafkaCommonManager.synchronizeToGandalf();
                 break;
             case COMMAND_SYNCHRONIZE_BUS:
-                this.kafkaCommonManager.synchronizeBus();
+                this.kafkaCommonManager.synchronizeToBus();
                 break;
             default:
                 //DO NOTHING

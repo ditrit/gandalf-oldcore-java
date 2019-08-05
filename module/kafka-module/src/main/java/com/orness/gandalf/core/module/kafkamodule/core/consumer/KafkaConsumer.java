@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.module.kafkamodule.core.consumer;
 
+import com.google.gson.Gson;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,18 +23,22 @@ public abstract class KafkaConsumer implements Runnable {
     @Value("${gandalf.bus.group}")
     private String group;
     private final String topic;
+    protected Gson mapper;
 
     public KafkaConsumer(String topic) {
         this.topic = topic;
+        this.mapper = new Gson();
     }
 
     public void run() {
-        MessageListener<String, String> messageListener = record -> this.publish(record.value());
+        MessageListener<String, String> messageListener = record -> this.publish(this.parse(record.value()));
         ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(consumerFactory(brokerAddress), containerProperties(messageListener));
         container.start();
     }
 
-    protected abstract void publish(String value);
+    protected abstract void publish(Object message);
+
+    protected abstract Object parse(String value);
 
     private ConsumerFactory<String, String> consumerFactory(String brokerAddress) {
         return new DefaultKafkaConsumerFactory<>(consumerConfig(brokerAddress), new StringDeserializer(), new StringDeserializer());

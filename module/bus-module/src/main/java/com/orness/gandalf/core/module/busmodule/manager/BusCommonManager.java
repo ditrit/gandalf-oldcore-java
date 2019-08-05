@@ -10,7 +10,7 @@ public abstract class BusCommonManager {
 
     public abstract void receiveMessage();
 
-    public abstract void synchronizeGandalf();
+    public abstract void synchronizeToGandalf(String topic);
 
-    public abstract void synchronizeBus();
+    public abstract void synchronizeToBus(String topic);
 }

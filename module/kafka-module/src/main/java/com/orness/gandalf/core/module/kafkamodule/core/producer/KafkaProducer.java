@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 @Profile(value = "kafka-module")
 public class KafkaProducer {
 
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, Object> kafkaTemplate;
 
     @Autowired
     public KafkaProducer(KafkaTemplate kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendKafka(String topic, String message) {
+    public void sendKafka(String topic, Object message) {
         kafkaTemplate.send(topic, message);
     }
 }
