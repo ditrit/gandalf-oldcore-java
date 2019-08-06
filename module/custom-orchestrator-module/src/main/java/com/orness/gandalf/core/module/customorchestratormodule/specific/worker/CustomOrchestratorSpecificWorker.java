@@ -1,21 +1,26 @@
 package com.orness.gandalf.core.module.customorchestratormodule.specific.worker;
 
+import com.orness.gandalf.core.module.customorchestratormodule.core.properties.CustomOrchestratorProperties;
 import com.orness.gandalf.core.module.customorchestratormodule.specific.manager.CustomOrchestratorSpecificManager;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-//TODO REVOIR
+
 @Component(value = "specificWorkerCommand")
 @Profile(value = "custom-orchestrator-module")
 public class CustomOrchestratorSpecificWorker extends RunnableWorkerZeroMQ {
 
-    @Autowired
     private CustomOrchestratorSpecificManager customOrchestratorSpecificManager;
+    private CustomOrchestratorProperties customOrchestratorProperties;
 
-    public CustomOrchestratorSpecificWorker(String connection) {
-        super(connection);
+    @Autowired
+    public CustomOrchestratorSpecificWorker(CustomOrchestratorSpecificManager customOrchestratorSpecificManager, CustomOrchestratorProperties customOrchestratorProperties) {
+        super();
+        this.customOrchestratorSpecificManager = customOrchestratorSpecificManager;
+        this.customOrchestratorProperties = customOrchestratorProperties;
+        this.connect(this.customOrchestratorProperties.getWorker());
     }
 
     @Override

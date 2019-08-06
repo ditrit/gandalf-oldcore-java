@@ -16,16 +16,17 @@ public abstract class ClientZeroMQ {
         this.connection = connection;
     }
 
-    public ClientZeroMQ(String connection) {
-        this.connection = connection;
+    public ClientZeroMQ() {
+        //this.connection = connection;
         this.context = new ZContext();
         this.client = this.context.createSocket(SocketType.REQ);
         this.identity = String.format("%04X-%04X", rand.nextInt(), rand.nextInt());
         this.client.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
-        this.connect();
+        //this.connect();
     }
 
-    public void connect() {
+    public void connect(String connection) {
+        this.setConnection(connection);
         this.client.connect(this.connection);
     }
 

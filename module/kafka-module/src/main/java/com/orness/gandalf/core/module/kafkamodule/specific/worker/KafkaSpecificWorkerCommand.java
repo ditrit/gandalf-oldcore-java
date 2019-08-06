@@ -1,6 +1,7 @@
 package com.orness.gandalf.core.module.kafkamodule.specific.worker;
 
 import com.orness.gandalf.core.module.kafkamodule.core.properties.KafkaProperties;
+import com.orness.gandalf.core.module.kafkamodule.specific.manager.KafkaSpecificManager;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,15 @@ import org.springframework.stereotype.Component;
 @Profile(value = "kafka-module")
 public class KafkaSpecificWorkerCommand extends RunnableWorkerZeroMQ {
 
+    private KafkaSpecificManager kafkaSpecificManager;
     private KafkaProperties kafkaProperties;
 
     @Autowired
-    public KafkaSpecificWorkerCommand(KafkaProperties kafkaProperties) {
+    public KafkaSpecificWorkerCommand(KafkaSpecificManager kafkaSpecificManager, KafkaProperties kafkaProperties) {
         super();
+        this.kafkaSpecificManager = kafkaSpecificManager;
         this.kafkaProperties = kafkaProperties;
-        this.connect(kafkaProperties.getAddress());
+        this.connect(kafkaProperties.getWorker());
     }
 
     @Override

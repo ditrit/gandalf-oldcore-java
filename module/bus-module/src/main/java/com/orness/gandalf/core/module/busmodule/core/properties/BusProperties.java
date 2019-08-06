@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="bus")
 public class BusProperties {
 
-    private String broker;
+    private String bus;
 
-    public String getBroker() {
-        return broker;
+    public String getBus() {
+        return bus;
     }
 
-    public void setBroker(String broker) {
-        this.broker = broker;
+    public void setBus(String bus) {
+        this.bus = bus;
     }
 }

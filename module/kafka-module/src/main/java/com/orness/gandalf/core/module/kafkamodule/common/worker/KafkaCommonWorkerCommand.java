@@ -23,7 +23,7 @@ public class KafkaCommonWorkerCommand extends RunnableWorkerZeroMQ {
         super();
         this.kafkaCommonManager = kafkaCommonManager;
         this.kafkaProperties = kafkaProperties;
-        this.connect(kafkaProperties.getAddress());
+        this.connect(kafkaProperties.getWorker());
     }
 
     @Override

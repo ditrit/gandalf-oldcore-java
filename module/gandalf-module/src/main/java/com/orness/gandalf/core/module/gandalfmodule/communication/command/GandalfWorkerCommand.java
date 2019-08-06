@@ -2,6 +2,7 @@ package com.orness.gandalf.core.module.gandalfmodule.communication.command;
 
 import com.google.gson.Gson;
 import com.orness.gandalf.core.module.gandalfmodule.manager.GandalfConnectorManager;
+import com.orness.gandalf.core.module.gandalfmodule.properties.properties.GandalfProperties;
 import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
@@ -12,19 +13,23 @@ import org.springframework.beans.factory.annotation.Value;
 import static com.orness.gandalf.core.module.constantmodule.communication.CommunicationConstant.*;
 
 public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
-//TODO REVOIR
-    @Autowired
+
     private GandalfConnectorManager gandalfConnectorManager;
+    private GandalfProperties gandalfProperties;
     private Gson mapper;
 
-    public GandalfWorkerCommand(@Value("${gandalf.communication.worker}") String connection) {
-        super(connection);
-        mapper = new Gson();
+    @Autowired
+    public GandalfWorkerCommand(GandalfConnectorManager gandalfConnectorManager, GandalfProperties gandalfProperties) {
+        super();
+        this.gandalfConnectorManager = gandalfConnectorManager;
+        this.gandalfProperties = gandalfProperties;
+        this.mapper = new Gson();
+        this.connect(gandalfProperties.getWorker());
     }
 
     @Override
     public Object parse(String messageContent) {
-        return mapper.fromJson(messageContent, GandalfEvent.class);
+        return this.mapper.fromJson(messageContent, GandalfEvent.class);
     }
 
     @Override

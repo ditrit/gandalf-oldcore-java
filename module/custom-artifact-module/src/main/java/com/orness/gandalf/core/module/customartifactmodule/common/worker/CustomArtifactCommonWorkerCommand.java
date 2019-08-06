@@ -2,6 +2,7 @@ package com.orness.gandalf.core.module.customartifactmodule.common.worker;
 
 import com.orness.gandalf.core.module.customartifactmodule.common.manager.CustomArtifactCommonManager;
 import com.orness.gandalf.core.module.customartifactmodule.config.CustomArtifactCommand;
+import com.orness.gandalf.core.module.customartifactmodule.config.properties.CustomArtifactProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,15 @@ import static com.orness.gandalf.core.module.artifactmodule.constant.ArtifactCon
 @Profile(value = "custom-artifact-module")
 public class CustomArtifactCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
-    @Autowired
     private CustomArtifactCommonManager customArtifactCommonManager;
+    private CustomArtifactProperties customArtifactProperties;
 
-    public CustomArtifactCommonWorkerCommand(String connection) {
-        super(connection);
+    @Autowired
+    public CustomArtifactCommonWorkerCommand(CustomArtifactCommonManager customArtifactCommonManager, CustomArtifactProperties customArtifactProperties) {
+        super();
+        this.customArtifactCommonManager = customArtifactCommonManager;
+        this.customArtifactProperties = customArtifactProperties;
+        this.connect(this.customArtifactProperties.getWorker());
     }
 
     @Override

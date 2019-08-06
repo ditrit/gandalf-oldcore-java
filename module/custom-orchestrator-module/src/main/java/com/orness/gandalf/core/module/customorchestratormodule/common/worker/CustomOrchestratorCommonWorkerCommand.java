@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.module.customorchestratormodule.common.worker;
 
-import com.google.gson.Gson;
 import com.orness.gandalf.core.module.customorchestratormodule.common.manager.CustomOrchestratorCommonManager;
 import com.orness.gandalf.core.module.customorchestratormodule.core.CustomOrchestratorCommand;
+import com.orness.gandalf.core.module.customorchestratormodule.core.properties.CustomOrchestratorProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +11,19 @@ import org.springframework.stereotype.Component;
 
 import static com.orness.gandalf.core.module.orchestratormodule.constant.OrchestratorConstant.*;
 
-//TODO
 @Component(value = "commonWorkerCommand")
 @Profile(value = "custom-orchestrator-module")
 public class CustomOrchestratorCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
-    @Autowired
     private CustomOrchestratorCommonManager customOrchestratorCommonManager;
+    private CustomOrchestratorProperties customOrchestratorProperties;
 
-    public CustomOrchestratorCommonWorkerCommand(String connection) {
-        super(connection);
+    @Autowired
+    public CustomOrchestratorCommonWorkerCommand(CustomOrchestratorCommonManager customOrchestratorCommonManager, CustomOrchestratorProperties customOrchestratorProperties) {
+        super();
+        this.customOrchestratorCommonManager = customOrchestratorCommonManager;
+        this.customOrchestratorProperties = customOrchestratorProperties;
+        this.connect(this.customOrchestratorProperties.getWorker());
     }
 
     @Override

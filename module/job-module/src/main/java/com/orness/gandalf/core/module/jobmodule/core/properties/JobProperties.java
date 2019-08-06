@@ -8,4 +8,14 @@ import org.springframework.stereotype.Component;
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix="job")
 public class JobProperties {
+
+    private String broker;
+
+    public String getBroker() {
+        return broker;
+    }
+
+    public void setBroker(String broker) {
+        this.broker = broker;
+    }
 }

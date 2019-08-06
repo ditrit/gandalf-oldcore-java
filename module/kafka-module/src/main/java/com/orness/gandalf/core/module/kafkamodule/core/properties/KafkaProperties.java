@@ -12,7 +12,16 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="kafka")
 public class KafkaProperties {
 
+    private String worker;
     private String group;
+
+    public String getWorker() {
+        return worker;
+    }
+
+    public void setWorker(String worker) {
+        this.worker = worker;
+    }
 
     public String getGroup() {
         return group;

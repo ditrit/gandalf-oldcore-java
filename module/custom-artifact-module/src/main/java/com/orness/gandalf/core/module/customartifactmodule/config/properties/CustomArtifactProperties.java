@@ -10,4 +10,14 @@ import org.springframework.stereotype.Component;
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix="custom.artifact")
 public class CustomArtifactProperties {
+
+    private String worker;
+
+    public String getWorker() {
+        return worker;
+    }
+
+    public void setWorker(String worker) {
+        this.worker = worker;
+    }
 }

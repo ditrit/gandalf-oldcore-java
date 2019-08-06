@@ -7,13 +7,18 @@ public abstract class RunnableSubscriberZeroMQ extends SubscriberZeroMQ implemen
 
     protected String topic;
 
-    public RunnableSubscriberZeroMQ(String topic) {
+    public RunnableSubscriberZeroMQ() {
         super();
-        this.topic = topic;
-        this.subscribe();
+        //this.topic = topic;
+        //this.subscribe();
     }
 
-    public void subscribe() {
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public void subscribe(String topic) {
+        this.setTopic(topic);
         EventZeroMQ.subscribeEvent(this.subscriber,  this.topic);
     }
 

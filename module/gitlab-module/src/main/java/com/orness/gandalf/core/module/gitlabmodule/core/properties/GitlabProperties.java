@@ -10,4 +10,14 @@ import org.springframework.stereotype.Component;
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix="gitlab")
 public class GitlabProperties {
+
+    private String worker;
+
+    public String getWorker() {
+        return worker;
+    }
+
+    public void setWorker(String worker) {
+        this.worker = worker;
+    }
 }

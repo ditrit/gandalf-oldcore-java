@@ -2,6 +2,7 @@ package com.orness.gandalf.core.module.zeebemodule.common.worker;
 
 import com.orness.gandalf.core.module.zeebemodule.common.manager.ZeebeCommonManager;
 import com.orness.gandalf.core.module.zeebemodule.core.ZeebeCommand;
+import com.orness.gandalf.core.module.zeebemodule.core.properties.ZeebeProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,21 +11,25 @@ import org.springframework.stereotype.Component;
 
 import static com.orness.gandalf.core.module.workflowenginemodule.constant.WorkflowEngineConstant.*;
 
-//TODO REVOIR ARGS
 @Component(value = "commonWorkerCommand")
 @Profile(value = "zeebe-module")
 public class ZeebeCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
-    @Autowired
     private ZeebeCommonManager zeebeCommonManager;
+    private ZeebeProperties zeebeProperties;
 
-    public ZeebeCommonWorkerCommand(String connection) {
-        super(connection);
+    @Autowired
+    public ZeebeCommonWorkerCommand(ZeebeCommonManager zeebeCommonManager, ZeebeProperties zeebeProperties) {
+        super();
+        this.zeebeCommonManager = zeebeCommonManager;
+        this.zeebeProperties = zeebeProperties;
+        this.connect(zeebeProperties.getWorker());
     }
 
     @Override
     public Object parse(String messageContent) {
         return this.mapper.fromJson(messageContent, ZeebeCommand.class);    }
+//TODO REVOIR ARGS
 
     @Override
     public void command(MessageCommandZeroMQ messageCommandZeroMQ) {

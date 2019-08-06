@@ -10,14 +10,19 @@ public abstract class PublisherZeroMQ {
     private String connection;
     protected Socket publisher;
 
-    public PublisherZeroMQ(String connection) {
-        this.connection = connection;
+    public PublisherZeroMQ() {
+        //this.connection = connection;
         this.context = new ZContext();
         this.publisher = this.context.createSocket(SocketType.PUB);
-        this.connect();
+        //this.connect();
     }
 
-    public void connect() {
+    public void setConnection(String connection) {
+        this.connection = connection;
+    }
+
+    public void connect(String connection) {
+        this.setConnection(connection);
         this.publisher.connect(this.connection);
     }
 

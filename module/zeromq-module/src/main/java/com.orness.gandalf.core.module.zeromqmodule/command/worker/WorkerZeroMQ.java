@@ -21,7 +21,7 @@ public abstract class WorkerZeroMQ {
         //this.connect();
     }
 
-    public void setConnection(String connection) {
+    private void setConnection(String connection) {
         this.connection = connection;
     }
 

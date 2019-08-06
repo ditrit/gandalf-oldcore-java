@@ -1,18 +1,24 @@
 package com.orness.gandalf.core.module.gandalfmodule.communication.event;
 
+import com.orness.gandalf.core.module.gandalfmodule.properties.properties.GandalfProperties;
 import com.orness.gandalf.core.module.zeromqmodule.event.domain.MessageEventZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.RunnableSubscriberZeroMQ;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class GandalfSubscriberEvent extends RunnableSubscriberZeroMQ {
 
+    private GandalfProperties gandalfProperties;
     private Map<String, GandalfClientEvent> mapEventWorker; //<EventType, GandalfClientEvent>
 
-    public GandalfSubscriberEvent(String connection, String topic) {
-        super(connection, topic);
+    @Autowired
+    public GandalfSubscriberEvent(GandalfProperties gandalfProperties, String topic) {
+        super();
+        this.gandalfProperties = gandalfProperties;
         this.mapEventWorker = new HashMap<>();
+        this.subscribe(gandalfProperties.getSubscriber());
     }
 
     @Override

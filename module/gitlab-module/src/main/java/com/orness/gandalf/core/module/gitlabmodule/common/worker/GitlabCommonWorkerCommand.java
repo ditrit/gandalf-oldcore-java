@@ -3,6 +3,7 @@ package com.orness.gandalf.core.module.gitlabmodule.common.worker;
 import com.google.gson.Gson;
 import com.orness.gandalf.core.module.gitlabmodule.common.manager.GitlabCommonManager;
 import com.orness.gandalf.core.module.gitlabmodule.core.GitlabCommand;
+import com.orness.gandalf.core.module.gitlabmodule.core.properties.GitlabProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,18 @@ import static com.orness.gandalf.core.module.versioncontrolmodule.constant.Versi
 //TODO ARGS
 public class GitlabCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
-    @Autowired
+
     private GitlabCommonManager gitlabCommonManager;
+    private GitlabProperties gitlabProperties;
     private Gson mapper;
 
-    public GitlabCommonWorkerCommand(String connection) {
-        super(connection);
-        mapper = new Gson();
+    @Autowired
+    public GitlabCommonWorkerCommand(GitlabCommonManager gitlabCommonManager, GitlabProperties gitlabProperties) {
+        super();
+        this.gitlabCommonManager = gitlabCommonManager;
+        this.gitlabProperties = gitlabProperties;
+        this.mapper = new Gson();
+        this.connect(gitlabProperties.getWorker());
     }
 
     @Override

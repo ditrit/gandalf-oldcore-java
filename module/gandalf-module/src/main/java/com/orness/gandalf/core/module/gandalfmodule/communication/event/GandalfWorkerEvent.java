@@ -6,11 +6,11 @@ import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorker
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.RunnableSubscriberWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Value;
 
-//TODO USELESS ?
+//TODO USELESS / REVOIR ?
 public class GandalfWorkerEvent extends RunnableSubscriberWorkerZeroMQ {
 
-    public GandalfWorkerEvent(@Value("${gandalf.communication.worker}") String connection) {
-        super(connection);
+    public GandalfWorkerEvent() {
+        super();
     }
 
     public void run() {

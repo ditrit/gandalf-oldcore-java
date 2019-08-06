@@ -1,15 +1,22 @@
 package com.orness.gandalf.core.module.gandalfmodule.communication.command;
 
+import com.orness.gandalf.core.module.gandalfmodule.properties.properties.GandalfProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.client.ClientZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.CommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.orness.gandalf.core.module.gandalfmodule.constant.GandalfConstant.*;
 
 public class GandalfClientCommand extends ClientZeroMQ {
 
-    public GandalfClientCommand(String connection) {
-        super(connection);
+    private GandalfProperties gandalfProperties;
+
+    @Autowired
+    public GandalfClientCommand(GandalfProperties gandalfProperties) {
+        super();
+        this.gandalfProperties = gandalfProperties;
+        this.connect(gandalfProperties.getClient());
     }
 
     public MessageCommandZeroMQ sendStartCommand() {
