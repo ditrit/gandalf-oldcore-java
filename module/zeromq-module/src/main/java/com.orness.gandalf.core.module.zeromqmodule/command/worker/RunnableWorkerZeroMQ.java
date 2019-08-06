@@ -8,8 +8,8 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
 
     protected Gson mapper;
 
-    public RunnableWorkerZeroMQ(String connection) {
-        super(connection);
+    public RunnableWorkerZeroMQ() {
+        super();
         mapper = new Gson();
     }
 

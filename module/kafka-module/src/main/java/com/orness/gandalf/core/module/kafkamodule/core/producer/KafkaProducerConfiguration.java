@@ -1,7 +1,9 @@
 package com.orness.gandalf.core.module.kafkamodule.core.producer;
 
+import com.orness.gandalf.core.module.kafkamodule.core.properties.KafkaProperties;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +20,17 @@ import java.util.Map;
 @Profile(value = "kafka-module")
 public class KafkaProducerConfiguration {
 
-    @Value("${gandalf.bus.broker}")
-    private String broker;
+    private KafkaProperties kafkaProperties;
+
+    @Autowired
+    public KafkaProducerConfiguration(KafkaProperties kafkaProperties) {
+        this.kafkaProperties = kafkaProperties;
+    }
 
     @Bean
     public ProducerFactory<String, Object> kafkaProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, broker);
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getAddress());
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);

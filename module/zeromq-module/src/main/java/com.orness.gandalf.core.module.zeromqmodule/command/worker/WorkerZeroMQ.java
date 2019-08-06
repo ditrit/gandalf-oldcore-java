@@ -12,16 +12,21 @@ public abstract class WorkerZeroMQ {
     protected ZMQ.Socket worker;
     protected String identity;
 
-    public WorkerZeroMQ(String connection) {
-        this.connection = connection;
+    public WorkerZeroMQ() {
+        //this.connection = connection;
         this.context = new ZContext();
         this.worker = this.context.createSocket(SocketType.REP);
         this.identity = String.format("%04X-%04X", rand.nextInt(), rand.nextInt());
         this.worker.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
-        this.connect();
+        //this.connect();
     }
 
-    public void connect() {
+    public void setConnection(String connection) {
+        this.connection = connection;
+    }
+
+    public void connect(String connection) {
+        this.setConnection(connection);
         this.worker.connect(this.connection);
     }
 

@@ -7,8 +7,8 @@ public abstract class RunnableSubscriberZeroMQ extends SubscriberZeroMQ implemen
 
     protected String topic;
 
-    public RunnableSubscriberZeroMQ(String connection, String topic) {
-        super(connection);
+    public RunnableSubscriberZeroMQ(String topic) {
+        super();
         this.topic = topic;
         this.subscribe();
     }

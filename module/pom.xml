@@ -38,9 +38,9 @@
         <module>nexus-module</module>
         <module>custom-artifact-module</module>
         <module>custom-orchestrator-module</module>
-        <module>jenkins-module</module>
         <module>h2-module</module>
         <module>job-zeebe-module</module>
+        <module>jenkins-module</module>
 
         <!-- Utils -->
         <module>message-module</module>

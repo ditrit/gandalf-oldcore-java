@@ -23,9 +23,9 @@ public abstract class BusCommonController {
     public abstract void receiveMessage();
 
     @RequestMapping(method = RequestMethod.GET, value = URL_CONTROLLER_SYNCHRONIZE_GANDALF)
-    public abstract void synchronizeGandalf();
+    public abstract void synchronizeToGandalf();
 
     @RequestMapping(method = RequestMethod.GET, value = URL_CONTROLLER_SYNCHRONIZE_BUS)
-    public abstract void synchronizeBus();
+    public abstract void synchronizeToBus();
 
 }

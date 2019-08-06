@@ -2,6 +2,7 @@ package com.orness.gandalf.core.module.kafkamodule.common.worker;
 
 import com.orness.gandalf.core.module.kafkamodule.common.manager.KafkaCommonManager;
 import com.orness.gandalf.core.module.kafkamodule.core.KafkaCommand;
+import com.orness.gandalf.core.module.kafkamodule.core.properties.KafkaProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,15 @@ import static com.orness.gandalf.core.module.busmodule.constant.BusConstant.*;
 @Profile(value = "kafka-module")
 public class KafkaCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
-    @Autowired
     private KafkaCommonManager kafkaCommonManager;
+    private KafkaProperties kafkaProperties;
 
-    public KafkaCommonWorkerCommand(String connection) {
-        super(connection);
+    @Autowired
+    public KafkaCommonWorkerCommand(KafkaCommonManager kafkaCommonManager, KafkaProperties kafkaProperties) {
+        super();
+        this.kafkaCommonManager = kafkaCommonManager;
+        this.kafkaProperties = kafkaProperties;
+        this.connect(kafkaProperties.getAddress());
     }
 
     @Override
@@ -50,10 +55,10 @@ public class KafkaCommonWorkerCommand extends RunnableWorkerZeroMQ {
                 this.kafkaCommonManager.receiveMessage();
                 break;
             case COMMAND_SYNCHRONIZE_GANDALF:
-                this.kafkaCommonManager.synchronizeToGandalf();
+                this.kafkaCommonManager.synchronizeToGandalf("");
                 break;
             case COMMAND_SYNCHRONIZE_BUS:
-                this.kafkaCommonManager.synchronizeToBus();
+                this.kafkaCommonManager.synchronizeToBus("");
                 break;
             default:
                 //DO NOTHING

@@ -38,12 +38,12 @@ public class KafkaCommonController extends BusCommonController {
     }
 
     @Override
-    public void synchronizeGandalf() {
-        this.kafkaCommonManager.synchronizeGandalf();
+    public void synchronizeToGandalf() {
+        this.kafkaCommonManager.synchronizeToGandalf("");
     }
 
     @Override
-    public void synchronizeBus() {
-        this.kafkaCommonManager.synchronizeBus();
+    public void synchronizeToBus() {
+        this.kafkaCommonManager.synchronizeToBus("");
     }
 }

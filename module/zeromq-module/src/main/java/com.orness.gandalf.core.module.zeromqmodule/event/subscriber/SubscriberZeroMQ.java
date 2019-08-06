@@ -9,14 +9,19 @@ public abstract class SubscriberZeroMQ {
     private ZContext context;
     protected Socket subscriber;
 
-    public SubscriberZeroMQ(String connection) {
-        this.connection = connection;
+    public SubscriberZeroMQ() {
+        //this.connection = connection;
         this.context = new ZContext();
         this.subscriber = this.context.createSocket(SocketType.SUB);
-        this.connect();
+        //this.connect();
     }
 
-    public void connect() {
+    public void setConnection(String connection) {
+        this.connection = connection;
+    }
+
+    public void connect(String connection) {
+        this.setConnection(connection);
         this.subscriber.connect(this.connection);
     }
 
