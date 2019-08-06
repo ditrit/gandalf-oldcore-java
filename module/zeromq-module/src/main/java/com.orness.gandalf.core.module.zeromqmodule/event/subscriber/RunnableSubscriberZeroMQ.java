@@ -13,7 +13,7 @@ public abstract class RunnableSubscriberZeroMQ extends SubscriberZeroMQ implemen
         //this.subscribe();
     }
 
-    public void setTopic(String topic) {
+    private void setTopic(String topic) {
         this.topic = topic;
     }
 

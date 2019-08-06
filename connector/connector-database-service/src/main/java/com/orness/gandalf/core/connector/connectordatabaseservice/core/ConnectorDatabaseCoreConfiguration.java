@@ -69,7 +69,6 @@ public class ConnectorDatabaseCoreConfiguration {
     public void commonWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ commonWorkerCommand = null;
-        //TODO PROPERTIES
 
         switch(profile) {
             case "h2-module":
@@ -95,7 +94,6 @@ public class ConnectorDatabaseCoreConfiguration {
     public void specificWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ commonWorkerCommand = null;
-        //TODO PROPERTIES
 
         switch(profile) {
             case "h2-module":

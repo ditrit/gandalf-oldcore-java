@@ -1,7 +1,9 @@
 
 package com.orness.gandalf.core.connector.connectorgandalfservice.proxy;
 
+import com.orness.gandalf.core.module.gandalfmodule.properties.properties.GandalfProperties;
 import com.orness.gandalf.core.module.zeromqmodule.event.proxy.PubSubProxyZeroMQ;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -10,17 +12,16 @@ import org.springframework.stereotype.Component;
 @Scope("singleton")
 public class GandalfProxyEventBean implements Runnable {
 
-    private String subscriber;
-    private String publisher;
+    private GandalfProperties gandalfProperties;
 
-    public GandalfProxyEventBean(@Value("${gandalf.communication.subscriber}") String subscriber, @Value("${gandalf.communication.publisher}") String publisher) {
-        this.subscriber = subscriber;
-        this.publisher = publisher;
+    @Autowired
+    public GandalfProxyEventBean(GandalfProperties gandalfProperties) {
+        this.gandalfProperties = gandalfProperties;
     }
 
     @Override
     public void run() {
-        new PubSubProxyZeroMQ(subscriber, publisher);
+        new PubSubProxyZeroMQ(gandalfProperties.getSubscriberProxy(), gandalfProperties.getPublisherProxy());
     }
 }
 

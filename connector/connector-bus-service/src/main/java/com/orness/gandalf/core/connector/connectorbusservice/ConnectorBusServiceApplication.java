@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 @SpringBootApplication
 @EnableDiscoveryClient
-//TODO REVOIR ALL
 public class ConnectorBusServiceApplication {
 
 	public static void main(String[] args) {

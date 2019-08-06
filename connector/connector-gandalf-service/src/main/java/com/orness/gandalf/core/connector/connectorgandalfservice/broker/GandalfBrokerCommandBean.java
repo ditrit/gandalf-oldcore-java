@@ -1,7 +1,9 @@
 
 package com.orness.gandalf.core.connector.connectorgandalfservice.broker;
 
+import com.orness.gandalf.core.module.gandalfmodule.properties.properties.GandalfProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.broker.BrokerZeroMQ;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -10,17 +12,16 @@ import org.springframework.stereotype.Component;
 @Scope("singleton")
 public class GandalfBrokerCommandBean implements Runnable {
 
-    private String client;
-    private String worker;
+    private GandalfProperties gandalfProperties;
 
-    public GandalfBrokerCommandBean(@Value("${gandalf.communication.client}") String client, @Value("${gandalf.communication.worker}") String worker) {
-        this.client = client;
-        this.worker = worker;
+    @Autowired
+    public GandalfBrokerCommandBean(GandalfProperties gandalfProperties) {
+        this.gandalfProperties = gandalfProperties;
     }
 
     @Override
     public void run() {
-        new BrokerZeroMQ(client, worker);
+        new BrokerZeroMQ(gandalfProperties.getClientBroker(), gandalfProperties.getWorkerBroker());
     }
 }
 

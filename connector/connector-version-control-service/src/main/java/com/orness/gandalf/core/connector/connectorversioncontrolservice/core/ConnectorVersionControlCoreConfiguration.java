@@ -69,7 +69,6 @@ public class ConnectorVersionControlCoreConfiguration {
     public void commonWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ commonWorkerCommand = null;
-        //TODO PROPERTIES
 
         switch(profile) {
             case "gitlab-module":
@@ -95,7 +94,6 @@ public class ConnectorVersionControlCoreConfiguration {
     public void specificWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ commonWorkerCommand = null;
-        //TODO PROPERTIES
 
         switch(profile) {
             case "gitlab-module":

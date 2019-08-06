@@ -19,7 +19,7 @@ public class ZeebeCommonController extends WorkflowEngineCommonController {
 
     @Override
     public String deployWorkflow(String workflow) {
-        return this.zeebeCommonManager.deployWorkflow("");
+        return this.zeebeCommonManager.deployWorkflow(workflow);
     }
 
     @Override

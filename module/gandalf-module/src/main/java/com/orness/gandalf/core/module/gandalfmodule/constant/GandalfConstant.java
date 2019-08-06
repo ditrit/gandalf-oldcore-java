@@ -8,4 +8,11 @@ public abstract class GandalfConstant {
     public static final String COMMAND_SUBSCRIBE = "COMMAND_SUBSCRIBE";
     public static final String COMMAND_UNSUBSCRIBE = "COMMAND_UNSUBSCRIBE";
     public static final String COMMAND_PUBLISH = "COMMAND_PUBLISH";
+
+    public static final String URL_CONTROLLER = "/gandalf";
+    public static final String URL_CONTROLLER_START = "/start";
+    public static final String URL_CONTROLLER_STOP = "/stop";
+    public static final String URL_CONTROLLER_SUBSCRIBE = "/subscribe";
+    public static final String URL_CONTROLLER_UNSUBSCRIBE = "/unsubscribe";
+    public static final String URL_CONTROLLER_PUBLISH = "/publish/{event}";
 }

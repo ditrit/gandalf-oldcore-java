@@ -28,9 +28,10 @@ public class ZeebeCommonWorkerCommand extends RunnableWorkerZeroMQ {
 
     @Override
     public Object parse(String messageContent) {
-        return this.mapper.fromJson(messageContent, ZeebeCommand.class);    }
-//TODO REVOIR ARGS
+        return this.mapper.fromJson(messageContent, ZeebeCommand.class);
+    }
 
+    //TODO REVOIR ARGS
     @Override
     public void command(MessageCommandZeroMQ messageCommandZeroMQ) {
         System.out.println("ID " + this.identity);

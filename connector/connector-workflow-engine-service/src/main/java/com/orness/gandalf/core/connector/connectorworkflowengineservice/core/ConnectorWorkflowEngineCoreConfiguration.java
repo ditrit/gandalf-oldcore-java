@@ -71,7 +71,6 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     public void commonWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ commonWorkerCommand = null;
-        //TODO PROPERTIES
 
         switch(profile) {
             case "zeebe-module":
@@ -97,7 +96,6 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     public void specificWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ commonWorkerCommand = null;
-        //TODO PROPERTIES
 
         switch(profile) {
             case "zeebe-module":

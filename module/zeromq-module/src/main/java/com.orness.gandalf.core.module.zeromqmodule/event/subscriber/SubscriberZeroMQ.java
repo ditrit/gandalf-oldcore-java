@@ -16,11 +16,11 @@ public abstract class SubscriberZeroMQ {
         //this.connect();
     }
 
-    public void setConnection(String connection) {
+    protected void setConnection(String connection) {
         this.connection = connection;
     }
 
-    public void connect(String connection) {
+    protected void connect(String connection) {
         this.setConnection(connection);
         this.subscriber.connect(this.connection);
     }

@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO REVOIR PROPS
 @Component(value = "commonManager")
 @Profile(value = "kafka-module")
 public class KafkaCommonManager extends BusCommonManager {
@@ -76,7 +75,7 @@ public class KafkaCommonManager extends BusCommonManager {
     @Override
     public void synchronizeToBus(String topic) {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        GandalfKafkaSubscriber gandalfKafkaSubscriber = new GandalfKafkaSubscriber("", "");
+        GandalfKafkaSubscriber gandalfKafkaSubscriber = new GandalfKafkaSubscriber(topic);
         taskExecutor.execute(gandalfKafkaSubscriber);
     }
 

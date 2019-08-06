@@ -7,15 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class GandalfKafkaSubscriber extends RunnableSubscriberZeroMQ {
 
+    @Autowired
     private KafkaProducer kafkaProducer;
-    private KafkaProperties kafkaProperties;
 
     @Autowired
-    public GandalfKafkaSubscriber(String topic, KafkaProducer kafkaProducer, KafkaProperties kafkaProperties) {
-        super(topic);
+    private KafkaProperties kafkaProperties;
+
+    public GandalfKafkaSubscriber(String topic) {
+        super();
         this.kafkaProducer = kafkaProducer;
         this.kafkaProperties = kafkaProperties;
-        this.connect(kafkaProperties.getAddress());
+        this.connect(topic, kafkaProperties.getWorker());
+    }
+
+    private void connect(String connection, String topic) {
+        this.connect(connection);
+        this.subscribe(topic);
     }
 
     @Override

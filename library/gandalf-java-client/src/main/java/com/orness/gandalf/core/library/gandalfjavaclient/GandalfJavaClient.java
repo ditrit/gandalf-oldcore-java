@@ -3,24 +3,23 @@ package com.orness.gandalf.core.library.gandalfjavaclient;
 import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfClientCommand;
 import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfPublisherEvent;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-//TODO REVOIR COMMAND + CALLABLE / RUNNABLE
+@Component
 public class GandalfJavaClient {
 
-    private String connectionWorker;
-    private String connectionSubscriber;
     private ExecutorService executor;
     private GandalfClientCommand gandalfClientCommand;
     private GandalfPublisherEvent gandalfPublisherEvent;
 
-    public GandalfJavaClient(String connectionWorker, String connectionSubscriber) {
-        this.connectionWorker = connectionWorker;
-        this.connectionSubscriber = connectionSubscriber;
-        this.gandalfClientCommand = new GandalfClientCommand("");
-        this.gandalfPublisherEvent = new GandalfPublisherEvent("");
+    @Autowired
+    public GandalfJavaClient(GandalfClientCommand gandalfClientCommand, GandalfPublisherEvent gandalfPublisherEvent) {
+        this.gandalfClientCommand = gandalfClientCommand;
+        this.gandalfPublisherEvent = gandalfPublisherEvent;
         this.executor = Executors.newFixedThreadPool(10);
     }
 
