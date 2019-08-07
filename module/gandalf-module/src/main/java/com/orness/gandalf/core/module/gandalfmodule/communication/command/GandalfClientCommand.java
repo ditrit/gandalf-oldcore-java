@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.gandalfmodule.communication.command;
 
-import com.orness.gandalf.core.module.gandalfmodule.properties.properties.GandalfProperties;
+import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.client.ClientZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.CommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;

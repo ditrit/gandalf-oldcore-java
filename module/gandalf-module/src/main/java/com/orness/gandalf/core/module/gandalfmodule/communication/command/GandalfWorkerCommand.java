@@ -2,16 +2,17 @@ package com.orness.gandalf.core.module.gandalfmodule.communication.command;
 
 import com.google.gson.Gson;
 import com.orness.gandalf.core.module.gandalfmodule.manager.GandalfConnectorManager;
-import com.orness.gandalf.core.module.gandalfmodule.properties.properties.GandalfProperties;
+import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
-import com.orness.gandalf.core.module.zeromqmodule.event.domain.EventZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import static com.orness.gandalf.core.module.constantmodule.communication.CommunicationConstant.*;
 
+@Component
 public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
 
     private GandalfConnectorManager gandalfConnectorManager;
@@ -26,6 +27,7 @@ public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
         this.mapper = new Gson();
         this.connect(gandalfProperties.getWorker());
     }
+
 
     @Override
     public Object parse(String messageContent) {
@@ -52,10 +54,10 @@ public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
                 this.gandalfConnectorManager.publish((GandalfEvent) this.parse(messageCommandZeroMQ.getCommand().toString()));
                 break;
             case COMMAND_SUBSCRIBE:
-                this.gandalfConnectorManager.subscribe();
+                this.gandalfConnectorManager.subscribe("");
                 break;
             case COMMAND_UNSUBSCRIBE:
-                this.gandalfConnectorManager.unsubscribe();
+                this.gandalfConnectorManager.unsubscribe("");
                 break;
             default:
                 //DO NOTHING

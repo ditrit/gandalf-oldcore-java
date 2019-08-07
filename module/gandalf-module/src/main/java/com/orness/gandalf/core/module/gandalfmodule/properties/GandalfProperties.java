@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.module.gandalfmodule.properties.properties;
+package com.orness.gandalf.core.module.gandalfmodule.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

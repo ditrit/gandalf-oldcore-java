@@ -1,10 +1,9 @@
 
 package com.orness.gandalf.core.connector.connectorgandalfservice.broker;
 
-import com.orness.gandalf.core.module.gandalfmodule.properties.properties.GandalfProperties;
+import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.broker.BrokerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 

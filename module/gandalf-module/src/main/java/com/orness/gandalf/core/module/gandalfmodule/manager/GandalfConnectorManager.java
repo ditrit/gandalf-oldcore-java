@@ -2,9 +2,10 @@ package com.orness.gandalf.core.module.gandalfmodule.manager;
 
 import com.google.gson.Gson;
 import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfPublisherEvent;
-import com.orness.gandalf.core.module.gandalfmodule.properties.properties.GandalfProperties;
+import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,9 +18,12 @@ public class GandalfConnectorManager {
     @Autowired
     public GandalfConnectorManager(GandalfProperties gandalfProperties) {
         this.gandalfProperties = gandalfProperties;
-        //TODO WUTTT
-        this.gandalfPublisherEvent = new GandalfPublisherEvent(this.gandalfProperties);
         this.mapper = new Gson();
+    }
+
+    @Autowired
+    private void setGandalfPublisherEvent(GandalfPublisherEvent gandalfPublisherEvent) {
+        this.gandalfPublisherEvent = gandalfPublisherEvent;
     }
 
     public void start() {

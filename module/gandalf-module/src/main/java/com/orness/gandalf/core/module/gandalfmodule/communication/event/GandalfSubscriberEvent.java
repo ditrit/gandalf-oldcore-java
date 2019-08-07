@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.gandalfmodule.communication.event;
 
-import com.orness.gandalf.core.module.gandalfmodule.properties.properties.GandalfProperties;
+import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.zeromqmodule.event.domain.MessageEventZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.RunnableSubscriberZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;

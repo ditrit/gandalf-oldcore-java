@@ -8,16 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
+@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.busmodule", "com.orness.gandalf.core.module.kafkamodule"})
+@Order
 public class ConnectorBusCoreConfiguration {
 
     @Autowired
     private ApplicationContext context;
 
-    @Value("spring.profiles.active")
+    @Value("${spring.profiles.active}")
     private String profile;
 
     //                            _  .-')     ('-.
@@ -50,12 +55,15 @@ public class ConnectorBusCoreConfiguration {
     // |  '--'  |   |  | |  ||  | \   |   |  '--'  /  |  | |  | |      |   \|  |_)
     //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
 
+
     @Bean
-    public void gandalfWorkerCommand() {
+    public RunnableWorkerZeroMQ connectorGandalfWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ gandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
-        taskExecutor.execute(gandalfWorkerCommand);
+        RunnableWorkerZeroMQ connectorGandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
+        taskExecutor.execute(connectorGandalfWorkerCommand);
+        return connectorGandalfWorkerCommand;
     }
+
 
     //                        _   .-')    _   .-')                     .-') _
     //                       ( '.( OO )_ ( '.( OO )_                  ( OO ) )
@@ -68,18 +76,17 @@ public class ConnectorBusCoreConfiguration {
     //   `-----'      `-----' `--'   `--' `--'   `--'     `-----' `--'  `--'
 
     @Bean
-    public void commonWorkerCommand() {
+    public void connectorCommonWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand = null;
-
+        RunnableWorkerZeroMQ connectorCommonWorkerCommand = null;
         switch(profile) {
             case "kafka-module":
-                commonWorkerCommand = (KafkaCommonWorkerCommand) context.getBean("commonWorkerCommand");
+                connectorCommonWorkerCommand = (KafkaCommonWorkerCommand) context.getBean("commonWorkerCommand");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(commonWorkerCommand);
+        taskExecutor.execute(connectorCommonWorkerCommand);
     }
 
     //      .-')     _ (`-.    ('-.
@@ -93,17 +100,17 @@ public class ConnectorBusCoreConfiguration {
     // `-----' `--'      `------'   `-----'  `--'      `--'    `--'     `-----'
 
     @Bean
-    public void specificWorkerCommand() {
+    public void connectorSpecificWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand = null;
+        RunnableWorkerZeroMQ connectorSpecificWorkerCommand = null;
 
         switch(profile) {
             case "kafka-module":
-                commonWorkerCommand = (KafkaSpecificWorkerCommand) context.getBean("specificWorkerCommand");
+                connectorSpecificWorkerCommand = (KafkaSpecificWorkerCommand) context.getBean("specificWorkerCommand");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(commonWorkerCommand);
+        taskExecutor.execute(connectorSpecificWorkerCommand);
     }
 }
