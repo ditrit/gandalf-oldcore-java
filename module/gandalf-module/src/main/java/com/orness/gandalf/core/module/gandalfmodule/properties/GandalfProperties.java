@@ -13,6 +13,8 @@ public class GandalfProperties {
     private String workerBroker;
     private String publisherProxy;
     private String subscriberProxy;
+    private String clientEvent;
+    private String workerEvent;
     private String client;
     private String worker;
     private String publisher;
@@ -48,6 +50,22 @@ public class GandalfProperties {
 
     public void setSubscriberProxy(String subscriberProxy) {
         this.subscriberProxy = subscriberProxy;
+    }
+
+    public String getClientEvent() {
+        return clientEvent;
+    }
+
+    public void setClientEvent(String clientEvent) {
+        this.clientEvent = clientEvent;
+    }
+
+    public String getWorkerEvent() {
+        return workerEvent;
+    }
+
+    public void setWorkerEvent(String workerEvent) {
+        this.workerEvent = workerEvent;
     }
 
     public String getClient() {

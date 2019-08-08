@@ -5,7 +5,9 @@ import com.orness.gandalf.core.module.zeromqmodule.command.client.ClientZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.CommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GandalfClientEvent extends ClientZeroMQ {
 
     private GandalfProperties gandalfProperties;
@@ -14,8 +16,7 @@ public class GandalfClientEvent extends ClientZeroMQ {
     public GandalfClientEvent(GandalfProperties gandalfProperties) {
         super();
         this.gandalfProperties = gandalfProperties;
-        //TODO CONNECT
-        //this.connect(gandalfProperties.get);
+        this.connect(gandalfProperties.getWorkerEvent());
     }
 
     public MessageCommandZeroMQ sendEventCommand(String typeEvent, String event) {

@@ -49,7 +49,7 @@ public class ConnectorGandalfConfiguration {
     //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
 
     @Bean
-    public void workerGandalfCommand() {
+    public void connectorGandalfWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         taskExecutor.execute((GandalfWorkerCommand) context.getBean("gandalfWorkerCommand"));
     }

@@ -20,6 +20,7 @@ public class GandalfKafkaSubscriber extends RunnableSubscriberZeroMQ {
         this.connect(topic, kafkaProperties.getWorker());
     }
 
+    //TODO VOIR SI POST CONSTRCUT
     private void connect(String connection, String topic) {
         this.connect(connection);
         this.subscribe(topic);

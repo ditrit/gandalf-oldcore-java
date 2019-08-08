@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix="workflow.engine")
+@ConfigurationProperties(prefix="workflowengine")
 public class WorkflowEngineProperties {
 
     private String broker;

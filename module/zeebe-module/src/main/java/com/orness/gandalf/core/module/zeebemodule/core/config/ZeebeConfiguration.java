@@ -21,6 +21,7 @@ public class ZeebeConfiguration {
 
     @Bean
     public ZeebeClient zeebe() {
+        System.out.println(workflowEngineProperties.getBroker());
         ZeebeClient zeebeClient = ZeebeClient.newClientBuilder()
                 .brokerContactPoint(this.workflowEngineProperties.getBroker())
                 .build();

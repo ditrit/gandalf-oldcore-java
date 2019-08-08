@@ -21,7 +21,7 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     @Autowired
     private ApplicationContext context;
 
-    @Value("spring.profiles.active")
+    @Value("${spring.profiles.active}")
     private String profile;
 
     //                            _  .-')     ('-.
@@ -55,7 +55,7 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
 
     @Bean
-    public void gandalfWorkerCommand() {
+    public void connectorGandalfWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ gandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
         taskExecutor.execute(gandalfWorkerCommand);
@@ -72,18 +72,18 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     //   `-----'      `-----' `--'   `--' `--'   `--'     `-----' `--'  `--'
 
     @Bean
-    public void commonWorkerCommand() {
+    public void connectorCommonWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand = null;
+        RunnableWorkerZeroMQ connectorCommonWorkerCommand = null;
 
         switch(profile) {
             case "zeebe-module":
-                commonWorkerCommand = (ZeebeCommonWorkerCommand) context.getBean("commonWorkerCommand");
+                connectorCommonWorkerCommand = (ZeebeCommonWorkerCommand) context.getBean("commonWorkerCommand");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(commonWorkerCommand);
+        taskExecutor.execute(connectorCommonWorkerCommand);
     }
 
     //      .-')     _ (`-.    ('-.
@@ -97,17 +97,17 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     // `-----' `--'      `------'   `-----'  `--'      `--'    `--'     `-----'
 
     @Bean
-    public void specificWorkerCommand() {
+    public void connectorSpecificWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand = null;
+        RunnableWorkerZeroMQ connectorSpecificWorkerCommand = null;
 
         switch(profile) {
             case "zeebe-module":
-                commonWorkerCommand = (ZeebeSpecificWorkerCommand) context.getBean("specificWorkerCommand");
+                connectorSpecificWorkerCommand = (ZeebeSpecificWorkerCommand) context.getBean("specificWorkerCommand");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(commonWorkerCommand);
+        taskExecutor.execute(connectorSpecificWorkerCommand);
     }
 }

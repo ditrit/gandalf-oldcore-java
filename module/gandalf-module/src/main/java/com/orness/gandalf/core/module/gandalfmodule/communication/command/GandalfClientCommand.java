@@ -5,9 +5,11 @@ import com.orness.gandalf.core.module.zeromqmodule.command.client.ClientZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.CommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import static com.orness.gandalf.core.module.gandalfmodule.constant.GandalfConstant.*;
 
+@Component
 public class GandalfClientCommand extends ClientZeroMQ {
 
     private GandalfProperties gandalfProperties;
@@ -26,6 +28,11 @@ public class GandalfClientCommand extends ClientZeroMQ {
 
     public MessageCommandZeroMQ sendStopCommand() {
         CommandZeroMQ.sendCommand(this.client, this.identity, "" , COMMAND_TYPE_GANDALF, COMMAND_STOP);
+        return CommandZeroMQ.receiveCommand(this.client);
+    }
+
+    public MessageCommandZeroMQ sendPublishCommand() {
+        CommandZeroMQ.sendCommand(this.client, this.identity, "" , COMMAND_TYPE_GANDALF, COMMAND_PUBLISH);
         return CommandZeroMQ.receiveCommand(this.client);
     }
 

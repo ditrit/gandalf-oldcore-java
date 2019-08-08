@@ -7,7 +7,6 @@ import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import static com.orness.gandalf.core.module.constantmodule.communication.CommunicationConstant.*;
@@ -17,7 +16,6 @@ public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
 
     private GandalfConnectorManager gandalfConnectorManager;
     private GandalfProperties gandalfProperties;
-    private Gson mapper;
 
     @Autowired
     public GandalfWorkerCommand(GandalfConnectorManager gandalfConnectorManager, GandalfProperties gandalfProperties) {
@@ -27,7 +25,6 @@ public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
         this.mapper = new Gson();
         this.connect(gandalfProperties.getWorker());
     }
-
 
     @Override
     public Object parse(String messageContent) {
@@ -54,10 +51,10 @@ public class GandalfWorkerCommand extends RunnableWorkerZeroMQ {
                 this.gandalfConnectorManager.publish((GandalfEvent) this.parse(messageCommandZeroMQ.getCommand().toString()));
                 break;
             case COMMAND_SUBSCRIBE:
-                this.gandalfConnectorManager.subscribe("");
+                this.gandalfConnectorManager.subscribe(messageCommandZeroMQ.getCommand().toString());
                 break;
             case COMMAND_UNSUBSCRIBE:
-                this.gandalfConnectorManager.unsubscribe("");
+                this.gandalfConnectorManager.unsubscribe(messageCommandZeroMQ.getCommand().toString());
                 break;
             default:
                 //DO NOTHING

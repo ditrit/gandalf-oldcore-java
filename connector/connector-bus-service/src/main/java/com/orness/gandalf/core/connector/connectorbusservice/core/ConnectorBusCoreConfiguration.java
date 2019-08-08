@@ -57,11 +57,10 @@ public class ConnectorBusCoreConfiguration {
 
 
     @Bean
-    public RunnableWorkerZeroMQ connectorGandalfWorkerCommand() {
+    public void connectorGandalfWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ connectorGandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
         taskExecutor.execute(connectorGandalfWorkerCommand);
-        return connectorGandalfWorkerCommand;
     }
 
 
