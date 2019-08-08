@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile(value = "custom-orchestrator-module")
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix="custom.orchestrator")
+@ConfigurationProperties(prefix="customorchestrator")
 public class CustomOrchestratorProperties {
 
     private String worker;

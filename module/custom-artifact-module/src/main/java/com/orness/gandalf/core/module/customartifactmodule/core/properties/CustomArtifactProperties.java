@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.module.customartifactmodule.config.properties;
+package com.orness.gandalf.core.module.customartifactmodule.core.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile(value = "custom-artifact-module")
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix="custom.artifact")
+@ConfigurationProperties(prefix="customartifact")
 public class CustomArtifactProperties {
 
     private String worker;

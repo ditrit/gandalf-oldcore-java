@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.module.customartifactmodule.common.worker;
 
 import com.orness.gandalf.core.module.customartifactmodule.common.manager.CustomArtifactCommonManager;
-import com.orness.gandalf.core.module.customartifactmodule.config.CustomArtifactCommand;
-import com.orness.gandalf.core.module.customartifactmodule.config.properties.CustomArtifactProperties;
+import com.orness.gandalf.core.module.customartifactmodule.core.CustomArtifactCommand;
+import com.orness.gandalf.core.module.customartifactmodule.core.properties.CustomArtifactProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;

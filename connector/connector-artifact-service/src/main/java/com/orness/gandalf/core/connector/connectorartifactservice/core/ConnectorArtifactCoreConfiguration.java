@@ -21,7 +21,7 @@ public class ConnectorArtifactCoreConfiguration {
     @Autowired
     private ApplicationContext context;
 
-    @Value("spring.profiles.active")
+    @Value("${spring.profiles.active}")
     private String profile;
 
     //                            _  .-')     ('-.
@@ -55,7 +55,7 @@ public class ConnectorArtifactCoreConfiguration {
     //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
 
     @Bean
-    public void gandalfWorkerCommand() {
+    public void connectorGandalfWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ gandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
         taskExecutor.execute(gandalfWorkerCommand);
@@ -72,7 +72,7 @@ public class ConnectorArtifactCoreConfiguration {
     //   `-----'      `-----' `--'   `--' `--'   `--'     `-----' `--'  `--'
 
     @Bean
-    public void commonWorkerCommand() {
+    public void connectorCommonWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ commonWorkerCommand = null;
 
@@ -97,7 +97,7 @@ public class ConnectorArtifactCoreConfiguration {
     // `-----' `--'      `------'   `-----'  `--'      `--'    `--'     `-----'
 
     @Bean
-    public void specificWorkerCommand() {
+    public void connectorSpecificWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ commonWorkerCommand = null;
 

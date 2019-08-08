@@ -4,6 +4,7 @@ import com.orness.gandalf.core.module.artifactmodule.manager.ArtifactCommonManag
 import com.orness.gandalf.core.module.nexusmodule.common.manager.feign.NexusFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class NexusCommonManager extends ArtifactCommonManager {
@@ -21,12 +22,23 @@ public class NexusCommonManager extends ArtifactCommonManager {
     }
 
     @Override
-    public void upload(String artifact) {
+    public void upload(MultipartFile artifact) {
+
+    }
+
+    @Override
+    public Object download(String artifact) {
+        return null;
+    }
+
+    //TODO REVOIR
+/*    @Override
+    public void upload(MultipartFile artifact) {
         this.nexusFeign.uploadComponent(artifact);
     }
 
     @Override
-    public void download(String id) {
-        this.nexusFeign.downloadComponent(id);
-    }
+    public Object download(String artifact) {
+        this.nexusFeign.downloadComponent(artifact);
+    }*/
 }

@@ -1,5 +1,7 @@
 package com.orness.gandalf.core.module.connectororchestratorservice.core;
 
+import com.orness.gandalf.core.module.customorchestratormodule.common.worker.CustomOrchestratorCommonWorkerCommand;
+import com.orness.gandalf.core.module.customorchestratormodule.specific.worker.CustomOrchestratorSpecificWorker;
 import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfWorkerCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ public class ConnectorOrchestratorCoreConfiguration {
     @Autowired
     private ApplicationContext context;
 
-    @Value("spring.profiles.active")
+    @Value("${spring.profiles.active}")
     private String profile;
 
     //                            _  .-')     ('-.
@@ -53,7 +55,7 @@ public class ConnectorOrchestratorCoreConfiguration {
     //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
 
     @Bean
-    public void gandalfWorkerCommand() {
+    public void connectorGandalfWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ gandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
         taskExecutor.execute(gandalfWorkerCommand);
@@ -70,14 +72,13 @@ public class ConnectorOrchestratorCoreConfiguration {
     //   `-----'      `-----' `--'   `--' `--'   `--'     `-----' `--'  `--'
 
     @Bean
-    public void commonWorkerCommand() {
+    public void connectorCommonWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ commonWorkerCommand = null;
-        //TODO PROPERTIES
 
         switch(profile) {
             case "custom-orchestrator-module":
-                //commonWorkerCommand = (H2Com) context.getBean("commonWorkerCommand");
+                commonWorkerCommand = (CustomOrchestratorCommonWorkerCommand) context.getBean("commonWorkerCommand");
                 break;
             default:
                 break;
@@ -96,14 +97,13 @@ public class ConnectorOrchestratorCoreConfiguration {
     // `-----' `--'      `------'   `-----'  `--'      `--'    `--'     `-----'
 
     @Bean
-    public void specificWorkerCommand() {
+    public void connectorSpecificWorkerCommand() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ commonWorkerCommand = null;
-        //TODO PROPERTIES
 
         switch(profile) {
             case "custom-orchestrator-module":
-                //commonWorkerCommand = (CustomOrches) context.getBean("specificWorkerCommand");
+                commonWorkerCommand = (CustomOrchestratorSpecificWorker) context.getBean("specificWorkerCommand");
                 break;
             default:
                 break;

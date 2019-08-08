@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.customartifactmodule.specific.worker;
 
-import com.orness.gandalf.core.module.customartifactmodule.config.properties.CustomArtifactProperties;
+import com.orness.gandalf.core.module.customartifactmodule.core.properties.CustomArtifactProperties;
 import com.orness.gandalf.core.module.customartifactmodule.specific.manager.CustomArtifactSpecificManager;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
