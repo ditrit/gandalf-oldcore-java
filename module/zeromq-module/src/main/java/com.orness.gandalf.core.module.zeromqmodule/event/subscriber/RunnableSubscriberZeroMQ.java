@@ -5,7 +5,7 @@ import com.orness.gandalf.core.module.zeromqmodule.event.domain.MessageEventZero
 
 public abstract class RunnableSubscriberZeroMQ extends SubscriberZeroMQ implements Runnable {
 
-    protected String topic;
+    private String topic;
 
     public RunnableSubscriberZeroMQ() {
         super();
@@ -13,12 +13,8 @@ public abstract class RunnableSubscriberZeroMQ extends SubscriberZeroMQ implemen
         //this.subscribe();
     }
 
-    private void setTopic(String topic) {
-        this.topic = topic;
-    }
-
     public void subscribe(String topic) {
-        this.setTopic(topic);
+        this.topic = topic;
         EventZeroMQ.subscribeEvent(this.subscriber,  this.topic);
     }
 
@@ -26,8 +22,13 @@ public abstract class RunnableSubscriberZeroMQ extends SubscriberZeroMQ implemen
 
     @Override
     public void run() {
+        System.out.println("IM RUNNING");
         while (!Thread.currentThread().isInterrupted()) {
+            System.out.println(subscriber);
+            System.out.println(topic);
             MessageEventZeroMQ messageEventZeroMQ = EventZeroMQ.getEventByTopic(this.subscriber, this.topic);
+            System.out.println("MESSAGE");
+            System.out.println(messageEventZeroMQ);
             this.sendMessageEventZeroMQ(messageEventZeroMQ);
         }
     }

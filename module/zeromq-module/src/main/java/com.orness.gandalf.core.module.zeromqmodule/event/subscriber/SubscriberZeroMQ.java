@@ -16,12 +16,9 @@ public abstract class SubscriberZeroMQ {
         //this.connect();
     }
 
-    protected void setConnection(String connection) {
-        this.connection = connection;
-    }
-
     protected void connect(String connection) {
-        this.setConnection(connection);
+        this.connection = connection;
+        System.out.println("SubscriberZeroMQ binding to: " + this.connection);
         this.subscriber.connect(this.connection);
     }
 

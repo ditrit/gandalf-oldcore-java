@@ -7,21 +7,21 @@ import com.orness.gandalf.core.module.zeromqmodule.command.domain.CommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.RunnableSubscriberWorkerZeroMQ;
+import com.orness.gandalf.core.module.zeromqmodule.event.worker.RunnableWorkerEventZeroMQ;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GandalfWorkerEvent extends RunnableWorkerZeroMQ {
+public class GandalfWorkerEvent extends RunnableWorkerEventZeroMQ {
 
     private GandalfConnectorManager gandalfConnectorManager;
-    private GandalfProperties gandalfProperties;
 
-    public GandalfWorkerEvent(GandalfConnectorManager gandalfConnectorManager, GandalfProperties gandalfProperties) {
+    public GandalfWorkerEvent(String connection) {
         super();
-        this.gandalfConnectorManager = gandalfConnectorManager;
-        this.gandalfProperties = gandalfProperties;
+        //TODO REVOIR INTROSPECTION
+        //this.gandalfConnectorManager = gandalfConnectorManager;
         this.mapper = new Gson();
-        this.connect(gandalfProperties.getWorker());
+        this.bind(connection);
     }
 
     @Override

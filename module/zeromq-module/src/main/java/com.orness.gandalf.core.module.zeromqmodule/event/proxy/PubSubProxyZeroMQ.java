@@ -25,12 +25,12 @@ public class PubSubProxyZeroMQ {
 
         // Publisher EndPoint
         this.frontend = this.context.createSocket(SocketType.XSUB);
-        System.out.println("PublisherZeroMQ binding to: " + publisherConnection);
+        System.out.println("ProxyPublisherZeroMQ binding to: " + publisherConnection);
         this.frontend.bind(this.publisherConnection);
 
         // Subscriber EndPoint
         this.backend = this.context.createSocket(SocketType.XPUB);
-        System.out.println("SubscriberZeroMQ binding to: " + this.subscriberConnection);
+        System.out.println("ProxySubscriberZeroMQ binding to: " + this.subscriberConnection);
         this.backend.bind(this.subscriberConnection);
 
         // Run the proxy

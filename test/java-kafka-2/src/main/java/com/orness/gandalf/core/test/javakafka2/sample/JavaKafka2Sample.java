@@ -1,22 +1,32 @@
 package com.orness.gandalf.core.test.javakafka2.sample;
 
-import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
-import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
-import org.springframework.beans.factory.annotation.Value;
+import com.orness.gandalf.core.library.gandalfjavaclient.GandalfJavaClient;
+import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfSubscriberEvent;
+import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfSubscriberEventFactory;
+import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
+@ComponentScan(basePackages = {"com.orness.gandalf.core.library.gandalfjavaclient", "com.orness.gandalf.core.module.gandalfmodule"})
 public class JavaKafka2Sample implements CommandLineRunner {
 
-    @Value("${gandalf.communication.client}")
-    private String connectionWorker;
+    private GandalfJavaClient gandalfJavaClient;
+    private GandalfSubscriberEventFactory gandalfSubscriberEventFactory;
+    private GandalfProperties gandalfProperties;
+    private GandalfSubscriberEvent gandalfSubscriberEvent;
 
-    @Value("${gandalf.communication.subscriber}")
-    private String connectionSubscriber;
+    @Autowired
+    public JavaKafka2Sample(GandalfJavaClient gandalfJavaClient, GandalfSubscriberEventFactory gandalfSubscriberEventFactory, GandalfProperties gandalfProperties) {
+        this.gandalfJavaClient = gandalfJavaClient;
+        this.gandalfSubscriberEventFactory = gandalfSubscriberEventFactory;
+        this.gandalfProperties = gandalfProperties;
+    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -27,10 +37,22 @@ public class JavaKafka2Sample implements CommandLineRunner {
         //test_asynch();
         //testMultipleMessage(10);
         //test();
-        testCall();
+        test();
     }
 
-    public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
+
+    public void test() {
+        ApplicationContext context = new AnnotationConfigApplicationContext(ThreadConfig.class);
+        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
+        //gandalfSubscriberEvent = new GandalfSubscriberEvent("test");
+        try {
+            gandalfSubscriberEvent = gandalfSubscriberEventFactory.createInstanceByTopic("test");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        taskExecutor.execute(gandalfSubscriberEvent);
+    }
+  /*  public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
         ApplicationContext context = new AnnotationConfigApplicationContext(ThreadConfig.class);
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         for(int indice = 0; indice < numberIteration; indice++) {
@@ -90,7 +112,7 @@ public class JavaKafka2Sample implements CommandLineRunner {
         zeroMQJavaClient.sendMessageTopic(send_topic, messageGandalf.toJson());
     }
 
-    /*public void test() {
+    *//*public void test() {
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
         GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClient = new GrpcWorkflowEngineJavaClient();
 

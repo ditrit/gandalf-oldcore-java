@@ -4,12 +4,14 @@ import com.orness.gandalf.core.module.gandalfmodule.communication.command.Gandal
 import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfPublisherEvent;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Component
+@ComponentScan(basePackages = "com.orness.gandalf.core.module.gandalfmodule")
 public class GandalfJavaClient {
 
     private ExecutorService executor;

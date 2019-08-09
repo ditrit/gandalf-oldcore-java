@@ -24,12 +24,12 @@ public class BrokerZeroMQ {
 
         // Client EndPoint
         this.frontend = this.context.createSocket(SocketType.ROUTER);
-        System.out.println("ClientZeroMQ binding to: " + this.clientConnection);
+        System.out.println("BrokerClientZeroMQ binding to: " + this.clientConnection);
         this.frontend.bind(this.clientConnection);
 
         // Worker EndPoint
         this.backend = this.context.createSocket(SocketType.DEALER);
-        System.out.println("WorkerZeroMQ binding to: " + this.workerConnection);
+        System.out.println("BrokerWorkerZeroMQ binding to: " + this.workerConnection);
         this.backend.bind(this.workerConnection);
 
         this.broker();

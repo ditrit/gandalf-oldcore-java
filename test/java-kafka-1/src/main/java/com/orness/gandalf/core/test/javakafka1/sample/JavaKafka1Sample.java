@@ -1,22 +1,21 @@
 package com.orness.gandalf.core.test.javakafka1.sample;
 
-import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
-import com.orness.gandalf.core.module.messagemodule.gandalf.domain.MessageGandalf;
-import org.springframework.beans.factory.annotation.Value;
+import com.orness.gandalf.core.library.gandalfjavaclient.GandalfJavaClient;
+import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
+@ComponentScan(basePackages = {"com.orness.gandalf.core.library.gandalfjavaclient"})
 public class JavaKafka1Sample implements CommandLineRunner {
 
-    @Value("${gandalf.communication.client}")
-    private String connectionWorker;
-
-    @Value("${gandalf.communication.subscriber}")
-    private String connectionSubscriber;
+    @Autowired
+    private GandalfJavaClient gandalfJavaClient;
 
     @Override
     public void run(String... args) throws Exception {
@@ -27,10 +26,18 @@ public class JavaKafka1Sample implements CommandLineRunner {
         //testMultipleMessage();
         //test();
         //testZeroMQSubscriber();
-        testCall();
+        test();
     }
 
-    public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
+    public void test() {
+        for(int i=0; i< 50; i++) {
+            System.out.println("indice " + i);
+            gandalfJavaClient.sendEvent("test", "test", String.valueOf(i));
+        }
+
+    }
+
+/*    public void testPerformanceLoop(int numberIteration, boolean multipleTopic) {
         ApplicationContext context = new AnnotationConfigApplicationContext(ThreadConfig.class);
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         for(int indice = 0; indice < numberIteration; indice++) {
@@ -43,9 +50,9 @@ public class JavaKafka1Sample implements CommandLineRunner {
                 }
             });
         }
-    }
+    }*/
 
-    public void testPerformance(int indice, boolean multipleTopic) {
+  /*  public void testPerformance(int indice, boolean multipleTopic) {
 
         ZeroMQJavaClient zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
 
@@ -91,7 +98,7 @@ public class JavaKafka1Sample implements CommandLineRunner {
         System.out.println("RESULT " + message);
     }
 
-  /*  public void test_asynch() {
+  *//*  public void test_asynch() {
         GrpcBusJavaClient grpcBusJavaClient = new GrpcBusJavaClient();
         GrpcWorkflowEngineJavaClient grpcWorkflowEngineJavaClient = new GrpcWorkflowEngineJavaClient();
 

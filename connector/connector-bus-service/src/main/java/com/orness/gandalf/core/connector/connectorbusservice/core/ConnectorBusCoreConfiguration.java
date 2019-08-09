@@ -1,6 +1,7 @@
 package com.orness.gandalf.core.connector.connectorbusservice.core;
 
 import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfWorkerCommand;
+import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfSubscriberEventFactory;
 import com.orness.gandalf.core.module.kafkamodule.common.worker.KafkaCommonWorkerCommand;
 import com.orness.gandalf.core.module.kafkamodule.specific.worker.KafkaSpecificWorkerCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
@@ -44,6 +45,14 @@ public class ConnectorBusCoreConfiguration {
         return pool;
     }
 
+/*
+    @Bean
+    public GandalfSubscriberEventFactory gandalfSubscriberEventFactory() {
+        GandalfSubscriberEventFactory gandalfSubscriberEventFactory = new GandalfSubscriberEventFactory();
+        return gandalfSubscriberEventFactory;
+    }
+*/
+
 
     //                   ('-.         .-') _  _ .-') _     ('-.
     //              ( OO ).-.    ( OO ) )( (  OO) )   ( OO ).-.
@@ -58,9 +67,9 @@ public class ConnectorBusCoreConfiguration {
 
     @Bean
     public void connectorGandalfWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
+        //ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         RunnableWorkerZeroMQ connectorGandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
-        taskExecutor.execute(connectorGandalfWorkerCommand);
+        this.taskExecutor().execute(connectorGandalfWorkerCommand);
     }
 
 

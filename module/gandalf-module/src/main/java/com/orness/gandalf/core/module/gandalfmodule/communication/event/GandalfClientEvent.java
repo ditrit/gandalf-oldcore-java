@@ -1,22 +1,17 @@
 package com.orness.gandalf.core.module.gandalfmodule.communication.event;
 
-import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.client.ClientZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.CommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
+import com.orness.gandalf.core.module.zeromqmodule.event.client.ClientEventZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
-public class GandalfClientEvent extends ClientZeroMQ {
-
-    private GandalfProperties gandalfProperties;
+public class GandalfClientEvent extends ClientEventZeroMQ {
 
     @Autowired
-    public GandalfClientEvent(GandalfProperties gandalfProperties) {
+    public GandalfClientEvent(String  connection) {
         super();
-        this.gandalfProperties = gandalfProperties;
-        this.connect(gandalfProperties.getWorkerEvent());
+        this.bind(connection);
     }
 
     public MessageCommandZeroMQ sendEventCommand(String typeEvent, String event) {

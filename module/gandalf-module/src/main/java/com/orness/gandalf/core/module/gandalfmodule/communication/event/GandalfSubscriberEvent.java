@@ -1,40 +1,70 @@
 package com.orness.gandalf.core.module.gandalfmodule.communication.event;
 
-import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.zeromqmodule.event.domain.MessageEventZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.RunnableSubscriberZeroMQ;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.orness.gandalf.core.module.zeromqmodule.event.worker.RunnableWorkerEventZeroMQ;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GandalfSubscriberEvent extends RunnableSubscriberZeroMQ {
 
-    @Autowired
-    private GandalfProperties gandalfProperties;
+    private List<GandalfClientEvent> listGandalfClientEvent;
+    private List<RunnableWorkerEventZeroMQ> listGandalfWorkerEvent;
+    private GandalfClientEvent gandalfClientEvent;
+    private ClassLoader classLoader;
+    private String connectionClient;
+    private String connectionWorker;
 
-    private Map<String, GandalfClientEvent> mapEventWorker; //<EventType, GandalfClientEvent>
-
-    public GandalfSubscriberEvent(String topic) {
+    public GandalfSubscriberEvent(String topic, String connection, String connectionClient, String connectionWorker) {
         super();
-        this.gandalfProperties = gandalfProperties;
-        this.mapEventWorker = new HashMap<>();
-        this.connect(topic, gandalfProperties.getSubscriber());
-    }
+        this.listGandalfClientEvent = new ArrayList<>();
+        this.listGandalfWorkerEvent = new ArrayList<>();
+        this.classLoader = GandalfSubscriberEvent.class.getClassLoader();
+        this.connectionClient = connectionClient;
+        this.connectionWorker = connectionWorker;
 
-    //TODO VOIR SI POST CONSTRCUT
-    private void connect(String connection, String topic) {
+        //SUBS
         this.connect(connection);
         this.subscribe(topic);
+
+        //CLIENT EVENT
+        this.gandalfClientEvent = new GandalfClientEvent(connectionClient);
     }
 
+    public void addEventWorker(String gandalfWorkerEventClass) {
+        Class workerClass = null;
+        RunnableWorkerEventZeroMQ worker;
+        try {
+            workerClass = classLoader.loadClass(gandalfWorkerEventClass);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            worker = (RunnableWorkerEventZeroMQ) workerClass.getDeclaredConstructor(this.createConstructorArgs()).newInstance(connectionWorker);
+            this.listGandalfWorkerEvent.add(worker);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Class[] createConstructorArgs() {
+        Class[] cArg = new Class[1];
+        cArg[0] = String.class;
+        return cArg;
+    }
 
     @Override
     protected void sendMessageEventZeroMQ(MessageEventZeroMQ messageEventZeroMQ) {
-        GandalfClientEvent gandalfClientEvent =  this.mapEventWorker.get(messageEventZeroMQ.getTypeEvent());
-        if(gandalfClientEvent != null) {
-            gandalfClientEvent.sendEventCommand(messageEventZeroMQ.getTypeEvent(), messageEventZeroMQ.getEvent());
-        }
+        System.out.println("BLIP");
+        System.out.println(messageEventZeroMQ);
+        this.gandalfClientEvent.sendEventCommand(messageEventZeroMQ.getTypeEvent(), messageEventZeroMQ.getEvent());
     }
 }

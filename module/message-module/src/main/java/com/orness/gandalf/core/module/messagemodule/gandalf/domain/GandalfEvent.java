@@ -55,6 +55,12 @@ public class GandalfEvent {
     public GandalfEvent() { //JPA
     }
 
+    public GandalfEvent(String topic, String typeEvent, String event) {
+        this.topic = topic;
+        this.typeEvent = typeEvent;
+        this.event = event;
+    }
+
     public GandalfEvent(Long id, String topic, String typeEvent, String event) {
         this.id = id;
         this.topic = topic;

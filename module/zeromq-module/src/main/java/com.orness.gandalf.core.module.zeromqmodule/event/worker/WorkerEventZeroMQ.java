@@ -1,10 +1,12 @@
-package com.orness.gandalf.core.module.zeromqmodule.command.worker;
+package com.orness.gandalf.core.module.zeromqmodule.event.worker;
 
-import org.zeromq.*;
+import org.zeromq.SocketType;
+import org.zeromq.ZContext;
+import org.zeromq.ZMQ;
 
 import java.util.Random;
 
-public abstract class WorkerZeroMQ {
+public abstract class WorkerEventZeroMQ {
 
     private static Random rand = new Random(System.nanoTime());
     protected String connection;
@@ -12,7 +14,7 @@ public abstract class WorkerZeroMQ {
     protected ZMQ.Socket worker;
     protected String identity;
 
-    public WorkerZeroMQ() {
+    public WorkerEventZeroMQ() {
         //this.connection = connection;
         this.context = new ZContext();
         this.worker = this.context.createSocket(SocketType.REP);
@@ -25,10 +27,10 @@ public abstract class WorkerZeroMQ {
         return connection;
     }
 
-    public void connect(String connection) {
+    public void bind(String connection) {
         this.connection = connection;
-        System.out.println("WorkerZeroMQ connect to: " + this.connection);
-        this.worker.connect(this.connection);
+        System.out.println("WorkerZeroMQ bind to: " + this.connection);
+        this.worker.bind(this.connection);
     }
 
     public void close() {

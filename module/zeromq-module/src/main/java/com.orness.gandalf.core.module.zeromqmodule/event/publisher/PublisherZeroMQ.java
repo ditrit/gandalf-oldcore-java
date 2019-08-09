@@ -23,6 +23,7 @@ public abstract class PublisherZeroMQ {
 
     public void connect(String connection) {
         this.setConnection(connection);
+        System.out.println("PublisherZeroMQ binding to: " + this.connection);
         this.publisher.connect(this.connection);
     }
 
