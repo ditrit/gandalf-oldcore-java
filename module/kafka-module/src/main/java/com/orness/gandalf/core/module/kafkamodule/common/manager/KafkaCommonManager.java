@@ -1,9 +1,13 @@
 package com.orness.gandalf.core.module.kafkamodule.common.manager;
 
+import com.orness.gandalf.core.module.busmodule.core.properties.BusProperties;
 import com.orness.gandalf.core.module.busmodule.manager.BusCommonManager;
+import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfPublisherEvent;
+import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfSubscriberEventService;
+import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.gandalf.KafkaGandalfEventConsumer;
-import com.orness.gandalf.core.module.kafkamodule.core.producer.GandalfKafkaSubscriber;
 import com.orness.gandalf.core.module.kafkamodule.core.producer.KafkaProducer;
+import com.orness.gandalf.core.module.kafkamodule.core.properties.KafkaProperties;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -24,12 +28,21 @@ public class KafkaCommonManager extends BusCommonManager {
     private KafkaAdmin kafkaAdmin;
     private KafkaProducer kafkaProducer;
     private ApplicationContext context;
+    private GandalfPublisherEvent gandalfPublisherEvent;
+    private GandalfProperties gandalfProperties;
+    private BusProperties busProperties;
+    private KafkaProperties kafkaProperties;
+    private GandalfSubscriberEventService gandalfSubscriberEventService;
 
     @Autowired
-    public KafkaCommonManager(KafkaAdmin kafkaAdmin, KafkaProducer kafkaProducer, ApplicationContext context) {
+    public KafkaCommonManager(KafkaAdmin kafkaAdmin, KafkaProducer kafkaProducer, ApplicationContext context, GandalfPublisherEvent gandalfPublisherEvent, GandalfProperties gandalfProperties, BusProperties busProperties, KafkaProperties kafkaProperties) {
         this.context = context;
         this.kafkaAdmin = kafkaAdmin;
         this.kafkaProducer = kafkaProducer;
+        this.gandalfPublisherEvent = gandalfPublisherEvent;
+        this.gandalfProperties = gandalfProperties;
+        this.kafkaProperties = kafkaProperties;
+        this.busProperties = busProperties;
     }
 
     @Override
@@ -68,15 +81,16 @@ public class KafkaCommonManager extends BusCommonManager {
     @Override
     public void synchronizeToGandalf(String topic) {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        KafkaGandalfEventConsumer kafkaGandalfEventConsumer = new KafkaGandalfEventConsumer(topic);
+        KafkaGandalfEventConsumer kafkaGandalfEventConsumer = new KafkaGandalfEventConsumer(topic, this.gandalfPublisherEvent, this.kafkaProperties, this.busProperties);
         taskExecutor.execute(kafkaGandalfEventConsumer);
     }
 
     @Override
     public void synchronizeToBus(String topic) {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        GandalfKafkaSubscriber gandalfKafkaSubscriber = new GandalfKafkaSubscriber(topic);
-        taskExecutor.execute(gandalfKafkaSubscriber);
+        //TODO
+        //addInstanceWorkerByTopic
+        this.gandalfSubscriberEventService.addInstanceByTopic(topic);
+        //this.gandalfSubscriberEventService
     }
 
     private boolean isTopicExist(String topic, AdminClient adminClient) {

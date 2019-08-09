@@ -1,27 +1,24 @@
 package com.orness.gandalf.core.module.gandalfmodule.communication.event;
 
 import com.google.gson.Gson;
-import com.orness.gandalf.core.module.gandalfmodule.manager.GandalfConnectorManager;
-import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
-import com.orness.gandalf.core.module.zeromqmodule.command.domain.CommandZeroMQ;
+import com.orness.gandalf.core.module.gandalfmodule.manager.GandalfGenericManager;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
-import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
-import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.RunnableSubscriberWorkerZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.event.worker.RunnableWorkerEventZeroMQ;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-@Component
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class GandalfWorkerEvent extends RunnableWorkerEventZeroMQ {
 
-    private GandalfConnectorManager gandalfConnectorManager;
+    private GandalfGenericManager gandalfGenericManager;
 
-    public GandalfWorkerEvent(String connection) {
+    public GandalfWorkerEvent() {
         super();
-        //TODO REVOIR INTROSPECTION
-        //this.gandalfConnectorManager = gandalfConnectorManager;
         this.mapper = new Gson();
-        this.bind(connection);
+    }
+
+    public void setGandalfGenericManager(GandalfGenericManager gandalfGenericManager) {
+        this.gandalfGenericManager = gandalfGenericManager;
     }
 
     @Override
@@ -38,5 +35,19 @@ public class GandalfWorkerEvent extends RunnableWorkerEventZeroMQ {
         System.out.println("TYPE_COMMAND " + messageCommandZeroMQ.getTypeCommand());
         System.out.println("COMMAND " + messageCommandZeroMQ.getCommand());
 
+        Class gandalfGenericManagerClass = gandalfGenericManager.getClass();
+        Method[] methods = gandalfGenericManagerClass.getDeclaredMethods();
+
+        for(Method method : methods) {
+            if(method.getName().contains("command_") && method.getName().equals(messageCommandZeroMQ.getTypeCommand().toString())) {
+                try {
+                    method.invoke(this.gandalfGenericManager, messageCommandZeroMQ.getCommand().toString());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

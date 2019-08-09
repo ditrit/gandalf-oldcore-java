@@ -2,18 +2,15 @@ package com.orness.gandalf.core.module.gandalfmodule.communication.event;
 
 import com.orness.gandalf.core.module.zeromqmodule.event.domain.MessageEventZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.RunnableSubscriberZeroMQ;
-import com.orness.gandalf.core.module.zeromqmodule.event.worker.RunnableWorkerEventZeroMQ;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GandalfSubscriberEvent extends RunnableSubscriberZeroMQ {
 
     private List<GandalfClientEvent> listGandalfClientEvent;
-    private List<RunnableWorkerEventZeroMQ> listGandalfWorkerEvent;
+    private List<GandalfWorkerEvent> listGandalfWorkerEvent;
     private GandalfClientEvent gandalfClientEvent;
-    private ClassLoader classLoader;
     private String connectionClient;
     private String connectionWorker;
 
@@ -21,7 +18,6 @@ public class GandalfSubscriberEvent extends RunnableSubscriberZeroMQ {
         super();
         this.listGandalfClientEvent = new ArrayList<>();
         this.listGandalfWorkerEvent = new ArrayList<>();
-        this.classLoader = GandalfSubscriberEvent.class.getClassLoader();
         this.connectionClient = connectionClient;
         this.connectionWorker = connectionWorker;
 
@@ -33,38 +29,14 @@ public class GandalfSubscriberEvent extends RunnableSubscriberZeroMQ {
         this.gandalfClientEvent = new GandalfClientEvent(connectionClient);
     }
 
-    public void addEventWorker(String gandalfWorkerEventClass) {
-        Class workerClass = null;
-        RunnableWorkerEventZeroMQ worker;
-        try {
-            workerClass = classLoader.loadClass(gandalfWorkerEventClass);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            worker = (RunnableWorkerEventZeroMQ) workerClass.getDeclaredConstructor(this.createConstructorArgs()).newInstance(connectionWorker);
-            this.listGandalfWorkerEvent.add(worker);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private Class[] createConstructorArgs() {
-        Class[] cArg = new Class[1];
-        cArg[0] = String.class;
-        return cArg;
+    public void addWorker(GandalfWorkerEvent gandalfWorkerEvent) {
+        gandalfWorkerEvent.bind(this.connectionWorker);
+        this.listGandalfWorkerEvent.add(gandalfWorkerEvent);
     }
 
     @Override
     protected void sendMessageEventZeroMQ(MessageEventZeroMQ messageEventZeroMQ) {
-        System.out.println("BLIP");
-        System.out.println(messageEventZeroMQ);
+        //TODO VERIFICATION WORKER
         this.gandalfClientEvent.sendEventCommand(messageEventZeroMQ.getTypeEvent(), messageEventZeroMQ.getEvent());
     }
 }

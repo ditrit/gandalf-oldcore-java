@@ -37,4 +37,6 @@ public abstract class ClientEventZeroMQ {
         this.client.close();
         this.context.close();
     }
+
+    //TODO SEND COMMAND
 }

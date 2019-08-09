@@ -1,7 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbusservice.core;
 
 import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfWorkerCommand;
-import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfSubscriberEventFactory;
 import com.orness.gandalf.core.module.kafkamodule.common.worker.KafkaCommonWorkerCommand;
 import com.orness.gandalf.core.module.kafkamodule.specific.worker.KafkaSpecificWorkerCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
@@ -11,7 +10,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -44,14 +42,6 @@ public class ConnectorBusCoreConfiguration {
         pool.setWaitForTasksToCompleteOnShutdown(true);
         return pool;
     }
-
-/*
-    @Bean
-    public GandalfSubscriberEventFactory gandalfSubscriberEventFactory() {
-        GandalfSubscriberEventFactory gandalfSubscriberEventFactory = new GandalfSubscriberEventFactory();
-        return gandalfSubscriberEventFactory;
-    }
-*/
 
 
     //                   ('-.         .-') _  _ .-') _     ('-.
