@@ -16,37 +16,38 @@
 
     <modules>
         <!-- Core -->
-        <module>zeromq-module</module>
+        <module>core/zeromq-module</module>
 
         <!-- Gandalf -->
-        <module>gandalf-module</module>
+        <module>gandalf/gandalf-module</module>
 
         <!-- Common -->
-        <module>job-module</module>
-        <module>workflow-engine-module</module>
-        <module>bus-module</module>
-        <module>version-control-module</module>
-        <module>artifact-module</module>
-        <module>database-module</module>
-        <module>orchestrator-module</module>
+        <module>type/job-module</module>
+        <module>type/workflow-engine-module</module>
+        <module>type/bus-module</module>
+        <module>type/version-control-module</module>
+        <module>type/artifact-module</module>
+        <module>type/database-module</module>
+        <module>type/orchestrator-module</module>
 
         <!-- Specific -->
-        <module>gitlab-module</module>
-        <module>git-module</module>
-        <module>zeebe-module</module>
-        <module>kafka-module</module>
-        <module>nexus-module</module>
-        <module>custom-artifact-module</module>
-        <module>custom-orchestrator-module</module>
-        <module>h2-module</module>
-        <module>job-zeebe-module</module>
-        <module>jenkins-module</module>
+        <module>connector/gitlab-module</module>
+        <module>connector/git-module</module>
+        <module>connector/zeebe-module</module>
+        <module>connector/kafka-module</module>
+        <module>connector/nexus-module</module>
+        <module>connector/custom-artifact-module</module>
+        <module>connector/custom-orchestrator-module</module>
+        <module>connector/h2-module</module>
+        <module>connector/job-zeebe-module</module>
+        <module>connector/jenkins-module</module>
 
         <!-- Utils -->
-        <module>message-module</module>
-        <module>workflow-uid-module</module>
-        <module>constant-module</module>
-        <module>webhook-module</module>
+        <module>utils/message-module</module>
+        <module>utils/constant-module</module>
+        <module>utils/workflow-uid-module</module>
+        <module>utils/constant-module</module>
+        <module>utils/webhook-module</module>
 
     </modules>
 
