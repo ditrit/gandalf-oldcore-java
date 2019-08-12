@@ -33,17 +33,17 @@ public class KafkaCommonController extends BusCommonController {
     }
 
     @Override
-    public void receiveMessage() {
-        this.kafkaCommonManager.receiveMessage();
+    public String receiveMessage(String topic) {
+        return this.kafkaCommonManager.receiveMessage();
     }
 
     @Override
-    public void synchronizeToGandalf() {
+    public void synchronizeToGandalf(String topic) {
         this.kafkaCommonManager.synchronizeToGandalf("");
     }
 
     @Override
-    public void synchronizeToBus() {
+    public void synchronizeToBus(String topic) {
         this.kafkaCommonManager.synchronizeToBus("");
     }
 }

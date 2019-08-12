@@ -8,7 +8,7 @@ public abstract class BusCommonManager {
 
     public abstract void sendMessage(String topic, String message);
 
-    public abstract void receiveMessage();
+    public abstract String receiveMessage(String topic);
 
     public abstract void synchronizeToGandalf(String topic);
 

@@ -75,7 +75,7 @@ public class KafkaCommonManager extends BusCommonManager {
     }
 
     @Override
-    public void receiveMessage() {
+    public String receiveMessage(String topic) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
