@@ -2,7 +2,7 @@ package com.orness.gandalf.core.module.versioncontrolmodule.manager;
 
 public abstract class VersionControlCommonManager {
 
-    public abstract void cloneProject(String url);
+    public abstract void cloneProject(String uri, String path);
 
     public abstract void pull(String origin, String branch);
 
@@ -14,4 +14,9 @@ public abstract class VersionControlCommonManager {
 
     public abstract void merge(String source, String destination);
 
+    public abstract void checkout(String branch, boolean create);
+
+    public abstract void tag(String tag);
+
+    public abstract void log();
 }

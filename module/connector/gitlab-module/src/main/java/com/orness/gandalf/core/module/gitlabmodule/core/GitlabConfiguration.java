@@ -11,7 +11,7 @@ public class GitlabConfiguration {
     @Value("${gandalf.gitlab.address}")
     private String gitlabAddress;
 
-    //TODO ACCESS TOKEN
+    //TODO ACCESS TOKEN / ADD
     @Bean
     public GitLabApi gitLabApi() {
         return new GitLabApi(gitlabAddress, "YOUR_ACCESS_TOKEN");
