@@ -35,7 +35,7 @@ public class KafkaCommonManager extends BusCommonManager {
     private GandalfSubscriberEventService gandalfSubscriberEventService;
 
     @Autowired
-    public KafkaCommonManager(KafkaAdmin kafkaAdmin, KafkaProducer kafkaProducer, ApplicationContext context, GandalfPublisherEvent gandalfPublisherEvent, GandalfProperties gandalfProperties, BusProperties busProperties, KafkaProperties kafkaProperties) {
+    public KafkaCommonManager(KafkaAdmin kafkaAdmin, KafkaProducer kafkaProducer, ApplicationContext context, GandalfPublisherEvent gandalfPublisherEvent, GandalfProperties gandalfProperties, BusProperties busProperties, KafkaProperties kafkaProperties, GandalfSubscriberEventService gandalfSubscriberEventService) {
         this.context = context;
         this.kafkaAdmin = kafkaAdmin;
         this.kafkaProducer = kafkaProducer;
@@ -43,6 +43,7 @@ public class KafkaCommonManager extends BusCommonManager {
         this.gandalfProperties = gandalfProperties;
         this.kafkaProperties = kafkaProperties;
         this.busProperties = busProperties;
+        this.gandalfSubscriberEventService = gandalfSubscriberEventService;
     }
 
     @Override
@@ -87,8 +88,6 @@ public class KafkaCommonManager extends BusCommonManager {
 
     @Override
     public void synchronizeToBus(String topic) {
-        //TODO
-        //addInstanceWorkerByTopic
         this.gandalfSubscriberEventService.addInstanceByTopic(topic);
         //this.gandalfSubscriberEventService
     }
