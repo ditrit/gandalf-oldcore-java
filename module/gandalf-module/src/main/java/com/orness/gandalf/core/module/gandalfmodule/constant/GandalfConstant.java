@@ -2,6 +2,8 @@ package com.orness.gandalf.core.module.gandalfmodule.constant;
 
 public abstract class GandalfConstant {
 
+    public static final String WORKER_DIRECTORY = "gandalf/workers/";
+
     public static final String COMMAND_TYPE_GANDALF = "COMMAND_TYPE_GANDALF";
     public static final String COMMAND_START = "COMMAND_START";
     public static final String COMMAND_STOP = "COMMAND_STOP";

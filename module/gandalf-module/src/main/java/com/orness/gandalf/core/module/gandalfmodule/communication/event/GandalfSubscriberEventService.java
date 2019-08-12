@@ -37,4 +37,5 @@ public class GandalfSubscriberEventService {
         this.addWorkerByTopic(topic, gandalfWorkerEvent);
     }
 
+
 }

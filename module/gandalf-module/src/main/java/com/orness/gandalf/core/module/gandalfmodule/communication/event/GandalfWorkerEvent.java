@@ -12,12 +12,9 @@ public class GandalfWorkerEvent extends RunnableWorkerEventZeroMQ {
 
     private GandalfGenericManager gandalfGenericManager;
 
-    public GandalfWorkerEvent() {
+    public GandalfWorkerEvent(GandalfGenericManager gandalfGenericManager) {
         super();
         this.mapper = new Gson();
-    }
-
-    public void setGandalfGenericManager(GandalfGenericManager gandalfGenericManager) {
         this.gandalfGenericManager = gandalfGenericManager;
     }
 
