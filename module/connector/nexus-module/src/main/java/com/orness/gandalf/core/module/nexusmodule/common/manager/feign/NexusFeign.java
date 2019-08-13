@@ -4,6 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.sonatype.nexus.client.core.subsystem.artifact.;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface NexusFeign {
     List<String> listRepositories();
 
     @RequestMapping(method = RequestMethod.GET, value = "/service/rest/v1/components")
-    List<String> listComponents();
+    List<Component> listComponents();
 
     @RequestMapping(method = RequestMethod.GET, value = "/service/rest/v1/components/{id}")
     String downloadComponent(@PathVariable("id") String id);
