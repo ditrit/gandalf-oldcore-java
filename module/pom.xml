@@ -22,13 +22,13 @@
         <module>gandalf/gandalf-module</module>
 
         <!-- Common -->
-        <module>type/job-module</module>
-        <module>type/workflow-engine-module</module>
-        <module>type/bus-module</module>
-        <module>type/version-control-module</module>
-        <module>type/artifact-module</module>
-        <module>type/database-module</module>
-        <module>type/orchestrator-module</module>
+        <module>connector-type/job-module</module>
+        <module>connector-type/workflow-engine-module</module>
+        <module>connector-type/bus-module</module>
+        <module>connector-type/version-control-module</module>
+        <module>connector-type/artifact-module</module>
+        <module>connector-type/database-module</module>
+        <module>connector-type/orchestrator-module</module>
 
         <!-- Specific -->
         <module>connector/gitlab-module</module>

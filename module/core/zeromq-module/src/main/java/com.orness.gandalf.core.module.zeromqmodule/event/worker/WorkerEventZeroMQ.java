@@ -23,14 +23,10 @@ public abstract class WorkerEventZeroMQ {
         //this.connect();
     }
 
-    public String getConnection() {
-        return connection;
-    }
-
-    public void bind(String connection) {
+    public void connect(String connection) {
         this.connection = connection;
         System.out.println("WorkerZeroMQ bind to: " + this.connection);
-        this.worker.bind(this.connection);
+        this.worker.connect(this.connection);
     }
 
     public void close() {

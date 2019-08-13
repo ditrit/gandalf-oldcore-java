@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.event.worker.RunnableWorkerEventZeroMQ;
 
-//TODO REVOIR
+//TODO USELESS
 public class GandalfWorkerEvent extends RunnableWorkerEventZeroMQ {
 
 
