@@ -8,4 +8,23 @@ import org.springframework.stereotype.Component;
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix="artifact")
 public class ArtifactProperties {
+
+    private String feignName;
+    private String feignURL;
+
+    public String getFeignName() {
+        return feignName;
+    }
+
+    public void setFeignName(String feignName) {
+        this.feignName = feignName;
+    }
+
+    public String getFeignURL() {
+        return feignURL;
+    }
+
+    public void setFeignURL(String feignURL) {
+        this.feignURL = feignURL;
+    }
 }

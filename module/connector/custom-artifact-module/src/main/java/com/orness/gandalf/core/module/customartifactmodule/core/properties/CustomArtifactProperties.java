@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile(value = "custom-artifact-module")
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix="customartifact")
+@ConfigurationProperties(prefix="artifact")
 public class CustomArtifactProperties {
 
     private String worker;
