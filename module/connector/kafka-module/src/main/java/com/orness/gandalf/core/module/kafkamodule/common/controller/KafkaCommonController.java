@@ -34,7 +34,7 @@ public class KafkaCommonController extends BusCommonController {
 
     @Override
     public String receiveMessage(String topic) {
-        return this.kafkaCommonManager.receiveMessage();
+        return this.kafkaCommonManager.receiveMessage(topic);
     }
 
     @Override

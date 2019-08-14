@@ -52,7 +52,7 @@ public class KafkaCommonWorkerCommand extends RunnableWorkerZeroMQ {
                 this.kafkaCommonManager.sendMessage("","");
                 break;
             case COMMAND_RECEIVE_MESSAGE:
-                this.kafkaCommonManager.receiveMessage();
+                this.kafkaCommonManager.receiveMessage("");
                 break;
             case COMMAND_SYNCHRONIZE_GANDALF:
                 this.kafkaCommonManager.synchronizeToGandalf("");

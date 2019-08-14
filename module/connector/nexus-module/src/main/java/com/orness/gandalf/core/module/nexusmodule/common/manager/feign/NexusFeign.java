@@ -1,26 +1,29 @@
 package com.orness.gandalf.core.module.nexusmodule.common.manager.feign;
 
+import org.sonatype.nexus.rest.model.RepositoryListResource;
+import org.sonatype.nexus.rest.model.ArtifactResolveResource;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.sonatype.nexus.client.core.subsystem.artifact.;
 
 import java.util.List;
 
-//TODO REVOIR POUR OBJECT
 @FeignClient(value = "jplaceholder", url = "artifact-service.service.gandalf:10000")
 public interface NexusFeign {
 
     @RequestMapping(method = RequestMethod.GET, value = "/service/rest/v1/repositories")
-    List<String> listRepositories();
+    List<RepositoryListResource> listRepositories();
 
     @RequestMapping(method = RequestMethod.GET, value = "/service/rest/v1/components")
-    List<Component> listComponents();
+    List<ArtifactResolveResource> listComponents();
 
     @RequestMapping(method = RequestMethod.GET, value = "/service/rest/v1/components/{id}")
-    String downloadComponent(@PathVariable("id") String id);
+    ArtifactResolveResource downloadComponent(@PathVariable("id") Long id);
 
     @RequestMapping(method = RequestMethod.POST, value = "/service/rest/v1/components")
-    void uploadComponent(String component);
+    void uploadComponent(ArtifactResolveResource component);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/service/rest/v1/components/{id}")
+    void deleteComponent(@PathVariable("id") Long id);
 }
