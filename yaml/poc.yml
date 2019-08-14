@@ -1,0 +1,68 @@
+Core :
+    - Gandalf :
+        Nom : gandalf
+        Port : 10000
+        Scale : 1
+        Propriétés :
+            workerBroker : tcp://127.0.0.1:10000
+            clientBroker : tcp://127.0.0.1:10000
+            publisherProxy : tcp://127.0.0.1:10000
+            subscriberProxy : tcp://127.0.0.1:10000
+Connecteurs :
+    - Connecteur :
+          Nom : kafka-0
+          Port : 00000
+          Type : bus
+          Scale : 0
+          Propriétés :
+              - broker : 127.0.0.1:00000
+          Profil :
+              Nom : kafka-module
+              Propriétés :
+                  - worker : tcp://*:00000
+                  - group : kafka0
+          Subscribers :
+              - Subscriber :
+                    Topic : Toto
+                    Workers :
+                        - Worker :
+                            Class : TotoWorker1
+                        - Worker :
+                            Class : TotoWorker2
+              - Subscriber :
+                    Topic : Tata
+                    Workers :
+                        - Worker :
+                            Class : TotoWorker1
+                        - Worker :
+                            Class : TataWorker1
+    - Connecteur :
+          Nom : kafka-1
+          Port : 10000
+          Type : bus
+          Scale : 1
+          Propriétés :
+                - broker : 127.0.0.1:10000
+          Profil :
+                Nom : kafka-module
+                Propriétés :
+                    - worker : tcp://*:10000
+                    - group : kafka1
+          Subscribers :
+                - Subscriber :
+                    Topic : Toto
+                    Workers :
+                        - Worker :
+                            Class : TotoWorker1
+                        - Worker :
+                            Class : TotoWorker2
+                - Subscriber :
+                      Topic : Tata
+                      Workers :
+                          - Worker :
+                              Class : TotoWorker1
+                          - Worker :
+                              Class : TataWorker1
+
+
+
