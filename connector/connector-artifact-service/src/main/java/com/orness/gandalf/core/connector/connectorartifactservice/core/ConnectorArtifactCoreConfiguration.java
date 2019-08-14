@@ -3,6 +3,8 @@ package com.orness.gandalf.core.connector.connectorartifactservice.core;
 import com.orness.gandalf.core.module.customartifactmodule.common.worker.CustomArtifactCommonWorkerCommand;
 import com.orness.gandalf.core.module.customartifactmodule.specific.worker.CustomArtifactSpecificWorkerCommand;
 import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfWorkerCommand;
+import com.orness.gandalf.core.module.nexusmodule.common.worker.NexusCommonWorkerCommand;
+import com.orness.gandalf.core.module.nexusmodule.specific.worker.NexusSpecificWorkerCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,6 +82,9 @@ public class ConnectorArtifactCoreConfiguration {
             case "custom-artifact-module":
                 commonWorkerCommand = (CustomArtifactCommonWorkerCommand) context.getBean("commonWorkerCommand");
                 break;
+            case "nexus-module":
+                commonWorkerCommand = (NexusCommonWorkerCommand) context.getBean("commonWorkerCommand");
+                break;
             default:
                 break;
         }
@@ -104,6 +109,9 @@ public class ConnectorArtifactCoreConfiguration {
         switch(profile) {
             case "custom-artifact-module":
                 commonWorkerCommand = (CustomArtifactSpecificWorkerCommand) context.getBean("specificWorkerCommand");
+                break;
+            case "nexus-module":
+                commonWorkerCommand = (NexusSpecificWorkerCommand) context.getBean("commonWorkerCommand");
                 break;
             default:
                 break;

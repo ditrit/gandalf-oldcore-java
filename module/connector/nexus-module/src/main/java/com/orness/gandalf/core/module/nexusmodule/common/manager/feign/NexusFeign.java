@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
+//TODO PROPERTIES URL
 @FeignClient(value = "jplaceholder", url = "artifact-service.service.gandalf:10000")
 public interface NexusFeign {
 
