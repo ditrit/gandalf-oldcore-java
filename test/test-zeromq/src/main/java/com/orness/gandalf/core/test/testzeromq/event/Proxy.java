@@ -12,10 +12,13 @@ public class Proxy {
     public static Socket backEndEvent;
     private String backEndEventConnection;
     private ZContext context;
+    public static ZMQ.Socket backEndEventCapture;
+    private String backEndCaptureEventConnection;
 
-    public Proxy(String frontEndEventConnection, String backEndEventConnection) {
+    public Proxy(String frontEndEventConnection, String backEndEventConnection, String backEndCaptureEventConnection) {
         this.frontEndEventConnection = frontEndEventConnection;
         this.backEndEventConnection = backEndEventConnection;
+        this.backEndCaptureEventConnection = backEndCaptureEventConnection;
         this.open();
     }
 
@@ -24,7 +27,7 @@ public class Proxy {
         this.context = new ZContext();
 
         // Publisher EndPoint
-        this.frontEndEvent = this.context.createSocket(SocketType.XPUB);
+        this.frontEndEvent = this.context.createSocket(SocketType.XSUB);
         System.out.println("ProxyPublisherZeroMQ binding to: " + frontEndEventConnection);
         this.frontEndEvent.bind(this.frontEndEventConnection);
 
@@ -33,8 +36,13 @@ public class Proxy {
         System.out.println("ProxySubscriberZeroMQ binding to: " + this.backEndEventConnection);
         this.backEndEvent.bind(this.backEndEventConnection);
 
+        //Capture EndPoint
+        this.backEndEventCapture = this.context.createSocket(SocketType.DEALER);
+        System.out.println("BrokerCaptureZeroMQ binding to: " + this.backEndCaptureEventConnection);
+        this.backEndEventCapture.bind(this.backEndCaptureEventConnection);
+
         // Run the proxy
-        ZMQ.proxy(this.frontEndEvent, this.backEndEvent, null);
+        ZMQ.proxy(this.frontEndEvent, this.backEndEvent,  this.backEndEventCapture);
 
         this.close();
     }

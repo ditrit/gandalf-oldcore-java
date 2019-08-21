@@ -14,16 +14,16 @@ public class Broker {
     private String frontEndCommandConnection;
     public static ZMQ.Socket backEndCommand;
     private String backEndCommandConnection;
-    public static ZMQ.Socket backEndCapture;
-    private String backEndCaptureConnection;
+    public static ZMQ.Socket backEndCommandCapture;
+    private String backEndCaptureCommandConnection;
     private ZContext context;
     private Map<String, Deque<ZMsg>> serviceDeque;
 
-    public Broker(String frontEndCommandConnection, String backEndCommandConnection, String backEndCaptureConnection) {
+    public Broker(String frontEndCommandConnection, String backEndCommandConnection, String backEndCaptureCommandConnection) {
 
         this.frontEndCommandConnection = frontEndCommandConnection;
         this.backEndCommandConnection = backEndCommandConnection;
-        this.backEndCaptureConnection = backEndCaptureConnection;
+        this.backEndCaptureCommandConnection = backEndCaptureCommandConnection;
         this.serviceDeque = new HashMap<>();
         this.open();
         this.run();
@@ -44,9 +44,9 @@ public class Broker {
         this.backEndCommand.bind(this.backEndCommandConnection);
 
         //Capture EndPoint
-        this.backEndCapture = this.context.createSocket(SocketType.DEALER);
-        System.out.println("BrokerCaptureZeroMQ binding to: " + this.backEndCaptureConnection);
-        this.backEndCapture.bind(this.backEndCaptureConnection);
+        this.backEndCommandCapture = this.context.createSocket(SocketType.DEALER);
+        System.out.println("BrokerCaptureZeroMQ binding to: " + this.backEndCaptureCommandConnection);
+        this.backEndCommandCapture.bind(this.backEndCaptureCommandConnection);
     }
 
     public void run() {
@@ -100,7 +100,7 @@ public class Broker {
 
         this.frontEndCommand.close();
         this.backEndCommand.close();
-        this.backEndCapture.close();
+        this.backEndCommandCapture.close();
         this.context.destroy();
     }
 
@@ -138,7 +138,7 @@ public class Broker {
 
         ZMsg requestCapture = request.duplicate();
         //Capture
-        requestCapture.send(this.backEndCapture);
+        requestCapture.send(this.backEndCommandCapture);
         //Worker
         request.send(this.backEndCommand);
     }
@@ -147,7 +147,7 @@ public class Broker {
 
         ZMsg responseCapture = response.duplicate();
         //Capture
-        responseCapture.send(this.backEndCapture);
+        responseCapture.send(this.backEndCommandCapture);
         //Client
         response.send(this.frontEndCommand);
     }

@@ -7,50 +7,51 @@ import static com.orness.gandalf.core.test.testzeromq.Constant.*;
 public abstract class Worker {
 
     protected ZContext context;
-    protected static ZMQ.Socket worker;
-    protected String[] workerConnections;
-    protected static ZMQ.Socket command;
-    protected String commandConnections; //IPC
+    protected static ZMQ.Socket frontEndWorker;
+    protected String[] frontEndWorkerConnections;
+    protected static ZMQ.Socket backEndWorker;
+    protected String backEndWorkerConnection; //IPC
     protected String service;
 
     public Worker() {
     }
 
-    protected void init(String service, String[] workerConnections) {
+    protected void init(String service, String[] frontEndWorkerConnections, String backEndWorkerConnection) {
         this.context = new ZContext();
         this.service = service;
 
-        this.worker = this.context.createSocket(SocketType.DEALER);
-        this.worker.setIdentity(this.service.getBytes(ZMQ.CHARSET));
-        this.workerConnections = workerConnections;
-        for(String connection : this.workerConnections) {
+        this.frontEndWorker = this.context.createSocket(SocketType.DEALER);
+        this.frontEndWorker.setIdentity(this.service.getBytes(ZMQ.CHARSET));
+        this.frontEndWorkerConnections = frontEndWorkerConnections;
+        for(String connection : this.frontEndWorkerConnections) {
             System.out.println("WorkerZeroMQ connect to: " + connection);
-            this.worker.connect(connection);
+            this.frontEndWorker.connect(connection);
         }
 
-        this.command = this.context.createSocket(SocketType.DEALER);
-        this.command.setIdentity(this.service.getBytes(ZMQ.CHARSET));
-        System.out.println("WorkerZeroMQ connect to: " + this.commandConnections);
-        this.command.bind(this.commandConnections);
+        this.backEndWorker = this.context.createSocket(SocketType.DEALER);
+        this.backEndWorker.setIdentity(this.service.getBytes(ZMQ.CHARSET));
+        this.backEndWorkerConnection = backEndWorkerConnection;
+        System.out.println("WorkerZeroMQ connect to: " + this.backEndWorkerConnection);
+        this.backEndWorker.bind(this.backEndWorkerConnection);
     }
 
     protected void close() {
-        this.worker.close();
-        this.command.close();
+        this.frontEndWorker.close();
+        this.backEndWorker.close();
         this.context.close();
     }
 
     protected void reconnectToBroker() {
-        if (this.worker != null) {
-            this.context.destroySocket(worker);
+        if (this.backEndWorker != null) {
+            this.context.destroySocket(backEndWorker);
         }
-        this.init(this.service, this.workerConnections);
+        this.init(this.service, this.frontEndWorkerConnections, this.backEndWorkerConnection);
 
         // Register service with broker
         this.sendReadyCommand();
     }
 
     protected void sendReadyCommand() {
-        this.worker.send(WORKER_COMMAND_READY);
+        this.frontEndWorker.send(WORKER_COMMAND_READY);
     }
 }

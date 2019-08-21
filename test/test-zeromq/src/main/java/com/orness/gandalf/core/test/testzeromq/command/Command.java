@@ -10,50 +10,50 @@ import static com.orness.gandalf.core.test.testzeromq.Constant.*;
 public abstract class Command {
 
     private ZContext context;
-    protected static ZMQ.Socket commandSocket;
-    protected String commandConnections; //IPC
+    protected static ZMQ.Socket frontEndCommand;
+    protected String frontEndCommandConnections; //IPC
     protected String command;
 
     public Command() {
     }
 
-    protected void init(String command, String commandConnections) {
+    protected void init(String command, String frontEndCommandConnections) {
         this.context = new ZContext();
         this.command = command;
-        this.commandSocket = this.context.createSocket(SocketType.DEALER);
-        this.commandSocket.setIdentity(this.command.getBytes(ZMQ.CHARSET));
-        this.commandConnections = commandConnections;
-        System.out.println("WorkerZeroMQ connect to: " + commandConnections);
-        this.commandSocket.connect(commandConnections);
+        this.frontEndCommand = this.context.createSocket(SocketType.DEALER);
+        this.frontEndCommand.setIdentity(this.command.getBytes(ZMQ.CHARSET));
+        this.frontEndCommandConnections = frontEndCommandConnections;
+        System.out.println("WorkerZeroMQ connect to: " + frontEndCommandConnections);
+        this.frontEndCommand.connect(frontEndCommandConnections);
     }
 
     protected void close() {
-        this.commandSocket.close();
+        this.frontEndCommand.close();
         this.context.close();
     }
 
     protected void reconnectToWorker() {
-        if (this.commandSocket != null) {
-            this.context.destroySocket(commandSocket);
+        if (this.frontEndCommand != null) {
+            this.context.destroySocket(frontEndCommand);
         }
-        this.init(this.command, this.commandConnections);
+        this.init(this.command, this.frontEndCommandConnections);
 
         // Register service with broker
         this.sendReadyCommand();
     }
 
     protected void sendReadyCommand() {
-        this.commandSocket.send(COMMAND_COMMAND_READY);
+        this.frontEndCommand.send(COMMAND_COMMAND_READY);
     }
 
     protected void sendResultCommand(ZMsg request, String result) {
         request.add(result);
-        request.send(this.commandSocket);
+        request.send(this.frontEndCommand);
 
         this.sendReadyCommand();
     }
 
     protected ZMsg receiveCommand() {
-        return ZMsg.recvMsg(this.commandSocket);
+        return ZMsg.recvMsg(this.frontEndCommand);
     }
 }
