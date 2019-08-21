@@ -22,4 +22,6 @@ public class CommandZeroMQ {
         messageCommandZeroMQ.getTypeCommand().send(socket, ZFrame.REUSE + ZFrame.MORE);
         messageCommandZeroMQ.getCommand().send(socket, ZFrame.REUSE);
     }
+
+
 }

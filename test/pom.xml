@@ -19,6 +19,7 @@
         <module>job-kafka-producer</module>
         <module>java-kafka-1</module>
         <module>java-kafka-2</module>
+        <module>test-zeromq</module>
     </modules>
 
     <properties>
