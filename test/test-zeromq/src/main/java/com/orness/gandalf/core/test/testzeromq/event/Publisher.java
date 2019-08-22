@@ -11,10 +11,8 @@ public class Publisher {
     protected String backEndPublisherConnection;
 
     public Publisher() {
-        //this.connection = connection;
         this.context = new ZContext();
         this.backEndPublisher = this.context.createSocket(SocketType.PUB);
-        //this.connect();
     }
 
     public void init(String backEndPublisherConnection) {
