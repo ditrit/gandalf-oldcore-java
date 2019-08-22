@@ -1,32 +1,36 @@
-package com.orness.gandalf.core.test.testzeromq.command;
+package com.orness.gandalf.core.test.testzeromq.event;
 
-import com.google.gson.Gson;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Map;
 
 import static com.orness.gandalf.core.test.testzeromq.Constant.*;
 
-public abstract class RunnableWorker extends Worker implements Runnable {
+public abstract class RunnableSubscriber extends Subscriber implements Runnable {
 
-    protected Gson mapper;
+    private String topic;
     private Map<String, Deque<ZMsg>> commandDeque;
 
-    public RunnableWorker() {
+    public RunnableSubscriber() {
         super();
-        mapper = new Gson();
+    }
+
+    public void init(String topic) {
+        this.topic = topic;
+        this.frontEndSubscriber.subscribe(this.topic.getBytes());
     }
 
     @Override
     public void run() {
-
         // Initialize poll set
         ZMQ.Poller poller = context.createPoller(2);
-        poller.register(this.frontEndWorker, ZMQ.Poller.POLLIN);
-        poller.register(this.backEndWorker, ZMQ.Poller.POLLIN);
+        poller.register(this.frontEndSubscriber, ZMQ.Poller.POLLIN);
+        poller.register(this.backEndSubscriber, ZMQ.Poller.POLLIN);
 
-        ZMsg request;
+        ZMsg publish;
         ZMsg response;
 
         // Switch messages between sockets
@@ -36,12 +40,12 @@ public abstract class RunnableWorker extends Worker implements Runnable {
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive broker message
-                    request = ZMsg.recvMsg(this.frontEndWorker);
-                    if (request == null) {
+                    publish = ZMsg.recvMsg(this.frontEndSubscriber);
+                    if (publish == null) {
                         break; // Interrupted
                     }
                     // Broker it
-                    this.processBrokerRequest(request);
+                    this.processProxyPublish(publish);
                 }
             }
 
@@ -49,7 +53,7 @@ public abstract class RunnableWorker extends Worker implements Runnable {
             if (poller.pollin(1)) {
                 while (true) {
                     // Receive command message
-                    response = ZMsg.recvMsg(this.backEndWorker);
+                    response = ZMsg.recvMsg(this.backEndSubscriber);
                     if (response == null) {
                         break; // Interrupted
                     }
@@ -66,36 +70,38 @@ public abstract class RunnableWorker extends Worker implements Runnable {
         }
     }
 
-    private void processBrokerRequest(ZMsg request) {
+    private void processProxyPublish(ZMsg publish) {
 
-        ZMsg requestBackup = request.duplicate();
-        String uuid = requestBackup.popString();
-        String clientIdentity = requestBackup.popString();
-        String service = requestBackup.popString();
-        String command = requestBackup.popString();
-        String payload = requestBackup.popString();
-        this.commandDeque.get(command).addLast(request);
+        ZMsg publishBackup = publish.duplicate();
+        String uuid = publishBackup.popString();
+        String topic = publishBackup.popString();
+        String typeEvent = publishBackup.popString();
+        String event;
+        if(typeEvent.contains(WORKER_COMMAND_EVENT)) {
+            event = publishBackup.popString();
+            this.commandDeque.get(event).addLast(publish);
+        }
     }
 
     private void processCommandResponse(ZMsg response) {
 
         ZMsg responseBackup = response.duplicate();
         String commandType = responseBackup.popString();
-        String command;
+        String event;
         if (commandType.equals(COMMAND_COMMAND_READY)) {
-            command = responseBackup.popString();
-            if(this.commandDeque.containsKey(command)) {
-                if(this.commandDeque.get(command).getFirst() != null) {
-                    this.sendToCommand(this.commandDeque.get(command).getFirst());
+            event = responseBackup.popString();
+            if(this.commandDeque.containsKey(event)) {
+                if(this.commandDeque.get(event).getFirst() != null) {
+                    this.sendToCommand(this.commandDeque.get(event).getFirst());
                 }
             }
             else {
-                this.commandDeque.put(command, new ArrayDeque<>());
+                this.commandDeque.put(event, new ArrayDeque<>());
             }
         }
         else if (commandType.equals(WORKER_COMMAND_RESULT)) {
-            this.sendToBroker(response);
-            this.sendReadyCommand();
+            //TODO
+            //this.sendToBroker(response);
         }
         else {
             System.out.println("E: invalid message");
@@ -104,13 +110,8 @@ public abstract class RunnableWorker extends Worker implements Runnable {
         //msg.destroy();
     }
 
-    public void sendToCommand(ZMsg request) {
+    public void sendToCommand(ZMsg publish) {
         //Command
-        request.send(this.backEndWorker);
-    }
-
-    public void sendToBroker(ZMsg response) {
-        //Worker
-        response.send(this.frontEndWorker);
+        publish.send(this.backEndSubscriber);
     }
 }

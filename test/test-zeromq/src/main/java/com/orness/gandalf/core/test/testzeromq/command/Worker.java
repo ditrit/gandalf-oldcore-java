@@ -52,6 +52,8 @@ public abstract class Worker {
     }
 
     protected void sendReadyCommand() {
-        this.frontEndWorker.send(WORKER_COMMAND_READY);
+        this.frontEndWorker.sendMore(WORKER_COMMAND_READY);
+        this.frontEndWorker.send(this.service);
+
     }
 }

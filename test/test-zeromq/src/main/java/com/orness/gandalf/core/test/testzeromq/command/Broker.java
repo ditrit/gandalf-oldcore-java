@@ -116,7 +116,6 @@ public class Broker {
     private void processResponse(ZMsg response) {
 
         ZMsg responseBackup = response.duplicate();
-        String uuid = responseBackup.popString();
         String commandType = responseBackup.popString();
         String service;
         if (commandType.equals(WORKER_COMMAND_READY)) {

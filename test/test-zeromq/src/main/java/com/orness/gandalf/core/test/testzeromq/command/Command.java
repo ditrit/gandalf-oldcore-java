@@ -43,11 +43,13 @@ public abstract class Command {
     }
 
     protected void sendReadyCommand() {
-        this.frontEndCommand.send(COMMAND_COMMAND_READY);
+        this.frontEndCommand.sendMore(COMMAND_COMMAND_READY);
+        this.frontEndCommand.send(this.command);
     }
 
     protected void sendResultCommand(ZMsg request, String result) {
-        request.add(result);
+        request.addFirst(COMMAND_COMMAND_RESULT);
+        request.addLast(result);
         request.send(this.frontEndCommand);
 
         this.sendReadyCommand();
