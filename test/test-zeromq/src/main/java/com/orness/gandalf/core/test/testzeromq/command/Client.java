@@ -8,7 +8,7 @@ public class Client {
 
     private ZContext context;
     protected ZMQ.Socket backEndClient;
-    private String backEndClientConnection;
+    private String[] backEndClientConnections;
     protected String identity;
 
     public Client() {
@@ -16,15 +16,18 @@ public class Client {
         this.backEndClient = this.context.createSocket(SocketType.DEALER);
     }
 
-    public void init(String backEndClientConnection, String identity) {
-        this.backEndClientConnection = backEndClientConnection;
+    public void init(String[] backEndClientConnections, String identity) {
+        this.backEndClientConnections = backEndClientConnections;
         this.identity = identity;
-        System.out.println("ClientZeroMQ connect to: " + this.backEndClientConnection);
-        this.backEndClient.bind(this.backEndClientConnection);
+        for(String connection : this.backEndClientConnections) {
+            System.out.println("ClientZeroMQ connect to: " + connection);
+            this.backEndClient.connect(connection);
+        }
     }
 
     public void close() {
         this.backEndClient.close();
         this.context.close();
     }
+
 }
