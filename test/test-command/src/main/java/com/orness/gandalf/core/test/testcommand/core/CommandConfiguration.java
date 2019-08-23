@@ -1,8 +1,6 @@
 package com.orness.gandalf.core.test.testcommand.core;
 
-import com.orness.gandalf.core.test.testzeromq.gandalf.GandalfProperties;
-import com.orness.gandalf.core.test.testzeromq.gandalf.worker.GandalfWorkerStartEvent;
-import com.orness.gandalf.core.test.testzeromq.gandalf.worker.GandalfWorkerStartWorker;
+import com.orness.gandalf.core.test.testcommand.properties.GandalfProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;

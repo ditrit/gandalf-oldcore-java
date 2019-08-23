@@ -35,17 +35,17 @@ public class Broker {
 
         // Client EndPoint
         this.frontEndCommand = this.context.createSocket(SocketType.ROUTER);
-        System.out.println("BrokerClientZeroMQ binding to: " + this.frontEndCommandConnection);
+        System.out.println("BrokerClientZeroMQ binding to frontEndCommandConnection: " + this.frontEndCommandConnection);
         this.frontEndCommand.bind(this.frontEndCommandConnection);
 
         // Worker EndPoint
         this.backEndCommand = this.context.createSocket(SocketType.ROUTER);
-        System.out.println("BrokerClientZeroMQ binding to: " + this.backEndCommandConnection);
+        System.out.println("BrokerClientZeroMQ binding to backEndCommandConnection: " + this.backEndCommandConnection);
         this.backEndCommand.bind(this.backEndCommandConnection);
 
         //Capture EndPoint
         this.backEndCommandCapture = this.context.createSocket(SocketType.DEALER);
-        System.out.println("BrokerCaptureZeroMQ binding to: " + this.backEndCaptureCommandConnection);
+        System.out.println("BrokerCaptureZeroMQ binding to backEndCaptureCommandConnection: " + this.backEndCaptureCommandConnection);
         this.backEndCommandCapture.bind(this.backEndCaptureCommandConnection);
     }
 
@@ -67,6 +67,8 @@ public class Broker {
                 while (true) {
                     // Receive client message
                     request = ZMsg.recvMsg(this.frontEndCommand);
+                    System.out.println("POLL 0");
+                    System.out.println(request);
                     if (request == null) {
                         break; // Interrupted
                     }
@@ -80,6 +82,8 @@ public class Broker {
                 while (true) {
                     // Receive worker message
                     response = ZMsg.recvMsg(this.backEndCommand);
+                    System.out.println("POLL 0");
+                    System.out.println(response);
                     if (response == null) {
                         break; // Interrupted
                     }

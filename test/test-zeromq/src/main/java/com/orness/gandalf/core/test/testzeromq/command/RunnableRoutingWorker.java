@@ -41,6 +41,8 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
                 while (true) {
                     // Receive broker message
                     request = ZMsg.recvMsg(this.frontEndRoutingWorker);
+                    System.out.println("POLL 0");
+                    System.out.println(request);
                     if (request == null) {
                         break; // Interrupted
                     }
@@ -53,6 +55,8 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
                 while (true) {
                     // Receive command message
                     response = ZMsg.recvMsg(this.backEndRoutingWorker);
+                    System.out.println("POLL 1");
+                    System.out.println(response);
                     if (response == null) {
                         break; // Interrupted
                     }

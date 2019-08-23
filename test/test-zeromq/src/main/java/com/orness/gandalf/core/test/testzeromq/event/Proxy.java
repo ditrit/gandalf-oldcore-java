@@ -27,15 +27,15 @@ public class Proxy {
 
         // Publisher
         this.frontEndEvent = this.context.createSocket(SocketType.XSUB);
-        System.out.println("ProxyPublisherZeroMQ binding to: " + frontEndEventConnection);
+        System.out.println("ProxyPublisherZeroMQ binding to frontEndEventConnection: " + frontEndEventConnection);
         this.frontEndEvent.bind(this.frontEndEventConnection);
         // Subscriber
         this.backEndEvent = this.context.createSocket(SocketType.XPUB);
-        System.out.println("ProxySubscriberZeroMQ binding to: " + this.backEndEventConnection);
+        System.out.println("ProxySubscriberZeroMQ binding to backEndEventConnection: " + this.backEndEventConnection);
         this.backEndEvent.bind(this.backEndEventConnection);
         //Capture
         this.backEndEventCapture = this.context.createSocket(SocketType.DEALER);
-        System.out.println("BrokerCaptureZeroMQ binding to: " + this.backEndCaptureEventConnection);
+        System.out.println("BrokerCaptureZeroMQ binding to backEndCaptureEventConnection: " + this.backEndCaptureEventConnection);
         this.backEndEventCapture.bind(this.backEndCaptureEventConnection);
         // Run the proxy
         ZMQ.proxy(this.frontEndEvent, this.backEndEvent,  this.backEndEventCapture);

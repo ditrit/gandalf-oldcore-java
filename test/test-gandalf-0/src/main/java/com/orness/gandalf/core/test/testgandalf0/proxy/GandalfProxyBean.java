@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.test.testgandalf0.proxy;
 
 import com.orness.gandalf.core.test.testzeromq.event.Proxy;
-import com.orness.gandalf.core.test.testzeromq.gandalf.GandalfProperties;
+import com.orness.gandalf.core.test.testgandalf0.properties.GandalfProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -19,6 +19,6 @@ public class GandalfProxyBean implements Runnable {
 
     @Override
     public void run() {
-        new Proxy(gandalfProperties.getWorkerBackEndConnection(), gandalfProperties.getSubscriberFrontEndConnection(), gandalfProperties.getCaptureBackEndConnection());
+        new Proxy(gandalfProperties.getPublisherBackEndConnection(), gandalfProperties.getRoutingSubscriberFrontEndConnection(), gandalfProperties.getCaptureProxyBackEndConnection1());
     }
 }

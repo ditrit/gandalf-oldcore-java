@@ -22,7 +22,7 @@ public class Publisher {
         this.backEndPublisher = this.context.createSocket(SocketType.PUB);
         this.backEndPublisher.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
         this.backEndPublisherConnection = backEndPublisherConnection;
-        System.out.println("PublisherZeroMQ binding to: " + this.backEndPublisherConnection);
+        System.out.println("PublisherZeroMQ connect to: " + this.backEndPublisherConnection);
         this.backEndPublisher.connect(this.backEndPublisherConnection);
     }
 

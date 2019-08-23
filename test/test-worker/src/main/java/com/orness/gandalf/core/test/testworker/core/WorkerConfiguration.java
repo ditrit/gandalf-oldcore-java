@@ -1,8 +1,6 @@
 package com.orness.gandalf.core.test.testworker.core;
 
-import com.orness.gandalf.core.test.testzeromq.gandalf.GandalfProperties;
-import com.orness.gandalf.core.test.testzeromq.gandalf.GandalfRoutingSubscriber;
-import com.orness.gandalf.core.test.testzeromq.gandalf.GandalfRoutingWorker;
+import com.orness.gandalf.core.test.testworker.properties.GandalfProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +18,11 @@ public class WorkerConfiguration {
     private GandalfRoutingSubscriber gandalfSubscriber;
 
     @Autowired
-    public WorkerConfiguration(ApplicationContext context, GandalfProperties gandalfProperties, GandalfRoutingWorker gandalfWorker) {
+    public WorkerConfiguration(ApplicationContext context, GandalfProperties gandalfProperties, GandalfRoutingWorker gandalfWorker, GandalfRoutingSubscriber gandalfSubscriber) {
         this.context = context;
         this.gandalfProperties = gandalfProperties;
         this.gandalfWorker = gandalfWorker;
+        this.gandalfSubscriber = gandalfSubscriber;
     }
 
     @Bean
@@ -37,13 +36,11 @@ public class WorkerConfiguration {
 
     @Bean
     public void workerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        taskExecutor.execute(this.gandalfWorker);
+        this.taskExecutor().execute(this.gandalfWorker);
     }
 
     @Bean
     public void subscriberEvent() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        taskExecutor.execute(this.gandalfSubscriber);
+        this.taskExecutor().execute(this.gandalfSubscriber);
     }
 }

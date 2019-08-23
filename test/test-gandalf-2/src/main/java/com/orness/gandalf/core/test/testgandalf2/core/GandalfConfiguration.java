@@ -14,8 +14,16 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Order
 public class GandalfConfiguration {
 
-    @Autowired
     private ApplicationContext context;
+    private GandalfBrokerBean gandalfBrokerBean;
+    private GandalfProxyBean gandalfProxyBean;
+
+    @Autowired
+    public GandalfConfiguration(ApplicationContext context, GandalfBrokerBean gandalfBrokerBean, GandalfProxyBean gandalfProxyBean) {
+        this.context = context;
+        this.gandalfBrokerBean = gandalfBrokerBean;
+        this.gandalfProxyBean = gandalfProxyBean;
+    }
 
     //                            _  .-')     ('-.
     //                       ( \( -O )  _(  OO)
@@ -46,10 +54,10 @@ public class GandalfConfiguration {
     // |  '--'  |   |  | |  ||  | \   |   |  '--'  /  |  | |  | |      |   \|  |_)
     //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
 
-    @Bean
+  /*  @Bean
     public void connectorGandalfWorkerCommand() {
         this.taskExecutor().execute((GandalfRoutingWorker) context.getBean("gandalfWorker"));
-    }
+    }*/
 
     //    .-. .-')  _  .-')               .-. .-')     ('-.  _  .-')
     //\  ( OO )( \( -O )              \  ( OO )  _(  OO)( \( -O )
@@ -63,8 +71,7 @@ public class GandalfConfiguration {
 
     @Bean
     public void brokerCommand() {
-        GandalfBrokerBean gandalfBrokerBean = (GandalfBrokerBean) context.getBean("gandalfBrokerBean");
-        this.taskExecutor().execute(gandalfBrokerBean);
+        this.taskExecutor().execute(this.gandalfBrokerBean);
     }
 
     //       _ (`-.  _  .-')              ) (`-.
@@ -77,9 +84,8 @@ public class GandalfConfiguration {
     // |  |      |  |\  \    `'  '-'  '/  .'.  \ `-./  /.__)
     // `--'      `--' '--'     `-----''--'   '--'  `--'
 
-    @Bean
+    /*@Bean
     public void proxyEvent() {
-        GandalfProxyBean gandalfProxyBean = (GandalfProxyBean) context.getBean("gandalfProxyBean");
-        this.taskExecutor().execute(gandalfProxyBean);
-    }
+        this.taskExecutor().execute(this.gandalfProxyBean);
+    }*/
 }

@@ -25,7 +25,7 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
     public void initRunnable(String routingSubscriberConnector, String frontEndRoutingSubcriberConnection, String backEndRoutingSubscriberConnection, List<String> topics) {
         this.init(routingSubscriberConnector, frontEndRoutingSubcriberConnection, backEndRoutingSubscriberConnection);
         this.topics = topics;
-        for(String topic : topics) {
+        for(String topic : this.topics) {
             this.frontEndRoutingSubscriber.subscribe(topic.getBytes());
         }
     }
@@ -47,6 +47,8 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
                 while (true) {
                     // Receive broker message
                     publish = ZMsg.recvMsg(this.frontEndRoutingSubscriber);
+                    System.out.println("POLL 0");
+                    System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted
                     }
@@ -59,6 +61,8 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
                 while (true) {
                     // Receive command message
                     response = ZMsg.recvMsg(this.backEndRoutingSubscriber);
+                    System.out.println("POLL 1");
+                    System.out.println(response);
                     if (response == null) {
                         break; // Interrupted
                     }
