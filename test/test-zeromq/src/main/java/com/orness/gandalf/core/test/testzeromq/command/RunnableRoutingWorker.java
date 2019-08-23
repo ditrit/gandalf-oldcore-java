@@ -16,6 +16,7 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
     public RunnableRoutingWorker() {
         super();
         mapper = new Gson();
+        this.serviceClassWorkerDeque = new HashMap<>();
     }
 
     public void initRunnable(String service, String[] frontEndWorkerConnections, String backEndWorkerConnection) {

@@ -6,6 +6,7 @@ import org.zeromq.ZMsg;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 import java.util.Map;
 
 import static com.orness.gandalf.core.test.testzeromq.Constant.*;
@@ -13,18 +14,21 @@ import static com.orness.gandalf.core.test.testzeromq.Constant.*;
 public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implements Runnable {
 
     protected Gson mapper;
-    private String topic;
-    private Map<String, Deque<ZMsg>> serviceClassWorkerDeque;
+    private List<String> topics;
+    private Deque<ZMsg> deque;
 
     public RunnableRoutingSubscriber() {
         super();
         mapper = new Gson();
+        this.deque = new ArrayDeque<>();
     }
 
-    public void initRunnable(String routingSubscriberConnector, String frontEndRoutingSubcriberConnection, String backEndRoutingSubscriberConnection, String topic) {
+    public void initRunnable(String routingSubscriberConnector, String frontEndRoutingSubcriberConnection, String backEndRoutingSubscriberConnection, List<String> topics) {
         this.init(routingSubscriberConnector, frontEndRoutingSubcriberConnection, backEndRoutingSubscriberConnection);
-        this.topic = topic;
-        this.frontEndRoutingSubscriber.subscribe(this.topic.getBytes());
+        this.topics = topics;
+        for(String topic : topics) {
+            this.frontEndRoutingSubscriber.subscribe(topic.getBytes());
+        }
     }
 
     @Override
@@ -75,15 +79,8 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
     }
 
     private void processProxyPublish(ZMsg publish) {
-
         ZMsg publishBackup = publish.duplicate();
-        String topic = publishBackup.popString();
-        String client = publishBackup.popString();
-        String event;
-        if(typeEvent.contains(WORKER_COMMAND_EVENT)) {
-            event = publishBackup.popString();
-            this.serviceClassWorkerDeque.get(event).addLast(publish);
-        }
+        this.deque.addLast(publish);
     }
 
     private void processWorkerResponse(ZMsg response) {
@@ -93,13 +90,8 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
         String event;
         if (commandType.equals(COMMAND_COMMAND_READY)) {
             event = responseBackup.popString();
-            if(this.serviceClassWorkerDeque.containsKey(event)) {
-                if(this.serviceClassWorkerDeque.get(event).getFirst() != null) {
-                    this.sendToWorker(this.serviceClassWorkerDeque.get(event).getFirst());
-                }
-            }
-            else {
-                this.serviceClassWorkerDeque.put(event, new ArrayDeque<>());
+            if(this.deque.getFirst() != null) {
+                this.sendToWorker(this.deque.getFirst());
             }
         }
         else if (commandType.equals(WORKER_COMMAND_RESULT)) {
@@ -116,5 +108,10 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
     public void sendToWorker(ZMsg publish) {
         //Command
         publish.send(this.backEndRoutingSubscriber);
+    }
+
+    public void addTopic(String topic) {
+        this.topics.add(topic);
+        this.frontEndRoutingSubscriber.subscribe(topic.getBytes());
     }
 }
