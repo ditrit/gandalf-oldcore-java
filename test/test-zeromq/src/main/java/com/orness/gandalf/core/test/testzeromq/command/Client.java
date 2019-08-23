@@ -18,10 +18,11 @@ public class Client {
     public void init(String identity, String[] backEndClientConnections) {
         this.context = new ZContext();
         this.identity = identity;
-        this.backEndClientConnections = backEndClientConnections;
 
+        //Broker
         this.backEndClient = this.context.createSocket(SocketType.DEALER);
         this.backEndClient.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
+        this.backEndClientConnections = backEndClientConnections;
         for(String connection : this.backEndClientConnections) {
             System.out.println("ClientZeroMQ connect to: " + connection);
             this.backEndClient.connect(connection);

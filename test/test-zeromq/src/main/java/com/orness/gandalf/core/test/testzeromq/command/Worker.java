@@ -23,6 +23,8 @@ public abstract class Worker {
         this.context = new ZContext();
         this.workerServiceClass = workerServiceClass;
         this.workerServiceClassType = workerServiceClassType;
+
+        //Broker
         this.frontEndWorker = this.context.createSocket(SocketType.DEALER);
         this.frontEndWorker.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
         this.frontEndWorkerConnections = frontEndWorkerConnections;
@@ -54,7 +56,6 @@ public abstract class Worker {
         request.addFirst(COMMAND_COMMAND_RESULT);
         request.addLast(result);
         request.send(this.frontEndWorker);
-
         this.sendReadyCommand();
     }
 

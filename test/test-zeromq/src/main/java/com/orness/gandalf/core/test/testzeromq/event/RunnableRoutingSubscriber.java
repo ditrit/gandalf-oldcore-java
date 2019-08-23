@@ -42,8 +42,7 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
 
         // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
-
-            // Client
+            //Client
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive broker message
@@ -55,8 +54,7 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
                     this.processProxyPublish(publish);
                 }
             }
-
-            // Worker
+            //Worker
             if (poller.pollin(1)) {
                 while (true) {
                     // Receive command message
@@ -70,7 +68,6 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
             }
             poller.close();
         }
-
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
             this.close(); // interrupted
@@ -83,7 +80,6 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
     }
 
     private void processWorkerResponse(ZMsg response) {
-
         ZMsg responseBackup = response.duplicate();
         String commandType = responseBackup.popString();
         String event;
@@ -93,14 +89,9 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
                 this.sendToWorker(this.deque.getFirst());
             }
         }
-        else if (commandType.equals(WORKER_COMMAND_RESULT)) {
-            //TODO
-            //this.sendToBroker(response);
-        }
         else {
             System.out.println("E: invalid message");
         }
-        //TODO
         //msg.destroy();
     }
 

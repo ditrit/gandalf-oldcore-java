@@ -36,8 +36,7 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
 
         // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
-
-            // Client
+            //Client
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive broker message
@@ -49,8 +48,7 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
                     this.processBrokerRequest(request);
                 }
             }
-
-            // Worker
+            //Worker
             if (poller.pollin(1)) {
                 while (true) {
                     // Receive command message
@@ -64,7 +62,6 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
             }
             poller.close();
         }
-
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
             this.close(); // interrupted
@@ -72,7 +69,6 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
     }
 
     private void processBrokerRequest(ZMsg request) {
-
         ZMsg requestBackup = request.duplicate();
         String uuid = requestBackup.popString();
         String client = requestBackup.popString();
@@ -82,7 +78,6 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
     }
 
     private void processWorkerResponse(ZMsg response) {
-
         ZMsg responseBackup = response.duplicate();
         String commandType = responseBackup.popString();
         String uuid = responseBackup.popString();

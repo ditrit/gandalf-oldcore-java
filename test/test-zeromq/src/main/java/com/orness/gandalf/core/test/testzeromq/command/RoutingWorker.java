@@ -20,6 +20,7 @@ public abstract class RoutingWorker {
         this.context = new ZContext();
         this.routingWorkerConnector = routingWorkerConnector;
 
+        //Broker
         this.frontEndRoutingWorker = this.context.createSocket(SocketType.DEALER);
         this.frontEndRoutingWorker.setIdentity(this.routingWorkerConnector.getBytes(ZMQ.CHARSET));
         this.frontEndRoutingWorkerConnections = frontEndRoutingWorkerConnections;
@@ -28,6 +29,7 @@ public abstract class RoutingWorker {
             this.frontEndRoutingWorker.connect(connection);
         }
 
+        //Worker
         this.backEndRoutingWorker = this.context.createSocket(SocketType.ROUTER);
         this.backEndRoutingWorker.setIdentity(this.routingWorkerConnector.getBytes(ZMQ.CHARSET));
         this.backEndRoutingWorkerConnection = backEndRoutingWorkerConnection;
@@ -46,7 +48,6 @@ public abstract class RoutingWorker {
             this.context.destroySocket(frontEndRoutingWorker);
         }
         this.init(this.routingWorkerConnector, this.frontEndRoutingWorkerConnections, this.backEndRoutingWorkerConnection);
-
         // Register service with broker
         this.sendReadyCommand();
     }
@@ -54,6 +55,5 @@ public abstract class RoutingWorker {
     protected void sendReadyCommand() {
         this.frontEndRoutingWorker.sendMore(WORKER_COMMAND_READY);
         this.frontEndRoutingWorker.send(this.routingWorkerConnector);
-
     }
 }

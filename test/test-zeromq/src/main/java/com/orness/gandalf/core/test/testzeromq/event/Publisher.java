@@ -18,10 +18,10 @@ public class Publisher {
     public void init(String identity, String backEndPublisherConnection) {
         this.context = new ZContext();
         this.identity = identity;
-        this.backEndPublisherConnection = backEndPublisherConnection;
-
+        //Proxy
         this.backEndPublisher = this.context.createSocket(SocketType.PUB);
         this.backEndPublisher.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
+        this.backEndPublisherConnection = backEndPublisherConnection;
         System.out.println("PublisherZeroMQ binding to: " + this.backEndPublisherConnection);
         this.backEndPublisher.connect(this.backEndPublisherConnection);
     }

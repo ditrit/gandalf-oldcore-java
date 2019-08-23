@@ -23,24 +23,20 @@ public class Proxy {
     }
 
     public void open() {
-
         this.context = new ZContext();
 
-        // Publisher EndPoint
+        // Publisher
         this.frontEndEvent = this.context.createSocket(SocketType.XSUB);
         System.out.println("ProxyPublisherZeroMQ binding to: " + frontEndEventConnection);
         this.frontEndEvent.bind(this.frontEndEventConnection);
-
-        // Subscriber EndPoint
+        // Subscriber
         this.backEndEvent = this.context.createSocket(SocketType.XPUB);
         System.out.println("ProxySubscriberZeroMQ binding to: " + this.backEndEventConnection);
         this.backEndEvent.bind(this.backEndEventConnection);
-
-        //Capture EndPoint
+        //Capture
         this.backEndEventCapture = this.context.createSocket(SocketType.DEALER);
         System.out.println("BrokerCaptureZeroMQ binding to: " + this.backEndCaptureEventConnection);
         this.backEndEventCapture.bind(this.backEndCaptureEventConnection);
-
         // Run the proxy
         ZMQ.proxy(this.frontEndEvent, this.backEndEvent,  this.backEndEventCapture);
 

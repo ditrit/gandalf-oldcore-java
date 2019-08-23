@@ -62,7 +62,7 @@ public class Broker {
         // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
 
-            // Client
+            //Client
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive client message
@@ -75,7 +75,7 @@ public class Broker {
                 }
             }
 
-            // Worker
+            //Worker
             if (poller.pollin(1)) {
                 while (true) {
                     // Receive worker message
@@ -97,7 +97,6 @@ public class Broker {
     }
 
     public void close() {
-
         this.frontEndCommand.close();
         this.backEndCommand.close();
         this.backEndCommandCapture.close();
@@ -105,7 +104,6 @@ public class Broker {
     }
 
     private void processRequest(ZMsg request) {
-
         ZMsg requestBackup = request.duplicate();
         String uuid = requestBackup.popString();
         String client = requestBackup.popString();
@@ -114,7 +112,6 @@ public class Broker {
     }
 
     private void processResponse(ZMsg response) {
-
         ZMsg responseBackup = response.duplicate();
         String commandType = responseBackup.popString();
         String uuid = responseBackup.popString();
@@ -123,7 +120,6 @@ public class Broker {
         if (commandType.equals(WORKER_COMMAND_READY)) {
             connector = responseBackup.popString();
             this.sendToWorker(this.connectorDeque.get(connector).getFirst());
-
         }
         else if (commandType.equals(WORKER_COMMAND_RESULT)) {
             this.sendToClient(response);
@@ -136,7 +132,6 @@ public class Broker {
     }
 
     public void sendToWorker(ZMsg request) {
-
         ZMsg requestCapture = request.duplicate();
         //Capture
         requestCapture.send(this.backEndCommandCapture);
@@ -145,7 +140,6 @@ public class Broker {
     }
 
     public void sendToClient(ZMsg response) {
-
         ZMsg responseCapture = response.duplicate();
         //Capture
         responseCapture.send(this.backEndCommandCapture);

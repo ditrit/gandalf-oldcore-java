@@ -20,12 +20,12 @@ public class RoutingSubscriber {
     protected void init(String routingSubscriberConnector, String frontEndRoutingSubscriberConnection, String backEndSubscriberConnection) {
         this.context = new ZContext();
         this.routingSubscriberConnector = routingSubscriberConnector;
-
-        this.frontEndRoutingSubscriberConnection = frontEndRoutingSubscriberConnection;
+        //Proxy
         this.frontEndRoutingSubscriber = this.context.createSocket(SocketType.SUB);
+        this.frontEndRoutingSubscriberConnection = frontEndRoutingSubscriberConnection;
         System.out.println("SubscriberZeroMQ binding to: " + this.frontEndRoutingSubscriberConnection);
         this.frontEndRoutingSubscriber.connect(this.frontEndRoutingSubscriberConnection);
-
+        //Worker
         this.backEndRoutingSubscriber = this.context.createSocket(SocketType.ROUTER);
         this.backEndRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
         this.backEndRoutingSubscriberConnection = backEndSubscriberConnection;
