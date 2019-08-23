@@ -1,7 +1,14 @@
 package com.orness.gandalf.core.test.testzeromq.gandalf;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
+@EnableConfigurationProperties
+@ConfigurationProperties(prefix="gandalf")
 public class GandalfProperties {
 
     private String connectorName;
