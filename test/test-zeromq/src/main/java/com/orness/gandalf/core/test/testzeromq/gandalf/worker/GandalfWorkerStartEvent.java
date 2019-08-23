@@ -1,4 +1,4 @@
-package com.orness.gandalf.core.test.testzeromq.gandalf.command;
+package com.orness.gandalf.core.test.testzeromq.gandalf.worker;
 
 import com.orness.gandalf.core.test.testzeromq.Constant;
 import com.orness.gandalf.core.test.testzeromq.command.RunnableWorker;

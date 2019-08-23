@@ -1,20 +1,20 @@
 package com.orness.gandalf.core.test.testzeromq.gandalf;
 
+import com.google.gson.Gson;
 import com.orness.gandalf.core.test.testzeromq.event.RunnableRoutingSubscriber;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class GandalfRoutingSubscriber extends RunnableRoutingSubscriber {
 
-    private String frontEndsubScriberConnection;
-    private String backEndSubscriberConnection;
+    private GandalfProperties gandalfProperties;
 
-    public GandalfRoutingSubscriber(String identity, String frontEndsubScriberConnection, String backEndSubscriberConnection, String topic) {
+    @Autowired
+    public GandalfRoutingSubscriber(GandalfProperties gandalfProperties) {
         super();
-        this.frontEndsubScriberConnection = frontEndsubScriberConnection;
-        this.backEndSubscriberConnection = backEndSubscriberConnection;
-        this.identity = identity;
-        //SUBS
-        //TODO IDENTITY
-        this.initRunnable(this.identity, this.frontEndsubScriberConnection, this.backEndSubscriberConnection, topic);
+        this.gandalfProperties = gandalfProperties;
+        this.mapper = new Gson();
+        this.initRunnable(this.gandalfProperties.getConnectorName(), this.gandalfProperties.getRoutingSubscriberFrontEndConnection(), this.gandalfProperties.getRoutingSubscriberBackEndConnection(), this.gandalfProperties.getTopics());
     }
 }

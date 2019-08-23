@@ -19,8 +19,8 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
         this.serviceClassWorkerDeque = new HashMap<>();
     }
 
-    public void initRunnable(String service, String[] frontEndWorkerConnections, String backEndWorkerConnection) {
-        this.init(service, frontEndWorkerConnections, backEndWorkerConnection);
+    public void initRunnable(String routingWorkerConnector, String[] frontEndWorkerConnections, String backEndWorkerConnection) {
+        this.init(routingWorkerConnector, frontEndWorkerConnections, backEndWorkerConnection);
     }
 
     @Override

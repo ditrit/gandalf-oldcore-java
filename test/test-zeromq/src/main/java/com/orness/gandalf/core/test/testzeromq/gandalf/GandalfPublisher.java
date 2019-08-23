@@ -14,7 +14,7 @@ public class GandalfPublisher extends Publisher {
     public GandalfPublisher(GandalfProperties gandalfProperties) {
         super();
         this.gandalfProperties = gandalfProperties;
-        this.init(gandalfProperties.getConnectorName(), gandalfProperties.getPublisherBackEndConnection());
+        this.init(this.gandalfProperties.getConnectorName(), this.gandalfProperties.getPublisherBackEndConnection());
     }
 
     public void sendEvent(String topic, String event, String payload) {

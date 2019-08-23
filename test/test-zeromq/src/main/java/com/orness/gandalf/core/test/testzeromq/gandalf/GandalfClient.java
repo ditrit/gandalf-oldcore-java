@@ -14,10 +14,9 @@ public class GandalfClient extends Client {
         super();
         this.gandalfProperties = gandalfProperties;
         String[] connections = new String[3];
-        connections[0] = gandalfProperties.getClientBackEndConnection1();
-        connections[1] = gandalfProperties.getClientBackEndConnection2();
-        connections[2] = gandalfProperties.getClientBackEndConnection3();
-        //TODO APPLICATION NAME
+        connections[0] = this.gandalfProperties.getClientBackEndConnection1();
+        connections[1] = this.gandalfProperties.getClientBackEndConnection2();
+        connections[2] = this.gandalfProperties.getClientBackEndConnection3();
         this.init(this.gandalfProperties.getConnectorName(), connections);
     }
 
