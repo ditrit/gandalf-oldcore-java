@@ -77,9 +77,8 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
     private void processProxyPublish(ZMsg publish) {
 
         ZMsg publishBackup = publish.duplicate();
-        String uuid = publishBackup.popString();
         String topic = publishBackup.popString();
-        String typeEvent = publishBackup.popString();
+        String client = publishBackup.popString();
         String event;
         if(typeEvent.contains(WORKER_COMMAND_EVENT)) {
             event = publishBackup.popString();

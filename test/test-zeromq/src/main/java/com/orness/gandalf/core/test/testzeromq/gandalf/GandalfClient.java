@@ -4,9 +4,6 @@ import com.orness.gandalf.core.test.testzeromq.command.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.orness.gandalf.core.test.testzeromq.Constant.WORKER_COMMAND_SERVICE_GANDALF;
-import static com.orness.gandalf.core.test.testzeromq.gandalf.GandalfConstant.COMMAND_START;
-
 @Component
 public class GandalfClient extends Client {
 
@@ -21,14 +18,15 @@ public class GandalfClient extends Client {
         connections[1] = gandalfProperties.getClientBackEndConnection2();
         connections[2] = gandalfProperties.getClientBackEndConnection3();
         //TODO APPLICATION NAME
-        this.init(connections, "client0");
+        this.init(this.gandalfProperties.getConnectorName(), connections);
     }
 
 
-    public void sendCommand(String uuid, String service, String command, String payload) {
+    public void sendCommand(String uuid, String connector, String serviceClass, String command, String payload) {
         this.backEndClient.sendMore(uuid);
         this.backEndClient.sendMore(this.identity);
-        this.backEndClient.sendMore(service);
+        this.backEndClient.sendMore(connector);
+        this.backEndClient.sendMore(serviceClass);
         this.backEndClient.sendMore(command);
         this.backEndClient.send(payload);
     }

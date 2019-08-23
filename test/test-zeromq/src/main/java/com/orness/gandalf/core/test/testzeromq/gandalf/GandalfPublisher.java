@@ -14,12 +14,13 @@ public class GandalfPublisher extends Publisher {
     public GandalfPublisher(GandalfProperties gandalfProperties) {
         super();
         this.gandalfProperties = gandalfProperties;
-        this.init(gandalfProperties.getPublisherBackEndConnection());
+        this.init(gandalfProperties.getConnectorName(), gandalfProperties.getPublisherBackEndConnection());
     }
 
-    public void sendEvent(String topic, String typeEvent, String event) {
+    public void sendEvent(String topic, String event, String payload) {
+        this.backEndPublisher.sendMore(this.identity);
         this.backEndPublisher.sendMore(topic);
-        this.backEndPublisher.sendMore(typeEvent);
-        this.backEndPublisher.send(event);
+        this.backEndPublisher.sendMore(event);
+        this.backEndPublisher.send(payload);
     }
 }

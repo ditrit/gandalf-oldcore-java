@@ -2,6 +2,7 @@ package com.orness.gandalf.core.test.testzeromq.gandalf;
 
 public class GandalfProperties {
 
+    private String connectorName;
     private String clientBackEndConnection1;
     private String clientBackEndConnection2;
     private String clientBackEndConnection3;
@@ -15,6 +16,14 @@ public class GandalfProperties {
     private String publisherBackEndConnection;
     private String subscriberFrontEndConnection;
     private String captureBackEndConnection;
+
+    public String getConnectorName() {
+        return connectorName;
+    }
+
+    public void setConnectorName(String connectorName) {
+        this.connectorName = connectorName;
+    }
 
     public String getClientBackEndConnection1() {
         return clientBackEndConnection1;

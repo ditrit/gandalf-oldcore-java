@@ -74,10 +74,9 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
 
         ZMsg requestBackup = request.duplicate();
         String uuid = requestBackup.popString();
-        String clientIdentity = requestBackup.popString();
+        String client = requestBackup.popString();
+        String connector = requestBackup.popString();
         String serviceClass = requestBackup.popString();
-        String command = requestBackup.popString();
-        String payload = requestBackup.popString();
         this.serviceClassWorkerDeque.get(serviceClass).addLast(request);
     }
 
@@ -85,16 +84,19 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
 
         ZMsg responseBackup = response.duplicate();
         String commandType = responseBackup.popString();
-        String command;
+        String uuid = responseBackup.popString();
+        String client = responseBackup.popString();
+        String connector = responseBackup.popString();
+        String serviceClass;
         if (commandType.equals(COMMAND_COMMAND_READY)) {
-            command = responseBackup.popString();
-            if(this.serviceClassWorkerDeque.containsKey(command)) {
-                if(this.serviceClassWorkerDeque.get(command).getFirst() != null) {
-                    this.sendToWorker(this.serviceClassWorkerDeque.get(command).getFirst());
+            serviceClass = responseBackup.popString();
+            if(this.serviceClassWorkerDeque.containsKey(serviceClass)) {
+                if(this.serviceClassWorkerDeque.get(serviceClass).getFirst() != null) {
+                    this.sendToWorker(this.serviceClassWorkerDeque.get(serviceClass).getFirst());
                 }
             }
             else {
-                this.serviceClassWorkerDeque.put(command, new ArrayDeque<>());
+                this.serviceClassWorkerDeque.put(serviceClass, new ArrayDeque<>());
             }
         }
         else if (commandType.equals(WORKER_COMMAND_RESULT)) {

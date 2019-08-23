@@ -20,5 +20,5 @@ public abstract class RunnableWorker extends Worker implements Runnable {
         }
     }
 
-    public abstract Constant.Result executeCommand(ZMsg request);
+    public abstract Constant.Result executeCommand(ZMsg command);
 }

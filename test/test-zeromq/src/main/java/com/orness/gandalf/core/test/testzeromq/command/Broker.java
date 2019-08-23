@@ -17,14 +17,14 @@ public class Broker {
     public static ZMQ.Socket backEndCommandCapture;
     private String backEndCaptureCommandConnection;
     private ZContext context;
-    private Map<String, Deque<ZMsg>> serviceDeque;
+    private Map<String, Deque<ZMsg>> connectorDeque;
 
     public Broker(String frontEndCommandConnection, String backEndCommandConnection, String backEndCaptureCommandConnection) {
 
         this.frontEndCommandConnection = frontEndCommandConnection;
         this.backEndCommandConnection = backEndCommandConnection;
         this.backEndCaptureCommandConnection = backEndCaptureCommandConnection;
-        this.serviceDeque = new HashMap<>();
+        this.connectorDeque = new HashMap<>();
         this.open();
         this.run();
     }
@@ -108,19 +108,21 @@ public class Broker {
 
         ZMsg requestBackup = request.duplicate();
         String uuid = requestBackup.popString();
-        String commandType = requestBackup.popString();
-        String service = requestBackup.popString();
-        this.serviceDeque.get(service).addLast(request);
+        String client = requestBackup.popString();
+        String connector = requestBackup.popString();
+        this.connectorDeque.get(connector).addLast(request);
     }
 
     private void processResponse(ZMsg response) {
 
         ZMsg responseBackup = response.duplicate();
         String commandType = responseBackup.popString();
-        String service;
+        String uuid = responseBackup.popString();
+        String client = responseBackup.popString();
+        String connector;
         if (commandType.equals(WORKER_COMMAND_READY)) {
-            service = responseBackup.popString();
-            this.sendToWorker(this.serviceDeque.get(service).getFirst());
+            connector = responseBackup.popString();
+            this.sendToWorker(this.connectorDeque.get(connector).getFirst());
 
         }
         else if (commandType.equals(WORKER_COMMAND_RESULT)) {

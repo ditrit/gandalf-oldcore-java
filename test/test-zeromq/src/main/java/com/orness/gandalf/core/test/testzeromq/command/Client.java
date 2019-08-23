@@ -12,13 +12,16 @@ public class Client {
     protected String identity;
 
     public Client() {
-        this.context = new ZContext();
-        this.backEndClient = this.context.createSocket(SocketType.DEALER);
+
     }
 
-    public void init(String[] backEndClientConnections, String identity) {
-        this.backEndClientConnections = backEndClientConnections;
+    public void init(String identity, String[] backEndClientConnections) {
+        this.context = new ZContext();
         this.identity = identity;
+        this.backEndClientConnections = backEndClientConnections;
+
+        this.backEndClient = this.context.createSocket(SocketType.DEALER);
+        this.backEndClient.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
         for(String connection : this.backEndClientConnections) {
             System.out.println("ClientZeroMQ connect to: " + connection);
             this.backEndClient.connect(connection);
