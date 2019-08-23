@@ -17,6 +17,7 @@ public class WorkerConfiguration {
     private ApplicationContext context;
     private GandalfProperties gandalfProperties;
     private GandalfRoutingWorker gandalfWorker;
+    private GandalfRoutingSubscriber gandalfSubscriber;
 
     @Autowired
     public WorkerConfiguration(ApplicationContext context, GandalfProperties gandalfProperties, GandalfRoutingWorker gandalfWorker) {
@@ -43,8 +44,6 @@ public class WorkerConfiguration {
     @Bean
     public void subscriberEvent() {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        GandalfRoutingSubscriber gandalfSubscriber = new GandalfRoutingSubscriber("TestSub", this.gandalfProperties.getSubscriberFrontEndConnection(), this.gandalfProperties.getWorkerBackEndConnection(), "test");
-
         taskExecutor.execute(this.gandalfSubscriber);
     }
 }

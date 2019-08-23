@@ -48,8 +48,7 @@ public class GandalfConfiguration {
 
     @Bean
     public void connectorGandalfWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        taskExecutor.execute((GandalfRoutingWorker) context.getBean("gandalfWorker"));
+        this.taskExecutor().execute((GandalfRoutingWorker) context.getBean("gandalfWorker"));
     }
 
     //    .-. .-')  _  .-')               .-. .-')     ('-.  _  .-')
@@ -64,9 +63,8 @@ public class GandalfConfiguration {
 
     @Bean
     public void brokerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         GandalfBrokerBean gandalfBrokerBean = (GandalfBrokerBean) context.getBean("gandalfBrokerBean");
-        taskExecutor.execute(gandalfBrokerBean);
+        this.taskExecutor().execute(gandalfBrokerBean);
     }
 
     //       _ (`-.  _  .-')              ) (`-.
@@ -81,8 +79,7 @@ public class GandalfConfiguration {
 
     @Bean
     public void proxyEvent() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
         GandalfProxyBean gandalfProxyBean = (GandalfProxyBean) context.getBean("gandalfProxyBean");
-        taskExecutor.execute(gandalfProxyBean);
+        this.taskExecutor().execute(gandalfProxyBean);
     }
 }

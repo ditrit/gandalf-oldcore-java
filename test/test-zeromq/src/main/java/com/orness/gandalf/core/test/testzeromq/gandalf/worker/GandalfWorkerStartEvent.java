@@ -4,17 +4,18 @@ import com.orness.gandalf.core.test.testzeromq.Constant;
 import com.orness.gandalf.core.test.testzeromq.command.RunnableWorker;
 import org.zeromq.ZMsg;
 
+import static com.orness.gandalf.core.test.testzeromq.Constant.WORKER_SERVICE_CLASS_EVENT_COMMON;
 import static com.orness.gandalf.core.test.testzeromq.gandalf.GandalfConstant.EVENT_COMMAND_START;
 
 public class GandalfWorkerStartEvent extends RunnableWorker {
 
-    public GandalfWorkerStartEvent(String frontEndCommandConnections) {
-       this.initRunnable(EVENT_COMMAND_START, frontEndCommandConnections);
+    public GandalfWorkerStartEvent(String frontEndWorkerConnections) {
+       this.initRunnable("TestWorkerEvent", WORKER_SERVICE_CLASS_EVENT_COMMON, frontEndWorkerConnections);
     }
 
     @Override
     public Constant.Result executeCommand(ZMsg request) {
-        System.out.println("EVENT START !!!");
+        System.out.println(this.workerServiceClassType + " START !!!");
         return Constant.Result.SUCCESS;
     }
 }

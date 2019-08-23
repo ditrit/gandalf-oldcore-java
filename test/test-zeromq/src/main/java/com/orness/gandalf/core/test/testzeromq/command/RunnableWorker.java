@@ -5,8 +5,8 @@ import org.zeromq.ZMsg;
 
 public abstract class RunnableWorker extends Worker implements Runnable {
 
-    public void initRunnable(String workerServiceClass, String workerServiceClassType, String frontEndCommandConnections) {
-        this.init(workerServiceClass, workerServiceClassType, frontEndCommandConnections);
+    public void initRunnable(String workerServiceClass, String workerServiceClassType, String frontEndWorkerConnections) {
+        this.init(workerServiceClass, workerServiceClassType, frontEndWorkerConnections);
     }
 
     @Override

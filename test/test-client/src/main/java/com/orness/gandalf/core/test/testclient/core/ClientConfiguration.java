@@ -10,9 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
-import static com.orness.gandalf.core.test.testzeromq.Constant.WORKER_COMMAND_EVENT;
-import static com.orness.gandalf.core.test.testzeromq.Constant.WORKER_COMMAND_SERVICE_GANDALF;
-import static com.orness.gandalf.core.test.testzeromq.gandalf.GandalfConstant.COMMAND_START;
+import static com.orness.gandalf.core.test.testzeromq.Constant.*;
 
 @Configuration
 @Order
@@ -32,7 +30,7 @@ public class ClientConfiguration {
     @Bean
     public void gandalfPublisherLoop() {
         while(true) {
-            this.gandalfPublisher.sendEvent("test", WORKER_COMMAND_EVENT, "TEST");
+            this.gandalfPublisher.sendEvent("test", "PrintTest", "TEST");
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
@@ -44,7 +42,7 @@ public class ClientConfiguration {
     @Bean
     public void gandalfClientLoop() {
         while(true) {
-            this.gandalfClient.sendCommand("test", WORKER_COMMAND_SERVICE_GANDALF, COMMAND_START, "test");
+            this.gandalfClient.sendCommand("test", "TestWorker", WORKER_SERVICE_CLASS_ADMIN, "PrintTest", "Client");
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
