@@ -12,14 +12,12 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Order
 public class WorkerConfiguration {
 
-    private ApplicationContext context;
     private GandalfProperties gandalfProperties;
     private GandalfRoutingWorker gandalfWorker;
     private GandalfRoutingSubscriber gandalfSubscriber;
 
     @Autowired
-    public WorkerConfiguration(ApplicationContext context, GandalfProperties gandalfProperties, GandalfRoutingWorker gandalfWorker, GandalfRoutingSubscriber gandalfSubscriber) {
-        this.context = context;
+    public WorkerConfiguration(GandalfProperties gandalfProperties, GandalfRoutingWorker gandalfWorker, GandalfRoutingSubscriber gandalfSubscriber) {
         this.gandalfProperties = gandalfProperties;
         this.gandalfWorker = gandalfWorker;
         this.gandalfSubscriber = gandalfSubscriber;

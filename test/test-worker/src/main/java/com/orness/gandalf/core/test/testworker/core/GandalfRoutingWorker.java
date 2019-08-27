@@ -6,8 +6,6 @@ import com.orness.gandalf.core.test.testzeromq.command.RunnableRoutingWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.orness.gandalf.core.test.testzeromq.Constant.WORKER_SERVICE_CLASS_ADMIN;
-
 @Component
 public class GandalfRoutingWorker extends RunnableRoutingWorker {
 
@@ -19,9 +17,10 @@ public class GandalfRoutingWorker extends RunnableRoutingWorker {
         this.gandalfProperties = gandalfProperties;
         this.mapper = new Gson();
         String[] connections = new String[3];
-        connections[0] = gandalfProperties.getRoutingWorkerFrontEndConnection1();
-        connections[1] = gandalfProperties.getRoutingWorkerFrontEndConnection2();
-        connections[2] = gandalfProperties.getRoutingWorkerFrontEndConnection3();
-        this.initRunnable(WORKER_SERVICE_CLASS_ADMIN, connections, this.gandalfProperties.getRoutingWorkerBackEndConnection());
+        connections[0] = this.gandalfProperties.getRoutingWorkerFrontEndConnection1();
+        connections[1] = this.gandalfProperties.getRoutingWorkerFrontEndConnection2();
+        connections[2] = this.gandalfProperties.getRoutingWorkerFrontEndConnection3();
+        System.out.println(connections);
+        this.initRunnable(this.gandalfProperties.getConnectorName(), connections, this.gandalfProperties.getRoutingWorkerBackEndConnection());
     }
 }

@@ -6,15 +6,14 @@ import static com.orness.gandalf.core.test.testzeromq.Constant.*;
 
 public abstract class RoutingWorker {
 
+    protected static final String ROUTING_TYPE = ROUTING_WORKER;
+
     protected ZContext context;
     protected static ZMQ.Socket frontEndRoutingWorker;
-    protected String[] frontEndRoutingWorkerConnections;
+    private String[] frontEndRoutingWorkerConnections;
     protected static ZMQ.Socket backEndRoutingWorker;
-    protected String backEndRoutingWorkerConnection; //IPC
+    private String backEndRoutingWorkerConnection; //IPC
     protected String routingWorkerConnector;
-
-    public RoutingWorker() {
-    }
 
     protected void init(String routingWorkerConnector, String[] frontEndRoutingWorkerConnections, String backEndRoutingWorkerConnection) {
         this.context = new ZContext();
@@ -37,7 +36,7 @@ public abstract class RoutingWorker {
         this.backEndRoutingWorker.bind(this.backEndRoutingWorkerConnection);
     }
 
-    protected void close() {
+    public void close() {
         this.frontEndRoutingWorker.close();
         this.backEndRoutingWorker.close();
         this.context.close();
@@ -49,11 +48,5 @@ public abstract class RoutingWorker {
         }
         this.init(this.routingWorkerConnector, this.frontEndRoutingWorkerConnections, this.backEndRoutingWorkerConnection);
         // Register service with broker
-        this.sendReadyCommand();
-    }
-
-    protected void sendReadyCommand() {
-        this.frontEndRoutingWorker.sendMore(WORKER_COMMAND_READY);
-        this.frontEndRoutingWorker.send(this.routingWorkerConnector);
     }
 }

@@ -11,15 +11,15 @@ import static com.orness.gandalf.core.test.testzeromq.Constant.*;
 public abstract class RunnableRoutingWorker extends RoutingWorker implements Runnable {
 
     protected Gson mapper;
-    private Map<String, Deque<ZMsg>> serviceClassWorkerDeque;
+    private Map<String, LinkedList<ZMsg>> serviceClassZMsgLinkedList;
 
     public RunnableRoutingWorker() {
         super();
         mapper = new Gson();
-        this.serviceClassWorkerDeque = new HashMap<>();
+        this.serviceClassZMsgLinkedList = new HashMap<>();
     }
 
-    public void initRunnable(String routingWorkerConnector, String[] frontEndWorkerConnections, String backEndWorkerConnection) {
+    protected void initRunnable(String routingWorkerConnector, String[] frontEndWorkerConnections, String backEndWorkerConnection) {
         this.init(routingWorkerConnector, frontEndWorkerConnections, backEndWorkerConnection);
     }
 
@@ -33,90 +33,123 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
 
         ZMsg request;
         ZMsg response;
+        boolean more = false;
 
         // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
+            poller.poll();
+
             //Client
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive broker message
                     request = ZMsg.recvMsg(this.frontEndRoutingWorker);
-                    System.out.println("POLL 0");
+                    more = this.frontEndRoutingWorker.hasReceiveMore();
                     System.out.println(request);
+                    System.out.println(more);
+
                     if (request == null) {
                         break; // Interrupted
                     }
-                    // Broker it
-                    this.processBrokerRequest(request);
+
+                    this.processRequest(request);
+
+                    if(!more) {
+                        break;
+                    }
                 }
             }
+
             //Worker
             if (poller.pollin(1)) {
                 while (true) {
                     // Receive command message
                     response = ZMsg.recvMsg(this.backEndRoutingWorker);
-                    System.out.println("POLL 1");
+                    more = this.backEndRoutingWorker.hasReceiveMore();
                     System.out.println(response);
+                    System.out.println(more);
+
                     if (response == null) {
                         break; // Interrupted
                     }
-                    // Broker it
-                    this.processWorkerResponse(response);
+
+                    this.processResponse(response);
+
+                    if(!more) {
+                        break;
+                    }
                 }
             }
-            poller.close();
         }
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
+            poller.close();
             this.close(); // interrupted
         }
     }
 
-    private void processBrokerRequest(ZMsg request) {
+    private void processRequest(ZMsg request) {
         ZMsg requestBackup = request.duplicate();
-        String uuid = requestBackup.popString();
         String client = requestBackup.popString();
+        String uuid = requestBackup.popString();
         String connector = requestBackup.popString();
         String serviceClass = requestBackup.popString();
-        this.serviceClassWorkerDeque.get(serviceClass).addLast(request);
+
+        request = this.addHeaderToWorker(request, serviceClass);
+        this.getServiceClassZMsgLinkedList(serviceClass).add(request.duplicate());
+        requestBackup.destroy();
+        request.destroy();
     }
 
-    private void processWorkerResponse(ZMsg response) {
+    private void processResponse(ZMsg response) {
         ZMsg responseBackup = response.duplicate();
+        String serviceClass = responseBackup.popString();
         String commandType = responseBackup.popString();
-        String uuid = responseBackup.popString();
-        String client = responseBackup.popString();
-        String connector = responseBackup.popString();
-        String serviceClass;
-        if (commandType.equals(COMMAND_COMMAND_READY)) {
-            serviceClass = responseBackup.popString();
-            if(this.serviceClassWorkerDeque.containsKey(serviceClass)) {
-                if(this.serviceClassWorkerDeque.get(serviceClass).getFirst() != null) {
-                    this.sendToWorker(this.serviceClassWorkerDeque.get(serviceClass).getFirst());
-                }
-            }
-            else {
-                this.serviceClassWorkerDeque.put(serviceClass, new ArrayDeque<>());
+        responseBackup.destroy();
+        if(commandType.equals(COMMAND_COMMAND_READY)) {
+            if(!this.getServiceClassZMsgLinkedList(serviceClass).isEmpty()) {
+                this.sendToWorker(this.getServiceClassZMsgLinkedList(serviceClass).poll());
             }
         }
-        else if (commandType.equals(WORKER_COMMAND_RESULT)) {
+        else if(commandType.equals(COMMAND_COMMAND_RESULT)) {
+            response = this.removeHeaderFromWorker(response);
             this.sendToBroker(response);
-            this.sendReadyCommand();
         }
         else {
             System.out.println("E: invalid message");
         }
-        //TODO
-        //msg.destroy();
+        response.destroy();
     }
 
-    public void sendToWorker(ZMsg request) {
+    private LinkedList<ZMsg> getServiceClassZMsgLinkedList(String serviceClass) {
+        if(!this.serviceClassZMsgLinkedList.containsKey(serviceClass)) {
+            this.serviceClassZMsgLinkedList.put(serviceClass, new LinkedList<>());
+        }
+        return this.serviceClassZMsgLinkedList.get(serviceClass);
+    }
+
+    private ZMsg addHeaderToWorker(ZMsg request, String serviceClass) {
+        request.addFirst(this.ROUTING_TYPE);
+        request.addFirst(serviceClass);
+        return request;
+    }
+
+    private ZMsg removeHeaderFromWorker(ZMsg response) {
+        response.removeFirst();
+        return response;
+    }
+
+    private void sendToWorker(ZMsg request) {
         //Command
+        System.out.println("SEND REQ");
+        System.out.println(request);
         request.send(this.backEndRoutingWorker);
     }
 
-    public void sendToBroker(ZMsg response) {
+    private void sendToBroker(ZMsg response) {
         //Worker
+        System.out.println("SEND REP");
+        System.out.println(response);
         response.send(this.frontEndRoutingWorker);
     }
 }

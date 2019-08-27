@@ -9,27 +9,24 @@ import static com.orness.gandalf.core.test.testzeromq.Constant.*;
 
 public abstract class Worker {
 
-    private ZContext context;
+    protected ZContext context;
     protected static ZMQ.Socket frontEndWorker;
     //TODO MULTIPLE
     protected String frontEndWorkerConnections; //IPC
     protected String workerServiceClass;
-    protected String workerServiceClassType;
 
-    public Worker() {
-    }
-
-    protected void init(String workerServiceClass, String workerServiceClassType, String frontEndWorkerConnections) {
+    protected void init(String workerServiceClass, String frontEndWorkerConnections) {
         this.context = new ZContext();
         this.workerServiceClass = workerServiceClass;
-        this.workerServiceClassType = workerServiceClassType;
+        //this.workerServiceClassType = workerServiceClassType;
 
-        //Broker
+        //Worker
         this.frontEndWorker = this.context.createSocket(SocketType.DEALER);
         this.frontEndWorker.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
         this.frontEndWorkerConnections = frontEndWorkerConnections;
-        System.out.println("WorkerZeroMQ connect to: " + frontEndWorkerConnections);
-        this.frontEndWorker.connect(frontEndWorkerConnections);
+        System.out.println("WorkerZeroMQ connect to: " + this.frontEndWorkerConnections);
+        this.frontEndWorker.connect(this.frontEndWorkerConnections);
+
     }
 
     protected void close() {
@@ -37,29 +34,17 @@ public abstract class Worker {
         this.context.close();
     }
 
-    protected void reconnectToRoutingWorker() {
-        if (this.frontEndWorker != null) {
-            this.context.destroySocket(frontEndWorker);
-        }
-        this.init(this.workerServiceClass, this.workerServiceClassType, this.frontEndWorkerConnections);
-
-        // Register service with broker
-        this.sendReadyCommand();
-    }
-
     protected void sendReadyCommand() {
-        this.frontEndWorker.sendMore(COMMAND_COMMAND_READY);
-        this.frontEndWorker.send(this.workerServiceClass);
+        ZMsg ready = new ZMsg();
+        ready.add(COMMAND_COMMAND_READY);
+        ready.send(this.frontEndWorker);
+        ready.destroy();
     }
 
     protected void sendResultCommand(ZMsg request, String result) {
         request.addFirst(COMMAND_COMMAND_RESULT);
         request.addLast(result);
         request.send(this.frontEndWorker);
-        this.sendReadyCommand();
     }
 
-    protected ZMsg receiveCommand() {
-        return ZMsg.recvMsg(this.frontEndWorker);
-    }
 }

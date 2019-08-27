@@ -7,12 +7,12 @@ import org.zeromq.ZMQ.Socket;
 
 public class Proxy {
 
-    public static Socket frontEndEvent;
+    protected static Socket frontEndEvent;
     private String frontEndEventConnection;
-    public static Socket backEndEvent;
+    protected static Socket backEndEvent;
     private String backEndEventConnection;
     private ZContext context;
-    public static ZMQ.Socket backEndEventCapture;
+    protected static ZMQ.Socket backEndEventCapture;
     private String backEndCaptureEventConnection;
 
     public Proxy(String frontEndEventConnection, String backEndEventConnection, String backEndCaptureEventConnection) {
@@ -22,7 +22,7 @@ public class Proxy {
         this.open();
     }
 
-    public void open() {
+    protected void open() {
         this.context = new ZContext();
 
         // Publisher
@@ -34,11 +34,13 @@ public class Proxy {
         System.out.println("ProxySubscriberZeroMQ binding to backEndEventConnection: " + this.backEndEventConnection);
         this.backEndEvent.bind(this.backEndEventConnection);
         //Capture
-        this.backEndEventCapture = this.context.createSocket(SocketType.DEALER);
+        //TODO
+      /*  this.backEndEventCapture = this.context.createSocket(SocketType.DEALER);
         System.out.println("BrokerCaptureZeroMQ binding to backEndCaptureEventConnection: " + this.backEndCaptureEventConnection);
-        this.backEndEventCapture.bind(this.backEndCaptureEventConnection);
+        this.backEndEventCapture.bind(this.backEndCaptureEventConnection);*/
         // Run the proxy
-        ZMQ.proxy(this.frontEndEvent, this.backEndEvent,  this.backEndEventCapture);
+        //ZMQ.proxy(this.frontEndEvent, this.backEndEvent,  this.backEndEventCapture);
+        ZMQ.proxy(this.frontEndEvent, this.backEndEvent,  null);
 
         this.close();
     }

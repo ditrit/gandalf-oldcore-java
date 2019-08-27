@@ -2,11 +2,12 @@ package com.orness.gandalf.core.test.testclient.core;
 
 import com.orness.gandalf.core.test.testclient.properties.GandalfProperties;
 import com.orness.gandalf.core.test.testzeromq.command.Client;
+import com.orness.gandalf.core.test.testzeromq.command.RunnableClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GandalfClient extends Client {
+public class GandalfClient extends RunnableClient {
 
     private GandalfProperties gandalfProperties;
 
@@ -18,16 +19,10 @@ public class GandalfClient extends Client {
         connections[0] = this.gandalfProperties.getClientBackEndConnection1();
         connections[1] = this.gandalfProperties.getClientBackEndConnection2();
         connections[2] = this.gandalfProperties.getClientBackEndConnection3();
-        this.init(this.gandalfProperties.getConnectorName(), connections);
+        System.out.println(this.gandalfProperties.getConnectorName());
+        this.initRunnable(this.gandalfProperties.getConnectorName(), connections);
     }
 
 
-    public void sendCommand(String uuid, String connector, String serviceClass, String command, String payload) {
-        this.backEndClient.sendMore(uuid);
-        this.backEndClient.sendMore(this.identity);
-        this.backEndClient.sendMore(connector);
-        this.backEndClient.sendMore(serviceClass);
-        this.backEndClient.sendMore(command);
-        this.backEndClient.send(payload);
-    }
+
 }

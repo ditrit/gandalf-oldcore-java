@@ -6,7 +6,7 @@ import org.zeromq.ZMQ;
 
 public class Client {
 
-    private ZContext context;
+    protected ZContext context;
     protected ZMQ.Socket backEndClient;
     private String[] backEndClientConnections;
     protected String identity;
@@ -15,7 +15,7 @@ public class Client {
 
     }
 
-    public void init(String identity, String[] backEndClientConnections) {
+    protected void init(String identity, String[] backEndClientConnections) {
         this.context = new ZContext();
         this.identity = identity;
 
@@ -32,6 +32,14 @@ public class Client {
     public void close() {
         this.backEndClient.close();
         this.context.close();
+    }
+
+    public void sendCommand(String uuid, String connector, String serviceClass, String command, String payload) {
+        this.backEndClient.sendMore(uuid);
+        this.backEndClient.sendMore(connector);
+        this.backEndClient.sendMore(serviceClass);
+        this.backEndClient.sendMore(command);
+        this.backEndClient.send(payload);
     }
 
 }

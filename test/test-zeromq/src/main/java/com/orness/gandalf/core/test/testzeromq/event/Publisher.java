@@ -11,11 +11,7 @@ public class Publisher {
     protected String backEndPublisherConnection;
     protected String identity;
 
-    public Publisher() {
-
-    }
-
-    public void init(String identity, String backEndPublisherConnection) {
+    protected void init(String identity, String backEndPublisherConnection) {
         this.context = new ZContext();
         this.identity = identity;
         //Proxy

@@ -2,6 +2,7 @@ package com.orness.gandalf.core.test.testzeromq.command;
 
 import org.zeromq.*;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,19 +18,17 @@ public class Broker {
     public static ZMQ.Socket backEndCommandCapture;
     private String backEndCaptureCommandConnection;
     private ZContext context;
-    private Map<String, Deque<ZMsg>> connectorDeque;
 
     public Broker(String frontEndCommandConnection, String backEndCommandConnection, String backEndCaptureCommandConnection) {
 
         this.frontEndCommandConnection = frontEndCommandConnection;
         this.backEndCommandConnection = backEndCommandConnection;
         this.backEndCaptureCommandConnection = backEndCaptureCommandConnection;
-        this.connectorDeque = new HashMap<>();
         this.open();
         this.run();
     }
 
-    public void open() {
+    protected void open() {
 
         this.context = new ZContext();
 
@@ -43,13 +42,14 @@ public class Broker {
         System.out.println("BrokerClientZeroMQ binding to backEndCommandConnection: " + this.backEndCommandConnection);
         this.backEndCommand.bind(this.backEndCommandConnection);
 
-        //Capture EndPoint
+        //TODO
+/*        //Capture EndPoint
         this.backEndCommandCapture = this.context.createSocket(SocketType.DEALER);
         System.out.println("BrokerCaptureZeroMQ binding to backEndCaptureCommandConnection: " + this.backEndCaptureCommandConnection);
-        this.backEndCommandCapture.bind(this.backEndCaptureCommandConnection);
+        this.backEndCommandCapture.bind(this.backEndCaptureCommandConnection);*/
     }
 
-    public void run() {
+    protected void run() {
 
         // Initialize poll set
         ZMQ.Poller poller = context.createPoller(2);
@@ -58,22 +58,31 @@ public class Broker {
 
         ZMsg request;
         ZMsg response;
+        boolean more = false;
 
         // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
+            poller.poll();
 
             //Client
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive client message
                     request = ZMsg.recvMsg(this.frontEndCommand);
-                    System.out.println("POLL 0");
+                    more = this.frontEndCommand.hasReceiveMore();
                     System.out.println(request);
+                    System.out.println(more);
+
                     if (request == null) {
                         break; // Interrupted
                     }
+
                     // Broker it
-                    this.processRequest(request);
+                    this.sendToRoutingWorker(request);
+
+                    if(!more) {
+                        break;
+                    }
                 }
             }
 
@@ -82,13 +91,29 @@ public class Broker {
                 while (true) {
                     // Receive worker message
                     response = ZMsg.recvMsg(this.backEndCommand);
-                    System.out.println("POLL 0");
+                    more = this.backEndCommand.hasReceiveMore();
+                    ZMsg responseBackup = response.duplicate();
                     System.out.println(response);
+                    System.out.println(more);
+
                     if (response == null) {
                         break; // Interrupted
                     }
+
                     // Broker it
-                   this.processResponse(response);
+                    String connector = responseBackup.popString();
+                    String commandType = responseBackup.popString();
+                    if (commandType.equals(COMMAND_COMMAND_RESULT)) {
+                        this.sendToClient(response);
+                    }
+                    else {
+                        System.out.println("E: invalid message");
+                    }
+                    response.destroy();
+
+                    if(!more) {
+                        break;
+                    }
                 }
             }
         }
@@ -107,47 +132,46 @@ public class Broker {
         this.context.destroy();
     }
 
-    private void processRequest(ZMsg request) {
+
+    private void processResponse(ZMsg response) {
+
+    }
+
+    protected void sendToRoutingWorker(ZMsg request) {
         ZMsg requestBackup = request.duplicate();
         String uuid = requestBackup.popString();
         String client = requestBackup.popString();
         String connector = requestBackup.popString();
-        this.connectorDeque.get(connector).addLast(request);
-    }
-
-    private void processResponse(ZMsg response) {
-        ZMsg responseBackup = response.duplicate();
-        String commandType = responseBackup.popString();
-        String uuid = responseBackup.popString();
-        String client = responseBackup.popString();
-        String connector;
-        if (commandType.equals(WORKER_COMMAND_READY)) {
-            connector = responseBackup.popString();
-            this.sendToWorker(this.connectorDeque.get(connector).getFirst());
-        }
-        else if (commandType.equals(WORKER_COMMAND_RESULT)) {
-            this.sendToClient(response);
-        }
-        else {
-            System.out.println("E: invalid message");
-        }
-        //TODO
-        //msg.destroy();
-    }
-
-    public void sendToWorker(ZMsg request) {
-        ZMsg requestCapture = request.duplicate();
         //Capture
-        requestCapture.send(this.backEndCommandCapture);
+        //TODO
+        //requestCapture.send(this.backEndCommandCapture);
         //Worker
+        request= this.addHeaderToRoutingWorker(request, connector);
+        requestBackup.destroy();
+        System.out.println("REQ " + request);
         request.send(this.backEndCommand);
     }
 
-    public void sendToClient(ZMsg response) {
+    private ZMsg addHeaderToRoutingWorker(ZMsg request, String connector) {
+        request.addFirst(connector);
+        return request;
+    }
+
+    //TODO
+    protected void sendToClient(ZMsg response) {
         ZMsg responseCapture = response.duplicate();
         //Capture
-        responseCapture.send(this.backEndCommandCapture);
+        //TODO
+        //responseCapture.send(this.backEndCommandCapture);
         //Client
+        response = this.removeHeaderToClient(response);
+        System.out.println("REP " + response);
         response.send(this.frontEndCommand);
+    }
+
+    private ZMsg removeHeaderToClient(ZMsg response) {
+        response.removeFirst();
+        response.removeFirst();
+        return response;
     }
 }

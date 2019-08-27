@@ -4,7 +4,12 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
+import static com.orness.gandalf.core.test.testzeromq.Constant.ROUTING_SUBSCRIBER;
+import static com.orness.gandalf.core.test.testzeromq.Constant.ROUTING_WORKER;
+
 public class RoutingSubscriber {
+
+    protected static final String ROUTING_TYPE = ROUTING_SUBSCRIBER;
 
     protected ZContext context;
     protected ZMQ.Socket frontEndRoutingSubscriber;
@@ -12,10 +17,6 @@ public class RoutingSubscriber {
     protected ZMQ.Socket backEndRoutingSubscriber;
     protected String backEndRoutingSubscriberConnection;
     protected String routingSubscriberConnector;
-
-    public RoutingSubscriber() {
-
-    }
 
     protected void init(String routingSubscriberConnector, String frontEndRoutingSubscriberConnection, String backEndSubscriberConnection) {
         this.context = new ZContext();

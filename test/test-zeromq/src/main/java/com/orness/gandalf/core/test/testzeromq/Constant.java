@@ -7,6 +7,10 @@ public class Constant {
         FAIL
     }
 
+    //COMMAND ROUTING WORKER TYPE
+    public static final String ROUTING_WORKER = "ROUTING_WORKER";
+    public static final String ROUTING_SUBSCRIBER = "ROUTING_SUBSCRIBER";
+
     //COMMAND WORKER
     public static final String WORKER_COMMAND_READY = "WORKER_COMMAND_READY";
     public static final String WORKER_COMMAND_RESULT = "WORKER_COMMAND_RESULT";

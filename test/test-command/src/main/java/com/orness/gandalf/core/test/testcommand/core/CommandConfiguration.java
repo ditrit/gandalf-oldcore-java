@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import static com.orness.gandalf.core.test.testzeromq.Constant.WORKER_SERVICE_CLASS_ADMIN;
+
 @Configuration
 @Order
 public class CommandConfiguration {
@@ -26,14 +28,8 @@ public class CommandConfiguration {
     }
 
     @Bean
-    public void gandalfWorkerCommand() {
-        GandalfWorkerStartWorker gandalfWorkerStartWorker = new GandalfWorkerStartWorker(this.gandalfProperties.getRoutingWorkerBackEndConnection());
-        this.taskExecutor().execute(gandalfWorkerStartWorker);
-    }
-
-    @Bean
     public void gandalfWorkerEvent() {
-        GandalfWorkerStartEvent gandalfWorkerStartEvent = new GandalfWorkerStartEvent(this.gandalfProperties.getRoutingSubscriberBackEndConnection());
-        this.taskExecutor().execute(gandalfWorkerStartEvent);
+        GandalfWorker gandalfWorker = new GandalfWorker(WORKER_SERVICE_CLASS_ADMIN, this.gandalfProperties.getRoutingWorkerBackEndConnection());
+        this.taskExecutor().execute(gandalfWorker);
     }
 }
