@@ -1,7 +1,6 @@
 package com.orness.gandalf.core.module.gandalfmodule.communication.event;
 
 import com.orness.gandalf.core.module.zeromqmodule.event.domain.MessageEventZeroMQ;
-import com.orness.gandalf.core.module.zeromqmodule.event.subscriber.RunnableSubscriberZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.event.worker.RunnableWorkerEventZeroMQ;
 
 import java.util.ArrayList;

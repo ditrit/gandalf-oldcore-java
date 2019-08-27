@@ -2,7 +2,7 @@ package com.orness.gandalf.core.module.gandalfmodule.communication.event;
 
 import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.zeromqmodule.event.domain.EventZeroMQ;
-import com.orness.gandalf.core.module.zeromqmodule.event.publisher.PublisherZeroMQ;
+import com.orness.gandalf.core.module.zeromqmodule.event.client.PublisherZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

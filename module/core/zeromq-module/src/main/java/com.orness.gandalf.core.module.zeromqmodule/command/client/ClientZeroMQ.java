@@ -1,38 +1,45 @@
 package com.orness.gandalf.core.module.zeromqmodule.command.client;
 
-import org.zeromq.*;
+import org.zeromq.SocketType;
+import org.zeromq.ZContext;
+import org.zeromq.ZMQ;
 
-import java.util.Random;
+public class ClientZeroMQ {
 
-public abstract class ClientZeroMQ {
-
-    private static Random rand = new Random(System.nanoTime());
-    private String connection;
-    private ZContext context;
-    protected ZMQ.Socket client;
+    protected ZContext context;
+    protected ZMQ.Socket backEndClient;
+    private String[] backEndClientConnections;
     protected String identity;
 
-    protected void setConnection(String connection) {
-        this.connection = connection;
-    }
-
     public ClientZeroMQ() {
-        //this.connection = connection;
-        this.context = new ZContext();
-        this.client = this.context.createSocket(SocketType.REQ);
-        this.identity = String.format("%04X-%04X", rand.nextInt(), rand.nextInt());
-        this.client.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
-        //this.connect();
+
     }
 
-    public void connect(String connection) {
-        this.setConnection(connection);
-        System.out.println("ClientZeroMQ connect to: " + this.connection);
-        this.client.connect(this.connection);
+    protected void init(String identity, String[] backEndClientConnections) {
+        this.context = new ZContext();
+        this.identity = identity;
+
+        //Broker
+        this.backEndClient = this.context.createSocket(SocketType.DEALER);
+        this.backEndClient.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
+        this.backEndClientConnections = backEndClientConnections;
+        for(String connection : this.backEndClientConnections) {
+            System.out.println("ClientZeroMQ connect to: " + connection);
+            this.backEndClient.connect(connection);
+        }
     }
 
     public void close() {
-        this.client.close();
+        this.backEndClient.close();
         this.context.close();
     }
+
+    public void sendCommand(String uuid, String connector, String serviceClass, String command, String payload) {
+        this.backEndClient.sendMore(uuid);
+        this.backEndClient.sendMore(connector);
+        this.backEndClient.sendMore(serviceClass);
+        this.backEndClient.sendMore(command);
+        this.backEndClient.send(payload);
+    }
+
 }
