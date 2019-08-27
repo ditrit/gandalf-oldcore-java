@@ -4,24 +4,18 @@ import com.google.gson.Gson;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
-import java.util.List;
-
 public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implements Runnable {
 
     protected Gson mapper;
-    private List<String> topics;
 
     public RunnableRoutingSubscriber() {
         super();
         mapper = new Gson();
     }
 
-    protected void initRunnable(String routingSubscriberConnector, String frontEndRoutingSubcriberConnection, String backEndRoutingSubscriberConnection, List<String> topics) {
+    protected void initRunnable(String routingSubscriberConnector, String frontEndRoutingSubcriberConnection, String backEndRoutingSubscriberConnection) {
         this.init(routingSubscriberConnector, frontEndRoutingSubcriberConnection, backEndRoutingSubscriberConnection);
-        this.topics = topics;
-        for(String topic : this.topics) {
-            this.frontEndRoutingSubscriber.subscribe(topic.getBytes());
-        }
+        this.frontEndRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
     }
 
     @Override
@@ -63,12 +57,6 @@ public abstract class RunnableRoutingSubscriber extends RoutingSubscriber implem
 
     public void sendToWorker(ZMsg publish) {
         //Command
-        publish.addFirst(this.ROUTING_TYPE);
         publish.send(this.backEndRoutingSubscriber);
-    }
-
-    public void addTopic(String topic) {
-        this.topics.add(topic);
-        this.frontEndRoutingSubscriber.subscribe(topic.getBytes());
     }
 }

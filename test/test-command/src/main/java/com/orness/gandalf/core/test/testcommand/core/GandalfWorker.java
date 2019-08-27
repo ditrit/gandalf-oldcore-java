@@ -4,10 +4,12 @@ import com.orness.gandalf.core.test.testzeromq.Constant;
 import com.orness.gandalf.core.test.testzeromq.command.RunnableWorker;
 import org.zeromq.ZMsg;
 
+import java.util.List;
+
 public class GandalfWorker extends RunnableWorker {
 
-    public GandalfWorker(String workerServiceClass, String frontEndWorkerConnections) {
-       this.initRunnable(workerServiceClass, frontEndWorkerConnections);
+    public GandalfWorker(String workerServiceClass, String frontEndWorkerConnections, String frontEndSubscriberWorkerConnections, List<String> topics) {
+        this.initRunnable(workerServiceClass, frontEndWorkerConnections, frontEndSubscriberWorkerConnections, topics);
     }
 
     @Override

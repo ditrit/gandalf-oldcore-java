@@ -129,7 +129,6 @@ public abstract class RunnableRoutingWorker extends RoutingWorker implements Run
     }
 
     private ZMsg addHeaderToWorker(ZMsg request, String serviceClass) {
-        request.addFirst(this.ROUTING_TYPE);
         request.addFirst(serviceClass);
         return request;
     }

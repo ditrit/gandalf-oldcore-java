@@ -29,7 +29,7 @@ public class CommandConfiguration {
 
     @Bean
     public void gandalfWorkerEvent() {
-        GandalfWorker gandalfWorker = new GandalfWorker(WORKER_SERVICE_CLASS_ADMIN, this.gandalfProperties.getRoutingWorkerBackEndConnection());
+        GandalfWorker gandalfWorker = new GandalfWorker(WORKER_SERVICE_CLASS_ADMIN, this.gandalfProperties.getRoutingWorkerBackEndConnection(),  this.gandalfProperties.getRoutingSubscriberBackEndConnection(), this.gandalfProperties.getTopics());
         this.taskExecutor().execute(gandalfWorker);
     }
 }

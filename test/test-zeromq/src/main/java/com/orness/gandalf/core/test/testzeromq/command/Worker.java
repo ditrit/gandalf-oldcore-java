@@ -10,12 +10,14 @@ import static com.orness.gandalf.core.test.testzeromq.Constant.*;
 public abstract class Worker {
 
     protected ZContext context;
-    protected static ZMQ.Socket frontEndWorker;
     //TODO MULTIPLE
+    protected static ZMQ.Socket frontEndWorker;
     protected String frontEndWorkerConnections; //IPC
+    protected static ZMQ.Socket frontEndSubscriberWorker;
+    protected String frontEndSubscriberWorkerConnections; //IPC
     protected String workerServiceClass;
 
-    protected void init(String workerServiceClass, String frontEndWorkerConnections) {
+    protected void init(String workerServiceClass, String frontEndWorkerConnections, String frontEndSubscriberWorkerConnections) {
         this.context = new ZContext();
         this.workerServiceClass = workerServiceClass;
         //this.workerServiceClassType = workerServiceClassType;
@@ -27,10 +29,18 @@ public abstract class Worker {
         System.out.println("WorkerZeroMQ connect to: " + this.frontEndWorkerConnections);
         this.frontEndWorker.connect(this.frontEndWorkerConnections);
 
+        //Worker
+        this.frontEndSubscriberWorker = this.context.createSocket(SocketType.SUB);
+        this.frontEndSubscriberWorker.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
+        this.frontEndSubscriberWorkerConnections = frontEndSubscriberWorkerConnections;
+        System.out.println("WorkerZeroMQ connect to: " + this.frontEndSubscriberWorkerConnections);
+        this.frontEndSubscriberWorker.connect(this.frontEndSubscriberWorkerConnections);
+
     }
 
     protected void close() {
         this.frontEndWorker.close();
+        this.frontEndSubscriberWorker.close();
         this.context.close();
     }
 

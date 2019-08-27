@@ -33,7 +33,21 @@ public class ClientConfiguration {
         return pool;
     }
 
-
+    @Bean
+    public void gandalfLoop() {
+        while(true) {
+            //System.out.println("Sending test/PrintTest/TEST");
+            //this.gandalfPublisher.sendEvent("test", "PrintTest", "TEST");
+            System.out.println("Sending test/TestWorker/ADMIN/PrintTest/Client");
+            this.gandalfPublisher.sendEvent("test", "test", "test");
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+/*
     @Bean
     public void gandalfLoop() {
         this.taskExecutor().execute(this.gandalfClient);
@@ -50,5 +64,5 @@ public class ClientConfiguration {
             System.out.println("LAST REP");
             System.out.println(this.gandalfClient.getLastReponses());
         }
-    }
+    }*/
 }

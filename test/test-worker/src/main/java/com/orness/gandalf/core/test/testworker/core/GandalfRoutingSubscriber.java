@@ -17,6 +17,6 @@ public class GandalfRoutingSubscriber extends RunnableRoutingSubscriber {
         this.gandalfProperties = gandalfProperties;
         this.mapper = new Gson();
         System.out.println(gandalfProperties.getTopics());
-        this.initRunnable(this.gandalfProperties.getConnectorName(), this.gandalfProperties.getRoutingSubscriberFrontEndConnection(), this.gandalfProperties.getRoutingSubscriberBackEndConnection(), this.gandalfProperties.getTopics());
+        this.initRunnable(this.gandalfProperties.getConnectorName(), this.gandalfProperties.getRoutingSubscriberFrontEndConnection(), this.gandalfProperties.getRoutingSubscriberBackEndConnection());
     }
 }

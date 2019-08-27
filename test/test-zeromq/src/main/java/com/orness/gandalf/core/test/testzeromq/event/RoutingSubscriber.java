@@ -27,7 +27,7 @@ public class RoutingSubscriber {
         System.out.println("SubscriberZeroMQ connect to frontEndRoutingSubscriberConnection: " + this.frontEndRoutingSubscriberConnection);
         this.frontEndRoutingSubscriber.connect(this.frontEndRoutingSubscriberConnection);
         //Worker
-        this.backEndRoutingSubscriber = this.context.createSocket(SocketType.ROUTER);
+        this.backEndRoutingSubscriber = this.context.createSocket(SocketType.XPUB);
         this.backEndRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
         this.backEndRoutingSubscriberConnection = backEndSubscriberConnection;
         System.out.println("WorkerZeroMQ binding to backEndRoutingSubscriberConnection: " + this.backEndRoutingSubscriberConnection);
