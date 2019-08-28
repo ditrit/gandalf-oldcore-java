@@ -1,25 +1,25 @@
 package com.orness.gandalf.core.module.gitlabmodule.normative.worker;
 
 import com.google.gson.Gson;
-import com.orness.gandalf.core.module.gitlabmodule.normative.manager.GitlabCommonManager;
+import com.orness.gandalf.core.module.gitlabmodule.normative.manager.GitlabNormativeManagerConnector;
 import com.orness.gandalf.core.module.gitlabmodule.core.GitlabCommand;
 import com.orness.gandalf.core.module.gitlabmodule.core.properties.GitlabProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.routing.RunnableRoutingRoutingWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.orness.gandalf.core.module.versioncontrolmodule.constant.VersionControlConstant.*;
+import static com.orness.gandalf.core.module.versioncontrolmodule.constant.ConnectorVersionControlConstant.*;
 
 //TODO ARGS
 public class GitlabCommonRoutingRoutingWorkerCommand extends RunnableRoutingRoutingWorkerZeroMQ {
 
 
-    private GitlabCommonManager gitlabCommonManager;
+    private GitlabNormativeManagerConnector gitlabCommonManager;
     private GitlabProperties gitlabProperties;
     private Gson mapper;
 
     @Autowired
-    public GitlabCommonRoutingRoutingWorkerCommand(GitlabCommonManager gitlabCommonManager, GitlabProperties gitlabProperties) {
+    public GitlabCommonRoutingRoutingWorkerCommand(GitlabNormativeManagerConnector gitlabCommonManager, GitlabProperties gitlabProperties) {
         super();
         this.gitlabCommonManager = gitlabCommonManager;
         this.gitlabProperties = gitlabProperties;

@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.kafkamodule.core.config;
 
-import com.orness.gandalf.core.module.busmodule.core.properties.BusProperties;
+import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusProperties;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,17 +15,17 @@ import java.util.Map;
 @Profile(value = "kafka-module")
 public class KafkaConfiguration {
 
-    private BusProperties busProperties;
+    private ConnectorBusProperties connectorBusProperties;
 
     @Autowired
-    public KafkaConfiguration(BusProperties busProperties) {
-        this.busProperties = busProperties;
+    public KafkaConfiguration(ConnectorBusProperties connectorBusProperties) {
+        this.connectorBusProperties = connectorBusProperties;
     }
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, this.busProperties.getBus());
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, this.connectorBusProperties.getBus());
         return new KafkaAdmin(configs);
     }
 }

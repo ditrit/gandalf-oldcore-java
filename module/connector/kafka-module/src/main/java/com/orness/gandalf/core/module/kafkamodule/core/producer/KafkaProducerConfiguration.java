@@ -1,11 +1,9 @@
 package com.orness.gandalf.core.module.kafkamodule.core.producer;
 
-import com.orness.gandalf.core.module.busmodule.core.properties.BusProperties;
-import com.orness.gandalf.core.module.kafkamodule.core.properties.KafkaProperties;
+import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusProperties;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -21,17 +19,17 @@ import java.util.Map;
 @Profile(value = "kafka-module")
 public class KafkaProducerConfiguration {
 
-    private BusProperties busProperties;
+    private ConnectorBusProperties connectorBusProperties;
 
     @Autowired
-    public KafkaProducerConfiguration(BusProperties busProperties) {
-        this.busProperties = busProperties;
+    public KafkaProducerConfiguration(ConnectorBusProperties connectorBusProperties) {
+        this.connectorBusProperties = connectorBusProperties;
     }
 
     @Bean
     public ProducerFactory<String, Object> kafkaProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, busProperties.getBus());
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, connectorBusProperties.getBus());
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);

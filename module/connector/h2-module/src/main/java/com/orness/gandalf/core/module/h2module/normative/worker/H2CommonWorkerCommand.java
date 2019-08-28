@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.h2module.normative.worker;
 
-import com.orness.gandalf.core.module.h2module.normative.manager.H2CommonManager;
+import com.orness.gandalf.core.module.h2module.normative.manager.H2NormativeManagerConnector;
 import com.orness.gandalf.core.module.h2module.core.H2Command;
 import com.orness.gandalf.core.module.h2module.core.properties.H2Properties;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
@@ -8,16 +8,16 @@ import com.orness.gandalf.core.module.zeromqmodule.event.worker.RunnableWorkerEv
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import static com.orness.gandalf.core.module.databasemodule.constant.DatabaseConstant.*;
+import static com.orness.gandalf.core.module.databasemodule.constant.ConnectorDatabaseConstant.*;
 
 @Component(value = "commonWorkerCommand")
 @Profile(value = "h2-module")
 public class H2CommonWorkerCommand extends RunnableWorkerEventZeroMQ {
 
-    private H2CommonManager h2CommonManager;
+    private H2NormativeManagerConnector h2CommonManager;
     private H2Properties h2Properties;
 
-    public H2CommonWorkerCommand(H2CommonManager h2CommonManager, H2Properties h2Properties) {
+    public H2CommonWorkerCommand(H2NormativeManagerConnector h2CommonManager, H2Properties h2Properties) {
         super();
         this.h2CommonManager = h2CommonManager;
         this.h2Properties = h2Properties;

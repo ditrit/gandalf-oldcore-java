@@ -4,16 +4,18 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
+import java.util.List;
+
 public abstract class RoutingWorkerZeroMQ {
 
     protected ZContext context;
     protected static ZMQ.Socket frontEndRoutingWorker;
-    private String[] frontEndRoutingWorkerConnections;
+    private List<String> frontEndRoutingWorkerConnections;
     protected static ZMQ.Socket backEndRoutingWorker;
     private String backEndRoutingWorkerConnection; //IPC
     protected String routingWorkerConnector;
 
-    protected void init(String routingWorkerConnector, String[] frontEndRoutingWorkerConnections, String backEndRoutingWorkerConnection) {
+    protected void init(String routingWorkerConnector, List<String> frontEndRoutingWorkerConnections, String backEndRoutingWorkerConnection) {
         this.context = new ZContext();
         this.routingWorkerConnector = routingWorkerConnector;
 

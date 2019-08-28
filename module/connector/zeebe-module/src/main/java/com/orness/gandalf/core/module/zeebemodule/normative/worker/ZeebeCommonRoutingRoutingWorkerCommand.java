@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.zeebemodule.normative.worker;
 
-import com.orness.gandalf.core.module.zeebemodule.normative.manager.ZeebeCommonManager;
+import com.orness.gandalf.core.module.zeebemodule.normative.manager.ZeebeCommonManagerConnector;
 import com.orness.gandalf.core.module.zeebemodule.core.ZeebeCommand;
 import com.orness.gandalf.core.module.zeebemodule.core.properties.ZeebeProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
@@ -9,17 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import static com.orness.gandalf.core.module.workflowenginemodule.constant.WorkflowEngineConstant.*;
+import static com.orness.gandalf.core.module.workflowenginemodule.constant.ConnectorWorkflowEngineConstant.*;
 
 @Component(value = "commonWorkerCommand")
 @Profile(value = "zeebe-module")
 public class ZeebeCommonRoutingRoutingWorkerCommand extends RunnableRoutingRoutingWorkerZeroMQ {
 
-    private ZeebeCommonManager zeebeCommonManager;
+    private ZeebeCommonManagerConnector zeebeCommonManager;
     private ZeebeProperties zeebeProperties;
 
     @Autowired
-    public ZeebeCommonRoutingRoutingWorkerCommand(ZeebeCommonManager zeebeCommonManager, ZeebeProperties zeebeProperties) {
+    public ZeebeCommonRoutingRoutingWorkerCommand(ZeebeCommonManagerConnector zeebeCommonManager, ZeebeProperties zeebeProperties) {
         super();
         this.zeebeCommonManager = zeebeCommonManager;
         this.zeebeProperties = zeebeProperties;

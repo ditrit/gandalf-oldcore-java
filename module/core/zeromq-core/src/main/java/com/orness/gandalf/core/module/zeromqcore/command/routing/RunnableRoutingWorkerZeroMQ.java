@@ -6,6 +6,7 @@ import org.zeromq.ZMsg;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.COMMAND_COMMAND_READY;
@@ -22,7 +23,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
         this.serviceClassZMsgLinkedList = new HashMap<>();
     }
 
-    protected void initRunnable(String routingWorkerConnector, String[] frontEndWorkerConnections, String backEndWorkerConnection) {
+    protected void initRunnable(String routingWorkerConnector, List<String> frontEndWorkerConnections, String backEndWorkerConnection) {
         this.init(routingWorkerConnector, frontEndWorkerConnections, backEndWorkerConnection);
     }
 

@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.module.nexusmodule.normative.worker;
 
-import com.orness.gandalf.core.module.nexusmodule.normative.manager.NexusCommonManager;
+import com.orness.gandalf.core.module.nexusmodule.normative.manager.NexusNormativeManager;
 import com.orness.gandalf.core.module.nexusmodule.core.properties.NexusProperties;
 import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqmodule.command.routing.RunnableRoutingRoutingWorkerZeroMQ;
@@ -8,17 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import static com.orness.gandalf.core.module.artifactmodule.constant.ArtifactConstant.*;
+import static com.orness.gandalf.core.module.artifactmodule.constant.ConnectorArtifactConstant.*;
 
 @Component(value = "commonWorkerCommand")
 @Profile(value = "nexus-module")
 public class NexusCommonRoutingRoutingWorkerCommand extends RunnableRoutingRoutingWorkerZeroMQ {
 
-    private NexusCommonManager nexusCommonManager;
+    private NexusNormativeManager nexusCommonManager;
     private NexusProperties nexusProperties;
 
     @Autowired
-    public NexusCommonRoutingRoutingWorkerCommand(NexusCommonManager nexusCommonManager, NexusProperties nexusProperties) {
+    public NexusCommonRoutingRoutingWorkerCommand(NexusNormativeManager nexusCommonManager, NexusProperties nexusProperties) {
         super();
         this.nexusCommonManager = nexusCommonManager;
         this.nexusProperties = nexusProperties;

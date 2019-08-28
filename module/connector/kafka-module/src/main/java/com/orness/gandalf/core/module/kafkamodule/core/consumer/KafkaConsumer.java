@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.module.kafkamodule.core.consumer;
 
 import com.google.gson.Gson;
-import com.orness.gandalf.core.module.busmodule.core.properties.BusProperties;
+import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusProperties;
 import com.orness.gandalf.core.module.kafkamodule.core.properties.KafkaProperties;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -16,21 +16,21 @@ import java.util.Map;
 
 public abstract class KafkaConsumer implements Runnable {
 
-    private BusProperties busProperties;
+    private ConnectorBusProperties connectorBusProperties;
     private KafkaProperties kafkaProperties;
     private final String topic;
     protected Gson mapper;
 
-    public KafkaConsumer(String topic, KafkaProperties kafkaProperties, BusProperties busProperties) {
+    public KafkaConsumer(String topic, KafkaProperties kafkaProperties, ConnectorBusProperties connectorBusProperties) {
         this.topic = topic;
         this.kafkaProperties = kafkaProperties;
-        this.busProperties = busProperties;
+        this.connectorBusProperties = connectorBusProperties;
         this.mapper = new Gson();
     }
 
     public void run() {
         MessageListener<String, String> messageListener = record -> this.publish(this.parse(record.value()));
-        ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(consumerFactory(busProperties.getBus()), containerProperties(messageListener));
+        ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(consumerFactory(connectorBusProperties.getBus()), containerProperties(messageListener));
         container.start();
     }
 

@@ -18,12 +18,12 @@
         <!-- Core -->
         <module>core/gandalf-core</module>
         <module>core/zeromq-core</module>
+        <module>core/connector-core</module>
 
         <!-- Gandalf -->
         <module>gandalf/gandalf-module</module>
 
-        <!-- Common -->
-        <module>connector-type/job-module</module>
+        <!-- Normative -->
         <module>connector-type/workflow-engine-module</module>
         <module>connector-type/bus-module</module>
         <module>connector-type/version-control-module</module>
@@ -31,7 +31,7 @@
         <module>connector-type/database-module</module>
         <module>connector-type/orchestrator-module</module>
 
-        <!-- Specific -->
+        <!-- Impl Normative + Custom -->
         <module>connector/gitlab-module</module>
         <module>connector/git-module</module>
         <module>connector/zeebe-module</module>
@@ -49,6 +49,7 @@
         <module>utils/workflow-uid-module</module>
         <module>utils/constant-module</module>
         <module>utils/webhook-module</module>
+        <module>utils/job-module</module>
 
     </modules>
 

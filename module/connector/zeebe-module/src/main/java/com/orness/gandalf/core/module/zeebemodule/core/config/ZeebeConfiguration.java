@@ -1,9 +1,8 @@
 package com.orness.gandalf.core.module.zeebemodule.core.config;
 
-import com.orness.gandalf.core.module.workflowenginemodule.core.properties.WorkflowEngineProperties;
+import com.orness.gandalf.core.module.workflowenginemodule.properties.ConnectorWorkflowEngineProperties;
 import io.zeebe.client.ZeebeClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -12,10 +11,10 @@ import org.springframework.context.annotation.Profile;
 @Profile(value = "zeebe-module")
 public class ZeebeConfiguration {
 
-    private WorkflowEngineProperties workflowEngineProperties;
+    private ConnectorWorkflowEngineProperties workflowEngineProperties;
 
     @Autowired
-    public ZeebeConfiguration(WorkflowEngineProperties workflowEngineProperties) {
+    public ZeebeConfiguration(ConnectorWorkflowEngineProperties workflowEngineProperties) {
         this.workflowEngineProperties = workflowEngineProperties;
     }
 
