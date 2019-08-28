@@ -1,7 +1,6 @@
 package com.orness.gandalf.core.test.testclient.core;
 
 import com.orness.gandalf.core.test.testclient.properties.GandalfProperties;
-import com.orness.gandalf.core.test.testzeromq.command.Client;
 import com.orness.gandalf.core.test.testzeromq.command.RunnableClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

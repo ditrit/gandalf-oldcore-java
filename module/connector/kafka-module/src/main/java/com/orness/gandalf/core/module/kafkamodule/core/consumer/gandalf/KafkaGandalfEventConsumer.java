@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.module.kafkamodule.core.consumer.gandalf;
 
 import com.orness.gandalf.core.module.busmodule.core.properties.BusProperties;
-import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfPublisherEvent;
+import com.orness.gandalf.core.module.gandalfmodule.worker.event.GandalfPublisherEvent;
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.KafkaConsumer;
 import com.orness.gandalf.core.module.kafkamodule.core.properties.KafkaProperties;
 import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;

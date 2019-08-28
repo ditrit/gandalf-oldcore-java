@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorversioncontrolservice.core;
 
-import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfWorkerCommand;
+import com.orness.gandalf.core.module.gandalfmodule.worker.command.GandalfWorkerCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

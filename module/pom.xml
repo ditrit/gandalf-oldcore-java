@@ -16,7 +16,8 @@
 
     <modules>
         <!-- Core -->
-        <module>core/zeromq-module</module>
+        <module>core/gandalf-core</module>
+        <module>core/zeromq-core</module>
 
         <!-- Gandalf -->
         <module>gandalf/gandalf-module</module>

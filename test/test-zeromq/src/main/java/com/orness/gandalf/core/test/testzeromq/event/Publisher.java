@@ -26,4 +26,10 @@ public class Publisher {
         this.backEndPublisher.close();
         this.context.close();
     }
+
+    public void sendEvent(String topic, String event, String payload) {
+        this.backEndPublisher.sendMore(topic);
+        this.backEndPublisher.sendMore(event);
+        this.backEndPublisher.send(payload);
+    }
 }

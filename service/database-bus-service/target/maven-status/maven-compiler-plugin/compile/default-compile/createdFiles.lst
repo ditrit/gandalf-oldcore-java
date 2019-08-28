@@ -1,8 +1,0 @@
-com/orness/gandalf/core/service/databasebusservice/controller/DatabaseBusController.class
-com/orness/gandalf/core/service/databasebusservice/consumer/DatabaseBusConsumerConfiguration.class
-com/orness/gandalf/core/service/databasebusservice/topic/DatabaseBusTopicConfiguration.class
-com/orness/gandalf/core/service/databasebusservice/producer/DatabaseBusProducerConfiguration.class
-com/orness/gandalf/core/service/databasebusservice/sample/SampleCLR.class
-com/orness/gandalf/core/service/databasebusservice/producer/DatabaseBusProducer.class
-com/orness/gandalf/core/service/databasebusservice/consumer/DatabaseBusConsumer.class
-com/orness/gandalf/core/service/databasebusservice/DatabaseBusServiceApplication.class

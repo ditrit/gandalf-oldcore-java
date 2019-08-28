@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.module.connectororchestratorservice.core;
 
-import com.orness.gandalf.core.module.customorchestratormodule.common.worker.CustomOrchestratorCommonWorkerCommand;
-import com.orness.gandalf.core.module.customorchestratormodule.specific.worker.CustomOrchestratorSpecificWorker;
-import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfWorkerCommand;
+import com.orness.gandalf.core.module.customorchestratormodule.normative.worker.CustomOrchestratorCommonWorkerCommand;
+import com.orness.gandalf.core.module.customorchestratormodule.custom.worker.CustomOrchestratorSpecificWorker;
+import com.orness.gandalf.core.module.gandalfmodule.worker.command.GandalfWorkerCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,49 +1,40 @@
 package com.orness.gandalf.core.library.gandalfjavaclient;
 
-import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfClientCommand;
-import com.orness.gandalf.core.module.gandalfmodule.communication.event.GandalfPublisherEvent;
-import com.orness.gandalf.core.module.zeromqmodule.command.domain.MessageCommandZeroMQ;
+import com.orness.gandalf.core.library.gandalfjavaclient.core.GandalfClientZeroMQ;
+import com.orness.gandalf.core.library.gandalfjavaclient.core.GandalfPublisherZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import org.zeromq.ZMsg;
 
 @Component
-@ComponentScan(basePackages = "com.orness.gandalf.core.module.gandalfmodule")
 public class GandalfJavaClient {
 
-    private ExecutorService executor;
-    private GandalfClientCommand gandalfClientCommand;
-    private GandalfPublisherEvent gandalfPublisherEvent;
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+    private GandalfClientZeroMQ gandalfClientZeroMQ;
+    private GandalfPublisherZeroMQ gandalfPublisherZeroMQ;
 
     @Autowired
-    public GandalfJavaClient(GandalfClientCommand gandalfClientCommand, GandalfPublisherEvent gandalfPublisherEvent) {
-        this.gandalfClientCommand = gandalfClientCommand;
-        this.gandalfPublisherEvent = gandalfPublisherEvent;
-        this.executor = Executors.newFixedThreadPool(10);
+    public GandalfJavaClient(GandalfClientZeroMQ gandalfClientZeroMQ, GandalfPublisherZeroMQ gandalfPublisherZeroMQ, ThreadPoolTaskExecutor threadPoolTaskExecutor) {
+        this.gandalfClientZeroMQ = gandalfClientZeroMQ;
+        this.gandalfPublisherZeroMQ = gandalfPublisherZeroMQ;
+        this.threadPoolTaskExecutor = threadPoolTaskExecutor;
+        this.startGandalfClientZeroMQ();
     }
 
-    //CLIENT COMMAND
-    public MessageCommandZeroMQ sendStartCommand() {
-        return gandalfClientCommand.sendStartCommand();
+    private void startGandalfClientZeroMQ() {
+        this.threadPoolTaskExecutor.execute(this.gandalfClientZeroMQ);
     }
 
-    public MessageCommandZeroMQ sendStopCommand() {
-        return gandalfClientCommand.sendStopCommand();
+    public void sendCommand(String uuid, String connector, String serviceClass, String command, String payload) {
+        this.gandalfClientZeroMQ.sendCommand(uuid, connector, serviceClass, command, payload);
     }
 
-    public MessageCommandZeroMQ sendSubscriberCommand() {
-        return gandalfClientCommand.sendSubscriberCommand();
+    public ZMsg getCommandResult() {
+        return this.gandalfClientZeroMQ.getLastReponses();
     }
 
-    public MessageCommandZeroMQ sendUnsubscribeCommand() {
-        return gandalfClientCommand.sendUnsubscribeCommand();
-    }
-
-    //PUBLISHER EVENT
     public void sendEvent(String topic, String typeEvent, String event) {
-        this.gandalfPublisherEvent.sendEvent(topic, typeEvent, event);
+        this.gandalfPublisherZeroMQ.sendEvent(topic, typeEvent, event);
     }
 }

@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbusservice.sample;
 
-import com.orness.gandalf.core.module.kafkamodule.common.manager.KafkaCommonManager;
+import com.orness.gandalf.core.module.kafkamodule.normative.manager.KafkaCommonManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.connector.connectorbusservice.core;
 
-import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfWorkerCommand;
-import com.orness.gandalf.core.module.kafkamodule.common.worker.KafkaCommonWorkerCommand;
-import com.orness.gandalf.core.module.kafkamodule.specific.worker.KafkaSpecificWorkerCommand;
+import com.orness.gandalf.core.module.gandalfmodule.worker.command.GandalfWorkerCommand;
+import com.orness.gandalf.core.module.kafkamodule.normative.worker.KafkaCommonWorkerCommand;
+import com.orness.gandalf.core.module.kafkamodule.custom.worker.KafkaSpecificWorkerCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

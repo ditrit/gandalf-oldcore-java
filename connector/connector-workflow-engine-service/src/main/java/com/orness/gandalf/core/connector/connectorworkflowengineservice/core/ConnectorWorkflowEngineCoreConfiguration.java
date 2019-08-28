@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.connector.connectorworkflowengineservice.core;
 
-import com.orness.gandalf.core.module.gandalfmodule.communication.command.GandalfWorkerCommand;
-import com.orness.gandalf.core.module.zeebemodule.common.worker.ZeebeCommonWorkerCommand;
-import com.orness.gandalf.core.module.zeebemodule.specific.worker.ZeebeSpecificWorkerCommand;
+import com.orness.gandalf.core.module.gandalfmodule.worker.command.GandalfWorkerCommand;
+import com.orness.gandalf.core.module.zeebemodule.normative.worker.ZeebeCommonWorkerCommand;
+import com.orness.gandalf.core.module.zeebemodule.custom.worker.ZeebeSpecificWorkerCommand;
 import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
