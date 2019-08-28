@@ -7,7 +7,7 @@ import com.orness.gandalf.core.module.gandalfmodule.worker.event.GandalfSubscrib
 import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.gandalf.KafkaGandalfEventConsumer;
 import com.orness.gandalf.core.module.kafkamodule.core.producer.KafkaProducer;
-import com.orness.gandalf.core.module.kafkamodule.core.properties.KafkaProperties;
+import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -31,17 +31,17 @@ public class ConnectorKafkaNormativeManager extends ConnectorBusNormativeManager
     private GandalfPublisherEvent gandalfPublisherEvent;
     private GandalfProperties gandalfProperties;
     private ConnectorBusProperties connectorBusProperties;
-    private KafkaProperties kafkaProperties;
+    private ConnectorKafkaProperties connectorKafkaProperties;
     private GandalfSubscriberEventService gandalfSubscriberEventService;
 
     @Autowired
-    public ConnectorKafkaNormativeManager(KafkaAdmin kafkaAdmin, KafkaProducer kafkaProducer, ApplicationContext context, GandalfPublisherEvent gandalfPublisherEvent, GandalfProperties gandalfProperties, ConnectorBusProperties connectorBusProperties, KafkaProperties kafkaProperties, GandalfSubscriberEventService gandalfSubscriberEventService) {
+    public ConnectorKafkaNormativeManager(KafkaAdmin kafkaAdmin, KafkaProducer kafkaProducer, ApplicationContext context, GandalfPublisherEvent gandalfPublisherEvent, GandalfProperties gandalfProperties, ConnectorBusProperties connectorBusProperties, ConnectorKafkaProperties connectorKafkaProperties, GandalfSubscriberEventService gandalfSubscriberEventService) {
         this.context = context;
         this.kafkaAdmin = kafkaAdmin;
         this.kafkaProducer = kafkaProducer;
         this.gandalfPublisherEvent = gandalfPublisherEvent;
         this.gandalfProperties = gandalfProperties;
-        this.kafkaProperties = kafkaProperties;
+        this.connectorKafkaProperties = connectorKafkaProperties;
         this.connectorBusProperties = connectorBusProperties;
         this.gandalfSubscriberEventService = gandalfSubscriberEventService;
     }
@@ -82,7 +82,7 @@ public class ConnectorKafkaNormativeManager extends ConnectorBusNormativeManager
     @Override
     public void synchronizeToGandalf(String topic) {
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        KafkaGandalfEventConsumer kafkaGandalfEventConsumer = new KafkaGandalfEventConsumer(topic, this.gandalfPublisherEvent, this.kafkaProperties, this.connectorBusProperties);
+        KafkaGandalfEventConsumer kafkaGandalfEventConsumer = new KafkaGandalfEventConsumer(topic, this.gandalfPublisherEvent, this.connectorKafkaProperties, this.connectorBusProperties);
         taskExecutor.execute(kafkaGandalfEventConsumer);
     }
 

@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile(value = "custom-orchestrator-module")
 public class ConnectorCustomOrchestratorNormativeController extends ConnectorOrchestratorNormativeController {
 
-    private ConnectorCustomOrchestratorNormativeManager customOrchestratorCommonManager;
+    private ConnectorCustomOrchestratorNormativeManager connectorCustomOrchestratorNormativeManager;
 
     @Autowired
-    public ConnectorCustomOrchestratorNormativeController(ConnectorCustomOrchestratorNormativeManager customOrchestratorCommonManager) {
-        this.customOrchestratorCommonManager = customOrchestratorCommonManager;
+    public ConnectorCustomOrchestratorNormativeController(ConnectorCustomOrchestratorNormativeManager connectorCustomOrchestratorNormativeManager) {
+        this.connectorCustomOrchestratorNormativeManager = connectorCustomOrchestratorNormativeManager;
     }
 
     @Override

@@ -3,15 +3,15 @@ package com.orness.gandalf.core.module.kafkamodule.core.consumer.gandalf;
 import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusProperties;
 import com.orness.gandalf.core.module.gandalfmodule.worker.event.GandalfPublisherEvent;
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.KafkaConsumer;
-import com.orness.gandalf.core.module.kafkamodule.core.properties.KafkaProperties;
+import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
 
 public class KafkaGandalfEventConsumer extends KafkaConsumer {
 
     private GandalfPublisherEvent gandalfPublisherEvent;
 
-    public KafkaGandalfEventConsumer(String topic, GandalfPublisherEvent gandalfPublisherEvent, KafkaProperties kafkaProperties, ConnectorBusProperties connectorBusProperties) {
-        super(topic, kafkaProperties, connectorBusProperties);
+    public KafkaGandalfEventConsumer(String topic, GandalfPublisherEvent gandalfPublisherEvent, ConnectorKafkaProperties connectorKafkaProperties, ConnectorBusProperties connectorBusProperties) {
+        super(topic, connectorKafkaProperties, connectorBusProperties);
         this.gandalfPublisherEvent = gandalfPublisherEvent;
     }
 

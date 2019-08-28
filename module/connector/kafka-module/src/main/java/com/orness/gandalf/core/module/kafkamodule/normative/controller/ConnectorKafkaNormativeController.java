@@ -10,40 +10,20 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile(value = "kafka-module")
 public class ConnectorKafkaNormativeController extends ConnectorBusNormativeController {
 
-    private ConnectorKafkaNormativeManager kafkaCommonManager;
+    private ConnectorKafkaNormativeManager connectorKafkaNormativeManager;
 
     @Autowired
-    public ConnectorKafkaNormativeController(ConnectorKafkaNormativeManager kafkaCommonManager) {
-        this.kafkaCommonManager = kafkaCommonManager;
+    public ConnectorKafkaNormativeController(ConnectorKafkaNormativeManager connectorKafkaNormativeManager) {
+        this.connectorKafkaNormativeManager = connectorKafkaNormativeManager;
     }
 
     @Override
-    public void createTopic(String topic) {
-        this.kafkaCommonManager.createTopic(topic);
+    public void command(String command) {
+
     }
 
     @Override
-    public void deleteTopic(String topic) {
-        this.kafkaCommonManager.deleteTopic(topic);
-    }
+    public void event(String event) {
 
-    @Override
-    public void sendMessage(String topic, String message) {
-        this.kafkaCommonManager.sendMessage(topic, message);
-    }
-
-    @Override
-    public String receiveMessage(String topic) {
-        return this.kafkaCommonManager.receiveMessage(topic);
-    }
-
-    @Override
-    public void synchronizeToGandalf(String topic) {
-        this.kafkaCommonManager.synchronizeToGandalf("");
-    }
-
-    @Override
-    public void synchronizeToBus(String topic) {
-        this.kafkaCommonManager.synchronizeToBus("");
     }
 }
