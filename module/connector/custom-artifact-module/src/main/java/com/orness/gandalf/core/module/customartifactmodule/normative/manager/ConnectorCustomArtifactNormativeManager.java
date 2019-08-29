@@ -1,5 +1,7 @@
 package com.orness.gandalf.core.module.customartifactmodule.normative.manager;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.artifactmodule.manager.ConnectorArtifactNormativeManager;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +21,17 @@ import java.util.List;
 
 import static com.orness.gandalf.core.module.constantmodule.storage.StorageConstant.BUILD_PROJECT_DIRECTORY;
 
-@Component(value = "commonManager")
+@Component(value = "normativeManager")
 @Profile(value = "custom-artifact-module")
 public class ConnectorCustomArtifactNormativeManager extends ConnectorArtifactNormativeManager {
 
     private final Path fileStorageLocation;
+    private Gson mapper;
 
     @Autowired
     public ConnectorCustomArtifactNormativeManager() {
         super();
+        this.mapper = new Gson();
         this.fileStorageLocation = Paths.get(BUILD_PROJECT_DIRECTORY).toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);
@@ -47,21 +51,22 @@ public class ConnectorCustomArtifactNormativeManager extends ConnectorArtifactNo
     }
 
     @Override
-    public void uploadArtifact(Object artifact) {
-        MultipartFile multipartArtifact = (MultipartFile) artifact;
-        File fileSaveVersion = new File(fileStorageLocation + "/" + (multipartArtifact.getOriginalFilename()));
+    public void uploadArtifact(String payload) {
+        MultipartFile artifact = this.mapper.fromJson(payload, MultipartFile.class);
+        File fileSaveVersion = new File(fileStorageLocation + "/" + (artifact.getOriginalFilename()));
         try {
-            FileUtils.writeByteArrayToFile(fileSaveVersion, multipartArtifact.getBytes());
+            FileUtils.writeByteArrayToFile(fileSaveVersion, artifact.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public Object downloadArtifact(Object artifact) {
-        String stringArtifact = (String) artifact;
+    public Object downloadArtifact(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        String artifact = jsonObject.get("artifact").getAsString();
         try {
-            Path filePath = this.fileStorageLocation.resolve(stringArtifact).normalize();
+            Path filePath = this.fileStorageLocation.resolve(artifact).normalize();
             Resource resource = new UrlResource(filePath.toUri());
             if(resource.exists()) {
                 return resource;
@@ -73,14 +78,13 @@ public class ConnectorCustomArtifactNormativeManager extends ConnectorArtifactNo
         }
     }
 
-
     @Override
-    public Object downloadArtifactById(Long id) {
+    public Object downloadArtifactById(String payload) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void deleteArtifact(Long id) {
-
+    public void deleteArtifact(String payload) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

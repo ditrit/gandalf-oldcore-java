@@ -13,7 +13,7 @@ import org.zeromq.ZMsg;
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
-@Component(value = "commonWorkerCommand")
+@Component(value = "normativeWorker")
 @Profile(value = "kafka-module")
 public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
 
@@ -37,22 +37,22 @@ public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
         this.messageCommand = new MessageCommand(command);
         switch(messageCommand.getCommand().toString()) {
             case "CREATE_TOPIC":
-                this.connectorKafkaNormativeManager.createTopic("");
+                this.connectorKafkaNormativeManager.createTopic(this.messageCommand.getPayload());
                 break;
             case "DELETE_TOPIC":
-                this.connectorKafkaNormativeManager.deleteTopic("");
+                this.connectorKafkaNormativeManager.deleteTopic(this.messageCommand.getPayload());
                 break;
             case "SEND_MESSAGE":
-                this.connectorKafkaNormativeManager.sendMessage("","");
+                this.connectorKafkaNormativeManager.sendMessage(this.messageCommand.getPayload());
                 break;
             case "RECEIVE_MESSAGE":
-                this.connectorKafkaNormativeManager.receiveMessage("");
+                this.connectorKafkaNormativeManager.receiveMessage(this.messageCommand.getPayload());
                 break;
             case "SYNCHRONIZE_GANDALF":
-                this.connectorKafkaNormativeManager.synchronizeToGandalf("");
+                this.connectorKafkaNormativeManager.synchronizeToGandalf(this.messageCommand.getPayload());
                 break;
             case "SYNCHRONIZE_BUS":
-                this.connectorKafkaNormativeManager.synchronizeToBus("");
+                this.connectorKafkaNormativeManager.synchronizeToBus(this.messageCommand.getPayload());
                 break;
             default:
                 //DO NOTHING

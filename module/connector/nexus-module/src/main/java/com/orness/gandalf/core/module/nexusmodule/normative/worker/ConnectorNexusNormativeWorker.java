@@ -13,7 +13,7 @@ import org.zeromq.ZMsg;
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
-@Component(value = "commonWorkerCommand")
+@Component(value = "normativeWorker")
 @Profile(value = "nexus-module")
 public class ConnectorNexusNormativeWorker extends RunnableWorkerZeroMQ {
 
@@ -43,13 +43,13 @@ public class ConnectorNexusNormativeWorker extends RunnableWorkerZeroMQ {
                 this.connectorNexusNormativeManager.listArtifacts();
                 break;
             case "DOWNLOAD_ARTIFACT":
-                this.connectorNexusNormativeManager.downloadArtifact(0L);
+                this.connectorNexusNormativeManager.downloadArtifact(this.messageCommand.getPayload());
                 break;
             case "UPLOAD_ARTIFACT":
-                this.connectorNexusNormativeManager.uploadArtifact("");
+                this.connectorNexusNormativeManager.uploadArtifact(this.messageCommand.getPayload());
                 break;
             case "DELETE_ARTIFACT":
-                this.connectorNexusNormativeManager.deleteArtifact(0L);
+                this.connectorNexusNormativeManager.deleteArtifact(this.messageCommand.getPayload());
                 break;
             default:
                 //DO NOTHING

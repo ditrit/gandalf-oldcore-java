@@ -4,62 +4,62 @@ import java.util.List;
 
 public abstract class ConnectorVersionControlNormativeManager {
 
-    public abstract void cloneProject(String uri, String path);
+    public abstract void cloneProject(String payload);
 
-    public abstract void pull(String origin, String branch);
+    public abstract void pull(String payload);
 
-    public abstract void add(String path);
+    public abstract void add(String payload);
 
-    public abstract void commit(String message);
+    public abstract void commit(String payload);
 
-    public abstract void push(String origin, String branch);
+    public abstract void push(String payload);
 
-    public abstract void merge(String source, String destination);
+    public abstract void merge(String payload);
 
-    public abstract void checkout(String branch, boolean create);
+    public abstract void checkout(String payload);
 
-    public abstract void tag(String tag);
+    public abstract void tag(String payload);
 
     public abstract void log();
 
-    public abstract Object execute(String apiName, String functionName, Object[] functionParameters);
+    //public abstract Object execute(String payload);
 
     public abstract List listUsers();
 
-    public abstract Object getUser(String username);
+    public abstract Object getUser(String payload);
 
     public abstract List listProjects();
 
-    public abstract Object getProjects(String path);
+    public abstract Object getProjects(String payload);
 
-    public abstract List listBranches(String pathProject);
+    public abstract List listBranches(String payload);
 
-    public abstract Object getBranche(String pathProject, String name);
+    public abstract Object getBranche(String payload);
 
-    public abstract List listMergeRequests(String pathProject);
+    public abstract List listMergeRequests(String payload);
 
-    public abstract Object getMergeRequests(String pathProject, int id);
+    public abstract Object getMergeRequests(String payload);
 
-    public abstract List listCommits(String pathProject);
+    public abstract List listCommits(String payload);
 
-    public abstract Object getCommit(String pathProject, String sha);
+    public abstract Object getCommit(String payload);
 
-    public abstract List listPages(String pathProject);
+    public abstract List listPages(String payload);
 
-    public abstract Object getPage(String pathProject, String slug);
+    public abstract Object getPage(String payload);
 
     public abstract List listHooks();
 
     public abstract List listIssues();
 
-    public abstract Object getIssue(String pathProject, int id);
+    public abstract Object getIssue(String payload);
 
     public abstract List listGroups();
 
-    public abstract Object getGroup(String path);
+    public abstract Object getGroup(String payload);
 
-    public abstract List listEpics(String pathGroup);
+    public abstract List listEpics(String payload);
 
-    public abstract Object getEpic(String pathGroup, int id);
+    public abstract Object getEpic(String payload);
 
 }

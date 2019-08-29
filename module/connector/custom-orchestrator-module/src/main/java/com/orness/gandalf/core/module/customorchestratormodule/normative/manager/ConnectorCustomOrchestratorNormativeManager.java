@@ -1,59 +1,71 @@
 package com.orness.gandalf.core.module.customorchestratormodule.normative.manager;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.customorchestratormodule.core.ConnectorCustomOrchestratorBashService;
 import com.orness.gandalf.core.module.orchestratormodule.manager.ConnectorOrchestratorNormativeManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Component(value = "commonManager")
+@Component(value = "normativeManager")
 @Profile(value = "custom-orchestrator-module")
 public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrchestratorNormativeManager {
 
     private ConnectorCustomOrchestratorBashService connectorCustomOrchestratorBashService;
+    private Gson mapper;
 
     @Autowired
     public ConnectorCustomOrchestratorNormativeManager(ConnectorCustomOrchestratorBashService connectorCustomOrchestratorBashService) {
         this.connectorCustomOrchestratorBashService = connectorCustomOrchestratorBashService;
+        this.mapper = new Gson();
     }
 
     @Override
-    public void register(String service, String version) {
-        this.connectorCustomOrchestratorBashService.register(service, version);
+    public void register(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.connectorCustomOrchestratorBashService.register(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
     }
 
     @Override
-    public void unregister(String service, String version) {
-        this.connectorCustomOrchestratorBashService.unregister(service, version);
+    public void unregister(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.connectorCustomOrchestratorBashService.unregister(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
     }
 
     @Override
-    public void deploy(String service) {
-        this.connectorCustomOrchestratorBashService.execute(service, "deploy");
+    public void deploy(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "deploy");
     }
 
     @Override
-    public void undeploy(String service) {
-        this.connectorCustomOrchestratorBashService.execute(service, "undeploy");
+    public void undeploy(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "undeploy");
     }
 
     @Override
-    public void start(String service) {
-        this.connectorCustomOrchestratorBashService.execute(service, "start");
+    public void start(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "start");
     }
 
     @Override
-    public void stop(String service) {
-        this.connectorCustomOrchestratorBashService.execute(service, "stop");
+    public void stop(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "stop");
     }
 
     @Override
-    public void scaleUp(String service) {
-        this.connectorCustomOrchestratorBashService.execute(service, "scale_up");
+    public void scaleUp(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_up");
     }
 
     @Override
-    public void scaleDown(String service) {
-        this.connectorCustomOrchestratorBashService.execute(service, "scale_down");
+    public void scaleDown(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_down");
     }
 }

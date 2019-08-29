@@ -4,13 +4,13 @@ import java.util.List;
 
 public abstract class ConnectorDatabaseNormativeManager {
 
-    public abstract List list(Class classObject);
+    public abstract List list(String payload);
 
-    public abstract Object select(Class classObject, Long id);
+    public abstract Object select(String payload);
 
-    public abstract void insert(Class classObject, Object object);
+    public abstract void insert(String payload);
 
-    public abstract void update(Class classObject, Long id, Object object);
+    public abstract void update(String payload);
 
-    public abstract void delete(Class classObject, Long id);
+    public abstract void delete(String payload);
 }

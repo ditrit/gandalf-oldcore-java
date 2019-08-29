@@ -12,7 +12,7 @@ import org.zeromq.ZMsg;
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
-@Component(value = "commonWorkerCommand")
+@Component(value = "normativeWorker")
 @Profile(value = "h2-module")
 public class ConnectorH2NormativeWorker extends RunnableWorkerZeroMQ {
 
@@ -35,19 +35,19 @@ public class ConnectorH2NormativeWorker extends RunnableWorkerZeroMQ {
         this.messageCommand = new MessageCommand(command);
         switch(messageCommand.getCommand().toString()) {
             case "LIST":
-                this.h2CommonManager.list(null);
+                this.h2CommonManager.list(this.messageCommand.getPayload());
                 break;
             case "SELECT":
-                this.h2CommonManager.select(null ,0L);
+                this.h2CommonManager.select(this.messageCommand.getPayload());
                 break;
             case "INSERT":
-                this.h2CommonManager.insert(null,"");
+                this.h2CommonManager.insert(this.messageCommand.getPayload());
                 break;
             case "UPDATE":
-                this.h2CommonManager.update(null, 0L, "");
+                this.h2CommonManager.update(this.messageCommand.getPayload());
                 break;
             case "DELETE":
-                this.h2CommonManager.delete(null, 0L);
+                this.h2CommonManager.delete(this.messageCommand.getPayload());
                 break;
             default:
                 //DO NOTHING

@@ -6,32 +6,32 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component(value = "commonManager")
+@Component(value = "normativeManager")
 @Profile(value = "h2-module")
 public class ConnectorH2NormativeManager extends ConnectorDatabaseNormativeManager {
 
     @Override
-    public List list(Class classObject) {
+    public List list(String payload) {
         return null;
     }
 
     @Override
-    public Object select(Class classObject, Long id) {
+    public Object select(String payload) {
         return null;
     }
 
     @Override
-    public void insert(Class classObject, Object object) {
+    public void insert(String payload) {
 
     }
 
     @Override
-    public void update(Class classObject, Long id, Object object) {
+    public void update(String payload) {
 
     }
 
     @Override
-    public void delete(Class classObject, Long id) {
+    public void delete(String payload) {
 
     }
 }

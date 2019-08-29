@@ -12,25 +12,26 @@ import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.MessageListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class KafkaConsumer implements Runnable {
 
     private ConnectorBusProperties connectorBusProperties;
     private ConnectorKafkaProperties connectorKafkaProperties;
-    private final String topic;
+    private List<String> topics;
     protected Gson mapper;
 
-    public KafkaConsumer(String topic, ConnectorKafkaProperties connectorKafkaProperties, ConnectorBusProperties connectorBusProperties) {
-        this.topic = topic;
+    public KafkaConsumer(ConnectorKafkaProperties connectorKafkaProperties, ConnectorBusProperties connectorBusProperties) {
         this.connectorKafkaProperties = connectorKafkaProperties;
         this.connectorBusProperties = connectorBusProperties;
+        this.topics = connectorKafkaProperties.getSynchronizeTopics();
         this.mapper = new Gson();
     }
 
     public void run() {
         MessageListener<String, String> messageListener = record -> this.publish(this.parse(record.value()));
-        ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(consumerFactory(connectorBusProperties.getBus()), containerProperties(messageListener));
+        ConcurrentMessageListenerContainer container = new ConcurrentMessageListenerContainer<>(this.consumerFactory(connectorBusProperties.getBusConnection()), this.containerProperties(messageListener));
         container.start();
     }
 
@@ -43,7 +44,7 @@ public abstract class KafkaConsumer implements Runnable {
     }
 
     private ContainerProperties containerProperties(MessageListener<String, String> messageListener) {
-        ContainerProperties containerProperties = new ContainerProperties(this.topic);
+        ContainerProperties containerProperties = new ContainerProperties(this.topics.toArray().toString());
         containerProperties.setMessageListener(messageListener);
         return containerProperties;
     }

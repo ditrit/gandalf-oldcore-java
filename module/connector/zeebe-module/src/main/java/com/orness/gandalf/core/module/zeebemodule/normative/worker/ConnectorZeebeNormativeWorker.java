@@ -13,7 +13,7 @@ import org.zeromq.ZMsg;
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
-@Component(value = "commonWorkerCommand")
+@Component(value = "normativeWorker")
 @Profile(value = "zeebe-module")
 public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
 
@@ -36,13 +36,13 @@ public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
         this.messageCommand = new MessageCommand(command);
         switch(messageCommand.getCommand().toString()) {
             case "DEPLOY":
-                this.connectorZeebeNormativeManager.deployWorkflow("");
+                this.connectorZeebeNormativeManager.deployWorkflow(this.messageCommand.getPayload());
                 break;
             case "INSTANCIATE":
-                this.connectorZeebeNormativeManager.instanciateWorkflow("", "");
+                this.connectorZeebeNormativeManager.instanciateWorkflow(this.messageCommand.getPayload());
                 break;
             case "SEND":
-                this.connectorZeebeNormativeManager.sendMessage("");
+                this.connectorZeebeNormativeManager.sendMessage(this.messageCommand.getPayload());
                 break;
             default:
                 //DO NOTHING

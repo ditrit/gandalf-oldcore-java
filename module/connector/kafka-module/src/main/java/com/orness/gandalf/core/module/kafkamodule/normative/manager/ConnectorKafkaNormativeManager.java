@@ -1,10 +1,11 @@
 package com.orness.gandalf.core.module.kafkamodule.normative.manager;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.orness.gandalf.core.library.gandalfjavaclient.GandalfJavaClient;
+import com.orness.gandalf.core.library.gandalfjavaclient.core.GandalfPublisherZeroMQ;
 import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusProperties;
 import com.orness.gandalf.core.module.busmodule.manager.ConnectorBusNormativeManager;
-import com.orness.gandalf.core.module.gandalfmodule.worker.event.GandalfPublisherEvent;
-import com.orness.gandalf.core.module.gandalfmodule.worker.event.GandalfSubscriberEventService;
-import com.orness.gandalf.core.module.gandalfmodule.properties.GandalfProperties;
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.gandalf.KafkaGandalfEventConsumer;
 import com.orness.gandalf.core.module.kafkamodule.core.producer.KafkaProducer;
 import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
@@ -21,33 +22,35 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component(value = "commonManager")
+@Component(value = "normativeManager")
 @Profile(value = "kafka-module")
 public class ConnectorKafkaNormativeManager extends ConnectorBusNormativeManager {
 
     private KafkaAdmin kafkaAdmin;
     private KafkaProducer kafkaProducer;
     private ApplicationContext context;
-    private GandalfPublisherEvent gandalfPublisherEvent;
-    private GandalfProperties gandalfProperties;
+    private GandalfJavaClient gandalfJavaClient;
+    private GandalfPublisherZeroMQ gandalfPublisherZeroMQ;
     private ConnectorBusProperties connectorBusProperties;
     private ConnectorKafkaProperties connectorKafkaProperties;
-    private GandalfSubscriberEventService gandalfSubscriberEventService;
+    private Gson mapper;
 
     @Autowired
-    public ConnectorKafkaNormativeManager(KafkaAdmin kafkaAdmin, KafkaProducer kafkaProducer, ApplicationContext context, GandalfPublisherEvent gandalfPublisherEvent, GandalfProperties gandalfProperties, ConnectorBusProperties connectorBusProperties, ConnectorKafkaProperties connectorKafkaProperties, GandalfSubscriberEventService gandalfSubscriberEventService) {
+    public ConnectorKafkaNormativeManager(GandalfPublisherZeroMQ gandalfPublisherZeroMQ, KafkaAdmin kafkaAdmin, KafkaProducer kafkaProducer, ConnectorBusProperties connectorBusProperties, ConnectorKafkaProperties connectorKafkaProperties) {
         this.context = context;
         this.kafkaAdmin = kafkaAdmin;
         this.kafkaProducer = kafkaProducer;
-        this.gandalfPublisherEvent = gandalfPublisherEvent;
-        this.gandalfProperties = gandalfProperties;
+        this.gandalfPublisherZeroMQ = gandalfPublisherZeroMQ;
         this.connectorKafkaProperties = connectorKafkaProperties;
         this.connectorBusProperties = connectorBusProperties;
-        this.gandalfSubscriberEventService = gandalfSubscriberEventService;
+        this.mapper = new Gson();
     }
 
     @Override
-    public void createTopic(String topic) {
+    public void createTopic(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        String topic = jsonObject.get("topic").getAsString();
+
         AdminClient adminClient = AdminClient.create(this.kafkaAdmin.getConfig());
         if(!this.isTopicExist(topic, adminClient)) {
             NewTopic newTopic = new NewTopic(topic, 1, (short)1);
@@ -59,7 +62,10 @@ public class ConnectorKafkaNormativeManager extends ConnectorBusNormativeManager
     }
 
     @Override
-    public void deleteTopic(String topic) {
+    public void deleteTopic(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        String topic = jsonObject.get("topic").getAsString();
+
         AdminClient adminClient = AdminClient.create(this.kafkaAdmin.getConfig());
         if(!this.isTopicExist(topic, adminClient)) {
             List<String> deleteTopics = new ArrayList<>();
@@ -70,25 +76,28 @@ public class ConnectorKafkaNormativeManager extends ConnectorBusNormativeManager
     }
 
     @Override
-    public void sendMessage(String topic, String message) {
-        this.kafkaProducer.sendKafka(topic, message);
+    public void sendMessage(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.kafkaProducer.sendKafka(jsonObject.get("topic").getAsString(), jsonObject.get("message").getAsString());
     }
 
     @Override
-    public String receiveMessage(String topic) {
+    public String receiveMessage(String payload) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void synchronizeToGandalf(String topic) {
+    public void synchronizeToGandalf(String payload) {
+        //TODO REVOIR
         ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        KafkaGandalfEventConsumer kafkaGandalfEventConsumer = new KafkaGandalfEventConsumer(topic, this.gandalfPublisherEvent, this.connectorKafkaProperties, this.connectorBusProperties);
+        KafkaGandalfEventConsumer kafkaGandalfEventConsumer = new KafkaGandalfEventConsumer(this.gandalfPublisherZeroMQ, this.connectorKafkaProperties, this.connectorBusProperties);
         taskExecutor.execute(kafkaGandalfEventConsumer);
     }
 
     @Override
-    public void synchronizeToBus(String topic) {
-        this.gandalfSubscriberEventService.addInstanceByTopic(topic);
+    public void synchronizeToBus(String payload) {
+        //TODO ADD TOPICS
+        //this.gandalfSubscriberEventService.addInstanceByTopic(topic);
         //this.gandalfSubscriberEventService
     }
 

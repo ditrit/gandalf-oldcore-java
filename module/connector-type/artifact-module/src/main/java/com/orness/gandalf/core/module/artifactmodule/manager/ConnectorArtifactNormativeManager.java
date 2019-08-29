@@ -8,12 +8,12 @@ public abstract class ConnectorArtifactNormativeManager {
 
     public abstract List listArtifacts();
 
-    public abstract void uploadArtifact(Object artifact);
+    public abstract void uploadArtifact(String payload);
 
-    public abstract Object downloadArtifactById(Long id);
+    public abstract Object downloadArtifactById(String payload);
 
-    public abstract Object downloadArtifact(Object artifact);
+    public abstract Object downloadArtifact(String payload);
 
-    public abstract void deleteArtifact(Long id);
+    public abstract void deleteArtifact(String payload);
 
 }

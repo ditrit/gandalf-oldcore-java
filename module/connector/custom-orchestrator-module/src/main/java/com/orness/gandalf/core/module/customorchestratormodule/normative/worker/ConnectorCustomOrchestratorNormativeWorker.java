@@ -13,7 +13,7 @@ import org.zeromq.ZMsg;
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
-@Component(value = "commonWorkerCommand")
+@Component(value = "normativeWorker")
 @Profile(value = "custom-orchestrator-module")
 public class ConnectorCustomOrchestratorNormativeWorker extends RunnableWorkerZeroMQ {
 
@@ -37,28 +37,28 @@ public class ConnectorCustomOrchestratorNormativeWorker extends RunnableWorkerZe
         this.messageCommand = new MessageCommand(command);
         switch (messageCommand.getCommand()) {
             case "REGISTER":
-                this.connectorCustomOrchestratorNormativeManager.register("", "");
+                this.connectorCustomOrchestratorNormativeManager.register(messageCommand.getPayload());
                 break;
             case "UNREGISTER":
-                this.connectorCustomOrchestratorNormativeManager.unregister("", "");
+                this.connectorCustomOrchestratorNormativeManager.unregister(messageCommand.getPayload());
                 break;
             case "DEPLOY":
-                this.connectorCustomOrchestratorNormativeManager.deploy("");
+                this.connectorCustomOrchestratorNormativeManager.deploy(messageCommand.getPayload());
                 break;
             case "UNDEPLOY":
-                this.connectorCustomOrchestratorNormativeManager.undeploy("");
+                this.connectorCustomOrchestratorNormativeManager.undeploy(messageCommand.getPayload());
                 break;
             case "START":
-                this.connectorCustomOrchestratorNormativeManager.start("");
+                this.connectorCustomOrchestratorNormativeManager.start(messageCommand.getPayload());
                 break;
             case "STOP":
-                this.connectorCustomOrchestratorNormativeManager.stop("");
+                this.connectorCustomOrchestratorNormativeManager.stop(messageCommand.getPayload());
                 break;
             case "SCALE_UP":
-                this.connectorCustomOrchestratorNormativeManager.scaleUp("");
+                this.connectorCustomOrchestratorNormativeManager.scaleUp(messageCommand.getPayload());
                 break;
             case "SCALE_DOWN":
-                this.connectorCustomOrchestratorNormativeManager.scaleDown("");
+                this.connectorCustomOrchestratorNormativeManager.scaleDown(messageCommand.getPayload());
                 break;
             default:
                 break;

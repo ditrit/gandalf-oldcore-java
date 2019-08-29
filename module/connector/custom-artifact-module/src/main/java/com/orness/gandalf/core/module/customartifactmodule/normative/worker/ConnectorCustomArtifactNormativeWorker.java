@@ -14,7 +14,7 @@ import org.zeromq.ZMsg;
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
-@Component(value = "commonWorkerCommand")
+@Component(value = "normativeWorker")
 @Profile(value = "custom-artifact-module")
 public class ConnectorCustomArtifactNormativeWorker extends RunnableWorkerZeroMQ {
 

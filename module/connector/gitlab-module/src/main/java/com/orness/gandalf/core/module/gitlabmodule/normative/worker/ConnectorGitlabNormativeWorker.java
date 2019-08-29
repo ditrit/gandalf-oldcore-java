@@ -35,22 +35,22 @@ public class ConnectorGitlabNormativeWorker extends RunnableWorkerZeroMQ {
         this.messageCommand = new MessageCommand(command);
         switch(messageCommand.getCommand()) {
             case "CLONE":
-                this.connectorGitlabNormativeManager.cloneProject("", "");
+                this.connectorGitlabNormativeManager.cloneProject(messageCommand.getPayload());
                 break;
             case "PULL":
-                this.connectorGitlabNormativeManager.pull("", "");
+                this.connectorGitlabNormativeManager.pull(messageCommand.getPayload());
                 break;
             case "ADD":
-                this.connectorGitlabNormativeManager.add("");
+                this.connectorGitlabNormativeManager.add(messageCommand.getPayload());
                 break;
             case "COMMIT":
-                this.connectorGitlabNormativeManager.commit("");
+                this.connectorGitlabNormativeManager.commit(messageCommand.getPayload());
                 break;
             case "PUSH":
-                this.connectorGitlabNormativeManager.push("", "");
+                this.connectorGitlabNormativeManager.push(messageCommand.getPayload());
                 break;
             case "MERGE":
-                this.connectorGitlabNormativeManager.merge("", "");
+                this.connectorGitlabNormativeManager.merge(messageCommand.getPayload());
                 break;
             default:
                 //DO NOTHING

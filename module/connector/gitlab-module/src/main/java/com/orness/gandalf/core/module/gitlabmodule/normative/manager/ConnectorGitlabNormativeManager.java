@@ -1,5 +1,7 @@
 package com.orness.gandalf.core.module.gitlabmodule.normative.manager;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.gitmodule.config.normative.manager.ConnectorGitNormativeManager;
 import com.orness.gandalf.core.module.versioncontrolmodule.manager.ConnectorVersionControlNormativeManager;
 import org.gitlab4j.api.AbstractApi;
@@ -18,6 +20,7 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
 
     private GitLabApi gitLabApi;
     private ConnectorGitNormativeManager gitCommonManager;
+    private Gson mapper;
 
     public ConnectorGitNormativeManager getGitCommonManager() {
         return gitCommonManager;
@@ -27,47 +30,56 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     public ConnectorGitlabNormativeManager(GitLabApi gitLabApi, ConnectorGitNormativeManager gitCommonManager) {
         this.gitLabApi = gitLabApi;
         this.gitCommonManager = gitCommonManager;
+        this.mapper = new Gson();
     }
 
 
     @Override
-    public void cloneProject(String uri, String path) {
-        this.gitCommonManager.cloneProject(uri, path);
+    public void cloneProject(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.gitCommonManager.cloneProject(jsonObject.get("uri").getAsString(), jsonObject.get("path").getAsString());
     }
 
     @Override
-    public void pull(String origin, String branch) {
-        this.gitCommonManager.pull(origin, branch);
+    public void pull(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.gitCommonManager.pull(jsonObject.get("origin").getAsString(), jsonObject.get("branch").getAsString());
     }
 
     @Override
-    public void add(String path) {
-        this.gitCommonManager.add(path);
+    public void add(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.gitCommonManager.add(jsonObject.get("path").getAsString());
     }
 
     @Override
-    public void commit(String message) {
-        this.gitCommonManager.commit(message);
+    public void commit(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.gitCommonManager.commit(jsonObject.get("message").getAsString());
     }
 
     @Override
-    public void push(String origin, String branch) {
-        this.gitCommonManager.push(origin, branch);
+    public void push(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.gitCommonManager.push(jsonObject.get("origin").getAsString(), jsonObject.get("branch").getAsString());
     }
 
     @Override
-    public void merge(String source, String destination) {
-        this.gitCommonManager.merge(source, destination);
+    public void merge(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.gitCommonManager.merge(jsonObject.get("source").getAsString(), jsonObject.get("destination").getAsString());
     }
 
     @Override
-    public void checkout(String branch, boolean create) {
-        this.gitCommonManager.checkout(branch, create);
+    public void checkout(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.gitCommonManager.checkout(jsonObject.get("branch").getAsString(), jsonObject.get("create").getAsBoolean());
     }
 
     @Override
-    public void tag(String name) {
-        this.gitCommonManager.tag(name);
+    public void tag(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.gitCommonManager.tag(jsonObject.get("name").getAsString());
     }
 
     @Override
@@ -75,8 +87,9 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
         this.gitCommonManager.log();
     }
 
-    @Override
-    public Object execute(String apiName, String functionName, Object[] functionParameters) {
+   /* @Override
+    public Object execute(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         Method[] apiArray = this.gitLabApi.getClass().getDeclaredMethods();
         AbstractApi api = null;
         for(Method apiMethod : apiArray) {
@@ -118,7 +131,7 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
                 return true;
         }
         return false;
-    }
+    }*/
 
     @Override
     public List listUsers() {
@@ -131,9 +144,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public Object getUser(String username) {
+    public Object getUser(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getUserApi().getUser(username);
+            return this.gitLabApi.getUserApi().getUser(jsonObject.get("username").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -151,9 +165,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public Object getProjects(String path) {
+    public Object getProjects(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getProjectApi().getProject(path);
+            return this.gitLabApi.getProjectApi().getProject(jsonObject.get("path").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -161,9 +176,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public List listBranches(String pathProject) {
+    public List listBranches(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getRepositoryApi().getBranches(pathProject);
+            return this.gitLabApi.getRepositoryApi().getBranches(jsonObject.get("pathProject").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -171,9 +187,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public Object getBranche(String pathProject, String name) {
+    public Object getBranche(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getRepositoryApi().getBranch(pathProject, name);
+            return this.gitLabApi.getRepositoryApi().getBranch(jsonObject.get("pathProject").getAsString(), jsonObject.get("name").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -181,9 +198,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public List listMergeRequests(String pathProject) {
+    public List listMergeRequests(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getMergeRequestApi().getMergeRequests(pathProject);
+            return this.gitLabApi.getMergeRequestApi().getMergeRequests(jsonObject.get("pathProject").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -191,9 +209,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public Object getMergeRequests(String pathProject, int id) {
+    public Object getMergeRequests(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getMergeRequestApi().getMergeRequest(pathProject, id);
+            return this.gitLabApi.getMergeRequestApi().getMergeRequest(jsonObject.get("pathProject").getAsString(), jsonObject.get("id").getAsInt());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -201,9 +220,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public List listCommits(String pathProject) {
+    public List listCommits(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getCommitsApi().getCommits(pathProject);
+            return this.gitLabApi.getCommitsApi().getCommits(jsonObject.get("pathProject").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -211,9 +231,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public Object getCommit(String pathProject, String sha) {
+    public Object getCommit(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getCommitsApi().getCommit(pathProject, sha);
+            return this.gitLabApi.getCommitsApi().getCommit(jsonObject.get("pathProject").getAsString(), jsonObject.get("sha").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -221,9 +242,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public List listPages(String pathProject) {
+    public List listPages(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getWikisApi().getPages(pathProject);
+            return this.gitLabApi.getWikisApi().getPages(jsonObject.get("pathProject").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -231,9 +253,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public Object getPage(String pathProject, String slug) {
+    public Object getPage(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getWikisApi().getPage(pathProject, slug);
+            return this.gitLabApi.getWikisApi().getPage(jsonObject.get("pathProject").getAsString(), jsonObject.get("slug").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -261,9 +284,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public Object getIssue(String pathProject, int id) {
+    public Object getIssue(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getIssuesApi().getIssue(pathProject, id);
+            return this.gitLabApi.getIssuesApi().getIssue(jsonObject.get("pathProject").getAsString(), jsonObject.get("id").getAsInt());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -281,9 +305,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public Object getGroup(String path) {
+    public Object getGroup(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getGroupApi().getGroup(path);
+            return this.gitLabApi.getGroupApi().getGroup(jsonObject.get("path").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -291,9 +316,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public List listEpics(String pathGroup) {
+    public List listEpics(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getEpicsApi().getEpics(pathGroup);
+            return this.gitLabApi.getEpicsApi().getEpics(jsonObject.get("pathGroup").getAsString());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }
@@ -301,9 +327,10 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     @Override
-    public Object getEpic(String pathGroup, int id) {
+    public Object getEpic(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         try {
-            return this.gitLabApi.getEpicsApi().getEpic(pathGroup, id);
+            return this.gitLabApi.getEpicsApi().getEpic(jsonObject.get("pathGroup").getAsString(), jsonObject.get("id").getAsInt());
         } catch (GitLabApiException e) {
             e.printStackTrace();
         }

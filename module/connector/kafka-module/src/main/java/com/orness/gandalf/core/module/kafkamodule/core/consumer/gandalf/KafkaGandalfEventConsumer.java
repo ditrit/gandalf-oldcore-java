@@ -1,28 +1,31 @@
 package com.orness.gandalf.core.module.kafkamodule.core.consumer.gandalf;
 
+import com.orness.gandalf.core.library.gandalfjavaclient.core.GandalfPublisherZeroMQ;
 import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusProperties;
-import com.orness.gandalf.core.module.gandalfmodule.worker.event.GandalfPublisherEvent;
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.KafkaConsumer;
 import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
-import com.orness.gandalf.core.module.messagemodule.gandalf.domain.GandalfEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class KafkaGandalfEventConsumer extends KafkaConsumer {
 
-    private GandalfPublisherEvent gandalfPublisherEvent;
+    private GandalfPublisherZeroMQ gandalfPublisherZeroMQ;
 
-    public KafkaGandalfEventConsumer(String topic, GandalfPublisherEvent gandalfPublisherEvent, ConnectorKafkaProperties connectorKafkaProperties, ConnectorBusProperties connectorBusProperties) {
-        super(topic, connectorKafkaProperties, connectorBusProperties);
-        this.gandalfPublisherEvent = gandalfPublisherEvent;
+    @Autowired
+    public KafkaGandalfEventConsumer(GandalfPublisherZeroMQ gandalfPublisherZeroMQ, ConnectorKafkaProperties connectorKafkaProperties, ConnectorBusProperties connectorBusProperties) {
+        super(connectorKafkaProperties, connectorBusProperties);
+        this.gandalfPublisherZeroMQ = gandalfPublisherZeroMQ;
     }
 
     @Override
     protected void publish(Object message) {
-        GandalfEvent event = (GandalfEvent) message;
-        this.gandalfPublisherEvent.sendEvent(event.getTopic(), event.getTypeEvent(), event.getEvent());
+        KafkaGandalfMessage event = (KafkaGandalfMessage) message;
+        this.gandalfPublisherZeroMQ.sendEvent(event.getTopic(), event.getEvent(), event.getPayload());
     }
 
     @Override
     protected Object parse(String value) {
-        return this.mapper.fromJson(value, GandalfEvent.class);
+        return this.mapper.fromJson(value, KafkaGandalfMessage.class);
     }
 }

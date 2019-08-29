@@ -1,5 +1,7 @@
 package com.orness.gandalf.core.module.zeebemodule.normative.manager;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.workflowenginemodule.manager.ConnectorWorkflowEngineNormativeManager;
 import com.orness.gandalf.core.module.zeebemodule.core.domain.ConnectorZeebeMessage;
 import io.zeebe.client.ZeebeClient;
@@ -10,37 +12,41 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 
-@Component(value = "commonManager")
+@Component(value = "normativeManager")
 @Profile(value = "zeebe-module")
 public class ConnectorZeebeNormativeManager extends ConnectorWorkflowEngineNormativeManager {
 
     private ZeebeClient zeebe;
+    private Gson mapper;
 
     @Autowired
     public ConnectorZeebeNormativeManager(ZeebeClient zeebeClient) {
         this.zeebe = zeebeClient;
+        this.mapper = new Gson();
     }
 
     @Override
-    public String deployWorkflow(String workflow) {
+    public String deployWorkflow(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         DeploymentEvent deploymentEvent = zeebe.newDeployCommand()
-                .addResourceFromClasspath(workflow)
+                .addResourceFromClasspath(jsonObject.get("workflow").getAsString())
                 .send().join();
         return this.getIdDeployment(deploymentEvent);
     }
 
     @Override
-    public void instanciateWorkflow(String id, Object variables) {
+    public void instanciateWorkflow(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         zeebe.newCreateInstanceCommand()
-                .bpmnProcessId(id)
+                .bpmnProcessId(jsonObject.get("id").getAsString())
                 .latestVersion()
-                .variables(variables)
+                .variables(jsonObject.get("variables").getAsString())
                 .send().join();
     }
 
     @Override
-    public void sendMessage(Object message) {
-        ConnectorZeebeMessage connectorZeebeMessage = ((ConnectorZeebeMessage) message);
+    public void sendMessage(String payload) {
+        ConnectorZeebeMessage connectorZeebeMessage = this.mapper.fromJson(payload, ConnectorZeebeMessage.class);
         zeebe.newPublishMessageCommand() //
                 .messageName(connectorZeebeMessage.getName())
                 .correlationKey(connectorZeebeMessage.getCorrelationKey())
