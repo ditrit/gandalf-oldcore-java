@@ -3,6 +3,7 @@ package com.orness.gandalf.core.module.kafkamodule.normative.worker;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.kafkamodule.normative.manager.ConnectorKafkaNormativeManager;
+import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
     private ConnectorKafkaNormativeManager  connectorKafkaNormativeManager;
     private ConnectorProperties connectorProperties;
     private ConnectorRoutingProperties connectorRoutingProperties;
+    private MessageCommand messageCommand;
 
     @Autowired
     public ConnectorKafkaNormativeWorker(ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorKafkaNormativeManager connectorKafkaNormativeManager) {
@@ -29,31 +31,33 @@ public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
         this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorRoutingProperties.getRoutingWorkerBackEndConnection(), this.connectorRoutingProperties.getRoutingSubscriberBackEndConnection(), this.connectorProperties.getTopics());
     }
 
+    //TODO PAYLOAD
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
-/*        switch(messageCommandZeroMQ.getTypeCommand().toString()) {
-            case COMMAND_CREATE_TOPIC:
-                this.kafkaCommonManager.createTopic("");
+        this.messageCommand = new MessageCommand(command);
+        switch(messageCommand.getCommand().toString()) {
+            case "CREATE_TOPIC":
+                this.connectorKafkaNormativeManager.createTopic("");
                 break;
-            case COMMAND_DELETE_TOPIC:
-                this.kafkaCommonManager.deleteTopic("");
+            case "DELETE_TOPIC":
+                this.connectorKafkaNormativeManager.deleteTopic("");
                 break;
-            case COMMAND_SEND_MESSAGE:
-                this.kafkaCommonManager.sendMessage("","");
+            case "SEND_MESSAGE":
+                this.connectorKafkaNormativeManager.sendMessage("","");
                 break;
-            case COMMAND_RECEIVE_MESSAGE:
-                this.kafkaCommonManager.receiveMessage("");
+            case "RECEIVE_MESSAGE":
+                this.connectorKafkaNormativeManager.receiveMessage("");
                 break;
-            case COMMAND_SYNCHRONIZE_GANDALF:
-                this.kafkaCommonManager.synchronizeToGandalf("");
+            case "SYNCHRONIZE_GANDALF":
+                this.connectorKafkaNormativeManager.synchronizeToGandalf("");
                 break;
-            case COMMAND_SYNCHRONIZE_BUS:
-                this.kafkaCommonManager.synchronizeToBus("");
+            case "SYNCHRONIZE_BUS":
+                this.connectorKafkaNormativeManager.synchronizeToBus("");
                 break;
             default:
                 //DO NOTHING
                 break;
-        }*/
+        }
         return null;
     }
 

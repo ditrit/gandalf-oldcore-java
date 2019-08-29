@@ -3,6 +3,7 @@ package com.orness.gandalf.core.module.nexusmodule.normative.worker;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.nexusmodule.normative.manager.ConnectorNexusNormativeManager;
+import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class ConnectorNexusNormativeWorker extends RunnableWorkerZeroMQ {
     private ConnectorNexusNormativeManager connectorNexusNormativeManager;
     private ConnectorProperties connectorProperties;
     private ConnectorRoutingProperties connectorRoutingProperties;
+    private MessageCommand messageCommand;
 
     @Autowired
     public ConnectorNexusNormativeWorker(ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorNexusNormativeManager connectorNexusNormativeManager) {
@@ -29,29 +31,30 @@ public class ConnectorNexusNormativeWorker extends RunnableWorkerZeroMQ {
         this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorRoutingProperties.getRoutingWorkerBackEndConnection(), this.connectorRoutingProperties.getRoutingSubscriberBackEndConnection(), this.connectorProperties.getTopics());
     }
 
+    //TODO PAYLOAD
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
- /*       //TODO REVOIR ARGS
-        switch(messageCommandZeroMQ.getTypeCommand().toString()) {
-            case COMMAND_LIST_REPOSITORIES:
-                this.nexusCommonManager.listRepositories();
+        this.messageCommand = new MessageCommand(command);
+        switch(messageCommand.getCommand().toString()) {
+            case "LIST_REPOSITORIES":
+                this.connectorNexusNormativeManager.listRepositories();
                 break;
-            case COMMAND_LIST_ARTIFACTS:
-                this.nexusCommonManager.listArtifacts();
+            case "LIST_ARTIFACTS":
+                this.connectorNexusNormativeManager.listArtifacts();
                 break;
-            case COMMAND_DOWNLOAD_ARTIFACT:
-                this.nexusCommonManager.downloadArtifact(0L);
+            case "DOWNLOAD_ARTIFACT":
+                this.connectorNexusNormativeManager.downloadArtifact(0L);
                 break;
-            case COMMAND_UPLOAD_ARTIFACT:
-                this.nexusCommonManager.uploadArtifact("");
+            case "UPLOAD_ARTIFACT":
+                this.connectorNexusNormativeManager.uploadArtifact("");
                 break;
-            case COMMAND_DELETE_ARTIFACT:
-                this.nexusCommonManager.deleteArtifact(0L);
+            case "DELETE_ARTIFACT":
+                this.connectorNexusNormativeManager.deleteArtifact(0L);
                 break;
             default:
                 //DO NOTHING
                 break;
-        }*/
+        }
         return null;
     }
 

@@ -3,6 +3,7 @@ package com.orness.gandalf.core.module.zeebemodule.normative.worker;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.zeebemodule.normative.manager.ConnectorZeebeNormativeManager;
+import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
     private ConnectorZeebeNormativeManager connectorZeebeNormativeManager;
     private ConnectorProperties connectorProperties;
     private ConnectorRoutingProperties connectorRoutingProperties;
+    private MessageCommand messageCommand;
 
     @Autowired
     public ConnectorZeebeNormativeWorker( ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorZeebeNormativeManager connectorZeebeNormativeManager) {
@@ -28,23 +30,24 @@ public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
         this.connectorRoutingProperties = connectorRoutingProperties;
         this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorRoutingProperties.getRoutingWorkerBackEndConnection(), this.connectorRoutingProperties.getRoutingSubscriberBackEndConnection(), this.connectorProperties.getTopics());
     }
-
+//TODO PAYLOAD
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
-/*        switch(messageCommandZeroMQ.getTypeCommand().toString()) {
-            case COMMAND_DEPLOY:
-                this.zeebeCommonManager.deployWorkflow("");
+        this.messageCommand = new MessageCommand(command);
+        switch(messageCommand.getCommand().toString()) {
+            case "DEPLOY":
+                this.connectorZeebeNormativeManager.deployWorkflow("");
                 break;
-            case COMMAND_INSTANCIATE:
-                this.zeebeCommonManager.instanciateWorkflow("", "");
+            case "INSTANCIATE":
+                this.connectorZeebeNormativeManager.instanciateWorkflow("", "");
                 break;
-            case COMMAND_SEND:
-                this.zeebeCommonManager.sendMessage("");
+            case "SEND":
+                this.connectorZeebeNormativeManager.sendMessage("");
                 break;
             default:
                 //DO NOTHING
                 break;
-        }*/
+        }
         return null;
     }
 

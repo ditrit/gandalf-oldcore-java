@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.gitlabmodule.normative.manager.ConnectorGitlabNormativeManager;
+import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class ConnectorGitlabNormativeWorker extends RunnableWorkerZeroMQ {
     private ConnectorGitlabNormativeManager connectorGitlabNormativeManager;
     private ConnectorProperties connectorProperties;
     private ConnectorRoutingProperties connectorRoutingProperties;
+    private MessageCommand messageCommand;
 
     @Autowired
     public ConnectorGitlabNormativeWorker(ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorGitlabNormativeManager connectorGitlabNormativeManager) {
@@ -27,32 +29,33 @@ public class ConnectorGitlabNormativeWorker extends RunnableWorkerZeroMQ {
         this.connectorRoutingProperties = connectorRoutingProperties;
         this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorRoutingProperties.getRoutingWorkerBackEndConnection(), this.connectorRoutingProperties.getRoutingSubscriberBackEndConnection(), this.connectorProperties.getTopics());
     }
-
+//TODO PAYLOAD
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
-/*        switch(messageCommandZeroMQ.getTypeCommand().toString()) {
-            case COMMAND_CLONE:
-                this.gitlabCommonManager.cloneProject("");
+        this.messageCommand = new MessageCommand(command);
+        switch(messageCommand.getCommand()) {
+            case "CLONE":
+                this.connectorGitlabNormativeManager.cloneProject("", "");
                 break;
-            case COMMAND_PULL:
-                this.gitlabCommonManager.pull("", "");
+            case "PULL":
+                this.connectorGitlabNormativeManager.pull("", "");
                 break;
-            case COMMAND_ADD:
-                this.gitlabCommonManager.add("");
+            case "ADD":
+                this.connectorGitlabNormativeManager.add("");
                 break;
-            case COMMAND_COMMIT:
-                this.gitlabCommonManager.commit("");
+            case "COMMIT":
+                this.connectorGitlabNormativeManager.commit("");
                 break;
-            case COMMAND_PUSH:
-                this.gitlabCommonManager.push("", "");
+            case "PUSH":
+                this.connectorGitlabNormativeManager.push("", "");
                 break;
-            case COMMAND_MERGE:
-                this.gitlabCommonManager.merge("", "");
+            case "MERGE":
+                this.connectorGitlabNormativeManager.merge("", "");
                 break;
             default:
                 //DO NOTHING
                 break;
-        }*/
+        }
         return null;
     }
 

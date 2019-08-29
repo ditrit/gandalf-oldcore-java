@@ -1,8 +1,10 @@
 package com.orness.gandalf.core.module.customartifactmodule.normative.worker;
 
+import com.google.gson.Gson;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.customartifactmodule.normative.manager.ConnectorCustomArtifactNormativeManager;
+import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ public class ConnectorCustomArtifactNormativeWorker extends RunnableWorkerZeroMQ
     private ConnectorCustomArtifactNormativeManager connectorCustomArtifactNormativeManager;
     private ConnectorProperties connectorProperties;
     private ConnectorRoutingProperties connectorRoutingProperties;
+    private MessageCommand messageCommand;
 
     @Autowired
     public ConnectorCustomArtifactNormativeWorker(ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorCustomArtifactNormativeManager connectorCustomArtifactNormativeManager) {
@@ -31,22 +34,18 @@ public class ConnectorCustomArtifactNormativeWorker extends RunnableWorkerZeroMQ
 
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
-/*        switch(messageCommandZeroMQ.getTypeCommand().toString()) {
-            case COMMAND_LIST:
-                this.customArtifactCommonManager.listArtifacts();
+        this.messageCommand = new MessageCommand(command);
+        switch(messageCommand.getCommand()) {
+            case "UPLOAD":
+                this.connectorCustomArtifactNormativeManager.uploadArtifact(messageCommand.getPayload());
                 break;
-            case COMMAND_DOWNLOAD:
-                //TODO ADD ARTIFACT COMMAND
-                this.customArtifactCommonManager.upload(null);
-                break;
-            case COMMAND_UPLOAD:
-                //TODO ADD ARTIFACT COMMAND
-                this.customArtifactCommonManager.download("");
+            case "DOWNLOAD":
+                this.connectorCustomArtifactNormativeManager.downloadArtifact(messageCommand.getPayload());
                 break;
             default:
                 //DO NOTHING
                 break;
-        }*/
+        }
         return null;
     }
 
