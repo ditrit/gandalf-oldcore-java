@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
-@Component(value = "specificWorkerCommand")
-@Profile(value = "zeebe-module")
+@Component(value = "customWorker")
+@Profile(value = "zeebe")
 public class ConnectorZeebeCustomWorker extends RunnableWorkerZeroMQ {
 
     @Override

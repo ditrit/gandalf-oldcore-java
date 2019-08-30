@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.module.customorchestratormodule.normative.worker;
 
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.customorchestratormodule.normative.manager.ConnectorCustomOrchestratorNormativeManager;
+import com.orness.gandalf.core.module.customorchestratormodule.properties.ConnectorCustomOrchestratorProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
@@ -14,21 +14,21 @@ import org.zeromq.ZMsg;
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
 @Component(value = "normativeWorker")
-@Profile(value = "custom-orchestrator-module")
+@Profile(value = "custom-orchestrator")
 public class ConnectorCustomOrchestratorNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorCustomOrchestratorNormativeManager connectorCustomOrchestratorNormativeManager;
     private ConnectorProperties connectorProperties;
-    private ConnectorRoutingProperties connectorRoutingProperties;
+    private ConnectorCustomOrchestratorProperties connectorCustomOrchestratorProperties;
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorCustomOrchestratorNormativeWorker(ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorCustomOrchestratorNormativeManager connectorCustomOrchestratorNormativeManager) {
+    public ConnectorCustomOrchestratorNormativeWorker(ConnectorProperties connectorProperties, ConnectorCustomOrchestratorProperties connectorCustomOrchestratorProperties, ConnectorCustomOrchestratorNormativeManager connectorCustomOrchestratorNormativeManager) {
         super();
         this.connectorCustomOrchestratorNormativeManager = connectorCustomOrchestratorNormativeManager;
         this.connectorProperties = connectorProperties;
-        this.connectorRoutingProperties = connectorRoutingProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorRoutingProperties.getRoutingWorkerBackEndConnection(), this.connectorRoutingProperties.getRoutingSubscriberBackEndConnection(), this.connectorProperties.getTopics());
+        this.connectorCustomOrchestratorProperties = connectorCustomOrchestratorProperties;
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorCustomOrchestratorProperties.getTopics());
     }
 
     //TODO PAYLOAD

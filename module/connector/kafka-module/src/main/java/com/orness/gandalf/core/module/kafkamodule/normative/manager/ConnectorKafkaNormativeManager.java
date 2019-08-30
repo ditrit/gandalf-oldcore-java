@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component(value = "normativeManager")
-@Profile(value = "kafka-module")
+@Profile(value = "kafka")
 public class ConnectorKafkaNormativeManager extends ConnectorBusNormativeManager {
 
     private KafkaAdmin kafkaAdmin;

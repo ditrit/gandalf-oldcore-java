@@ -13,7 +13,7 @@ import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.*;
 import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_BUILD_DIRECTORY;
 
 @Service
-@Profile(value = "custom-orchestrator-module")
+@Profile(value = "custom-orchestrator")
 public class ConnectorCustomOrchestratorBashService {
 
     public boolean execute(String service, String command) {

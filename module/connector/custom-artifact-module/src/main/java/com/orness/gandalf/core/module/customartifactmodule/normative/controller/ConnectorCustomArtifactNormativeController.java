@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
 
-@RestController(value = "commonController")
-@Profile(value = "custom-artifact-module")
+@RestController(value = "normativeController")
+@Profile(value = "custom-artifact")
 public class ConnectorCustomArtifactNormativeController extends ConnectorArtifactNormativeController {
 
     private ConnectorCustomArtifactNormativeManager connectorCustomArtifactNormativeManager;

@@ -47,6 +47,8 @@ public class ClientConfiguration {
             }
         }
     }
+
+
 /*
     @Bean
     public void gandalfLoop() {

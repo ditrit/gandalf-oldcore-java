@@ -6,7 +6,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile(value = "kafka-module")
+@Profile(value = "kafka")
 public class KafkaProducer {
 
     private KafkaTemplate<String, Object> kafkaTemplate;

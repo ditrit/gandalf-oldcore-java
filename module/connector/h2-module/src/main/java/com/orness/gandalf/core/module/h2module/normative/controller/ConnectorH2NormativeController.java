@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController(value = "commonController")
-@Profile(value = "h2-module")
+@RestController(value = "normativeController")
+@Profile(value = "h2")
 public class ConnectorH2NormativeController extends ConnectorDatabaseNormativeController {
 
     private ConnectorH2NormativeManager h2CommonManager;

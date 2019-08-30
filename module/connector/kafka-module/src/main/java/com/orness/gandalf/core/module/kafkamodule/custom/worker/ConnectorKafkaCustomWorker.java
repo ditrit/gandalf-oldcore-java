@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
-@Component(value = "specificWorkerCommand")
-@Profile(value = "kafka-module")
+@Component(value = "customWorker")
+@Profile(value = "kafka")
 public class ConnectorKafkaCustomWorker extends RunnableWorkerZeroMQ {
 
     @Override

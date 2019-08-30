@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@Profile(value = "kafka-module")
+@Profile(value = "kafka")
 public class KafkaProducerConfiguration {
 
     private ConnectorBusProperties connectorBusProperties;

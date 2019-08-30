@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.module.zeebemodule.normative.worker;
 
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.zeebemodule.normative.manager.ConnectorZeebeNormativeManager;
+import com.orness.gandalf.core.module.zeebemodule.properties.ConnectorZeebeProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
@@ -14,21 +14,21 @@ import org.zeromq.ZMsg;
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
 @Component(value = "normativeWorker")
-@Profile(value = "zeebe-module")
+@Profile(value = "zeebe")
 public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorZeebeNormativeManager connectorZeebeNormativeManager;
     private ConnectorProperties connectorProperties;
-    private ConnectorRoutingProperties connectorRoutingProperties;
+    private ConnectorZeebeProperties connectorZeebeProperties;
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorZeebeNormativeWorker( ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorZeebeNormativeManager connectorZeebeNormativeManager) {
+    public ConnectorZeebeNormativeWorker( ConnectorProperties connectorProperties, ConnectorZeebeProperties connectorZeebeProperties, ConnectorZeebeNormativeManager connectorZeebeNormativeManager) {
         super();
         this.connectorZeebeNormativeManager = connectorZeebeNormativeManager;
         this.connectorProperties = connectorProperties;
-        this.connectorRoutingProperties = connectorRoutingProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorRoutingProperties.getRoutingWorkerBackEndConnection(), this.connectorRoutingProperties.getRoutingSubscriberBackEndConnection(), this.connectorProperties.getTopics());
+        this.connectorZeebeProperties = connectorZeebeProperties;
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorZeebeProperties.getTopics());
     }
 //TODO PAYLOAD
     @Override

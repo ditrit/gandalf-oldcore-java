@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component(value = "normativeManager")
-@Profile(value = "nexus-module")
+@Profile(value = "nexus")
 public class ConnectorNexusNormativeManager extends ConnectorArtifactNormativeManager {
 
     private NexusFeign nexusFeign;

@@ -8,6 +8,7 @@ import org.gitlab4j.api.AbstractApi;
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,7 +16,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
-@Component
+@Component(value = "normativeManager")
+@Profile(value = "gitlab")
 public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNormativeManager {
 
     private GitLabApi gitLabApi;

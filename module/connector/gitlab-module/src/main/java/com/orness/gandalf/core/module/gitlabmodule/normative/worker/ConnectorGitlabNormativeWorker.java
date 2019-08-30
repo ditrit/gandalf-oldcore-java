@@ -1,33 +1,35 @@
 package com.orness.gandalf.core.module.gitlabmodule.normative.worker;
 
-import com.google.gson.Gson;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.gitlabmodule.normative.manager.ConnectorGitlabNormativeManager;
+import com.orness.gandalf.core.module.gitlabmodule.properties.ConnectorGitlabProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
-//TODO ARGS
+@Component(value = "normativeWorker")
+@Profile(value = "gitlab")
 public class ConnectorGitlabNormativeWorker extends RunnableWorkerZeroMQ {
 
 
     private ConnectorGitlabNormativeManager connectorGitlabNormativeManager;
     private ConnectorProperties connectorProperties;
-    private ConnectorRoutingProperties connectorRoutingProperties;
+    private ConnectorGitlabProperties connectorGitlabProperties;
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorGitlabNormativeWorker(ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorGitlabNormativeManager connectorGitlabNormativeManager) {
+    public ConnectorGitlabNormativeWorker(ConnectorProperties connectorProperties, ConnectorGitlabProperties connectorGitlabProperties, ConnectorGitlabNormativeManager connectorGitlabNormativeManager) {
         super();
         this.connectorGitlabNormativeManager = connectorGitlabNormativeManager;
         this.connectorProperties = connectorProperties;
-        this.connectorRoutingProperties = connectorRoutingProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorRoutingProperties.getRoutingWorkerBackEndConnection(), this.connectorRoutingProperties.getRoutingSubscriberBackEndConnection(), this.connectorProperties.getTopics());
+        this.connectorGitlabProperties = connectorGitlabProperties;
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorGitlabProperties.getTopics());
     }
 //TODO PAYLOAD
     @Override

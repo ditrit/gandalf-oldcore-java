@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component(value = "normativeManager")
-@Profile(value = "h2-module")
+@Profile(value = "h2")
 public class ConnectorH2NormativeManager extends ConnectorDatabaseNormativeManager {
 
     @Override

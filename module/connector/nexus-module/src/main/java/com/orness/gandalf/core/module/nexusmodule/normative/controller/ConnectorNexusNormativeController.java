@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component(value = "commonWorkerCommand")
-@Profile(value = "nexus-module")
+@Component(value = "normativeController")
+@Profile(value = "nexus")
 public class ConnectorNexusNormativeController extends ConnectorArtifactNormativeController {
 
     private ConnectorNexusNormativeManager connectorNexusNormativeManager;

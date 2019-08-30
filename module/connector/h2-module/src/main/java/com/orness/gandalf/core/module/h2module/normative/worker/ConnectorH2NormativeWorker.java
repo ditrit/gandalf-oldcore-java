@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.module.h2module.normative.worker;
 
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.h2module.normative.manager.ConnectorH2NormativeManager;
+import com.orness.gandalf.core.module.h2module.properties.ConnectorH2Properties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
@@ -13,20 +13,20 @@ import org.zeromq.ZMsg;
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
 @Component(value = "normativeWorker")
-@Profile(value = "h2-module")
+@Profile(value = "h2")
 public class ConnectorH2NormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorH2NormativeManager h2CommonManager;
     private ConnectorProperties connectorProperties;
-    private ConnectorRoutingProperties connectorRoutingProperties;
+    private ConnectorH2Properties connectorH2Properties;
     private MessageCommand messageCommand;
 
-    public ConnectorH2NormativeWorker(ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorH2NormativeManager h2CommonManager) {
+    public ConnectorH2NormativeWorker(ConnectorProperties connectorProperties, ConnectorH2Properties connectorH2Properties, ConnectorH2NormativeManager h2CommonManager) {
         super();
         this.h2CommonManager = h2CommonManager;
         this.connectorProperties = connectorProperties;
-        this.connectorRoutingProperties = connectorRoutingProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorRoutingProperties.getRoutingWorkerBackEndConnection(), this.connectorRoutingProperties.getRoutingSubscriberBackEndConnection(), this.connectorProperties.getTopics());
+        this.connectorH2Properties = connectorH2Properties;
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorH2Properties.getTopics());
     }
 
     //TODO PAYLOAD

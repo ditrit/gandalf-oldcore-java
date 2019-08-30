@@ -22,7 +22,7 @@ import java.util.List;
 import static com.orness.gandalf.core.module.constantmodule.storage.StorageConstant.BUILD_PROJECT_DIRECTORY;
 
 @Component(value = "normativeManager")
-@Profile(value = "custom-artifact-module")
+@Profile(value = "custom-artifact")
 public class ConnectorCustomArtifactNormativeManager extends ConnectorArtifactNormativeManager {
 
     private final Path fileStorageLocation;

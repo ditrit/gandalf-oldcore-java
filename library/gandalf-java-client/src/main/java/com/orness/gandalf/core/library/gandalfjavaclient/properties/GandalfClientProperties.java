@@ -1,26 +1,29 @@
 package com.orness.gandalf.core.library.gandalfjavaclient.properties;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-@EnableConfigurationProperties
-@ConfigurationProperties(prefix="gandalf.client")
+@Configuration
 public class GandalfClientProperties {
 
-    private String name;
+    @Value("${connector.name}")
+    private String connectorName;
+    @Value("${${connector.name}.publisherConnection}")
     private String publisherConnection;
+    @Value("${${connector.name}.clientConnections}")
     private List<String> clientConnections;
 
-    public String getName() {
-        return name;
+    public String getConnectorName() {
+        return connectorName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setConnectorName(String connectorName) {
+        this.connectorName = connectorName;
     }
 
     public String getPublisherConnection() {

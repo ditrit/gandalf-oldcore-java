@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 
 @Component(value = "normativeManager")
-@Profile(value = "zeebe-module")
+@Profile(value = "zeebe")
 public class ConnectorZeebeNormativeManager extends ConnectorWorkflowEngineNormativeManager {
 
     private ZeebeClient zeebe;

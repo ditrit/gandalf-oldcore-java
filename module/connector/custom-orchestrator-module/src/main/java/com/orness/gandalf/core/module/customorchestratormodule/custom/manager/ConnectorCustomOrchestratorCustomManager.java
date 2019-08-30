@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Component(value = "specificManager")
-@Profile(value = "custom-orchestrator-module")
+@Component(value = "customManager")
+@Profile(value = "custom-orchestrator")
 public class ConnectorCustomOrchestratorCustomManager {
 
     private ConnectorCustomOrchestratorBashService connectorCustomOrchestratorBashService;

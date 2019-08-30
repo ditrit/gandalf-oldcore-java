@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile(value = "zeebe-module")
+@Profile(value = "zeebe")
 public class ConnectorZeebeConfiguration {
 
     private ConnectorWorkflowEngineProperties workflowEngineProperties;
@@ -20,9 +20,9 @@ public class ConnectorZeebeConfiguration {
 
     @Bean
     public ZeebeClient zeebe() {
-        System.out.println(workflowEngineProperties.getBroker());
+        System.out.println(workflowEngineProperties.getWorkflowengineConnection());
         ZeebeClient zeebeClient = ZeebeClient.newClientBuilder()
-                .brokerContactPoint(this.workflowEngineProperties.getBroker())
+                .brokerContactPoint(this.workflowEngineProperties.getWorkflowengineConnection())
                 .build();
         return zeebeClient;
     }

@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController(value = "commonController")
-@Profile(value = "custom-orchestrator-module")
+@RestController(value = "normativeController")
+@Profile(value = "custom-orchestrator")
 public class ConnectorCustomOrchestratorNormativeController extends ConnectorOrchestratorNormativeController {
 
     private ConnectorCustomOrchestratorNormativeManager connectorCustomOrchestratorNormativeManager;

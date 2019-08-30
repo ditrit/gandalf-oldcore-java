@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.module.nexusmodule.normative.worker;
 
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.nexusmodule.normative.manager.ConnectorNexusNormativeManager;
+import com.orness.gandalf.core.module.nexusmodule.properties.ConnectorNexusProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
@@ -14,21 +14,21 @@ import org.zeromq.ZMsg;
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
 @Component(value = "normativeWorker")
-@Profile(value = "nexus-module")
+@Profile(value = "nexus")
 public class ConnectorNexusNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorNexusNormativeManager connectorNexusNormativeManager;
     private ConnectorProperties connectorProperties;
-    private ConnectorRoutingProperties connectorRoutingProperties;
+    private ConnectorNexusProperties connectorNexusProperties;
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorNexusNormativeWorker(ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorNexusNormativeManager connectorNexusNormativeManager) {
+    public ConnectorNexusNormativeWorker(ConnectorProperties connectorProperties, ConnectorNexusProperties connectorNexusProperties, ConnectorNexusNormativeManager connectorNexusNormativeManager) {
         super();
         this.connectorNexusNormativeManager = connectorNexusNormativeManager;
         this.connectorProperties = connectorProperties;
-        this.connectorRoutingProperties = connectorRoutingProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorRoutingProperties.getRoutingWorkerBackEndConnection(), this.connectorRoutingProperties.getRoutingSubscriberBackEndConnection(), this.connectorProperties.getTopics());
+        this.connectorNexusProperties = connectorNexusProperties;
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorNexusProperties.getTopics());
     }
 
     //TODO PAYLOAD

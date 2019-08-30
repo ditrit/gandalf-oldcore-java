@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
-@Component(value = "specificWorkerCommand")
-@Profile(value = "custom-orchestrator-module")
+@Component(value = "customWorker")
+@Profile(value = "custom-orchestrator")
 public class ConnectorCustomOrchestratorCustomWorker extends RunnableWorkerZeroMQ {
 
     @Override

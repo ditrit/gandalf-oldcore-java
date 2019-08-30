@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component(value = "normativeManager")
-@Profile(value = "custom-orchestrator-module")
+@Profile(value = "custom-orchestrator")
 public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrchestratorNormativeManager {
 
     private ConnectorCustomOrchestratorBashService connectorCustomOrchestratorBashService;

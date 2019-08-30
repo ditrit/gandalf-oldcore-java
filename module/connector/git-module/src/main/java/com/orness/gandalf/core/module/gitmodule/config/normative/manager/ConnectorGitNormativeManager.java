@@ -38,6 +38,16 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
     }
 
     @Override
+    public void cloneProject(String payload) {
+
+    }
+
+    @Override
+    public void pull(String payload) {
+
+    }
+
+    @Override
     public void add(String path) {
         AddCommand add = this.connectorGitService.getGit().add();
         try {
@@ -55,6 +65,21 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
         } catch (GitAPIException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void push(String payload) {
+
+    }
+
+    @Override
+    public void merge(String payload) {
+
+    }
+
+    @Override
+    public void checkout(String payload) {
+
     }
 
     @Override
@@ -129,12 +154,22 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
     }
 
     @Override
+    public Object getBranche(String payload) {
+        return null;
+    }
+
+    @Override
     public Object getBranche(String pathProject, String name) {
         return null;
     }
 
     @Override
     public List listMergeRequests(String pathProject) {
+        return null;
+    }
+
+    @Override
+    public Object getMergeRequests(String payload) {
         return null;
     }
 
@@ -149,12 +184,22 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
     }
 
     @Override
+    public Object getCommit(String payload) {
+        return null;
+    }
+
+    @Override
     public Object getCommit(String pathProject, String sha) {
         return null;
     }
 
     @Override
     public List listPages(String pathProject) {
+        return null;
+    }
+
+    @Override
+    public Object getPage(String payload) {
         return null;
     }
 
@@ -170,6 +215,11 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
 
     @Override
     public List listIssues() {
+        return null;
+    }
+
+    @Override
+    public Object getIssue(String payload) {
         return null;
     }
 
@@ -190,6 +240,11 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
 
     @Override
     public List listEpics(String pathGroup) {
+        return null;
+    }
+
+    @Override
+    public Object getEpic(String payload) {
         return null;
     }
 

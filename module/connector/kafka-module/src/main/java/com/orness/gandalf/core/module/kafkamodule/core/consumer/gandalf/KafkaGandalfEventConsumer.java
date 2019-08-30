@@ -5,9 +5,11 @@ import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusPropertie
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.KafkaConsumer;
 import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile(value = "kafka")
 public class KafkaGandalfEventConsumer extends KafkaConsumer {
 
     private GandalfPublisherZeroMQ gandalfPublisherZeroMQ;

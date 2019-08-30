@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.module.kafkamodule.normative.worker;
 
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorRoutingProperties;
 import com.orness.gandalf.core.module.kafkamodule.normative.manager.ConnectorKafkaNormativeManager;
+import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
@@ -14,21 +14,21 @@ import org.zeromq.ZMsg;
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
 @Component(value = "normativeWorker")
-@Profile(value = "kafka-module")
+@Profile(value = "kafka")
 public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorKafkaNormativeManager  connectorKafkaNormativeManager;
     private ConnectorProperties connectorProperties;
-    private ConnectorRoutingProperties connectorRoutingProperties;
+    private ConnectorKafkaProperties connectorKafkaProperties;
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorKafkaNormativeWorker(ConnectorProperties connectorProperties, ConnectorRoutingProperties connectorRoutingProperties, ConnectorKafkaNormativeManager connectorKafkaNormativeManager) {
+    public ConnectorKafkaNormativeWorker(ConnectorProperties connectorProperties, ConnectorKafkaProperties connectorRoutingProperties, ConnectorKafkaNormativeManager connectorKafkaNormativeManager) {
         super();
         this.connectorKafkaNormativeManager = connectorKafkaNormativeManager;
         this.connectorProperties = connectorProperties;
-        this.connectorRoutingProperties = connectorRoutingProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorRoutingProperties.getRoutingWorkerBackEndConnection(), this.connectorRoutingProperties.getRoutingSubscriberBackEndConnection(), this.connectorProperties.getTopics());
+        this.connectorKafkaProperties = connectorKafkaProperties;
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorKafkaProperties.getTopics());
     }
 
     //TODO PAYLOAD
