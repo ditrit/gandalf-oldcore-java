@@ -15,13 +15,13 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>connector-workflow-engine-service</module>
-        <module>connector-bus-service</module>
-        <module>connector-version-control-service</module>
-        <module>connector-gandalf-service</module>
-        <module>connector-artifact-service</module>
-        <module>connector-database-service</module>
-        <module>connector-orchestrator-service</module>
+        <module>connector-workflow-engine</module>
+        <module>connector-bus</module>
+        <module>connector-version-control</module>
+        <module>connector-gandalf</module>
+        <module>connector-artifact</module>
+        <module>connector-database</module>
+        <module>connector-orchestrator</module>
     </modules>
 
     <properties>
