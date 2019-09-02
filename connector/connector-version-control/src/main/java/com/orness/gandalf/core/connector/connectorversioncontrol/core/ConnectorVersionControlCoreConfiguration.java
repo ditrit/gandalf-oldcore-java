@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.connector.connectorversioncontrol.core;
 
-import com.orness.gandalf.core.module.gandalfmodule.worker.command.GandalfWorkerCommand;
-import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
+import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
+import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +12,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.versioncontrolmodule", "com.orness.gandalf.core.module.gitlabmodule"})
+//TODO
+//@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.versioncontrolmodule", "com.orness.gandalf.core.module.gitlabmodule"})
 @Order
 public class ConnectorVersionControlCoreConfiguration {
 
@@ -21,16 +22,6 @@ public class ConnectorVersionControlCoreConfiguration {
 
     @Value("spring.profiles.active")
     private String profile;
-
-    //                            _  .-')     ('-.
-    //                       ( \( -O )  _(  OO)
-    //   .-----.  .-'),-----. ,------. (,------.
-    //  '  .--./ ( OO'  .-.  '|   /`. ' |  .---'
-    //  |  |('-. /   |  | |  ||  /  | | |  |
-    // /_) |OO  )\_) |  |\|  ||  |_.' |(|  '--.
-    // ||  |`-'|   \ |  | |  ||  .  '.' |  .--'
-    //(_'  '--'\    `'  '-'  '|  |\  \  |  `---.
-    //   `-----'      `-----' `--' '--' `------'
 
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
@@ -41,71 +32,35 @@ public class ConnectorVersionControlCoreConfiguration {
         return pool;
     }
 
-
-    //                   ('-.         .-') _  _ .-') _     ('-.
-    //              ( OO ).-.    ( OO ) )( (  OO) )   ( OO ).-.
-    //  ,----.      / . --. /,--./ ,--,'  \     .'_   / . --. / ,--.        ,------.
-    // '  .-./-')   | \-.  \ |   \ |  |\  ,`'--..._)  | \-.  \  |  |.-') ('-| _.---'
-    // |  |_( O- ).-'-'  |  ||    \|  | ) |  |  \  '.-'-'  |  | |  | OO )(OO|(_\
-    // |  | .--, \ \| |_.'  ||  .     |/  |  |   ' | \| |_.'  | |  |`-' |/  |  '--.
-    //(|  | '. (_/  |  .-.  ||  |\    |   |  |   / :  |  .-.  |(|  '---.'\_)|  .--'
-    // |  '--'  |   |  | |  ||  | \   |   |  '--'  /  |  | |  | |      |   \|  |_)
-    //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
-
     @Bean
-    public void gandalfWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ gandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
-        taskExecutor.execute(gandalfWorkerCommand);
+    public void connectorGandalfWorker() {
+        RunnableWorkerZeroMQ gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
+        this.taskExecutor().execute(gandalfWorker);
     }
 
-    //                        _   .-')    _   .-')                     .-') _
-    //                       ( '.( OO )_ ( '.( OO )_                  ( OO ) )
-    //   .-----.  .-'),-----. ,--.   ,--.),--.   ,--.).-'),-----. ,--./ ,--,'
-    //  '  .--./ ( OO'  .-.  '|   `.'   | |   `.'   |( OO'  .-.  '|   \ |  |\
-    //  |  |('-. /   |  | |  ||         | |         |/   |  | |  ||    \|  | )
-    // /_) |OO  )\_) |  |\|  ||  |'.'|  | |  |'.'|  |\_) |  |\|  ||  .     |/
-    // ||  |`-'|   \ |  | |  ||  |   |  | |  |   |  |  \ |  | |  ||  |\    |
-    //(_'  '--'\    `'  '-'  '|  |   |  | |  |   |  |   `'  '-'  '|  | \   |
-    //   `-----'      `-----' `--'   `--' `--'   `--'     `-----' `--'  `--'
-
     @Bean
-    public void commonWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand = null;
-
+    public void connectorNormativeWorker() {
+        RunnableWorkerZeroMQ normativeWorker = null;
         switch(profile) {
-            case "gitlab-module":
-                //commonWorkerCommand = (H2Com) context.getBean("commonWorkerCommand");
+            case "gitlab":
+                //normativeWorker = (ConnectorGitlabNormativeWorker) context.getBean("normativeWorker");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(commonWorkerCommand);
+        this.taskExecutor().execute(normativeWorker);
     }
 
-    //      .-')     _ (`-.    ('-.
-    // ( OO ).  ( (OO  ) _(  OO)
-    //(_)---\_)_.`     \(,------.   .-----.  ,-.-')    ,------.,-.-')   .-----.
-    ///    _ |(__...--'' |  .---'  '  .--./  |  |OO)('-| _.---'|  |OO) '  .--./
-    //\  :` `. |  /  | | |  |      |  |('-.  |  |  \(OO|(_\    |  |  \ |  |('-.
-    // '..`''.)|  |_.' |(|  '--.  /_) |OO  ) |  |(_//  |  '--. |  |(_//_) |OO  )
-    //.-._)   \|  .___.' |  .--'  ||  |`-'| ,|  |_.'\_)|  .--',|  |_.'||  |`-'|
-    //\       /|  |      |  `---.(_'  '--'\(_|  |     \|  |_)(_|  |  (_'  '--'\
-    // `-----' `--'      `------'   `-----'  `--'      `--'    `--'     `-----'
-
     @Bean
-    public void specificWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand = null;
-
+    public void connectorCustomWorker() {
+        RunnableWorkerZeroMQ cutomWorker = null;
         switch(profile) {
-            case "gitlab-module":
-                //commonWorkerCommand = (CustomOrches) context.getBean("specificWorkerCommand");
+            case "gitlab":
+                //cutomWorker = (ConnectorGitlabCustomWorker) context.getBean("cutomWorker");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(commonWorkerCommand);
+        this.taskExecutor().execute(cutomWorker);
     }
 }

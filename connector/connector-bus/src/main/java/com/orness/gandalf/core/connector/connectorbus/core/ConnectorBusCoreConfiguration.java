@@ -14,7 +14,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.busmodule", "com.orness.gandalf.core.module.kafkamodule"})
+//TODO
+//@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.busmodule", "com.orness.gandalf.core.module.kafkamodule"})
 @Order
 public class ConnectorBusCoreConfiguration {
 
@@ -23,16 +24,6 @@ public class ConnectorBusCoreConfiguration {
 
     @Value("${spring.profiles.active}")
     private String profile;
-
-    //                            _  .-')     ('-.
-    //                       ( \( -O )  _(  OO)
-    //   .-----.  .-'),-----. ,------. (,------.
-    //  '  .--./ ( OO'  .-.  '|   /`. ' |  .---'
-    //  |  |('-. /   |  | |  ||  /  | | |  |
-    // /_) |OO  )\_) |  |\|  ||  |_.' |(|  '--.
-    // ||  |`-'|   \ |  | |  ||  .  '.' |  .--'
-    //(_'  '--'\    `'  '-'  '|  |\  \  |  `---.
-    //   `-----'      `-----' `--' '--' `------'
 
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
@@ -43,72 +34,35 @@ public class ConnectorBusCoreConfiguration {
         return pool;
     }
 
-
-    //                   ('-.         .-') _  _ .-') _     ('-.
-    //              ( OO ).-.    ( OO ) )( (  OO) )   ( OO ).-.
-    //  ,----.      / . --. /,--./ ,--,'  \     .'_   / . --. / ,--.        ,------.
-    // '  .-./-')   | \-.  \ |   \ |  |\  ,`'--..._)  | \-.  \  |  |.-') ('-| _.---'
-    // |  |_( O- ).-'-'  |  ||    \|  | ) |  |  \  '.-'-'  |  | |  | OO )(OO|(_\
-    // |  | .--, \ \| |_.'  ||  .     |/  |  |   ' | \| |_.'  | |  |`-' |/  |  '--.
-    //(|  | '. (_/  |  .-.  ||  |\    |   |  |   / :  |  .-.  |(|  '---.'\_)|  .--'
-    // |  '--'  |   |  | |  ||  | \   |   |  '--'  /  |  | |  | |      |   \|  |_)
-    //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
-
-
     @Bean
-    public void connectorGandalfWorkerCommand() {
-        //ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ connectorGandalfWorkerCommand = (ConnectorGandalfWorker) context.getBean("gandalfWorkerCommand");
-        this.taskExecutor().execute(connectorGandalfWorkerCommand);
+    public void connectorGandalfWorker() {
+        RunnableWorkerZeroMQ gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
+        this.taskExecutor().execute(gandalfWorker);
     }
 
-
-    //                        _   .-')    _   .-')                     .-') _
-    //                       ( '.( OO )_ ( '.( OO )_                  ( OO ) )
-    //   .-----.  .-'),-----. ,--.   ,--.),--.   ,--.).-'),-----. ,--./ ,--,'
-    //  '  .--./ ( OO'  .-.  '|   `.'   | |   `.'   |( OO'  .-.  '|   \ |  |\
-    //  |  |('-. /   |  | |  ||         | |         |/   |  | |  ||    \|  | )
-    // /_) |OO  )\_) |  |\|  ||  |'.'|  | |  |'.'|  |\_) |  |\|  ||  .     |/
-    // ||  |`-'|   \ |  | |  ||  |   |  | |  |   |  |  \ |  | |  ||  |\    |
-    //(_'  '--'\    `'  '-'  '|  |   |  | |  |   |  |   `'  '-'  '|  | \   |
-    //   `-----'      `-----' `--'   `--' `--'   `--'     `-----' `--'  `--'
-
     @Bean
-    public void connectorCommonWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ connectorCommonWorkerCommand = null;
+    public void connectorNormativeWorker() {
+        RunnableWorkerZeroMQ normativeWorker = null;
         switch(profile) {
-            case "kafka-module":
-                connectorCommonWorkerCommand = (ConnectorKafkaNormativeWorker) context.getBean("commonWorkerCommand");
+            case "kafka":
+                normativeWorker = (ConnectorKafkaNormativeWorker) context.getBean("normativeWorker");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(connectorCommonWorkerCommand);
+        this.taskExecutor().execute(normativeWorker);
     }
 
-    //      .-')     _ (`-.    ('-.
-    // ( OO ).  ( (OO  ) _(  OO)
-    //(_)---\_)_.`     \(,------.   .-----.  ,-.-')    ,------.,-.-')   .-----.
-    ///    _ |(__...--'' |  .---'  '  .--./  |  |OO)('-| _.---'|  |OO) '  .--./
-    //\  :` `. |  /  | | |  |      |  |('-.  |  |  \(OO|(_\    |  |  \ |  |('-.
-    // '..`''.)|  |_.' |(|  '--.  /_) |OO  ) |  |(_//  |  '--. |  |(_//_) |OO  )
-    //.-._)   \|  .___.' |  .--'  ||  |`-'| ,|  |_.'\_)|  .--',|  |_.'||  |`-'|
-    //\       /|  |      |  `---.(_'  '--'\(_|  |     \|  |_)(_|  |  (_'  '--'\
-    // `-----' `--'      `------'   `-----'  `--'      `--'    `--'     `-----'
-
     @Bean
-    public void connectorSpecificWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ connectorSpecificWorkerCommand = null;
-
+    public void connectorCustomWorker() {
+        RunnableWorkerZeroMQ customWorker = null;
         switch(profile) {
-            case "kafka-module":
-                connectorSpecificWorkerCommand = (ConnectorKafkaCustomWorker) context.getBean("specificWorkerCommand");
+            case "kafka":
+                customWorker = (ConnectorKafkaCustomWorker) context.getBean("customWorker");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(connectorSpecificWorkerCommand);
+        this.taskExecutor().execute(customWorker);
     }
 }

@@ -59,6 +59,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.orness.gandalf.core.module.connector-implementation</groupId>
+			<artifactId>custom-artifact-module</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.orness.gandalf.core.module.connector-implementation</groupId>
 			<artifactId>nexus-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>

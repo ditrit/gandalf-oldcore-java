@@ -1,9 +1,9 @@
 package com.orness.gandalf.core.connector.connectorworkflowengine.core;
 
-import com.orness.gandalf.core.module.gandalfmodule.worker.command.GandalfWorkerCommand;
-import com.orness.gandalf.core.module.zeebemodule.normative.worker.ZeebeCommonWorkerCommand;
-import com.orness.gandalf.core.module.zeebemodule.custom.worker.ZeebeSpecificWorkerCommand;
-import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
+import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
+import com.orness.gandalf.core.module.zeebemodule.custom.worker.ConnectorZeebeCustomWorker;
+import com.orness.gandalf.core.module.zeebemodule.normative.worker.ConnectorZeebeNormativeWorker;
+import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -14,7 +14,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.workflowenginemodule", "com.orness.gandalf.core.module.zeebemodule"})
+//TODO
+//@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.workflowenginemodule", "com.orness.gandalf.core.module.zeebemodule"})
 @Order
 public class ConnectorWorkflowEngineCoreConfiguration {
 
@@ -23,16 +24,6 @@ public class ConnectorWorkflowEngineCoreConfiguration {
 
     @Value("${spring.profiles.active}")
     private String profile;
-
-    //                            _  .-')     ('-.
-    //                       ( \( -O )  _(  OO)
-    //   .-----.  .-'),-----. ,------. (,------.
-    //  '  .--./ ( OO'  .-.  '|   /`. ' |  .---'
-    //  |  |('-. /   |  | |  ||  /  | | |  |
-    // /_) |OO  )\_) |  |\|  ||  |_.' |(|  '--.
-    // ||  |`-'|   \ |  | |  ||  .  '.' |  .--'
-    //(_'  '--'\    `'  '-'  '|  |\  \  |  `---.
-    //   `-----'      `-----' `--' '--' `------'
 
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
@@ -43,71 +34,35 @@ public class ConnectorWorkflowEngineCoreConfiguration {
         return pool;
     }
 
-
-    //                   ('-.         .-') _  _ .-') _     ('-.
-    //              ( OO ).-.    ( OO ) )( (  OO) )   ( OO ).-.
-    //  ,----.      / . --. /,--./ ,--,'  \     .'_   / . --. / ,--.        ,------.
-    // '  .-./-')   | \-.  \ |   \ |  |\  ,`'--..._)  | \-.  \  |  |.-') ('-| _.---'
-    // |  |_( O- ).-'-'  |  ||    \|  | ) |  |  \  '.-'-'  |  | |  | OO )(OO|(_\
-    // |  | .--, \ \| |_.'  ||  .     |/  |  |   ' | \| |_.'  | |  |`-' |/  |  '--.
-    //(|  | '. (_/  |  .-.  ||  |\    |   |  |   / :  |  .-.  |(|  '---.'\_)|  .--'
-    // |  '--'  |   |  | |  ||  | \   |   |  '--'  /  |  | |  | |      |   \|  |_)
-    //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
-
     @Bean
-    public void connectorGandalfWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ gandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
-        taskExecutor.execute(gandalfWorkerCommand);
+    public void connectorGandalfWorker() {
+        RunnableWorkerZeroMQ gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
+        this.taskExecutor().execute(gandalfWorker);
     }
 
-    //                        _   .-')    _   .-')                     .-') _
-    //                       ( '.( OO )_ ( '.( OO )_                  ( OO ) )
-    //   .-----.  .-'),-----. ,--.   ,--.),--.   ,--.).-'),-----. ,--./ ,--,'
-    //  '  .--./ ( OO'  .-.  '|   `.'   | |   `.'   |( OO'  .-.  '|   \ |  |\
-    //  |  |('-. /   |  | |  ||         | |         |/   |  | |  ||    \|  | )
-    // /_) |OO  )\_) |  |\|  ||  |'.'|  | |  |'.'|  |\_) |  |\|  ||  .     |/
-    // ||  |`-'|   \ |  | |  ||  |   |  | |  |   |  |  \ |  | |  ||  |\    |
-    //(_'  '--'\    `'  '-'  '|  |   |  | |  |   |  |   `'  '-'  '|  | \   |
-    //   `-----'      `-----' `--'   `--' `--'   `--'     `-----' `--'  `--'
-
     @Bean
-    public void connectorCommonWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ connectorCommonWorkerCommand = null;
-
+    public void connectorNormativeWorker() {
+        RunnableWorkerZeroMQ normativeWorker = null;
         switch(profile) {
-            case "zeebe-module":
-                connectorCommonWorkerCommand = (ZeebeCommonWorkerCommand) context.getBean("commonWorkerCommand");
+            case "zeebe":
+                normativeWorker = (ConnectorZeebeNormativeWorker) context.getBean("normativeWorker");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(connectorCommonWorkerCommand);
+        this.taskExecutor().execute(normativeWorker);
     }
 
-    //      .-')     _ (`-.    ('-.
-    // ( OO ).  ( (OO  ) _(  OO)
-    //(_)---\_)_.`     \(,------.   .-----.  ,-.-')    ,------.,-.-')   .-----.
-    ///    _ |(__...--'' |  .---'  '  .--./  |  |OO)('-| _.---'|  |OO) '  .--./
-    //\  :` `. |  /  | | |  |      |  |('-.  |  |  \(OO|(_\    |  |  \ |  |('-.
-    // '..`''.)|  |_.' |(|  '--.  /_) |OO  ) |  |(_//  |  '--. |  |(_//_) |OO  )
-    //.-._)   \|  .___.' |  .--'  ||  |`-'| ,|  |_.'\_)|  .--',|  |_.'||  |`-'|
-    //\       /|  |      |  `---.(_'  '--'\(_|  |     \|  |_)(_|  |  (_'  '--'\
-    // `-----' `--'      `------'   `-----'  `--'      `--'    `--'     `-----'
-
     @Bean
-    public void connectorSpecificWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ connectorSpecificWorkerCommand = null;
-
+    public void connectorCustomWorker() {
+        RunnableWorkerZeroMQ cutomWorker = null;
         switch(profile) {
-            case "zeebe-module":
-                connectorSpecificWorkerCommand = (ZeebeSpecificWorkerCommand) context.getBean("specificWorkerCommand");
+            case "zeebe":
+                cutomWorker = (ConnectorZeebeCustomWorker) context.getBean("cutomWorker");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(connectorSpecificWorkerCommand);
+        this.taskExecutor().execute(cutomWorker);
     }
 }

@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.connector.connectordatabase.core;
 
-import com.orness.gandalf.core.module.gandalfmodule.worker.command.GandalfWorkerCommand;
-import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
+import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
+import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +12,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.databasemodule", "com.orness.gandalf.core.module.h2module"})
+//TODO
+//@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.databasemodule", "com.orness.gandalf.core.module.h2module"})
 @Order
 public class ConnectorDatabaseCoreConfiguration {
 
@@ -21,16 +22,6 @@ public class ConnectorDatabaseCoreConfiguration {
 
     @Value("spring.profiles.active")
     private String profile;
-
-    //                            _  .-')     ('-.
-    //                       ( \( -O )  _(  OO)
-    //   .-----.  .-'),-----. ,------. (,------.
-    //  '  .--./ ( OO'  .-.  '|   /`. ' |  .---'
-    //  |  |('-. /   |  | |  ||  /  | | |  |
-    // /_) |OO  )\_) |  |\|  ||  |_.' |(|  '--.
-    // ||  |`-'|   \ |  | |  ||  .  '.' |  .--'
-    //(_'  '--'\    `'  '-'  '|  |\  \  |  `---.
-    //   `-----'      `-----' `--' '--' `------'
 
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
@@ -41,71 +32,35 @@ public class ConnectorDatabaseCoreConfiguration {
         return pool;
     }
 
-
-    //                   ('-.         .-') _  _ .-') _     ('-.
-    //              ( OO ).-.    ( OO ) )( (  OO) )   ( OO ).-.
-    //  ,----.      / . --. /,--./ ,--,'  \     .'_   / . --. / ,--.        ,------.
-    // '  .-./-')   | \-.  \ |   \ |  |\  ,`'--..._)  | \-.  \  |  |.-') ('-| _.---'
-    // |  |_( O- ).-'-'  |  ||    \|  | ) |  |  \  '.-'-'  |  | |  | OO )(OO|(_\
-    // |  | .--, \ \| |_.'  ||  .     |/  |  |   ' | \| |_.'  | |  |`-' |/  |  '--.
-    //(|  | '. (_/  |  .-.  ||  |\    |   |  |   / :  |  .-.  |(|  '---.'\_)|  .--'
-    // |  '--'  |   |  | |  ||  | \   |   |  '--'  /  |  | |  | |      |   \|  |_)
-    //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
-
     @Bean
-    public void gandalfWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ gandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
-        taskExecutor.execute(gandalfWorkerCommand);
+    public void connectorGandalfWorker() {
+        RunnableWorkerZeroMQ gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
+        this.taskExecutor().execute(gandalfWorker);
     }
 
-    //                        _   .-')    _   .-')                     .-') _
-    //                       ( '.( OO )_ ( '.( OO )_                  ( OO ) )
-    //   .-----.  .-'),-----. ,--.   ,--.),--.   ,--.).-'),-----. ,--./ ,--,'
-    //  '  .--./ ( OO'  .-.  '|   `.'   | |   `.'   |( OO'  .-.  '|   \ |  |\
-    //  |  |('-. /   |  | |  ||         | |         |/   |  | |  ||    \|  | )
-    // /_) |OO  )\_) |  |\|  ||  |'.'|  | |  |'.'|  |\_) |  |\|  ||  .     |/
-    // ||  |`-'|   \ |  | |  ||  |   |  | |  |   |  |  \ |  | |  ||  |\    |
-    //(_'  '--'\    `'  '-'  '|  |   |  | |  |   |  |   `'  '-'  '|  | \   |
-    //   `-----'      `-----' `--'   `--' `--'   `--'     `-----' `--'  `--'
-
     @Bean
-    public void commonWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand = null;
-
+    public void connectorNormativeWorker() {
+        RunnableWorkerZeroMQ normativeWorker = null;
         switch(profile) {
-            case "h2-module":
-                //commonWorkerCommand = (H2Com) context.getBean("commonWorkerCommand");
+            case "h2":
+                //normativeWorker = (ConnectorH2NormativeWorker) context.getBean("normativeWorker");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(commonWorkerCommand);
+        this.taskExecutor().execute(normativeWorker);
     }
 
-    //      .-')     _ (`-.    ('-.
-    // ( OO ).  ( (OO  ) _(  OO)
-    //(_)---\_)_.`     \(,------.   .-----.  ,-.-')    ,------.,-.-')   .-----.
-    ///    _ |(__...--'' |  .---'  '  .--./  |  |OO)('-| _.---'|  |OO) '  .--./
-    //\  :` `. |  /  | | |  |      |  |('-.  |  |  \(OO|(_\    |  |  \ |  |('-.
-    // '..`''.)|  |_.' |(|  '--.  /_) |OO  ) |  |(_//  |  '--. |  |(_//_) |OO  )
-    //.-._)   \|  .___.' |  .--'  ||  |`-'| ,|  |_.'\_)|  .--',|  |_.'||  |`-'|
-    //\       /|  |      |  `---.(_'  '--'\(_|  |     \|  |_)(_|  |  (_'  '--'\
-    // `-----' `--'      `------'   `-----'  `--'      `--'    `--'     `-----'
-
     @Bean
-    public void specificWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand = null;
-
+    public void connectorCustomWorker() {
+        RunnableWorkerZeroMQ cutomWorker = null;
         switch(profile) {
-            case "h2-module":
-                //commonWorkerCommand = (CustomArtifactSpecificWorkerCommand) context.getBean("specificWorkerCommand");
+            case "h2":
+                //cutomWorker = (ConnectorCustomArtifactCustomWorker) context.getBean("cutomWorker");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(commonWorkerCommand);
+        this.taskExecutor().execute(cutomWorker);
     }
 }

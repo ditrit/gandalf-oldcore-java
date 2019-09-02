@@ -1,9 +1,9 @@
 package com.orness.gandalf.core.module.connectororchestrator.core;
 
-import com.orness.gandalf.core.module.customorchestratormodule.normative.worker.CustomOrchestratorCommonWorkerCommand;
-import com.orness.gandalf.core.module.customorchestratormodule.custom.worker.CustomOrchestratorSpecificWorker;
-import com.orness.gandalf.core.module.gandalfmodule.worker.command.GandalfWorkerCommand;
-import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
+import com.orness.gandalf.core.module.customorchestratormodule.custom.worker.ConnectorCustomOrchestratorCustomWorker;
+import com.orness.gandalf.core.module.customorchestratormodule.normative.worker.ConnectorCustomOrchestratorNormativeWorker;
+import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
+import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -24,16 +24,6 @@ public class ConnectorOrchestratorCoreConfiguration {
     @Value("${spring.profiles.active}")
     private String profile;
 
-    //                            _  .-')     ('-.
-    //                       ( \( -O )  _(  OO)
-    //   .-----.  .-'),-----. ,------. (,------.
-    //  '  .--./ ( OO'  .-.  '|   /`. ' |  .---'
-    //  |  |('-. /   |  | |  ||  /  | | |  |
-    // /_) |OO  )\_) |  |\|  ||  |_.' |(|  '--.
-    // ||  |`-'|   \ |  | |  ||  .  '.' |  .--'
-    //(_'  '--'\    `'  '-'  '|  |\  \  |  `---.
-    //   `-----'      `-----' `--' '--' `------'
-
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
@@ -43,71 +33,35 @@ public class ConnectorOrchestratorCoreConfiguration {
         return pool;
     }
 
-
-    //                   ('-.         .-') _  _ .-') _     ('-.
-    //              ( OO ).-.    ( OO ) )( (  OO) )   ( OO ).-.
-    //  ,----.      / . --. /,--./ ,--,'  \     .'_   / . --. / ,--.        ,------.
-    // '  .-./-')   | \-.  \ |   \ |  |\  ,`'--..._)  | \-.  \  |  |.-') ('-| _.---'
-    // |  |_( O- ).-'-'  |  ||    \|  | ) |  |  \  '.-'-'  |  | |  | OO )(OO|(_\
-    // |  | .--, \ \| |_.'  ||  .     |/  |  |   ' | \| |_.'  | |  |`-' |/  |  '--.
-    //(|  | '. (_/  |  .-.  ||  |\    |   |  |   / :  |  .-.  |(|  '---.'\_)|  .--'
-    // |  '--'  |   |  | |  ||  | \   |   |  '--'  /  |  | |  | |      |   \|  |_)
-    //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
-
     @Bean
-    public void connectorGandalfWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ gandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
-        taskExecutor.execute(gandalfWorkerCommand);
+    public void connectorGandalfWorker() {
+        RunnableWorkerZeroMQ gandalfWorkerCommand = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
+        this.taskExecutor().execute(gandalfWorkerCommand);
     }
 
-    //                        _   .-')    _   .-')                     .-') _
-    //                       ( '.( OO )_ ( '.( OO )_                  ( OO ) )
-    //   .-----.  .-'),-----. ,--.   ,--.),--.   ,--.).-'),-----. ,--./ ,--,'
-    //  '  .--./ ( OO'  .-.  '|   `.'   | |   `.'   |( OO'  .-.  '|   \ |  |\
-    //  |  |('-. /   |  | |  ||         | |         |/   |  | |  ||    \|  | )
-    // /_) |OO  )\_) |  |\|  ||  |'.'|  | |  |'.'|  |\_) |  |\|  ||  .     |/
-    // ||  |`-'|   \ |  | |  ||  |   |  | |  |   |  |  \ |  | |  ||  |\    |
-    //(_'  '--'\    `'  '-'  '|  |   |  | |  |   |  |   `'  '-'  '|  | \   |
-    //   `-----'      `-----' `--'   `--' `--'   `--'     `-----' `--'  `--'
-
     @Bean
-    public void connectorCommonWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand = null;
-
+    public void connectorNormativeWorker() {
+        RunnableWorkerZeroMQ normativeWorker = null;
         switch(profile) {
-            case "custom-orchestrator-module":
-                commonWorkerCommand = (CustomOrchestratorCommonWorkerCommand) context.getBean("commonWorkerCommand");
+            case "custom-orchestrator":
+                normativeWorker = (ConnectorCustomOrchestratorNormativeWorker) context.getBean("normativeWorker");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(commonWorkerCommand);
+        this.taskExecutor().execute(normativeWorker);
     }
 
-    //      .-')     _ (`-.    ('-.
-    // ( OO ).  ( (OO  ) _(  OO)
-    //(_)---\_)_.`     \(,------.   .-----.  ,-.-')    ,------.,-.-')   .-----.
-    ///    _ |(__...--'' |  .---'  '  .--./  |  |OO)('-| _.---'|  |OO) '  .--./
-    //\  :` `. |  /  | | |  |      |  |('-.  |  |  \(OO|(_\    |  |  \ |  |('-.
-    // '..`''.)|  |_.' |(|  '--.  /_) |OO  ) |  |(_//  |  '--. |  |(_//_) |OO  )
-    //.-._)   \|  .___.' |  .--'  ||  |`-'| ,|  |_.'\_)|  .--',|  |_.'||  |`-'|
-    //\       /|  |      |  `---.(_'  '--'\(_|  |     \|  |_)(_|  |  (_'  '--'\
-    // `-----' `--'      `------'   `-----'  `--'      `--'    `--'     `-----'
-
     @Bean
-    public void connectorSpecificWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ commonWorkerCommand = null;
-
+    public void connectorCustomWorker() {
+        RunnableWorkerZeroMQ cutomWorker = null;
         switch(profile) {
-            case "custom-orchestrator-module":
-                commonWorkerCommand = (CustomOrchestratorSpecificWorker) context.getBean("specificWorkerCommand");
+            case "custom-orchestrator":
+                cutomWorker = (ConnectorCustomOrchestratorCustomWorker) context.getBean("cutomWorker");
                 break;
             default:
                 break;
         }
-        taskExecutor.execute(commonWorkerCommand);
+        this.taskExecutor().execute(cutomWorker);
     }
 }
