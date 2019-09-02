@@ -1,6 +1,6 @@
-package com.orness.gandalf.core.module.kafkamodule.core.consumer.gandalf;
+package com.orness.gandalf.core.module.kafkamodule.core.consumer;
 
-public class KafkaGandalfMessage {
+public class GandalfKafkaMessage {
 
     private String topic;
     private String event;

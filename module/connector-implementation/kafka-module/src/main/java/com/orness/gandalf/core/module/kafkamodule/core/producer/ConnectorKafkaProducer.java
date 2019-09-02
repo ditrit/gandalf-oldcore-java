@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Profile(value = "kafka")
-public class KafkaProducer {
+public class ConnectorKafkaProducer {
 
     private KafkaTemplate<String, Object> kafkaTemplate;
 
     @Autowired
-    public KafkaProducer(KafkaTemplate kafkaTemplate) {
+    public ConnectorKafkaProducer(KafkaTemplate kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 

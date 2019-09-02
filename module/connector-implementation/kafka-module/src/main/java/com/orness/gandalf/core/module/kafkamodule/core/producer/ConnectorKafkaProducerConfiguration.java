@@ -17,12 +17,12 @@ import java.util.Map;
 
 @Configuration
 @Profile(value = "kafka")
-public class KafkaProducerConfiguration {
+public class ConnectorKafkaProducerConfiguration {
 
     private ConnectorBusProperties connectorBusProperties;
 
     @Autowired
-    public KafkaProducerConfiguration(ConnectorBusProperties connectorBusProperties) {
+    public ConnectorKafkaProducerConfiguration(ConnectorBusProperties connectorBusProperties) {
         this.connectorBusProperties = connectorBusProperties;
     }
 
