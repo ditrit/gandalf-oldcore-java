@@ -1,9 +1,9 @@
 package com.orness.gandalf.core.connector.connectorbus.core;
 
-import com.orness.gandalf.core.module.gandalfmodule.worker.command.GandalfWorkerCommand;
-import com.orness.gandalf.core.module.kafkamodule.normative.worker.KafkaCommonWorkerCommand;
-import com.orness.gandalf.core.module.kafkamodule.custom.worker.KafkaSpecificWorkerCommand;
-import com.orness.gandalf.core.module.zeromqmodule.command.worker.RunnableWorkerZeroMQ;
+import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
+import com.orness.gandalf.core.module.kafkamodule.custom.worker.ConnectorKafkaCustomWorker;
+import com.orness.gandalf.core.module.kafkamodule.normative.worker.ConnectorKafkaNormativeWorker;
+import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -58,7 +58,7 @@ public class ConnectorBusCoreConfiguration {
     @Bean
     public void connectorGandalfWorkerCommand() {
         //ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        RunnableWorkerZeroMQ connectorGandalfWorkerCommand = (GandalfWorkerCommand) context.getBean("gandalfWorkerCommand");
+        RunnableWorkerZeroMQ connectorGandalfWorkerCommand = (ConnectorGandalfWorker) context.getBean("gandalfWorkerCommand");
         this.taskExecutor().execute(connectorGandalfWorkerCommand);
     }
 
@@ -79,7 +79,7 @@ public class ConnectorBusCoreConfiguration {
         RunnableWorkerZeroMQ connectorCommonWorkerCommand = null;
         switch(profile) {
             case "kafka-module":
-                connectorCommonWorkerCommand = (KafkaCommonWorkerCommand) context.getBean("commonWorkerCommand");
+                connectorCommonWorkerCommand = (ConnectorKafkaNormativeWorker) context.getBean("commonWorkerCommand");
                 break;
             default:
                 break;
@@ -104,7 +104,7 @@ public class ConnectorBusCoreConfiguration {
 
         switch(profile) {
             case "kafka-module":
-                connectorSpecificWorkerCommand = (KafkaSpecificWorkerCommand) context.getBean("specificWorkerCommand");
+                connectorSpecificWorkerCommand = (ConnectorKafkaCustomWorker) context.getBean("specificWorkerCommand");
                 break;
             default:
                 break;

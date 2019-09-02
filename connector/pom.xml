@@ -18,16 +18,19 @@
         <module>connector-workflow-engine</module>
         <module>connector-bus</module>
         <module>connector-version-control</module>
-        <module>connector-gandalf</module>
         <module>connector-artifact</module>
         <module>connector-database</module>
         <module>connector-orchestrator</module>
     </modules>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <spring-cloud.version>Greenwich.M3</spring-cloud.version>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.orness.gandalf.core.module.connector-gandalf</groupId>
+            <artifactId>gandalf-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
