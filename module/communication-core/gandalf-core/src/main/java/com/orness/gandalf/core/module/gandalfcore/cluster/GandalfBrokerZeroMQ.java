@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component(value = "gandalfBroker")
 @Scope("singleton")
 public class GandalfBrokerZeroMQ implements Runnable {
 

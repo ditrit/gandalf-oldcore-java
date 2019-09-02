@@ -9,8 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.*;
-import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_BUILD_DIRECTORY;
+import static com.orness.gandalf.core.module.customorchestratormodule.properties.ConnectorCustomOrchestratorConstant.*;
 
 @Service
 @Profile(value = "custom-orchestrator")

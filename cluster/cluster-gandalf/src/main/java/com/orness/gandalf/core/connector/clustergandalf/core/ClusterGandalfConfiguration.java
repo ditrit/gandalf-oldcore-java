@@ -1,8 +1,6 @@
 package com.orness.gandalf.core.connector.clustergandalf.core;
 
-import com.orness.gandalf.core.connector.clustergandalf.broker.GandalfBrokerCommandBean;
-import com.orness.gandalf.core.connector.clustergandalf.proxy.GandalfProxyEventBean;
-import com.orness.gandalf.core.module.gandalfmodule.worker.command.GandalfWorkerCommand;
+import com.orness.gandalf.core.module.gandalfcore.cluster.GandalfProxyZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -19,16 +17,6 @@ public class ClusterGandalfConfiguration {
     @Autowired
     private ApplicationContext context;
 
-    //                            _  .-')     ('-.
-    //                       ( \( -O )  _(  OO)
-    //   .-----.  .-'),-----. ,------. (,------.
-    //  '  .--./ ( OO'  .-.  '|   /`. ' |  .---'
-    //  |  |('-. /   |  | |  ||  /  | | |  |
-    // /_) |OO  )\_) |  |\|  ||  |_.' |(|  '--.
-    // ||  |`-'|   \ |  | |  ||  .  '.' |  .--'
-    //(_'  '--'\    `'  '-'  '|  |\  \  |  `---.
-    //   `-----'      `-----' `--' '--' `------'
-
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
@@ -38,53 +26,15 @@ public class ClusterGandalfConfiguration {
         return pool;
     }
 
-    //                   ('-.         .-') _  _ .-') _     ('-.
-    //              ( OO ).-.    ( OO ) )( (  OO) )   ( OO ).-.
-    //  ,----.      / . --. /,--./ ,--,'  \     .'_   / . --. / ,--.        ,------.
-    // '  .-./-')   | \-.  \ |   \ |  |\  ,`'--..._)  | \-.  \  |  |.-') ('-| _.---'
-    // |  |_( O- ).-'-'  |  ||    \|  | ) |  |  \  '.-'-'  |  | |  | OO )(OO|(_\
-    // |  | .--, \ \| |_.'  ||  .     |/  |  |   ' | \| |_.'  | |  |`-' |/  |  '--.
-    //(|  | '. (_/  |  .-.  ||  |\    |   |  |   / :  |  .-.  |(|  '---.'\_)|  .--'
-    // |  '--'  |   |  | |  ||  | \   |   |  '--'  /  |  | |  | |      |   \|  |_)
-    //  `------'    `--' `--'`--'  `--'   `-------'   `--' `--' `------'    `--'
-
     @Bean
-    public void connectorGandalfWorkerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        taskExecutor.execute((GandalfWorkerCommand) context.getBean("gandalfWorkerCommand"));
+    public void gandalfBroker() {
+        GandalfProxyZeroMQ gandalfProxyZeroMQ = (GandalfProxyZeroMQ) context.getBean("gandalfBroker");
+        this.taskExecutor().execute(gandalfProxyZeroMQ);
     }
 
-    //    .-. .-')  _  .-')               .-. .-')     ('-.  _  .-')
-    //\  ( OO )( \( -O )              \  ( OO )  _(  OO)( \( -O )
-    // ;-----.\ ,------.  .-'),-----. ,--. ,--. (,------.,------.
-    // | .-.  | |   /`. '( OO'  .-.  '|  .'   /  |  .---'|   /`. '
-    // | '-' /_)|  /  | |/   |  | |  ||      /,  |  |    |  /  | |
-    // | .-. `. |  |_.' |\_) |  |\|  ||     ' _)(|  '--. |  |_.' |
-    // | |  \  ||  .  '.'  \ |  | |  ||  .   \   |  .--' |  .  '.'
-    // | '--'  /|  |\  \    `'  '-'  '|  |\   \  |  `---.|  |\  \
-    // `------' `--' '--'     `-----' `--' '--'  `------'`--' '--'
-
     @Bean
-    public void brokerCommand() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        GandalfBrokerCommandBean gandalfBrokerCommandBean = (GandalfBrokerCommandBean) context.getBean("gandalfBrokerCommandBean");
-        taskExecutor.execute(gandalfBrokerCommandBean);
-    }
-
-    //       _ (`-.  _  .-')              ) (`-.
-    //  ( (OO  )( \( -O )              ( OO ).
-    // _.`     \ ,------.  .-'),-----.(_/.  \_)-. ,--.   ,--.
-    //(__...--'' |   /`. '( OO'  .-.  '\  `.'  /   \  `.'  /
-    // |  /  | | |  /  | |/   |  | |  | \     /\ .-')     /
-    // |  |_.' | |  |_.' |\_) |  |\|  |  \   \ |(OO  \   /
-    // |  .___.' |  .  '.'  \ |  | |  | .'    \_)|   /  /\_
-    // |  |      |  |\  \    `'  '-'  '/  .'.  \ `-./  /.__)
-    // `--'      `--' '--'     `-----''--'   '--'  `--'
-
-    @Bean
-    public void proxyEvent() {
-        ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) context.getBean("taskExecutor");
-        GandalfProxyEventBean gandalfProxyEventBean = (GandalfProxyEventBean) context.getBean("gandalfProxyEventBean");
-        taskExecutor.execute(gandalfProxyEventBean);
+    public void gandalfProxy() {
+        GandalfProxyZeroMQ gandalfProxyZeroMQ = (GandalfProxyZeroMQ) context.getBean("gandalfProxy");
+        this.taskExecutor().execute(gandalfProxyZeroMQ);
     }
 }

@@ -23,7 +23,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.orness.gandalf.core.module</groupId>
+			<groupId>com.orness.gandalf.core.module.communication-core</groupId>
 			<artifactId>zeromq-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>

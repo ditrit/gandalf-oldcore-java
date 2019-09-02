@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component(value = "gandalfProxy")
 @Scope("singleton")
 public class GandalfProxyZeroMQ implements Runnable {
 

@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static com.orness.gandalf.core.module.constantmodule.storage.StorageConstant.BUILD_PROJECT_DIRECTORY;
+import static com.orness.gandalf.core.module.customartifactmodule.properties.ConnectorCustomArtifactConstant.BUILD_PROJECT_DIRECTORY;
 
 @Component(value = "normativeManager")
 @Profile(value = "custom-artifact")

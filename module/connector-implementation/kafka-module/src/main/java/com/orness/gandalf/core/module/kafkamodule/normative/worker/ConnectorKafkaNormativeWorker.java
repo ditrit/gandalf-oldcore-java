@@ -23,7 +23,7 @@ public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorKafkaNormativeWorker(ConnectorProperties connectorProperties, ConnectorKafkaProperties connectorRoutingProperties, ConnectorKafkaNormativeManager connectorKafkaNormativeManager) {
+    public ConnectorKafkaNormativeWorker(ConnectorProperties connectorProperties, ConnectorKafkaProperties connectorKafkaProperties, ConnectorKafkaNormativeManager connectorKafkaNormativeManager) {
         super();
         this.connectorKafkaNormativeManager = connectorKafkaNormativeManager;
         this.connectorProperties = connectorProperties;
