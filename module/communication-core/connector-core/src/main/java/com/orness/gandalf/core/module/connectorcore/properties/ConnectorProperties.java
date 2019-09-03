@@ -1,21 +1,21 @@
 package com.orness.gandalf.core.module.connectorcore.properties;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.*;
 
 @Configuration
 public class ConnectorProperties {
 
     private RestTemplate restTemplate;
-    private String clusterProperties;
-
-    public ConnectorProperties() {
-        this.restTemplate = new RestTemplate();
-        this.clusterProperties = this.restTemplate.getForObject(" http://localhost:8500/v1/catalog/service/gandalf_cmd_backend", String.class);
-    }
 
     @Value("${instance.name}")
     private String instanceName;
@@ -28,26 +28,33 @@ public class ConnectorProperties {
     @Value("${${connector.name}.${connector.type}.${connector.name}.topics}")
     private List<String> topics;
 
-    //CLUSTER
-    @Value("${${instance.name}.${connector.name}.connectorCommandFrontEndConnection}")
     private List<String> connectorCommandFrontEndConnection;
-    @Value("${${instance.name}.${connector.name}.connectorEventFrontEndConnection}")
     private String connectorEventFrontEndConnection;
 
-    public RestTemplate getRestTemplate() {
-        return restTemplate;
+    public ConnectorProperties() {
+        this.restTemplate = new RestTemplate();
+        this.initProperties();
     }
 
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    private JsonObject restTemplateRequest(String clusterPropertiesName) {
+        return this.restTemplate.getForObject(" http://localhost:8500/v1/catalog/service/"+clusterPropertiesName, JsonObject.class);
     }
 
-    public String getClusterProperties() {
-        return clusterProperties;
+    private void initProperties() {
+        //CONNECTEUR COMMAND FRONT
+        JsonObject currentclusterPropertiesJsonObject = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_BACKEND);
+       this.connectorCommandFrontEndConnection = StreamSupport.stream(currentclusterPropertiesJsonObject.getAsJsonArray("res").spliterator(), false)
+               .map(JsonObject.class::cast)
+               .map(o -> concatAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
+               .collect(Collectors.toList());
+
+        //CONNECTEUR EVENT FRONT
+        currentclusterPropertiesJsonObject = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_BACKEND).getAsJsonObject("res");
+        this.connectorEventFrontEndConnection = concatAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
     }
 
-    public void setClusterProperties(String clusterProperties) {
-        this.clusterProperties = clusterProperties;
+    private String concatAddressPort(JsonElement address, JsonElement port) {
+        return new StringBuilder(address.getAsString()).append(":").append(port.getAsString()).toString();
     }
 
     public String getInstanceName() {

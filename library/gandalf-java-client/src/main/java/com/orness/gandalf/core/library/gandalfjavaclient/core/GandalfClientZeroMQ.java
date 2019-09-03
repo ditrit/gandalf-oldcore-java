@@ -14,6 +14,6 @@ public class GandalfClientZeroMQ extends RunnableClientZeroMQ {
     public GandalfClientZeroMQ(GandalfClientProperties gandalfClientProperties) {
         super();
         this.gandalfClientProperties = gandalfClientProperties;
-        this.initRunnable(this.gandalfClientProperties.getName(), this.gandalfClientProperties.getClientConnections());
+        this.initRunnable(this.gandalfClientProperties.getConnectorName(), this.gandalfClientProperties.getClientCommandBackEndConnections());
     }
 }

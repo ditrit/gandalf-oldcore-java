@@ -14,6 +14,6 @@ public class GandalfPublisherZeroMQ extends PublisherZeroMQ {
     public GandalfPublisherZeroMQ(GandalfClientProperties gandalfClientProperties) {
         super();
         this.gandalfClientProperties = gandalfClientProperties;
-        this.init(this.gandalfClientProperties.getName(), this.gandalfClientProperties.getPublisherConnection());
+        this.init(this.gandalfClientProperties.getConnectorName(), this.gandalfClientProperties.getClientEventBackEndConnection());
     }
 }
