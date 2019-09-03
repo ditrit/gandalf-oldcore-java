@@ -1,27 +1,40 @@
 package com.orness.gandalf.core.module.connectorcore.properties;
 
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Configuration
 public class ConnectorProperties {
 
+    private RestTemplate restTemplate;
+    private String clusterProperties;
+
+    public ConnectorProperties() {
+        this.restTemplate = new RestTemplate();
+        this.clusterProperties = this.restTemplate.getForObject(" http://localhost:8500/v1/catalog/service/gandalf_cmd_backend", String.class);
+    }
+
+    @Value("${instance.name}")
+    private String instanceName;
     @Value("${connector.name}")
     private String connectorName;
-    @Value("${${connector.name}.routingWorkerFrontEndConnections}")
-    private List<String> routingWorkerFrontEndConnections;
-    @Value("${${connector.name}.routingWorkerBackEndConnection}")
-    private String routingWorkerBackEndConnection;
-    @Value("${${connector.name}.routingSubscriberFrontEndConnection}")
-    private String routingSubscriberFrontEndConnection;
-    @Value("${${connector.name}.routingSubscriberBackEndConnection}")
-    private String routingSubscriberBackEndConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.connectorCommandBackEndConnection}")
+    private String connectorCommandBackEndConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.connectorEventBackEndConnection}")
+    private String connectorEventBackEndConnection;
+    //CLUSTER
+    @Value("${${instance.name}.${connector.name}.connectorCommandFrontEndConnection}")
+    private List<String> connectorCommandFrontEndConnection;
+    @Value("${${instance.name}.${connector.name}.connectorEventFrontEndConnection}")
+    private String connectorEventFrontEndConnection;
 
     public String getConnectorName() {
         return connectorName;
@@ -31,35 +44,4 @@ public class ConnectorProperties {
         this.connectorName = connectorName;
     }
 
-    public List<String> getRoutingWorkerFrontEndConnections() {
-        return routingWorkerFrontEndConnections;
-    }
-
-    public void setRoutingWorkerFrontEndConnections(List<String> routingWorkerFrontEndConnections) {
-        this.routingWorkerFrontEndConnections = routingWorkerFrontEndConnections;
-    }
-
-    public String getRoutingWorkerBackEndConnection() {
-        return routingWorkerBackEndConnection;
-    }
-
-    public void setRoutingWorkerBackEndConnection(String routingWorkerBackEndConnection) {
-        this.routingWorkerBackEndConnection = routingWorkerBackEndConnection;
-    }
-
-    public String getRoutingSubscriberFrontEndConnection() {
-        return routingSubscriberFrontEndConnection;
-    }
-
-    public void setRoutingSubscriberFrontEndConnection(String routingSubscriberFrontEndConnection) {
-        this.routingSubscriberFrontEndConnection = routingSubscriberFrontEndConnection;
-    }
-
-    public String getRoutingSubscriberBackEndConnection() {
-        return routingSubscriberBackEndConnection;
-    }
-
-    public void setRoutingSubscriberBackEndConnection(String routingSubscriberBackEndConnection) {
-        this.routingSubscriberBackEndConnection = routingSubscriberBackEndConnection;
-    }
 }

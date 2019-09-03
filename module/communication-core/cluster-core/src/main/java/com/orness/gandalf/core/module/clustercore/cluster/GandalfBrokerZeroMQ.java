@@ -1,6 +1,6 @@
-package com.orness.gandalf.core.module.gandalfcore.cluster;
+package com.orness.gandalf.core.module.clustercore.cluster;
 
-import com.orness.gandalf.core.module.gandalfcore.properties.GandalfClusterProperties;
+import com.orness.gandalf.core.module.clustercore.properties.GandalfClusterProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.broker.BrokerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

@@ -9,16 +9,14 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class ConnectorWorkflowEngineProperties {
 
-    @Value("${connector.name}")
-    private String connectorName;
-    @Value("${${connector.name}.workflowengineConnection}")
-    private String workflowengineConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.workflowEngineEndPointConnection}")
+    private String workflowEngineEndPointConnection;
 
-    public String getWorkflowengineConnection() {
-        return workflowengineConnection;
+    public String getWorkflowEngineEndPointConnection() {
+        return workflowEngineEndPointConnection;
     }
 
-    public void setWorkflowengineConnection(String workflowengineConnection) {
-        this.workflowengineConnection = workflowengineConnection;
+    public void setWorkflowEngineEndPointConnection(String workflowEngineEndPointConnection) {
+        this.workflowEngineEndPointConnection = workflowEngineEndPointConnection;
     }
 }

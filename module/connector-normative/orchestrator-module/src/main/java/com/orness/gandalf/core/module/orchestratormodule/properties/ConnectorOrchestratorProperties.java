@@ -9,6 +9,14 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class ConnectorOrchestratorProperties {
 
-    @Value("${connector.name}")
-    private String connectorName;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.orchestratorEndPointConnection}")
+    private String orchestratorEndPointConnection;
+
+    public String getOrchestratorEndPointConnection() {
+        return orchestratorEndPointConnection;
+    }
+
+    public void setOrchestratorEndPointConnection(String orchestratorEndPointConnection) {
+        this.orchestratorEndPointConnection = orchestratorEndPointConnection;
+    }
 }

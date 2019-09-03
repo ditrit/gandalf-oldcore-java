@@ -9,16 +9,14 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class ConnectorDatabaseProperties {
 
-    @Value("${connector.name}")
-    private String connectorName;
-    @Value("${${connector.name}.databaseConnection}")
-    private String databaseConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.databaseEndPointConnection}")
+    private String databaseEndPointConnection;
 
-    public String getDatabaseConnection() {
-        return databaseConnection;
+    public String getDatabaseEndPointConnection() {
+        return databaseEndPointConnection;
     }
 
-    public void setDatabaseConnection(String databaseConnection) {
-        this.databaseConnection = databaseConnection;
+    public void setDatabaseEndPointConnection(String databaseEndPointConnection) {
+        this.databaseEndPointConnection = databaseEndPointConnection;
     }
 }

@@ -13,19 +13,17 @@ import java.util.List;
 @Profile(value = "custom-orchestrator")
 public class ConnectorCustomOrchestratorProperties {
 
-    @Value("${connector.name}")
-    private String connectorName;
-    @Value("${${connector.name}.worker}")
-    private String worker;
-    @Value("${${connector.name}.topics}")
+    @Value("${${connector.name}.${connector.type}.${connector.name}.connectorBackEndConnection}")
+    private String connectorBackEndConnection;
+    @Value("${${connector.name}.${connector.type}.${connector.name}.topics}")
     private List<String> topics;
 
-    public String getWorker() {
-        return worker;
+    public String getConnectorBackEndConnection() {
+        return connectorBackEndConnection;
     }
 
-    public void setWorker(String worker) {
-        this.worker = worker;
+    public void setConnectorBackEndConnection(String connectorBackEndConnection) {
+        this.connectorBackEndConnection = connectorBackEndConnection;
     }
 
     public List<String> getTopics() {

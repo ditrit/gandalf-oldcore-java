@@ -9,16 +9,14 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class ConnectorBusProperties {
 
-    @Value("${connector.name}")
-    private String connectorName;
-    @Value("${${connector.name}.busConnection}")
-    private String busConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.busEndPointConnection}")
+    private String busEndPointConnection;
 
-    public String getBusConnection() {
-        return busConnection;
+    public String getBusEndPointConnection() {
+        return busEndPointConnection;
     }
 
-    public void setBusConnection(String busConnection) {
-        this.busConnection = busConnection;
+    public void setBusEndPointConnection(String busEndPointConnection) {
+        this.busEndPointConnection = busEndPointConnection;
     }
 }

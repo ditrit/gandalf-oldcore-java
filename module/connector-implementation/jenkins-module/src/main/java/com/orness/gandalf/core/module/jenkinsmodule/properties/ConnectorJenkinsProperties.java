@@ -1,17 +1,14 @@
-package com.orness.gandalf.core.module.gitlabmodule.properties;
+package com.orness.gandalf.core.module.jenkinsmodule.properties;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Configuration
-@Profile(value = "gitlab")
-public class ConnectorGitlabProperties {
+@Profile(value = "jenkins")
+public class ConnectorJenkinsProperties {
 
     @Value("${${connector.name}.${connector.type}.${connector.name}.connectorBackEndConnection}")
     private String connectorBackEndConnection;

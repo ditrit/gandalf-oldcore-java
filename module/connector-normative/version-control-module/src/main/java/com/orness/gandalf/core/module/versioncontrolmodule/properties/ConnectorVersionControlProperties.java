@@ -9,6 +9,14 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class ConnectorVersionControlProperties {
 
-    @Value("${connector.name}")
-    private String connectorName;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.connectorVersionControlEndPointConnection}")
+    private String connectorVersionControlEndPointConnection;
+
+    public String getConnectorVersionControlEndPointConnection() {
+        return connectorVersionControlEndPointConnection;
+    }
+
+    public void setConnectorVersionControlEndPointConnection(String connectorVersionControlEndPointConnection) {
+        this.connectorVersionControlEndPointConnection = connectorVersionControlEndPointConnection;
+    }
 }

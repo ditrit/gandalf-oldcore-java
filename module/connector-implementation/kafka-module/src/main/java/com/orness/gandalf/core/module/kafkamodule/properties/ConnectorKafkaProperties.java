@@ -14,23 +14,29 @@ import java.util.List;
 @Profile(value = "kafka")
 public class ConnectorKafkaProperties {
 
-    @Value("${connector.name}")
-    private String connectorName;
-    @Value("${${connector.name}.synchronizeTopics}")
-    private List<String> synchronizeTopics;
-    @Value("${${connector.name}.worker}")
-    private String worker;
-    @Value("${${connector.name}.group}")
-    private String group;
-    @Value("${${connector.name}.topics}")
+    @Value("${${connector.name}.${connector.type}.${connector.name}.connectorBackEndConnection}")
+    private String connectorBackEndConnection;
+    @Value("${${connector.name}.${connector.type}.${connector.name}.topics}")
     private List<String> topics;
+    @Value("${${connector.name}.${connector.type}.${connector.name}.synchronizeTopics}")
+    private List<String> synchronizeTopics;
+    @Value("${${connector.name}.${connector.type}.${connector.name}.group}")
+    private String group;
 
-    public String getWorker() {
-        return worker;
+    public String getConnectorBackEndConnection() {
+        return connectorBackEndConnection;
     }
 
-    public void setWorker(String worker) {
-        this.worker = worker;
+    public void setConnectorBackEndConnection(String connectorBackEndConnection) {
+        this.connectorBackEndConnection = connectorBackEndConnection;
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<String> topics) {
+        this.topics = topics;
     }
 
     public String getGroup() {
@@ -49,11 +55,4 @@ public class ConnectorKafkaProperties {
         this.synchronizeTopics = synchronizeTopics;
     }
 
-    public List<String> getTopics() {
-        return topics;
-    }
-
-    public void setTopics(List<String> topics) {
-        this.topics = topics;
-    }
 }

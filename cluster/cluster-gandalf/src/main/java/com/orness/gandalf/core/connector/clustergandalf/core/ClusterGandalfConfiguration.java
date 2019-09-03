@@ -1,6 +1,6 @@
 package com.orness.gandalf.core.connector.clustergandalf.core;
 
-import com.orness.gandalf.core.module.gandalfcore.cluster.GandalfProxyZeroMQ;
+import com.orness.gandalf.core.module.clustercore.cluster.GandalfProxyZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;

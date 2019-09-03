@@ -5,15 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-
+//TODO REVOIR
 @Configuration
 public class ConnectorArtifactProperties {
 
-    @Value("${connector.name}")
-    private String connectorName;
-    @Value("${${connector.name}.feignName}")
+    @Value("${${instance.name}.${connector.type}.${connector.name}.feignName}")
     private String feignName;
-    @Value("${${connector.name}.feignURL}")
+    @Value("${${instance.name}.${connector.type}.${connector.name}.feignURL}")
     private String feignURL;
 
     public String getFeignName() {
