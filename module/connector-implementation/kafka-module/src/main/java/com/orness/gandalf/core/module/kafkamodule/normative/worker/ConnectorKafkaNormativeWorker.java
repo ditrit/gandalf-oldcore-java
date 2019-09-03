@@ -1,6 +1,5 @@
 package com.orness.gandalf.core.module.kafkamodule.normative.worker;
 
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import com.orness.gandalf.core.module.kafkamodule.normative.manager.ConnectorKafkaNormativeManager;
 import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
@@ -18,17 +17,15 @@ import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorCon
 public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorKafkaNormativeManager  connectorKafkaNormativeManager;
-    private ConnectorProperties connectorProperties;
     private ConnectorKafkaProperties connectorKafkaProperties;
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorKafkaNormativeWorker(ConnectorProperties connectorProperties, ConnectorKafkaProperties connectorKafkaProperties, ConnectorKafkaNormativeManager connectorKafkaNormativeManager) {
+    public ConnectorKafkaNormativeWorker(ConnectorKafkaProperties connectorKafkaProperties, ConnectorKafkaNormativeManager connectorKafkaNormativeManager) {
         super();
         this.connectorKafkaNormativeManager = connectorKafkaNormativeManager;
-        this.connectorProperties = connectorProperties;
         this.connectorKafkaProperties = connectorKafkaProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorKafkaProperties.getTopics());
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorKafkaProperties.getConnectorCommandBackEndConnection(), this.connectorKafkaProperties.getConnectorEventBackEndConnection(), this.connectorKafkaProperties.getTopics());
     }
 
     //TODO PAYLOAD

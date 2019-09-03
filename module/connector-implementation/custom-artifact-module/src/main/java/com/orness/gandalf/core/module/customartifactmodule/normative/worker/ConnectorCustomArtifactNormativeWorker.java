@@ -18,17 +18,15 @@ import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorCon
 public class ConnectorCustomArtifactNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorCustomArtifactNormativeManager connectorCustomArtifactNormativeManager;
-    private ConnectorProperties connectorProperties;
     private ConnectorCustomArtifactProperties connectorCustomArtifactProperties;
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorCustomArtifactNormativeWorker(ConnectorProperties connectorProperties, ConnectorCustomArtifactProperties connectorCustomArtifactProperties, ConnectorCustomArtifactNormativeManager connectorCustomArtifactNormativeManager) {
+    public ConnectorCustomArtifactNormativeWorker(ConnectorCustomArtifactProperties connectorCustomArtifactProperties, ConnectorCustomArtifactNormativeManager connectorCustomArtifactNormativeManager) {
         super();
-        this.connectorProperties = connectorProperties;
         this.connectorCustomArtifactProperties = connectorCustomArtifactProperties;
         this.connectorCustomArtifactNormativeManager = connectorCustomArtifactNormativeManager;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorCustomArtifactProperties.getTopics());
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorCustomArtifactProperties.getConnectorCommandBackEndConnection(), this.connectorCustomArtifactProperties.getConnectorEventBackEndConnection(), this.connectorCustomArtifactProperties.getTopics());
     }
 
     @Override

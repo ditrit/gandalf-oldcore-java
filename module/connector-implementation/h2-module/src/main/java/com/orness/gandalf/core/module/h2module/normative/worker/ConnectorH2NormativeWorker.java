@@ -17,16 +17,14 @@ import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorCon
 public class ConnectorH2NormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorH2NormativeManager h2CommonManager;
-    private ConnectorProperties connectorProperties;
     private ConnectorH2Properties connectorH2Properties;
     private MessageCommand messageCommand;
 
-    public ConnectorH2NormativeWorker(ConnectorProperties connectorProperties, ConnectorH2Properties connectorH2Properties, ConnectorH2NormativeManager h2CommonManager) {
+    public ConnectorH2NormativeWorker(ConnectorH2Properties connectorH2Properties, ConnectorH2NormativeManager h2CommonManager) {
         super();
         this.h2CommonManager = h2CommonManager;
-        this.connectorProperties = connectorProperties;
         this.connectorH2Properties = connectorH2Properties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorH2Properties.getTopics());
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorH2Properties.getConnectorCommandBackEndConnection(), this.connectorH2Properties.getConnectorEventBackEndConnection(), this.connectorH2Properties.getTopics());
     }
 
     //TODO PAYLOAD

@@ -1,6 +1,5 @@
 package com.orness.gandalf.core.module.nexusmodule.normative.worker;
 
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import com.orness.gandalf.core.module.nexusmodule.normative.manager.ConnectorNexusNormativeManager;
 import com.orness.gandalf.core.module.nexusmodule.properties.ConnectorNexusProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
@@ -18,17 +17,15 @@ import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorCon
 public class ConnectorNexusNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorNexusNormativeManager connectorNexusNormativeManager;
-    private ConnectorProperties connectorProperties;
     private ConnectorNexusProperties connectorNexusProperties;
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorNexusNormativeWorker(ConnectorProperties connectorProperties, ConnectorNexusProperties connectorNexusProperties, ConnectorNexusNormativeManager connectorNexusNormativeManager) {
+    public ConnectorNexusNormativeWorker(ConnectorNexusProperties connectorNexusProperties, ConnectorNexusNormativeManager connectorNexusNormativeManager) {
         super();
         this.connectorNexusNormativeManager = connectorNexusNormativeManager;
-        this.connectorProperties = connectorProperties;
         this.connectorNexusProperties = connectorNexusProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorNexusProperties.getTopics());
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorNexusProperties.getConnectorCommandBackEndConnection(), this.connectorNexusProperties.getConnectorEventBackEndConnection(), this.connectorNexusProperties.getTopics());
     }
 
     //TODO PAYLOAD

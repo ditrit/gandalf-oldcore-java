@@ -18,17 +18,15 @@ import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorCon
 public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorZeebeNormativeManager connectorZeebeNormativeManager;
-    private ConnectorProperties connectorProperties;
     private ConnectorZeebeProperties connectorZeebeProperties;
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorZeebeNormativeWorker( ConnectorProperties connectorProperties, ConnectorZeebeProperties connectorZeebeProperties, ConnectorZeebeNormativeManager connectorZeebeNormativeManager) {
+    public ConnectorZeebeNormativeWorker(ConnectorZeebeProperties connectorZeebeProperties, ConnectorZeebeNormativeManager connectorZeebeNormativeManager) {
         super();
         this.connectorZeebeNormativeManager = connectorZeebeNormativeManager;
-        this.connectorProperties = connectorProperties;
         this.connectorZeebeProperties = connectorZeebeProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getRoutingWorkerBackEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection(), this.connectorZeebeProperties.getTopics());
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorZeebeProperties.getConnectorCommandBackEndConnection(), this.connectorZeebeProperties.getConnectorEventBackEndConnection(), this.connectorZeebeProperties.getTopics());
     }
 //TODO PAYLOAD
     @Override

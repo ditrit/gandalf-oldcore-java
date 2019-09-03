@@ -1,35 +1,35 @@
 package com.orness.gandalf.core.module.gandalfmodule.properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@Component
-@EnableConfigurationProperties
-@ConfigurationProperties(prefix="connector.gandalf")
+@Configuration
 public class ConnectorGandalfProperties {
 
 
-    private String routingWorkerConnection;
-    private String routingSubscriberConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.connectorCommandBackEndConnection}")
+    private String connectorCommandBackEndConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.connectorEventBackEndConnection}")
+    private String connectorEventBackEndConnection;
+    @Value("${${connector.name}.${connector.type}.${connector.name}.topics}")
     private List<String> topics;
 
-    public String getRoutingWorkerConnection() {
-        return routingWorkerConnection;
+    public String getConnectorCommandBackEndConnection() {
+        return connectorCommandBackEndConnection;
     }
 
-    public void setRoutingWorkerConnection(String routingWorkerConnection) {
-        this.routingWorkerConnection = routingWorkerConnection;
+    public void setConnectorCommandBackEndConnection(String connectorCommandBackEndConnection) {
+        this.connectorCommandBackEndConnection = connectorCommandBackEndConnection;
     }
 
-    public String getRoutingSubscriberConnection() {
-        return routingSubscriberConnection;
+    public String getConnectorEventBackEndConnection() {
+        return connectorEventBackEndConnection;
     }
 
-    public void setRoutingSubscriberConnection(String routingSubscriberConnection) {
-        this.routingSubscriberConnection = routingSubscriberConnection;
+    public void setConnectorEventBackEndConnection(String connectorEventBackEndConnection) {
+        this.connectorEventBackEndConnection = connectorEventBackEndConnection;
     }
 
     public List<String> getTopics() {

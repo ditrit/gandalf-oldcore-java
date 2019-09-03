@@ -1,6 +1,7 @@
 package com.orness.gandalf.core.module.kafkamodule.core.config;
 
 import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusProperties;
+import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,17 +16,17 @@ import java.util.Map;
 @Profile(value = "kafka")
 public class KafkaConfiguration {
 
-    private ConnectorBusProperties connectorBusProperties;
+    private ConnectorKafkaProperties connectorKafkaProperties;
 
     @Autowired
-    public KafkaConfiguration(ConnectorBusProperties connectorBusProperties) {
-        this.connectorBusProperties = connectorBusProperties;
+    public KafkaConfiguration(ConnectorKafkaProperties connectorKafkaProperties) {
+        this.connectorKafkaProperties = connectorKafkaProperties;
     }
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, this.connectorBusProperties.getBusConnection());
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, this.connectorKafkaProperties.getBusEndPointConnection());
         return new KafkaAdmin(configs);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(value = "${artifact.feignName}", url = "${artifact.feignURL}")
+@FeignClient(value = "${${instance.name}.${connector.type}.${connector.name}.feignName}", url = "${${instance.name}.${connector.type}.${connector.name}.artifactEndPointConnection}")
 public interface NexusFeign {
 
     @RequestMapping(method = RequestMethod.GET, value = "/service/rest/v1/repositories")

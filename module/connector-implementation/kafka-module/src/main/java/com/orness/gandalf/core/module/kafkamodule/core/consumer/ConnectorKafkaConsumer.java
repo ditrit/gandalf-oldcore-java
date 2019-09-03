@@ -15,17 +15,15 @@ public class ConnectorKafkaConsumer extends RunnableKafkaConsumer {
 
     private GandalfJavaClient gandalfJavaClient;
     private ConnectorKafkaProperties connectorKafkaProperties;
-    private ConnectorBusProperties connectorBusProperties;
     protected Gson mapper;
 
     @Autowired
-    public ConnectorKafkaConsumer(GandalfJavaClient gandalfJavaClient, ConnectorKafkaProperties connectorKafkaProperties, ConnectorBusProperties connectorBusProperties) {
+    public ConnectorKafkaConsumer(GandalfJavaClient gandalfJavaClient, ConnectorKafkaProperties connectorKafkaProperties) {
         super();
         this.gandalfJavaClient = gandalfJavaClient;
         this.connectorKafkaProperties = connectorKafkaProperties;
-        this.connectorBusProperties = connectorBusProperties;
         this.mapper = new Gson();
-        this.initRunnable(this.connectorBusProperties.getBusConnection(), this.connectorKafkaProperties.getGroup(), this.connectorKafkaProperties.getSynchronizeTopics());
+        this.initRunnable(this.connectorKafkaProperties.getBusEndPointConnection(), this.connectorKafkaProperties.getGroup(), this.connectorKafkaProperties.getSynchronizeTopics());
     }
 
     @Override

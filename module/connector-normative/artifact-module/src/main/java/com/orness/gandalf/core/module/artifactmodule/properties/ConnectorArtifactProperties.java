@@ -1,18 +1,15 @@
 package com.orness.gandalf.core.module.artifactmodule.properties;
 
+import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+
 //TODO REVOIR
-@Configuration
-public class ConnectorArtifactProperties {
+public class ConnectorArtifactProperties extends ConnectorProperties {
 
     @Value("${${instance.name}.${connector.type}.${connector.name}.feignName}")
     private String feignName;
-    @Value("${${instance.name}.${connector.type}.${connector.name}.feignURL}")
-    private String feignURL;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.artifactEndPointConnection}")
+    private String artifactEndPointConnection;
 
     public String getFeignName() {
         return feignName;
@@ -22,11 +19,11 @@ public class ConnectorArtifactProperties {
         this.feignName = feignName;
     }
 
-    public String getFeignURL() {
-        return feignURL;
+    public String getArtifactEndPointConnection() {
+        return artifactEndPointConnection;
     }
 
-    public void setFeignURL(String feignURL) {
-        this.feignURL = feignURL;
+    public void setArtifactEndPointConnection(String artifactEndPointConnection) {
+        this.artifactEndPointConnection = artifactEndPointConnection;
     }
 }
