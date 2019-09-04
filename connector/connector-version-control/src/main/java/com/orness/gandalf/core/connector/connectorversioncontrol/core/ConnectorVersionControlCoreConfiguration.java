@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.connector.connectorversioncontrol.core;
 
+import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-//TODO
-//@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.versioncontrolmodule", "com.orness.gandalf.core.module.gitlabmodule"})
+@ComponentScan(basePackages = {"com.orness.gandalf.core.module.clientcore", "com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.gitlabmodule"})
 @Order
 public class ConnectorVersionControlCoreConfiguration {
 
@@ -30,6 +30,12 @@ public class ConnectorVersionControlCoreConfiguration {
         pool.setMaxPoolSize(10);
         pool.setWaitForTasksToCompleteOnShutdown(true);
         return pool;
+    }
+
+    @Bean
+    public void connectorGandalfClient() {
+        GandalfClient gandalfClient = (GandalfClient) context.getBean("gandalfClient");
+        this.taskExecutor().execute(gandalfClient.getClientCommand());
     }
 
     @Bean

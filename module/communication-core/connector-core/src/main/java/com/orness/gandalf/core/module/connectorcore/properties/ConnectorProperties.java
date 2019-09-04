@@ -5,7 +5,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.stream.StreamSupport;
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.*;
 
-@Configuration
 public class ConnectorProperties {
 
     private RestTemplate restTemplate;

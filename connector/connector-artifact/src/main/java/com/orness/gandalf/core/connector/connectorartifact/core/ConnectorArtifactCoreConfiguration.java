@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.connector.connectorartifact.core;
 
+import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import com.orness.gandalf.core.module.customartifactmodule.custom.worker.ConnectorCustomArtifactCustomWorker;
 import com.orness.gandalf.core.module.customartifactmodule.normative.worker.ConnectorCustomArtifactNormativeWorker;
 import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
@@ -16,8 +17,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-//TODO
-//@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.artifactmodule", "com.orness.gandalf.core.module.customartifactmodule"})
+@ComponentScan(basePackages = {"com.orness.gandalf.core.module.clientcore", "com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.customartifactmodule"})
 @Order
 public class ConnectorArtifactCoreConfiguration {
 
@@ -37,8 +37,14 @@ public class ConnectorArtifactCoreConfiguration {
     }
 
     @Bean
+    public void connectorGandalfClient() {
+        GandalfClient gandalfClient = (GandalfClient) context.getBean("gandalfClient");
+        this.taskExecutor().execute(gandalfClient.getClientCommand());
+    }
+
+    @Bean
     public void connectorGandalfWorker() {
-        RunnableWorkerZeroMQ gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
+        ConnectorGandalfWorker gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
         this.taskExecutor().execute(gandalfWorker);
     }
 

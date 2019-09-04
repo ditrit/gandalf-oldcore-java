@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.connector.connectorbus.core;
 
+import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
 import com.orness.gandalf.core.module.kafkamodule.custom.worker.ConnectorKafkaCustomWorker;
 import com.orness.gandalf.core.module.kafkamodule.normative.worker.ConnectorKafkaNormativeWorker;
@@ -14,8 +15,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-//TODO
-//@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.busmodule", "com.orness.gandalf.core.module.kafkamodule"})
+@ComponentScan(basePackages = {"com.orness.gandalf.core.module.clientcore", "com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.kafkamodule"})
 @Order
 public class ConnectorBusCoreConfiguration {
 
@@ -32,6 +32,12 @@ public class ConnectorBusCoreConfiguration {
         pool.setMaxPoolSize(10);
         pool.setWaitForTasksToCompleteOnShutdown(true);
         return pool;
+    }
+
+    @Bean
+    public void connectorGandalfClient() {
+        GandalfClient gandalfClient = (GandalfClient) context.getBean("gandalfClient");
+        this.taskExecutor().execute(gandalfClient.getClientCommand());
     }
 
     @Bean

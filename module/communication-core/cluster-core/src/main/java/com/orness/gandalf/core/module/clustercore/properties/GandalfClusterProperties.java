@@ -1,7 +1,9 @@
 package com.orness.gandalf.core.module.clustercore.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 @ConfigurationProperties(prefix="instance")
 public class GandalfClusterProperties {
 

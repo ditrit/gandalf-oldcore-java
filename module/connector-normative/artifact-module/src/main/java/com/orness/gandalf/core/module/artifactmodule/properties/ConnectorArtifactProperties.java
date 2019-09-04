@@ -3,7 +3,6 @@ package com.orness.gandalf.core.module.artifactmodule.properties;
 import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import org.springframework.beans.factory.annotation.Value;
 
-//TODO REVOIR
 public class ConnectorArtifactProperties extends ConnectorProperties {
 
     @Value("${${instance.name}.${connector.type}.${connector.name}.feignName}")

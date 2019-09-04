@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.module.connectororchestrator.core;
 
+import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import com.orness.gandalf.core.module.customorchestratormodule.custom.worker.ConnectorCustomOrchestratorCustomWorker;
 import com.orness.gandalf.core.module.customorchestratormodule.normative.worker.ConnectorCustomOrchestratorNormativeWorker;
 import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
@@ -14,7 +15,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.orchestratormodule", "com.orness.gandalf.core.module.customorchestratormodule"})
+@ComponentScan(basePackages = {"com.orness.gandalf.core.module.clientcore", "com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.customorchestratormodule"})
 @Order
 public class ConnectorOrchestratorCoreConfiguration {
 
@@ -31,6 +32,12 @@ public class ConnectorOrchestratorCoreConfiguration {
         pool.setMaxPoolSize(10);
         pool.setWaitForTasksToCompleteOnShutdown(true);
         return pool;
+    }
+
+    @Bean
+    public void connectorGandalfClient() {
+        GandalfClient gandalfClient = (GandalfClient) context.getBean("gandalfClient");
+        this.taskExecutor().execute(gandalfClient.getClientCommand());
     }
 
     @Bean
