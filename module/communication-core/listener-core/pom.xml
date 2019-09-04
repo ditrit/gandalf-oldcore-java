@@ -9,9 +9,9 @@
 	</parent>
 
 	<groupId>com.orness.gandalf.core.module.communication-core</groupId>
-	<artifactId>client-core</artifactId>
+	<artifactId>listener-core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>client-core</name>
+	<name>listener-core</name>
 	<description>Demo project for Spring Boot</description>
 
 	<dependencies>
@@ -31,7 +31,6 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
-
 	</dependencies>
 
 </project>

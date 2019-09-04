@@ -17,6 +17,7 @@
     <modules>
         <module>connector-core</module>
         <module>client-core</module>
+        <module>listener-core</module>
         <module>cluster-core</module>
         <module>zeromq-core</module>
     </modules>

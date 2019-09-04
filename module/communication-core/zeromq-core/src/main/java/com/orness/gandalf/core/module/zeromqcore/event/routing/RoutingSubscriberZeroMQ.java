@@ -4,7 +4,7 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
-public class RoutingSubscriberZeroMQ {
+public abstract class RoutingSubscriberZeroMQ {
 
     protected ZContext context;
     protected ZMQ.Socket frontEndRoutingSubscriber;
