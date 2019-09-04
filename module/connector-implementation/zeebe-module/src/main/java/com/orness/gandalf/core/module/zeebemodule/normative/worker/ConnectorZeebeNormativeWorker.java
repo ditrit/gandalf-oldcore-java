@@ -1,6 +1,5 @@
 package com.orness.gandalf.core.module.zeebemodule.normative.worker;
 
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import com.orness.gandalf.core.module.zeebemodule.normative.manager.ConnectorZeebeNormativeManager;
 import com.orness.gandalf.core.module.zeebemodule.properties.ConnectorZeebeProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;

@@ -16,6 +16,6 @@ public class ConnectorRoutingWorker  extends RunnableRoutingWorkerZeroMQ {
         super();
         this.connectorProperties = connectorProperties;
         this.mapper = new Gson();
-        this.initRunnable(this.connectorProperties.getConnectorName(), this.connectorProperties.getRoutingWorkerFrontEndConnections(), this.connectorProperties.getRoutingWorkerBackEndConnection());
+        this.initRunnable(this.connectorProperties.getConnectorName(), this.connectorProperties.getConnectorCommandFrontEndConnection(), this.connectorProperties.getConnectorCommandBackEndConnection());
     }
 }

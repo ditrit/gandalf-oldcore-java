@@ -16,6 +16,6 @@ public class ConnectorRoutingSubscriber extends RunnableRoutingSubscriberZeroMQ 
         super();
         this.connectorProperties = connectorProperties;
         this.mapper = new Gson();
-        this.initRunnable(this.connectorProperties.getConnectorName(), this.connectorProperties.getRoutingSubscriberFrontEndConnection(), this.connectorProperties.getRoutingSubscriberBackEndConnection());
+        this.initRunnable(this.connectorProperties.getConnectorName(), this.connectorProperties.getConnectorEventFrontEndConnection(), this.connectorProperties.getConnectorEventBackEndConnection());
     }
 }

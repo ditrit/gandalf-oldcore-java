@@ -12,7 +12,7 @@ import java.util.List;
 
 import static com.orness.gandalf.core.module.gandalfmodule.constant.ConnectorGandalfConstant.WORKER_SERVICE_CLASS_ADMIN;
 
-@Component
+@Component(value = "gandalfWorker")
 public class ConnectorGandalfWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorGandalfProperties connectorGandalfProperties;
@@ -22,7 +22,7 @@ public class ConnectorGandalfWorker extends RunnableWorkerZeroMQ {
     public ConnectorGandalfWorker(ConnectorGandalfProperties connectorGandalfProperties, ConnectorGandalfManager connectorGandalfManager) {
         this.connectorGandalfProperties = connectorGandalfProperties;
         this.connectorGandalfManager = connectorGandalfManager;
-        this.initRunnable(WORKER_SERVICE_CLASS_ADMIN, this.connectorGandalfProperties.getRoutingWorkerConnection(), this.connectorGandalfProperties.getRoutingSubscriberConnection(), this.connectorGandalfProperties.getTopics());
+        this.initRunnable(WORKER_SERVICE_CLASS_ADMIN, this.connectorGandalfProperties.getConnectorCommandBackEndConnection(), this.connectorGandalfProperties.getConnectorEventBackEndConnection(), this.connectorGandalfProperties.getTopics());
     }
 
     @Override

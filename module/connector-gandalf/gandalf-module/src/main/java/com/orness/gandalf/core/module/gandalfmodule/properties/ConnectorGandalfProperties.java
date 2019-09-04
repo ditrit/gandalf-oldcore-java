@@ -13,7 +13,7 @@ public class ConnectorGandalfProperties {
     private String connectorCommandBackEndConnection;
     @Value("${${instance.name}.${connector.type}.${connector.name}.connectorEventBackEndConnection}")
     private String connectorEventBackEndConnection;
-    @Value("${${connector.name}.${connector.type}.${connector.name}.topics}")
+    @Value("${${instance.name}.${connector.type}.${connector.name}.topics}")
     private List<String> topics;
 
     public String getConnectorCommandBackEndConnection() {

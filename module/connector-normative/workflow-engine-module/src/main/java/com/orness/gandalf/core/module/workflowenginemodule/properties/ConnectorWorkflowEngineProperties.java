@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ConnectorWorkflowEngineProperties extends ConnectorProperties {
 
-    @Value("${${instance.name}.${connector.type}.${connector.name}.workflowEngineEndPointConnection}")
+    @Value("${${instance.name}.${connector.type}.${connector.name}.endPointConnection}")
     private String workflowEngineEndPointConnection;
 
     public String getWorkflowEngineEndPointConnection() {

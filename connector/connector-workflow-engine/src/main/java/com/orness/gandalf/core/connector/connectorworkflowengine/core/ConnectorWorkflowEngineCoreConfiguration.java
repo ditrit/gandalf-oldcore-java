@@ -16,6 +16,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 //TODO
 //@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.workflowenginemodule", "com.orness.gandalf.core.module.zeebemodule"})
+@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.zeebemodule"})
 @Order
 public class ConnectorWorkflowEngineCoreConfiguration {
 
@@ -58,7 +59,7 @@ public class ConnectorWorkflowEngineCoreConfiguration {
         RunnableWorkerZeroMQ cutomWorker = null;
         switch(profile) {
             case "zeebe":
-                cutomWorker = (ConnectorZeebeCustomWorker) context.getBean("cutomWorker");
+                cutomWorker = (ConnectorZeebeCustomWorker) context.getBean("customWorker");
                 break;
             default:
                 break;
