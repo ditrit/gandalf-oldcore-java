@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 @EnableDiscoveryClient
 @SpringBootApplication
-@EntityScan(basePackages = {"com.orness.gandalf.core.module.zeromqmodule"})
+//@EntityScan(basePackages = {"com.orness.gandalf.core.module.zeromqmodule"})
 public class ClusterGandalfApplication {
 
 	public static void main(String[] args) {

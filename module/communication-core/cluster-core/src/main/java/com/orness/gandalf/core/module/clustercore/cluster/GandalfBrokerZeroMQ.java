@@ -19,6 +19,6 @@ public class GandalfBrokerZeroMQ implements Runnable {
 
     @Override
     public void run() {
-        new BrokerZeroMQ(gandalfClusterProperties.getBrokerFrontEndConnection(), gandalfClusterProperties.getBrokerBackEndConnection(), gandalfClusterProperties.getBrokerCaptureConnection());
+        new BrokerZeroMQ(gandalfClusterProperties.getCommandFrontEndConnection(), gandalfClusterProperties.getCommandBackEndConnection(), gandalfClusterProperties.getCommandCaptureConnection());
     }
 }

@@ -19,6 +19,6 @@ public class GandalfProxyZeroMQ implements Runnable {
 
     @Override
     public void run() {
-        new ProxyZeroMQ(gandalfClusterProperties.getProxyFrontEndConnection(), gandalfClusterProperties.getProxyBackEndConnection(), gandalfClusterProperties.getProxyCaptureConnection());
+        new ProxyZeroMQ(gandalfClusterProperties.getEventFrontEndConnection(), gandalfClusterProperties.getEventBackEndConnection(), gandalfClusterProperties.getEventCaptureConnection());
     }
 }

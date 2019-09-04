@@ -1,89 +1,81 @@
 package com.orness.gandalf.core.module.clustercore.properties;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@Configuration
+@ConfigurationProperties(prefix="instance")
 public class GandalfClusterProperties {
 
-    @Value("${cluster.name}")
-    private String clusterName;
+    private String name;
 
     //BROKER//
     //FRONT
-    @Value("${${cluster.name}.brokerFrontEndConnection}")
-    private String brokerFrontEndConnection;
+    private String commandFrontEndConnection;
     //BACK
-    @Value("${${cluster.name}.brokerBackEndConnection}")
-    private String brokerBackEndConnection;
+    private String commandBackEndConnection;
     //CAPTURE
-    @Value("${${cluster.name}.brokerCaptureConnection}")
-    private String brokerCaptureConnection;
+    private String commandCaptureConnection;
 
     //PROXY//
     //FRONT
-    @Value("${${cluster.name}.proxyFrontEndConnection}")
-    private String proxyFrontEndConnection;
+    private String eventFrontEndConnection;
     //BACK
-    @Value("${${cluster.name}.proxyBackEndConnection}")
-    private String proxyBackEndConnection;
+    private String eventBackEndConnection;
     //CAPTURE
-    @Value("${${cluster.name}.proxyCaptureConnection}")
-    private String proxyCaptureConnection;
+    private String eventCaptureConnection;
 
-    public String getClusterName() {
-        return clusterName;
+    public String getName() {
+        return name;
     }
 
-    public void setClusterName(String clusterName) {
-        this.clusterName = clusterName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getBrokerFrontEndConnection() {
-        return brokerFrontEndConnection;
+    public String getCommandFrontEndConnection() {
+        return commandFrontEndConnection;
     }
 
-    public void setBrokerFrontEndConnection(String brokerFrontEndConnection) {
-        this.brokerFrontEndConnection = brokerFrontEndConnection;
+    public void setCommandFrontEndConnection(String commandFrontEndConnection) {
+        this.commandFrontEndConnection = commandFrontEndConnection;
     }
 
-    public String getBrokerBackEndConnection() {
-        return brokerBackEndConnection;
+    public String getCommandBackEndConnection() {
+        return commandBackEndConnection;
     }
 
-    public void setBrokerBackEndConnection(String brokerBackEndConnection) {
-        this.brokerBackEndConnection = brokerBackEndConnection;
+    public void setCommandBackEndConnection(String commandBackEndConnection) {
+        this.commandBackEndConnection = commandBackEndConnection;
     }
 
-    public String getBrokerCaptureConnection() {
-        return brokerCaptureConnection;
+    public String getCommandCaptureConnection() {
+        return commandCaptureConnection;
     }
 
-    public void setBrokerCaptureConnection(String brokerCaptureConnection) {
-        this.brokerCaptureConnection = brokerCaptureConnection;
+    public void setCommandCaptureConnection(String commandCaptureConnection) {
+        this.commandCaptureConnection = commandCaptureConnection;
     }
 
-    public String getProxyFrontEndConnection() {
-        return proxyFrontEndConnection;
+    public String getEventFrontEndConnection() {
+        return eventFrontEndConnection;
     }
 
-    public void setProxyFrontEndConnection(String proxyFrontEndConnection) {
-        this.proxyFrontEndConnection = proxyFrontEndConnection;
+    public void setEventFrontEndConnection(String eventFrontEndConnection) {
+        this.eventFrontEndConnection = eventFrontEndConnection;
     }
 
-    public String getProxyBackEndConnection() {
-        return proxyBackEndConnection;
+    public String getEventBackEndConnection() {
+        return eventBackEndConnection;
     }
 
-    public void setProxyBackEndConnection(String proxyBackEndConnection) {
-        this.proxyBackEndConnection = proxyBackEndConnection;
+    public void setEventBackEndConnection(String eventBackEndConnection) {
+        this.eventBackEndConnection = eventBackEndConnection;
     }
 
-    public String getProxyCaptureConnection() {
-        return proxyCaptureConnection;
+    public String getEventCaptureConnection() {
+        return eventCaptureConnection;
     }
 
-    public void setProxyCaptureConnection(String proxyCaptureConnection) {
-        this.proxyCaptureConnection = proxyCaptureConnection;
+    public void setEventCaptureConnection(String eventCaptureConnection) {
+        this.eventCaptureConnection = eventCaptureConnection;
     }
 }

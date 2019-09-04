@@ -16,7 +16,7 @@
 
     <modules>
         <module>connector-core</module>
-        <module>gandalf-core</module>
+        <module>cluster-core</module>
         <module>zeromq-core</module>
     </modules>
 </project>

@@ -10,7 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule"})
+//@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gandalfmodule"})
 @Order
 public class ClusterGandalfConfiguration {
 
