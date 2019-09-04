@@ -28,8 +28,6 @@ public class ConnectorProperties {
     private String connectorCommandBackEndConnection;
     @Value("${${instance.name}.${connector.type}.${connector.name}.connectorEventBackEndConnection}")
     private String connectorEventBackEndConnection;
-    @Value("${${instance.name}.${connector.type}.${connector.name}.endPointConnection}")
-    private String endPointConnection;
     @Value("${${instance.name}.${connector.type}.${connector.name}.topics}")
     private List<String> topics;
 
