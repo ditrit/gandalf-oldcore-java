@@ -23,7 +23,7 @@ public class ConnectorKafkaConsumer extends RunnableKafkaConsumer {
         this.gandalfJavaClient = gandalfJavaClient;
         this.connectorKafkaProperties = connectorKafkaProperties;
         this.mapper = new Gson();
-        this.initRunnable(this.connectorKafkaProperties.getBusEndPointConnection(), this.connectorKafkaProperties.getGroup(), this.connectorKafkaProperties.getSynchronizeTopics());
+        this.initRunnable(this.connectorKafkaProperties.getEndPointConnection(), this.connectorKafkaProperties.getGroup(), this.connectorKafkaProperties.getSynchronizeTopics());
     }
 
     @Override

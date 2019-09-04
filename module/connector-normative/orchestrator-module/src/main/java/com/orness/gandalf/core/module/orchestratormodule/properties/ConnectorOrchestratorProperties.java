@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ConnectorOrchestratorProperties extends ConnectorProperties {
 
-    @Value("${${instance.name}.${connector.type}.${connector.name}.orchestratorEndPointConnection}")
-    private String orchestratorEndPointConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.endPointConnection}")
+    private String endPointConnection;
 
-    public String getOrchestratorEndPointConnection() {
-        return orchestratorEndPointConnection;
+    public String getEndPointConnection() {
+        return endPointConnection;
     }
 
-    public void setOrchestratorEndPointConnection(String orchestratorEndPointConnection) {
-        this.orchestratorEndPointConnection = orchestratorEndPointConnection;
+    public void setEndPointConnection(String endPointConnection) {
+        this.endPointConnection = endPointConnection;
     }
 }

@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ConnectorDatabaseProperties extends ConnectorProperties {
 
-    @Value("${${instance.name}.${connector.type}.${connector.name}.databaseEndPointConnection}")
-    private String databaseEndPointConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.endPointConnection}")
+    private String endPointConnection;
 
-    public String getDatabaseEndPointConnection() {
-        return databaseEndPointConnection;
+    public String getEndPointConnection() {
+        return endPointConnection;
     }
 
-    public void setDatabaseEndPointConnection(String databaseEndPointConnection) {
-        this.databaseEndPointConnection = databaseEndPointConnection;
+    public void setEndPointConnection(String endPointConnection) {
+        this.endPointConnection = endPointConnection;
     }
 }

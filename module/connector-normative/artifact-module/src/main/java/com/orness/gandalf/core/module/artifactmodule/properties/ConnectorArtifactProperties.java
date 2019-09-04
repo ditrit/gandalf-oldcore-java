@@ -8,8 +8,8 @@ public class ConnectorArtifactProperties extends ConnectorProperties {
 
     @Value("${${instance.name}.${connector.type}.${connector.name}.feignName}")
     private String feignName;
-    @Value("${${instance.name}.${connector.type}.${connector.name}.artifactEndPointConnection}")
-    private String artifactEndPointConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.endPointConnection}")
+    private String endPointConnection;
 
     public String getFeignName() {
         return feignName;
@@ -19,11 +19,14 @@ public class ConnectorArtifactProperties extends ConnectorProperties {
         this.feignName = feignName;
     }
 
-    public String getArtifactEndPointConnection() {
-        return artifactEndPointConnection;
+    public String getEndPointConnection() {
+        return endPointConnection;
     }
 
-    public void setArtifactEndPointConnection(String artifactEndPointConnection) {
-        this.artifactEndPointConnection = artifactEndPointConnection;
+    public void setEndPointConnection(String endPointConnection) {
+        this.endPointConnection = endPointConnection;
     }
+
+
+
 }

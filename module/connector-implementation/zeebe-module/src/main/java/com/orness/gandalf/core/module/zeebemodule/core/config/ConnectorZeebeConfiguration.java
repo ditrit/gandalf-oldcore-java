@@ -20,9 +20,9 @@ public class ConnectorZeebeConfiguration {
 
     @Bean
     public ZeebeClient zeebe() {
-        System.out.println(workflowEngineProperties.getWorkflowEngineEndPointConnection());
+        System.out.println(workflowEngineProperties.getEndPointConnection());
         ZeebeClient zeebeClient = ZeebeClient.newClientBuilder()
-                .brokerContactPoint(this.workflowEngineProperties.getWorkflowEngineEndPointConnection())
+                .brokerContactPoint(this.workflowEngineProperties.getEndPointConnection())
                 .build();
         return zeebeClient;
     }

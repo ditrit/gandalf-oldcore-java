@@ -26,7 +26,7 @@ public class KafkaConfiguration {
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, this.connectorKafkaProperties.getBusEndPointConnection());
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, this.connectorKafkaProperties.getEndPointConnection());
         return new KafkaAdmin(configs);
     }
 }

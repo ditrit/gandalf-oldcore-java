@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ConnectorVersionControlProperties extends ConnectorProperties {
 
-    @Value("${${instance.name}.${connector.type}.${connector.name}.versionControlEndPointConnection}")
-    private String versionControlEndPointConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.endPointConnection}")
+    private String endPointConnection;
 
-    public String getVersionControlEndPointConnection() {
-        return versionControlEndPointConnection;
+    public String getEndPointConnection() {
+        return endPointConnection;
     }
 
-    public void setVersionControlEndPointConnection(String versionControlEndPointConnection) {
-        this.versionControlEndPointConnection = versionControlEndPointConnection;
+    public void setEndPointConnection(String endPointConnection) {
+        this.endPointConnection = endPointConnection;
     }
 }

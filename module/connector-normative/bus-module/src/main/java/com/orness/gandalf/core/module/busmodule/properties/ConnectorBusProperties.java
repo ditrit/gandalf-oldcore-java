@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ConnectorBusProperties extends ConnectorProperties {
 
-    @Value("${${instance.name}.${connector.type}.${connector.name}.busEndPointConnection}")
-    private String busEndPointConnection;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.endPointConnection}")
+    private String endPointConnection;
 
-    public String getBusEndPointConnection() {
-        return busEndPointConnection;
+    public String getEndPointConnection() {
+        return endPointConnection;
     }
 
-    public void setBusEndPointConnection(String busEndPointConnection) {
-        this.busEndPointConnection = busEndPointConnection;
+    public void setEndPointConnection(String endPointConnection) {
+        this.endPointConnection = endPointConnection;
     }
 }
