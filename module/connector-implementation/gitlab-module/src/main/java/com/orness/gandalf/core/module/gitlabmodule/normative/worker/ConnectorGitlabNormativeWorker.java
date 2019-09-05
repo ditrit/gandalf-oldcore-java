@@ -5,6 +5,7 @@ import com.orness.gandalf.core.module.gitlabmodule.normative.manager.ConnectorGi
 import com.orness.gandalf.core.module.gitlabmodule.properties.ConnectorGitlabProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
+import com.orness.gandalf.core.module.zeromqcore.event.domain.MessageEvent;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -21,6 +22,7 @@ public class ConnectorGitlabNormativeWorker extends RunnableWorkerZeroMQ {
     private ConnectorGitlabNormativeManager connectorGitlabNormativeManager;
     private ConnectorGitlabProperties connectorGitlabProperties;
     private MessageCommand messageCommand;
+    private MessageEvent messageEvent;
 
     @Autowired
     public ConnectorGitlabNormativeWorker(ConnectorGitlabProperties connectorGitlabProperties, ConnectorGitlabNormativeManager connectorGitlabNormativeManager) {
@@ -61,6 +63,14 @@ public class ConnectorGitlabNormativeWorker extends RunnableWorkerZeroMQ {
 
     @Override
     protected void executeRoutingSubscriberCommand(ZMsg command) {
-
+        this.messageEvent = new MessageEvent(command);
+        switch(messageEvent.getEvent()) {
+            case "HOOK_MERGE":
+                this.connectorGitlabNormativeManager.hookMerge(messageEvent);
+                break;
+            default:
+                //DO NOTHING
+                break;
+        }
     }
 }

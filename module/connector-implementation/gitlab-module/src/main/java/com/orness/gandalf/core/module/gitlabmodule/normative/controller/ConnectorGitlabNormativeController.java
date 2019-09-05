@@ -26,4 +26,9 @@ public class ConnectorGitlabNormativeController extends ConnectorVersionControlN
     public void event(String event) {
 
     }
+
+    @Override
+    public void hook(String hook) {
+        this.connectorGitlabNormativeManager.hookMerge(hook);
+    }
 }

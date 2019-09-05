@@ -25,12 +25,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.orness.gandalf.core.module.communication-core</groupId>
-            <artifactId>client-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.orness.gandalf.core.module.connector-gandalf</groupId>
             <artifactId>gandalf-module</artifactId>
             <version>0.0.1-SNAPSHOT</version>

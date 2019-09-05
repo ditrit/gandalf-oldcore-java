@@ -4,6 +4,7 @@ import com.orness.gandalf.core.module.zeebemodule.normative.manager.ConnectorZee
 import com.orness.gandalf.core.module.zeebemodule.properties.ConnectorZeebeProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
+import com.orness.gandalf.core.module.zeromqcore.event.domain.MessageEvent;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -19,6 +20,7 @@ public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
     private ConnectorZeebeNormativeManager connectorZeebeNormativeManager;
     private ConnectorZeebeProperties connectorZeebeProperties;
     private MessageCommand messageCommand;
+    private MessageEvent messageEvent;
 
     @Autowired
     public ConnectorZeebeNormativeWorker(ConnectorZeebeProperties connectorZeebeProperties, ConnectorZeebeNormativeManager connectorZeebeNormativeManager) {
@@ -31,7 +33,7 @@ public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
         this.messageCommand = new MessageCommand(command);
-        switch(messageCommand.getCommand().toString()) {
+        switch(messageCommand.getCommand()) {
             case "DEPLOY":
                 this.connectorZeebeNormativeManager.deployWorkflow(this.messageCommand.getPayload());
                 break;
@@ -50,6 +52,14 @@ public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
 
     @Override
     protected void executeRoutingSubscriberCommand(ZMsg command) {
-
+        this.messageEvent = new MessageEvent(command);
+        switch(messageEvent.getEvent()) {
+            case "HOOK_MERGE":
+                this.connectorZeebeNormativeManager.hookMerge(this.messageEvent);
+                break;
+            default:
+                //DO NOTHING
+                break;
+        }
     }
 }

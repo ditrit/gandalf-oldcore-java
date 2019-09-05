@@ -33,7 +33,7 @@ public class GandalfClient {
         return this.clientCommand.getLastReponses();
     }
 
-    public void sendEvent(String topic, String typeEvent, String event) {
-        this.clientEvent.sendEvent(topic, typeEvent, event);
+    public void sendEvent(String topic, String event, String payload) {
+        this.clientEvent.sendEvent(topic, event, payload);
     }
 }

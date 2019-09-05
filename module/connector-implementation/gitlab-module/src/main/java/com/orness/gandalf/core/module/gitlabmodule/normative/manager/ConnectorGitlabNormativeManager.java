@@ -2,8 +2,10 @@ package com.orness.gandalf.core.module.gitlabmodule.normative.manager;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import com.orness.gandalf.core.module.gitmodule.config.normative.manager.ConnectorGitNormativeManager;
 import com.orness.gandalf.core.module.versioncontrolmodule.manager.ConnectorVersionControlNormativeManager;
+import com.orness.gandalf.core.module.zeromqcore.event.domain.MessageEvent;
 import org.gitlab4j.api.AbstractApi;
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
@@ -15,26 +17,44 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
-
+//TODO REVOIR
 @Component(value = "normativeManager")
 @Profile(value = "gitlab")
 public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNormativeManager {
 
     private GitLabApi gitLabApi;
     private ConnectorGitNormativeManager gitCommonManager;
+    private GandalfClient gandalfClient;
     private Gson mapper;
+    private JsonObject jsonObject;
 
     public ConnectorGitNormativeManager getGitCommonManager() {
         return gitCommonManager;
     }
 
     @Autowired
-    public ConnectorGitlabNormativeManager(GitLabApi gitLabApi, ConnectorGitNormativeManager gitCommonManager) {
+    public ConnectorGitlabNormativeManager(GitLabApi gitLabApi, ConnectorGitNormativeManager gitCommonManager, GandalfClient gandalfClient) {
         this.gitLabApi = gitLabApi;
         this.gitCommonManager = gitCommonManager;
+        this.gandalfClient = gandalfClient;
         this.mapper = new Gson();
     }
 
+
+    public void hookMerge(String hook) {
+        jsonObject = this.mapper.fromJson(hook, JsonObject.class);
+        JsonObject jsonObjectProject = jsonObject.get("project").getAsJsonObject();
+        JsonObject jsonObjectRepository = jsonObject.get("repository").getAsJsonObject();
+        JsonObject jsonObjectAttributes = jsonObject.get("object_attributes").getAsJsonObject();
+
+        JsonObject payload = new JsonObject();
+        StringBuilder topic = new StringBuilder(jsonObjectRepository.get("name").getAsString()).append(".").append(jsonObjectProject.get("name").getAsString());
+        payload.addProperty("correlation_key", topic.toString());
+        payload.addProperty("project_url", jsonObjectProject.get("git_ssh_url").getAsString());
+        payload.addProperty("project_name", jsonObjectProject.get("name").getAsString());
+
+        this.gandalfClient.sendEvent(topic.toString(), "HOOK_MERGE", payload.getAsString());
+    }
 
     @Override
     public void cloneProject(String payload) {
@@ -275,6 +295,16 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
         return null;
     }
 
+    public void addHook(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+/*        try {
+            //TODO REVOIR
+            //this.gitLabApi.getSystemHooksApi().addSystemHook("", "", "", "", "");
+        } catch (GitLabApiException e) {
+            e.printStackTrace();
+        }*/
+    }
+
     @Override
     public List listIssues() {
         try {
@@ -338,6 +368,4 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
         }
         return null;
     }
-
-
 }

@@ -14,4 +14,7 @@ public abstract class ConnectorVersionControlNormativeController {
 
     @RequestMapping(method = RequestMethod.POST, value = URL_CONNECTOR_VERSION_CONTROL_CONTROLLER_EVENT)
     public abstract void event(@RequestBody String event);
+
+    @RequestMapping(method = RequestMethod.POST, value = URL_CONNECTOR_VERSION_CONTROL_CONTROLLER_HOOK)
+    public abstract void hook(@RequestBody String hook);
 }

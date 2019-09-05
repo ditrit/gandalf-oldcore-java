@@ -9,8 +9,6 @@
         <zeebe:ioMapping>
           <zeebe:output source="project_url" target="project_url" />
           <zeebe:output source="project_name" target="project_name" />
-          <zeebe:output source="project_version" target="project_version" />
-          <zeebe:output source="workflow_message" target="workflow_message" />
         </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ok6ywl</bpmn:incoming>
