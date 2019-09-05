@@ -9,6 +9,7 @@ import io.zeebe.client.api.response.ActivatedJob;
 import io.zeebe.client.api.subscription.JobHandler;
 import io.zeebe.client.api.subscription.JobWorker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import java.util.Map;
 import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.*;
 
 @Component
+@ComponentScan(basePackages = {"com.orness.gandalf.core.module.clientcore"})
 public class BuildJob implements JobHandler {
 
     private ZeebeClient zeebe;
