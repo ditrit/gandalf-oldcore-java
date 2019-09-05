@@ -18,8 +18,8 @@ public class ConnectorGitlabConfiguration {
     }
 
     //TODO ACCES TOKEN
-    @Bean
+/*    @Bean
     public GitLabApi gitLabApi() {
         return new GitLabApi(this.connectorGitlabProperties.getEndPointConnection(), "YOUR_ACCESS_TOKEN");
-    }
+    }*/
 }

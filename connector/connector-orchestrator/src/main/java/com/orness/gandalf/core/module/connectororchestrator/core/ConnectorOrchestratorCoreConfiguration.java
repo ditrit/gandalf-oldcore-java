@@ -37,13 +37,17 @@ public class ConnectorOrchestratorCoreConfiguration {
     @Bean
     public void connectorGandalfClient() {
         GandalfClient gandalfClient = (GandalfClient) context.getBean("gandalfClient");
-        this.taskExecutor().execute(gandalfClient.getClientCommand());
+        if(gandalfClient != null) {
+            this.taskExecutor().execute(gandalfClient.getClientCommand());
+        }
     }
 
     @Bean
     public void connectorGandalfWorker() {
-        RunnableWorkerZeroMQ gandalfWorkerCommand = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
-        this.taskExecutor().execute(gandalfWorkerCommand);
+        ConnectorGandalfWorker gandalfWorkerCommand = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
+        if(gandalfWorkerCommand != null) {
+            this.taskExecutor().execute(gandalfWorkerCommand);
+        }
     }
 
     @Bean
@@ -56,7 +60,9 @@ public class ConnectorOrchestratorCoreConfiguration {
             default:
                 break;
         }
-        this.taskExecutor().execute(normativeWorker);
+        if(normativeWorker != null) {
+            this.taskExecutor().execute(normativeWorker);
+        }
     }
 
     @Bean
@@ -64,11 +70,13 @@ public class ConnectorOrchestratorCoreConfiguration {
         RunnableWorkerZeroMQ cutomWorker = null;
         switch(profile) {
             case "custom-orchestrator":
-                cutomWorker = (ConnectorCustomOrchestratorCustomWorker) context.getBean("cutomWorker");
+                cutomWorker = (ConnectorCustomOrchestratorCustomWorker) context.getBean("customWorker");
                 break;
             default:
                 break;
         }
-        this.taskExecutor().execute(cutomWorker);
+        if(cutomWorker != null) {
+            this.taskExecutor().execute(cutomWorker);
+        }
     }
 }

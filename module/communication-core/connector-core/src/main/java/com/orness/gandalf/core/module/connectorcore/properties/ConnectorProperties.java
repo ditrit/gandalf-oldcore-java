@@ -57,7 +57,7 @@ public class ConnectorProperties {
     }
 
     private String concatAddressPort(JsonElement address, JsonElement port) {
-        return new StringBuilder(address.getAsString()).append(":").append(port.getAsString()).toString();
+        return new StringBuilder("tcp://").append(address.getAsString()).append(":").append(port.getAsString()).toString();
     }
 
     public String getInstanceName() {

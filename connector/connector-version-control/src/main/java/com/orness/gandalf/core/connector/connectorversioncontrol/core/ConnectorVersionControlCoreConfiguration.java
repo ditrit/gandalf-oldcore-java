@@ -2,6 +2,8 @@ package com.orness.gandalf.core.connector.connectorversioncontrol.core;
 
 import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
+import com.orness.gandalf.core.module.gitlabmodule.custom.worker.ConnectorGitlabCustomWorker;
+import com.orness.gandalf.core.module.gitlabmodule.normative.worker.ConnectorGitlabNormativeWorker;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +22,7 @@ public class ConnectorVersionControlCoreConfiguration {
     @Autowired
     private ApplicationContext context;
 
-    @Value("spring.profiles.active")
+    @Value("${spring.profiles.active}")
     private String profile;
 
     @Bean
@@ -35,13 +37,17 @@ public class ConnectorVersionControlCoreConfiguration {
     @Bean
     public void connectorGandalfClient() {
         GandalfClient gandalfClient = (GandalfClient) context.getBean("gandalfClient");
-        this.taskExecutor().execute(gandalfClient.getClientCommand());
+        if(gandalfClient != null) {
+            this.taskExecutor().execute(gandalfClient.getClientCommand());
+        }
     }
 
     @Bean
     public void connectorGandalfWorker() {
-        RunnableWorkerZeroMQ gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
-        this.taskExecutor().execute(gandalfWorker);
+        ConnectorGandalfWorker gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
+        if(gandalfWorker != null) {
+            this.taskExecutor().execute(gandalfWorker);
+        }
     }
 
     @Bean
@@ -49,12 +55,15 @@ public class ConnectorVersionControlCoreConfiguration {
         RunnableWorkerZeroMQ normativeWorker = null;
         switch(profile) {
             case "gitlab":
-                //normativeWorker = (ConnectorGitlabNormativeWorker) context.getBean("normativeWorker");
+                normativeWorker = (ConnectorGitlabNormativeWorker) context.getBean("normativeWorker");
+                System.out.println(normativeWorker);
                 break;
             default:
                 break;
         }
-        this.taskExecutor().execute(normativeWorker);
+        if(normativeWorker != null) {
+            this.taskExecutor().execute(normativeWorker);
+        }
     }
 
     @Bean
@@ -62,11 +71,13 @@ public class ConnectorVersionControlCoreConfiguration {
         RunnableWorkerZeroMQ cutomWorker = null;
         switch(profile) {
             case "gitlab":
-                //cutomWorker = (ConnectorGitlabCustomWorker) context.getBean("cutomWorker");
+                cutomWorker = (ConnectorGitlabCustomWorker) context.getBean("customWorker");
                 break;
             default:
                 break;
         }
-        this.taskExecutor().execute(cutomWorker);
+        if(cutomWorker != null) {
+            this.taskExecutor().execute(cutomWorker);
+        }
     }
 }

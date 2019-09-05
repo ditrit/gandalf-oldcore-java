@@ -10,6 +10,7 @@ import org.gitlab4j.api.AbstractApi;
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -17,18 +18,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
+
 //TODO REVOIR
 @Component(value = "normativeManager")
+//@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gitmodule"})
 @Profile(value = "gitlab")
 public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNormativeManager {
 
     private GitLabApi gitLabApi;
-    private ConnectorGitNormativeManager gitCommonManager;
+    //private ConnectorGitNormativeManager gitCommonManager;
     private GandalfClient gandalfClient;
     private Gson mapper;
     private JsonObject jsonObject;
 
-    public ConnectorGitNormativeManager getGitCommonManager() {
+/*    public ConnectorGitNormativeManager getGitCommonManager() {
         return gitCommonManager;
     }
 
@@ -38,8 +41,13 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
         this.gitCommonManager = gitCommonManager;
         this.gandalfClient = gandalfClient;
         this.mapper = new Gson();
-    }
+    }*/
 
+    @Autowired
+    public ConnectorGitlabNormativeManager(GandalfClient gandalfClient) {
+        this.gandalfClient = gandalfClient;
+        this.mapper = new Gson();
+    }
 
     public void hookMerge(String hook) {
         jsonObject = this.mapper.fromJson(hook, JsonObject.class);
@@ -58,55 +66,55 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
 
     @Override
     public void cloneProject(String payload) {
-        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.gitCommonManager.cloneProject(jsonObject.get("uri").getAsString(), jsonObject.get("path").getAsString());
+        //JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        //this.gitCommonManager.cloneProject(jsonObject.get("uri").getAsString(), jsonObject.get("path").getAsString());
     }
 
     @Override
     public void pull(String payload) {
-        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.gitCommonManager.pull(jsonObject.get("origin").getAsString(), jsonObject.get("branch").getAsString());
+        //JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        //this.gitCommonManager.pull(jsonObject.get("origin").getAsString(), jsonObject.get("branch").getAsString());
     }
 
     @Override
     public void add(String payload) {
-        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.gitCommonManager.add(jsonObject.get("path").getAsString());
+        //JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        //this.gitCommonManager.add(jsonObject.get("path").getAsString());
     }
 
     @Override
     public void commit(String payload) {
-        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.gitCommonManager.commit(jsonObject.get("message").getAsString());
+        //JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        //this.gitCommonManager.commit(jsonObject.get("message").getAsString());
     }
 
     @Override
     public void push(String payload) {
-        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.gitCommonManager.push(jsonObject.get("origin").getAsString(), jsonObject.get("branch").getAsString());
+        //JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        //this.gitCommonManager.push(jsonObject.get("origin").getAsString(), jsonObject.get("branch").getAsString());
     }
 
     @Override
     public void merge(String payload) {
-        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.gitCommonManager.merge(jsonObject.get("source").getAsString(), jsonObject.get("destination").getAsString());
+        //JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        //this.gitCommonManager.merge(jsonObject.get("source").getAsString(), jsonObject.get("destination").getAsString());
     }
 
     @Override
     public void checkout(String payload) {
-        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.gitCommonManager.checkout(jsonObject.get("branch").getAsString(), jsonObject.get("create").getAsBoolean());
+        //JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        //this.gitCommonManager.checkout(jsonObject.get("branch").getAsString(), jsonObject.get("create").getAsBoolean());
     }
 
     @Override
     public void tag(String payload) {
-        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.gitCommonManager.tag(jsonObject.get("name").getAsString());
+        //JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        //this.gitCommonManager.tag(jsonObject.get("name").getAsString());
     }
 
     @Override
     public void log() {
-        this.gitCommonManager.log();
+        //this.gitCommonManager.log();
     }
 
    /* @Override

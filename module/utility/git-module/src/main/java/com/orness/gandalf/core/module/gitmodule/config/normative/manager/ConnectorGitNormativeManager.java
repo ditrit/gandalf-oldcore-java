@@ -22,29 +22,20 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
     }
 
     @Override
-    public void cloneProject(String uri, String path) {
-        this.connectorGitService.cloneRepository(uri, path);
+    public void cloneProject(String payload) {
+        //this.connectorGitService.cloneRepository(uri, path);
     }
 
     @Override
-    public void pull(String origin, String branch) {
+    public void pull(String payload) {
+/*
         PullCommand pull = this.connectorGitService.getGit().pull();
         try {
             pull.setRemote(origin).setRemoteBranchName(branch).call();
         } catch (GitAPIException e) {
             e.printStackTrace();
         }
-
-    }
-
-    @Override
-    public void cloneProject(String payload) {
-
-    }
-
-    @Override
-    public void pull(String payload) {
-
+*/
     }
 
     @Override
@@ -69,33 +60,18 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
 
     @Override
     public void push(String payload) {
-
-    }
-
-    @Override
-    public void merge(String payload) {
-
-    }
-
-    @Override
-    public void checkout(String payload) {
-
-    }
-
-    @Override
-    public void push(String origin, String branch) {
-        PushCommand push = this.connectorGitService.getGit().push();
+/*        PushCommand push = this.connectorGitService.getGit().push();
         try {
             push.setRemote(origin + ":" + branch);
             push.call();
         } catch (GitAPIException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
-    public void merge(String source, String destination) {
-        MergeCommand merge = this.connectorGitService.getGit().merge();
+    public void merge(String payload) {
+/*        MergeCommand merge = this.connectorGitService.getGit().merge();
         try {
             this.checkout(destination, false);
             Ref sourceRef = this.connectorGitService.getGit().getRepository().findRef(source);
@@ -103,14 +79,13 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
             merge.call();
         } catch (GitAPIException | IOException e) {
             e.printStackTrace();
-        }
-
+        }*/
     }
 
     @Override
-    public void checkout(String branch, boolean create) {
-        CheckoutCommand checkout = this.connectorGitService.getGit().checkout();
-        checkout.setCreateBranch(create).setName(branch);
+    public void checkout(String payload) {
+/*        CheckoutCommand checkout = this.connectorGitService.getGit().checkout();
+        checkout.setCreateBranch(create).setName(branch);*/
     }
 
     @Override
@@ -123,10 +98,10 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+   /* @Override
     public Object execute(String apiName, String functionName, Object[] functionParameters) {
         return null;
-    }
+    }*/
 
     @Override
     public List listUsers() {
@@ -159,22 +134,12 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
     }
 
     @Override
-    public Object getBranche(String pathProject, String name) {
-        return null;
-    }
-
-    @Override
     public List listMergeRequests(String pathProject) {
         return null;
     }
 
     @Override
     public Object getMergeRequests(String payload) {
-        return null;
-    }
-
-    @Override
-    public Object getMergeRequests(String pathProject, int id) {
         return null;
     }
 
@@ -189,22 +154,12 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
     }
 
     @Override
-    public Object getCommit(String pathProject, String sha) {
-        return null;
-    }
-
-    @Override
     public List listPages(String pathProject) {
         return null;
     }
 
     @Override
     public Object getPage(String payload) {
-        return null;
-    }
-
-    @Override
-    public Object getPage(String pathProject, String slug) {
         return null;
     }
 
@@ -220,11 +175,6 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
 
     @Override
     public Object getIssue(String payload) {
-        return null;
-    }
-
-    @Override
-    public Object getIssue(String pathProject, int id) {
         return null;
     }
 
@@ -248,8 +198,4 @@ public class ConnectorGitNormativeManager extends ConnectorVersionControlNormati
         return null;
     }
 
-    @Override
-    public Object getEpic(String pathGroup, int id) {
-        return null;
-    }
 }

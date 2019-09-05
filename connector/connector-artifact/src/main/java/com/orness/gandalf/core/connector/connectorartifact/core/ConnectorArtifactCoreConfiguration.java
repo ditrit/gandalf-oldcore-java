@@ -39,13 +39,17 @@ public class ConnectorArtifactCoreConfiguration {
     @Bean
     public void connectorGandalfClient() {
         GandalfClient gandalfClient = (GandalfClient) context.getBean("gandalfClient");
-        this.taskExecutor().execute(gandalfClient.getClientCommand());
+        if(gandalfClient != null) {
+            this.taskExecutor().execute(gandalfClient.getClientCommand());
+        }
     }
 
     @Bean
     public void connectorGandalfWorker() {
         ConnectorGandalfWorker gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
-        this.taskExecutor().execute(gandalfWorker);
+        if(gandalfWorker != null) {
+            this.taskExecutor().execute(gandalfWorker);
+        }
     }
 
     @Bean
@@ -61,7 +65,9 @@ public class ConnectorArtifactCoreConfiguration {
             default:
                 break;
         }
-        this.taskExecutor().execute(normativeWorker);
+        if(normativeWorker != null) {
+            this.taskExecutor().execute(normativeWorker);
+        }
     }
 
     @Bean
@@ -77,6 +83,8 @@ public class ConnectorArtifactCoreConfiguration {
             default:
                 break;
         }
-        this.taskExecutor().execute(customWorker);
+        if(customWorker != null) {
+            this.taskExecutor().execute(customWorker);
+        }
     }
 }

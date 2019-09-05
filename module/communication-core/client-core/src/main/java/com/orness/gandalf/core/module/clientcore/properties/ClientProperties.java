@@ -1,5 +1,7 @@
 package com.orness.gandalf.core.module.clientcore.properties;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,7 @@ import static com.orness.gandalf.core.module.clientcore.constant.ClientConstant.
 public class ClientProperties {
 
     private RestTemplate restTemplate;
+    private Gson mapper;
 
     @Value("${connector.name}")
     private String connectorName;
@@ -25,28 +28,30 @@ public class ClientProperties {
 
     public ClientProperties() {
         this.restTemplate = new RestTemplate();
+        this.mapper = new Gson();
         this.initProperties();
     }
 
-    private JsonObject restTemplateRequest(String clusterPropertiesName) {
-        return this.restTemplate.getForObject(" http://localhost:8500/v1/catalog/service/"+clusterPropertiesName, JsonObject.class);
+    private JsonArray restTemplateRequest(String clusterPropertiesName) {
+        return mapper.fromJson(this.restTemplate.getForObject("http://localhost:8500/v1/catalog/service/"+clusterPropertiesName, String.class), JsonArray.class);
     }
 
     private void initProperties() {
-        //CLIENT COMMAND FRONT
-        JsonObject currentclusterPropertiesJsonObject = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_FRONTEND);
-        this.clientCommandBackEndConnections = StreamSupport.stream(currentclusterPropertiesJsonObject.getAsJsonArray("res").spliterator(), false)
+        //CONNECTEUR COMMAND FRONT
+        JsonArray currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_FRONTEND);
+        this.clientCommandBackEndConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
                 .map(JsonObject.class::cast)
                 .map(o -> concatAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
                 .collect(Collectors.toList());
 
-        //CLIENT EVENT FRONT
-        currentclusterPropertiesJsonObject = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_FRONTEND).getAsJsonObject("res");
+        //CONNECTEUR EVENT FRONT
+        currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_FRONTEND);
+        JsonObject currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
         this.clientEventBackEndConnection = concatAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
     }
 
     private String concatAddressPort(JsonElement address, JsonElement port) {
-        return new StringBuilder(address.getAsString()).append(":").append(port.getAsString()).toString();
+        return new StringBuilder("tcp://").append(address.getAsString()).append(":").append(port.getAsString()).toString();
     }
 
     public String getConnectorName() {

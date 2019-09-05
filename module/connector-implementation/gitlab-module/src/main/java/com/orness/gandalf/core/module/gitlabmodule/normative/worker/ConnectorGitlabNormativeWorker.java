@@ -1,6 +1,5 @@
 package com.orness.gandalf.core.module.gitlabmodule.normative.worker;
 
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import com.orness.gandalf.core.module.gitlabmodule.normative.manager.ConnectorGitlabNormativeManager;
 import com.orness.gandalf.core.module.gitlabmodule.properties.ConnectorGitlabProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
@@ -63,14 +62,5 @@ public class ConnectorGitlabNormativeWorker extends RunnableWorkerZeroMQ {
 
     @Override
     protected void executeRoutingSubscriberCommand(ZMsg command) {
-        this.messageEvent = new MessageEvent(command);
-        switch(messageEvent.getEvent()) {
-            case "HOOK_MERGE":
-                this.connectorGitlabNormativeManager.hookMerge(messageEvent);
-                break;
-            default:
-                //DO NOTHING
-                break;
-        }
     }
 }
