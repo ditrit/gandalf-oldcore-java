@@ -1,14 +1,13 @@
 package com.orness.gandalf.core.job.registerjob.job;
 
 import com.orness.gandalf.core.job.registerjob.feign.RegisterFeign;
-import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
+import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;
 import io.zeebe.client.api.subscription.JobHandler;
 import io.zeebe.client.api.subscription.JobWorker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -22,24 +21,18 @@ import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowCon
 @Component
 public class RegisterJob implements JobHandler {
 
-    @Value("${gandalf.communication.client}")
-    private String connectionWorker;
-    @Value("${gandalf.communication.subscriber}")
-    private String connectionSubscriber;
-    @Value("${gandalf.register.topic}")
-    private String topicRegister;
-
-
     private ZeebeClient zeebe;
     private RegisterFeign registerFeign;
     private JobWorker subscription;
-    private ZeroMQJavaClient zeroMQJavaClient;
+    private GandalfClient gandalfClient;
 
     @Autowired
-    public RegisterJob(ZeebeClient zeebe, RegisterFeign registerFeign) {
+    public RegisterJob(ZeebeClient zeebe, RegisterFeign registerFeign, GandalfClient gandalfClient) {
         this.zeebe = zeebe;
         this.registerFeign = registerFeign;
+        this.gandalfClient = gandalfClient;
     }
+
 
     @PostConstruct
     public void subscribe() {
@@ -61,7 +54,6 @@ public class RegisterJob implements JobHandler {
         //Get workflow variables
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         System.out.println(workflow_variables);
-        zeroMQJavaClient = new ZeroMQJavaClient(connectionWorker, connectionSubscriber);
         boolean succes = true;
         //MessageGandalf message = zeroMQJavaClient.getMessageSubscriberCallableBusTopic(topicRegister);
         String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_NAME).toString();
@@ -81,11 +73,11 @@ public class RegisterJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "feign : success" );
+            this.gandalfClient .sendEvent("build", "REGISTER", projectName + "feign : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            zeroMQJavaClient.sendMessageTopicDatabase(projectName + "feign : fail" );
+            this.gandalfClient .sendEvent("build", "REGISTER", projectName + "feign : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }
