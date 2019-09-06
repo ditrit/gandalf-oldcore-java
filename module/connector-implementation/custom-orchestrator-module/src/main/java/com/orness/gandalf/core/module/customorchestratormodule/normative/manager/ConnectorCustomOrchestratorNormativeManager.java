@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+
+import static com.orness.gandalf.core.module.customorchestratormodule.properties.ConnectorCustomOrchestratorConstant.SCRIPT_BUILD_DIRECTORY;
+
 @Component(value = "normativeManager")
 @Profile(value = "custom-orchestrator")
 public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrchestratorNormativeManager {
@@ -67,5 +71,11 @@ public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrches
     public void scaleDown(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_down");
+    }
+
+    public void downloadProject(String payload) {
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
+        this.connectorCustomOrchestratorBashService.downloadProject(jsonObject.get("project_url").getAsString());
+        this.connectorCustomOrchestratorBashService.downloadConfiguration(jsonObject.get("conf_url").getAsString());
     }
 }

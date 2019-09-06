@@ -77,12 +77,6 @@
 			<version>0.17.0</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.orness.gandalf.core.module</groupId>
-			<artifactId>constant-module</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

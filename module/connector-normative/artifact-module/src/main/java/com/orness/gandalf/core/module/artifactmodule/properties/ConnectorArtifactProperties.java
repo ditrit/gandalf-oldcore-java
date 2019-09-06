@@ -5,17 +5,17 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ConnectorArtifactProperties extends ConnectorProperties {
 
-    @Value("${${instance.name}.${connector.type}.${connector.name}.feignName}")
-    private String feignName;
+    @Value("${${instance.name}.${connector.type}.${connector.name}.endPointName}")
+    private String endPointName;
     @Value("${${instance.name}.${connector.type}.${connector.name}.endPointConnection}")
     private String endPointConnection;
 
-    public String getFeignName() {
-        return feignName;
+    public String getEndPointName() {
+        return endPointName;
     }
 
-    public void setFeignName(String feignName) {
-        this.feignName = feignName;
+    public void setEndPointName(String endPointName) {
+        this.endPointName = endPointName;
     }
 
     public String getEndPointConnection() {

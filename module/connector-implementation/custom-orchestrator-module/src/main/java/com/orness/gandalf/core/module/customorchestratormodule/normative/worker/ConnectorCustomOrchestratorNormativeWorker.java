@@ -60,6 +60,9 @@ public class ConnectorCustomOrchestratorNormativeWorker extends RunnableWorkerZe
             case "SCALE_DOWN":
                 this.connectorCustomOrchestratorNormativeManager.scaleDown(messageCommand.getPayload());
                 break;
+            case "DOWNLOAD":
+                this.connectorCustomOrchestratorNormativeManager.downloadProject(messageCommand.getPayload());
+                break;
             default:
                 break;
         }

@@ -1,7 +1,9 @@
 package com.orness.gandalf.core.job.buildjob.job;
 
+import com.google.gson.JsonObject;
 import com.orness.gandalf.core.job.buildjob.feign.BuildFeign;
 import com.orness.gandalf.core.job.buildjob.manager.BuildJobManager;
+import com.orness.gandalf.core.job.buildjob.properties.BuildJobProperties;
 import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
@@ -10,6 +12,7 @@ import io.zeebe.client.api.subscription.JobHandler;
 import io.zeebe.client.api.subscription.JobWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -17,10 +20,9 @@ import javax.annotation.PreDestroy;
 import java.time.Duration;
 import java.util.Map;
 
-import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.*;
 
 @Component
-@ComponentScan(basePackages = {"com.orness.gandalf.core.module.clientcore"})
+@ComponentScan(basePackages = {"com.orness.gandalf.core.library.gandalfjavaclient"})
 public class BuildJob implements JobHandler {
 
     private ZeebeClient zeebe;
@@ -28,13 +30,20 @@ public class BuildJob implements JobHandler {
     private JobWorker subscription;
     private GandalfClient gandalfClient;
     private BuildJobManager buildJobManager;
+    private BuildJobProperties buildJobProperties;
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
 
     @Autowired
-    public BuildJob(ZeebeClient zeebe, BuildFeign buildFeign, BuildJobManager buildJobManager, GandalfClient gandalfClient) {
+    public BuildJob(ZeebeClient zeebe, BuildFeign buildFeign, BuildJobManager buildJobManager, GandalfClient gandalfClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, BuildJobProperties buildJobProperties) {
         this.zeebe = zeebe;
         this.buildFeign = buildFeign;
         this.buildJobManager = buildJobManager;
         this.gandalfClient = gandalfClient;
+        this.buildJobProperties = buildJobProperties;
+        this.threadPoolTaskExecutor = threadPoolTaskExecutor;
+        this.threadPoolTaskExecutor.execute(gandalfClient.getClientCommand());
+
     }
 
     @PostConstruct
@@ -58,16 +67,19 @@ public class BuildJob implements JobHandler {
         //Get workflow variables
         Map<String, Object> current_workflow_variables = activatedJob.getVariablesAsMap();
         Map<String, String> workflow_variables = buildJobManager.createWorkflowVariables(current_workflow_variables);
-        String projectUrl = workflow_variables.get(KEY_VARIABLE_PROJECT_URL);
-        String projectName = workflow_variables.get(KEY_VARIABLE_PROJECT_NAME);
+        String projectUrl = workflow_variables.get("project_url");
+        String projectName = workflow_variables.get("project_name");
 
         //Build
-        String projectVersion = buildFeign.build(projectName, projectUrl);
-        System.out.println(projectUrl);
-        System.out.println(projectVersion);
-        succes &= projectVersion != null;
+        JsonObject result = buildFeign.build(projectName, projectUrl);
+        //System.out.println(projectUrl);
+        //System.out.println(projectVersion);
+        succes &= result.get("result").getAsBoolean();
 
-        workflow_variables.put(KEY_VARIABLE_PROJECT_VERSION, projectVersion);
+        //UPDATE PROJECT URL
+        workflow_variables.put("project_version", result.get("version").getAsString());
+        workflow_variables.put("project_url", result.get("project_url").getAsString());
+        workflow_variables.put("conf_url", result.get("conf_url").getAsString());
 
         //ADD WORKFLOW VARIABLE ADD REPERTORY
         zeebe.newPublishMessageCommand()

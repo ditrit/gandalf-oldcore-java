@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.module.customorchestratormodule.core;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,12 @@ import static com.orness.gandalf.core.module.customorchestratormodule.properties
 @Service
 @Profile(value = "custom-orchestrator")
 public class ConnectorCustomOrchestratorBashService {
+
+    @Value("${service.endPointName}")
+    private String serviceEndPointName;
+
+    @Value("${service.endPointConnection}")
+    private String serviceEndPointConnection;
 
     public boolean execute(String service, String command) {
         Process process;
@@ -64,7 +71,7 @@ public class ConnectorCustomOrchestratorBashService {
         return process.exitValue() == 0 ? true : false;
     }
 
-    public boolean downloadProject(String projectName, String version) {
+    public boolean downloadProject(String url) {
         Process process;
         try {
             Path path = Paths.get(SCRIPT_BUILD_DIRECTORY);
@@ -74,7 +81,7 @@ public class ConnectorCustomOrchestratorBashService {
             } else {
                 System.out.println("Directory already exists");
             }
-            process = new ProcessBuilder("bash", "-c", "wget artifact-service.service.gandalf:10000/download/" + projectName + "_" + version + ".tar.gz").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "wget " + serviceEndPointConnection + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -83,7 +90,7 @@ public class ConnectorCustomOrchestratorBashService {
         return process.exitValue() == 0 ? true : false;
     }
 
-    public boolean downloadConfiguration(String projectName, String version) {
+    public boolean downloadConfiguration(String url) {
         Process process;
         try {
             Path path = Paths.get(SCRIPT_BUILD_DIRECTORY);
@@ -93,7 +100,7 @@ public class ConnectorCustomOrchestratorBashService {
             } else {
                 System.out.println("Directory already exists");
             }
-            process = new ProcessBuilder("bash", "-c", "wget artifact-service.service.gandalf:10000/download/" + projectName + "_" + version + ".ini").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "wget " + serviceEndPointConnection + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
