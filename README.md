@@ -1,56 +1,138 @@
-# Gandalf Core Architecture
+# Gandalf Core Architecture 
+
+## Architecture
+![Schéma architecture gandalf](/picture/architecture_gandalf.png)
+
+## Communication 
+![Schéma architecture connecteur](/picture/architecture_communication.png)
 
 ## Configuration
-### configuration-service
+Configuration
+### configuration-service (DEV)
 Service gérant les configurations des différents services.
-### eureka-service
+### Consul KV Store (PROD)
+
+## Discovery
+Services discovery
+### eureka-service (DEV)
 Service discovery Eureka
+### Consul service discovery (PROD)
+Consul service discovery
+
 
 ## Connector
+Connecteurs Gandalf et outils
+
+![Schéma architecture connecteur](/picture/architecture_connector.png)
+
+### connector-gandalf-service
+Service central Gandalf
+- gandalf-java-client
+- gandalf-module
+
 ### connector-bus-service
-Service permettant la communication avec le bus via gRPC.
+Service permettant la communication avec un bus via Gandalf.
+- gandalf-java-client
+- gandalf-module
+- kafka-module, etc...
+ 
 ### connector-workflow-engine-service
-Service permettant la communication avec le workflow-engine via gRPC.
-### database-bus-service
-Service permettant la sauvegarde des différents message du bus.
+Service permettant la communication avec un workflow-engine via Gandalf.
+- gandalf-java-client
+- gandalf-module
+- zeebe-module, etc... 
+
+### connector-database-service
+Service permettant la communication avec une base de donnée via Gandalf.
+- gandalf-java-client
+- gandalf-module
+- h2-module, etc... 
+
+### connector-version-control-service
+Service permettant la communication avec un système de versionning via Gandalf.
+- gandalf-java-client
+- gandalf-module
+- gitlab-module, etc...
+ 
+### connector-artifact-service
+Service permettant la communication avec un système de gestion d'artifact via Gandalf.
+- gandalf-java-client
+- gandalf-module
+- nexus-module, etc... 
+
+### connector-orchestrator-service
+Service permettant la communication avec un orchestrator via Gandalf.
+- gandalf-java-client
+- gandalf-module
+- jenkins-module, etc... 
 
 ## Library
-### grpc-message-bus-module
-Module contenant le fichier .proto pour le connector-bus-service
-### grpc-message-workflow-engine-module
-Module contenant le fichier .proto pour le connector-workflow-engine-service
+Librairies Gandalf
+### gandalf-java-client
+Client Gandalf en Java.
+- gandalf-module
+- zeromq-module
+
+
+## Module
+Modules Gandalf, connecteurs, etc...
+### zeromq-module
+Module abstrait des communications ZeroMQ
+- message-module
+
+### gandalf-module
+Module commun Gandalf
+- zeromq-module
+
 ### message-module
-### subscriber-topic-module
-### workflow-uid-module
+Module commun des messages
+
+### orchestrator-module
+Module commun abstrait orchestrator
+### artifact-module
+Module commun abstrait artifact
+### bus-module
+Module commun abstrait bus
+### workflow-engine-module
+Module commun abstrait workflow
+### version-control-module
+Module commun abstrait versionning
+### database-module (ToDo)
+Module commun abstrait databse
+### job-module (ToDo)
+Module commun abstrait job
+
+### custom-artifact-module
+Module implémentation commun/specific artifact pour un artifact custom
+- artifact-module
+- zeromq-module
+
+### custom-orchestrator-module
+Module implémentation commun/specific orchestrator pour un orchestrator custom
+- orchestrator-module
+- zeromq-module
+
+### kafka-module
+Module implémentation commun/specific bus pour kafka
+- kafka-module
+- zeromq-module
+
+### zeebe-module
+Module implémentation commun/specific workflow-engine pour zeebe
+- kafka-module
+- zeromq-module
+
+### nexus-module (ToDo)
+### git-module (ToDo)
+### gitlab-module (ToDo)
+### h2-module (ToDo)
+### jenkins-module (ToDo)
+### job-zeebe-module (ToDo)
 
 ## Service
-### workflow-service
-Service permettant la communication avec le workflow-engine Zeebe
-### workflow-uid-service
+Services Gandalf
+
 
 ## Test
-### java-kafka-1
-Test tâche externe Java numéro 1 
-### java-kafka-2
-Test tâche externe Java numéro 2
-### job-kafka-producer
-Test job Zeebe de production de message dans Kafka
-### job-print
-Test job Zeebe d'affichage
+Tests
 
-# Gandalf Core Test
-
-![Schéma test](/picture/Test.png)
-
-
-- 1 Lancement de Zeebe/Zookeeper/Kafka
-- 2 Execution de configuration-service et eureka-service
-- 3 Execution de connector-bus-service/connector-workflow-engine-service/database-bus-service
-
-- 4 Execution job-print/job-kafka-producer
-- 5 Execution java-kafka-1/java-kafka-2
-- 6 Execution workflow-service (CLR)
-    - Deploiment des 3 workflows
-    - Instanciation des 3 workflows
-
-- 7 Enjoy

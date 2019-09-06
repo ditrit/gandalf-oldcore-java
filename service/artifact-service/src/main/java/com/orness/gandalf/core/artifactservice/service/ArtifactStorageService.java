@@ -53,6 +53,7 @@ public class ArtifactStorageService {
         FileUtils.writeByteArrayToFile(fileSaveVersion, file.getBytes());
         return fileSaveVersion.getName();
     }
+
     public String storeSingleConf(MultipartFile conf) throws Exception {
         File confSaveVersion = new File(fileStorageLocation + "/" + (conf.getOriginalFilename()));
         FileUtils.writeByteArrayToFile(confSaveVersion, conf.getBytes());

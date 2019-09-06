@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.service.workflowservice.sample;
 
 import com.orness.gandalf.core.library.zeromqjavaclient.ZeroMQJavaClient;
@@ -153,3 +154,4 @@ public class WorkflowServiceSample implements CommandLineRunner {
         }
     }
 }
+*/

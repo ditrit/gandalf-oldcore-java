@@ -15,10 +15,13 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>job-print</module>
-        <module>job-kafka-producer</module>
-        <module>java-kafka-1</module>
-        <module>java-kafka-2</module>
+        <module>test-client</module>
+        <module>test-worker</module>
+        <module>test-command</module>
+        <module>test-gandalf-0</module>
+        <module>test-gandalf-1</module>
+        <module>test-gandalf-2</module>
+        <module>test-zeromq</module>
     </modules>
 
     <properties>

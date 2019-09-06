@@ -15,12 +15,6 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>zeromq-java-client</module>
+        <module>gandalf-java-client</module>
     </modules>
-
-    <properties>
-        <java.version>1.8</java.version>
-        <spring-cloud.version>Greenwich.M3</spring-cloud.version>
-    </properties>
-
 </project>

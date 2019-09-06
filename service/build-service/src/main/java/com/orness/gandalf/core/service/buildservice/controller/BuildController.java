@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.service.buildservice.controller;
 
+import com.google.gson.JsonObject;
 import com.orness.gandalf.core.service.buildservice.archive.ArchiveService;
 import com.orness.gandalf.core.service.buildservice.artifact.ArtifactService;
 import com.orness.gandalf.core.service.buildservice.bash.BashService;
@@ -31,8 +32,9 @@ public class BuildController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/build/{projectName}")
-    public String build(@PathVariable("projectName") String projectName, @RequestBody String projectUrl) throws IOException {
+    public JsonObject build(@PathVariable("projectName") String projectName, @RequestBody String projectUrl) throws IOException {
         System.out.println(projectUrl);
+        JsonObject response = new JsonObject();
         boolean succes = true;
         //CLONE
         succes &= bashService.cloneProject(projectUrl);
@@ -49,22 +51,32 @@ public class BuildController {
         File conf = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName + "/" + projectName + ".ini");
         String version = Files.readAllLines(conf.toPath()).get(0).split("=")[1];
         String projectNameVersion = projectName + "_" + version;
-        File conf_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectNameVersion + ".ini");
-        Files.copy(conf.toPath(), conf_version.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        conf_version.createNewFile();
+        File confNameversion = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectNameVersion + ".ini");
+        Files.copy(conf.toPath(), confNameversion.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        confNameversion.createNewFile();
 
         succes &= bashService.tarProject(projectName, projectNameVersion);
 
         //SEND TO STORAGE
         File file_version = new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectNameVersion + ".tar.gz");
-        succes &= bashService.uploadProject(file_version);
-        succes &= bashService.uploadConf(conf_version);
+        JsonObject result = bashService.uploadProject(file_version);
+        succes &= result.get("result").getAsBoolean();
+        String url_project = result.get("url").getAsString();
+
+        result = bashService.uploadConf(confNameversion);
+        succes &= result.get("result").getAsBoolean();
+        String url_conf = result.get("url").getAsString();
+
         //succes &= artifactService.sendBuildToStorage(projectName);
         //CLEAN
         FileUtils.deleteDirectory(new File(SCRIPT_DEPLOY_DIRECTORY + "/" + projectName));
 
+        response.addProperty("version", version);
+        response.addProperty("url_project", url_project);
+        response.addProperty("url_conf", url_conf);
+        response.addProperty("succes", succes);
         //return succes;
-        return version;
+        return response;
     }
 
 }

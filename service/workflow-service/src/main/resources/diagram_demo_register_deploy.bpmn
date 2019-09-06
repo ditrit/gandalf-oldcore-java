@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0dc84la" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.6.2">
-  <bpmn:process id="Process_0jny1kh" isExecutable="true">
+  <bpmn:process id="diagram_demo_register_deploy" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_0ok6ywl</bpmn:outgoing>
     </bpmn:startEvent>
@@ -48,11 +48,11 @@
   </bpmn:process>
   <bpmn:message id="Message_17swi1f" name="message">
     <bpmn:extensionElements>
-      <zeebe:subscription correlationKey="workflow_topic" />
+      <zeebe:subscription correlationKey="correlation_key" />
     </bpmn:extensionElements>
   </bpmn:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0jny1kh">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="diagram_demo_register_deploy">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="103" width="36" height="36" />
       </bpmndi:BPMNShape>
