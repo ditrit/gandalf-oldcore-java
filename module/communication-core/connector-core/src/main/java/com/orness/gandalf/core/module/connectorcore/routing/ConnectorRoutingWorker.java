@@ -6,7 +6,7 @@ import com.orness.gandalf.core.module.zeromqcore.command.routing.RunnableRouting
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component(value = "routingWorker")
 public class ConnectorRoutingWorker  extends RunnableRoutingWorkerZeroMQ {
 
     private ConnectorProperties connectorProperties;

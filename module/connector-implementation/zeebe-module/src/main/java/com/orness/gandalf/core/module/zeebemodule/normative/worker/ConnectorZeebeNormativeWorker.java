@@ -52,6 +52,8 @@ public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
 
     @Override
     protected void executeRoutingSubscriberCommand(ZMsg command) {
+        System.out.println("EVENTBOOP");
+        System.out.println(command);
         this.messageEvent = new MessageEvent(command);
         switch(messageEvent.getEvent()) {
             case "HOOK_MERGE":

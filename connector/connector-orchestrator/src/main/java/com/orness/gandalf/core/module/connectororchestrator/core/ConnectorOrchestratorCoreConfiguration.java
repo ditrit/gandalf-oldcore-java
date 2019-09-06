@@ -1,6 +1,8 @@
 package com.orness.gandalf.core.module.connectororchestrator.core;
 
 import com.orness.gandalf.core.module.clientcore.GandalfClient;
+import com.orness.gandalf.core.module.connectorcore.routing.ConnectorRoutingSubscriber;
+import com.orness.gandalf.core.module.connectorcore.routing.ConnectorRoutingWorker;
 import com.orness.gandalf.core.module.customorchestratormodule.custom.worker.ConnectorCustomOrchestratorCustomWorker;
 import com.orness.gandalf.core.module.customorchestratormodule.normative.worker.ConnectorCustomOrchestratorNormativeWorker;
 import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
@@ -15,7 +17,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.orness.gandalf.core.module.clientcore", "com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.customorchestratormodule"})
+@ComponentScan(basePackages = {"com.orness.gandalf.core.module.connectorcore", "com.orness.gandalf.core.module.clientcore", "com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.customorchestratormodule"})
 @Order
 public class ConnectorOrchestratorCoreConfiguration {
 
@@ -28,10 +30,26 @@ public class ConnectorOrchestratorCoreConfiguration {
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
-        pool.setCorePoolSize(5);
-        pool.setMaxPoolSize(10);
+        pool.setCorePoolSize(10);
+        pool.setMaxPoolSize(20);
         pool.setWaitForTasksToCompleteOnShutdown(true);
         return pool;
+    }
+
+    @Bean
+    public void connectorRoutingWorker() {
+        ConnectorRoutingWorker connectorRoutingWorker = (ConnectorRoutingWorker) context.getBean("routingWorker");
+        if(connectorRoutingWorker != null) {
+            this.taskExecutor().execute(connectorRoutingWorker);
+        }
+    }
+
+    @Bean
+    public void connectorRoutingSubscriber() {
+        ConnectorRoutingSubscriber connectorRoutingSubscriber = (ConnectorRoutingSubscriber) context.getBean("routingSubscriber");
+        if(connectorRoutingSubscriber != null) {
+            this.taskExecutor().execute(connectorRoutingSubscriber);
+        }
     }
 
     @Bean

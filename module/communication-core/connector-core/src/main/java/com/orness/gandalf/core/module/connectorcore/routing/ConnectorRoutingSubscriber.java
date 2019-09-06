@@ -6,7 +6,7 @@ import com.orness.gandalf.core.module.zeromqcore.event.routing.RunnableRoutingSu
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component(value = "routingSubscriber")
 public class ConnectorRoutingSubscriber extends RunnableRoutingSubscriberZeroMQ {
 
     private ConnectorProperties connectorProperties;
@@ -14,6 +14,7 @@ public class ConnectorRoutingSubscriber extends RunnableRoutingSubscriberZeroMQ 
     @Autowired
     public ConnectorRoutingSubscriber(ConnectorProperties connectorProperties) {
         super();
+        System.out.println("START SUBSSSSSSSSSSSSSSSsssss");
         this.connectorProperties = connectorProperties;
         this.mapper = new Gson();
         this.initRunnable(this.connectorProperties.getConnectorName(), this.connectorProperties.getConnectorEventFrontEndConnection(), this.connectorProperties.getConnectorEventBackEndConnection());

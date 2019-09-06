@@ -22,7 +22,7 @@ import java.util.Map;
 
 
 @Component
-@ComponentScan(basePackages = {"com.orness.gandalf.core.library.gandalfjavaclient"})
+@ComponentScan(basePackages = {"com.orness.gandalf.core.module.clientcore"})
 public class BuildJob implements JobHandler {
 
     private ZeebeClient zeebe;

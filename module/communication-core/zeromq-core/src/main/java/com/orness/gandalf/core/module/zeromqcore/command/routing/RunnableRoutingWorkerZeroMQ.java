@@ -41,6 +41,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
 
         // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
+            System.out.println("POLL");
             poller.poll();
 
             //Client

@@ -9,11 +9,11 @@ import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.COMMAN
 
 public class BrokerZeroMQ {
 
-    public static ZMQ.Socket frontEndCommand;
+    public ZMQ.Socket frontEndCommand;
     private String frontEndCommandConnection;
-    public static ZMQ.Socket backEndCommand;
+    public ZMQ.Socket backEndCommand;
     private String backEndCommandConnection;
-    public static ZMQ.Socket backEndCommandCapture;
+    public ZMQ.Socket backEndCommandCapture;
     private String backEndCaptureCommandConnection;
     private ZContext context;
 

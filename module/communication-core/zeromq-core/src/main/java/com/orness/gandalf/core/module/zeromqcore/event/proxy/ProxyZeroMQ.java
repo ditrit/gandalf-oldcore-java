@@ -7,12 +7,12 @@ import org.zeromq.ZMQ.Socket;
 
 public class ProxyZeroMQ {
 
-    protected static Socket frontEndEvent;
+    protected Socket frontEndEvent;
     private String frontEndEventConnection;
-    protected static Socket backEndEvent;
+    protected Socket backEndEvent;
     private String backEndEventConnection;
     private ZContext context;
-    protected static Socket backEndEventCapture;
+    protected Socket backEndEventCapture;
     private String backEndCaptureEventConnection;
 
     public ProxyZeroMQ(String frontEndEventConnection, String backEndEventConnection, String backEndCaptureEventConnection) {

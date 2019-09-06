@@ -20,11 +20,11 @@ public class ConnectorCustomOrchestratorCustomController {
         this.connectorCustomOrchestratorCustomManager.untarProject(projectName, version);
     }
 
-    public void downloadProject(String projectName, String version) {
-        this.connectorCustomOrchestratorCustomManager.downloadProject(projectName, version);
+    public void downloadProject(String url) {
+        this.connectorCustomOrchestratorCustomManager.downloadProject(url);
     }
 
-    public void downloadConfigurationProject(String projectName, String version) {
-        this.connectorCustomOrchestratorCustomManager.downloadConfiguration(projectName, version);
+    public void downloadConfigurationProject(String url) {
+        this.connectorCustomOrchestratorCustomManager.downloadConfiguration(url);
     }
 }

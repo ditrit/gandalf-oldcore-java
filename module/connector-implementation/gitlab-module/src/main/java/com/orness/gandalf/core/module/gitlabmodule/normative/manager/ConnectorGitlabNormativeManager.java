@@ -50,6 +50,7 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }
 
     public void hookMerge(String hook) {
+
         jsonObject = this.mapper.fromJson(hook, JsonObject.class);
         JsonObject jsonObjectProject = jsonObject.get("project").getAsJsonObject();
         JsonObject jsonObjectRepository = jsonObject.get("repository").getAsJsonObject();
@@ -60,8 +61,13 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
         payload.addProperty("correlation_key", topic.toString());
         payload.addProperty("project_url", jsonObjectProject.get("git_ssh_url").getAsString());
         payload.addProperty("project_name", jsonObjectProject.get("name").getAsString());
+        System.out.println("SEND");
+        System.out.println(topic.toString());
+        System.out.println("HOOK_MERGE");
+        System.out.println(payload.toString());
+        //this.gandalfClient.sendCommand("toto", "toto", "toto", "toto", "toto");
+        this.gandalfClient.sendEvent(topic.toString(), "HOOK_MERGE", payload.toString());
 
-        this.gandalfClient.sendEvent(topic.toString(), "HOOK_MERGE", payload.getAsString());
     }
 
     @Override

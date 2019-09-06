@@ -13,9 +13,9 @@ public abstract class WorkerZeroMQ {
 
     protected ZContext context;
     //TODO MULTIPLE
-    protected static ZMQ.Socket frontEndWorker;
+    protected ZMQ.Socket frontEndWorker;
     protected String frontEndWorkerConnections; //IPC
-    protected static ZMQ.Socket frontEndSubscriberWorker;
+    protected ZMQ.Socket frontEndSubscriberWorker;
     protected String frontEndSubscriberWorkerConnections; //IPC
     protected String workerServiceClass;
 

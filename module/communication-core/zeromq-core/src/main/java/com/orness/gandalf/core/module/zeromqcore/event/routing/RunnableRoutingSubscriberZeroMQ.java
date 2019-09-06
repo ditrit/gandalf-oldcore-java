@@ -28,6 +28,7 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
 
         // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
+            System.out.println("POLL ROUTING SUB");
             poller.poll();
 
             //Client
@@ -39,6 +40,8 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
                     if (publish == null) {
                         break; // Interrupted
                     }
+                    System.out.println("PUBLISH");
+                    System.out.println(publish);
                     this.processProxyPublish(publish);
                 }
             }

@@ -9,9 +9,9 @@ import java.util.List;
 public abstract class RoutingWorkerZeroMQ {
 
     protected ZContext context;
-    protected static ZMQ.Socket frontEndRoutingWorker;
+    protected ZMQ.Socket frontEndRoutingWorker;
     private List<String> frontEndRoutingWorkerConnections;
-    protected static ZMQ.Socket backEndRoutingWorker;
+    protected ZMQ.Socket backEndRoutingWorker;
     private String backEndRoutingWorkerConnection; //IPC
     protected String routingWorkerConnector;
 
