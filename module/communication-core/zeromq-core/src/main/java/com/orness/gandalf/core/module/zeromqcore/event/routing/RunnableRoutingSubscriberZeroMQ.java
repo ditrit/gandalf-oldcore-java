@@ -16,6 +16,7 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
     protected void initRunnable(String routingSubscriberConnector, String frontEndRoutingSubcriberConnection, String backEndRoutingSubscriberConnection) {
         this.init(routingSubscriberConnector, frontEndRoutingSubcriberConnection, backEndRoutingSubscriberConnection);
         this.frontEndRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
+        //this.frontEndRoutingSubscriber.subscribe("test.Test".getBytes(ZMQ.CHARSET));
     }
 
     @Override
@@ -28,9 +29,7 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
 
         // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
-            System.out.println("POLL ROUTING SUB");
             poller.poll();
-
             //Client
             if (poller.pollin(0)) {
                 while (true) {
@@ -40,8 +39,7 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
                     if (publish == null) {
                         break; // Interrupted
                     }
-                    System.out.println("PUBLISH");
-                    System.out.println(publish);
+
                     this.processProxyPublish(publish);
                 }
             }

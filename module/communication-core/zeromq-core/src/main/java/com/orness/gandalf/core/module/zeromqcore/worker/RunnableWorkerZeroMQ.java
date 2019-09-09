@@ -51,6 +51,8 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
                     //Process
                     typeRouting = commandBackup.popString();
                     command = this.removeHeaderFromRoutingWorker(command);
+                    System.out.println("COMMAND");
+                    System.out.println(command);
                     this.processRoutingWorkerCommand(command);
 
                     if (!more) {
@@ -89,7 +91,12 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     }
 
     private void processRoutingWorkerCommand(ZMsg command) {
+        System.out.println("COMMAND WORKER");
+        System.out.println(command);
         String result = this.executeRoutingWorkerCommand(command).toString();
+        System.out.println("RESULT COMMAND WORKER");
+        System.out.println(result);
+        System.out.println(command);
         this.sendResultCommand(command, result);
     }
 
@@ -111,7 +118,7 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
         this.sendReadyCommand();
     }
 
-    protected abstract Constant.Result executeRoutingWorkerCommand(ZMsg command);
+    protected abstract Constant.Result  executeRoutingWorkerCommand(ZMsg command);
 
     protected abstract void executeRoutingSubscriberCommand(ZMsg command);
 }

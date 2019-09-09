@@ -20,7 +20,6 @@ public class ConnectorZeebeNormativeManager extends ConnectorWorkflowEngineNorma
 
     private ZeebeClient zeebe;
     private Gson mapper;
-    private JsonObject jsonObject;
 
     @Autowired
     public ConnectorZeebeNormativeManager(ZeebeClient zeebeClient) {
@@ -30,7 +29,7 @@ public class ConnectorZeebeNormativeManager extends ConnectorWorkflowEngineNorma
 
     @Override
     public String deployWorkflow(String payload) {
-        this.jsonObject = mapper.fromJson(payload, JsonObject.class);
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         DeploymentEvent deploymentEvent = zeebe.newDeployCommand()
                 .addResourceFromClasspath(jsonObject.get("workflow").getAsString())
                 .send().join();
@@ -39,7 +38,7 @@ public class ConnectorZeebeNormativeManager extends ConnectorWorkflowEngineNorma
 
     @Override
     public void instanciateWorkflow(String payload) {
-        this.jsonObject = mapper.fromJson(payload, JsonObject.class);
+        JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         zeebe.newCreateInstanceCommand()
                 .bpmnProcessId(jsonObject.get("id").getAsString())
                 .latestVersion()
@@ -60,12 +59,16 @@ public class ConnectorZeebeNormativeManager extends ConnectorWorkflowEngineNorma
     }
 
     public void hookMerge(MessageEvent messageEvent) {
-        this.jsonObject = this.mapper.fromJson(messageEvent.getPayload(), JsonObject.class);
+        System.out.println("HOOK MANAGER");
+        JsonObject jsonObject = this.mapper.fromJson(messageEvent.getPayload(), JsonObject.class);
+        System.out.println(jsonObject.get("project_url").getAsString());
         HashMap<String, String> variables = new HashMap<>();
-        variables.put(" project_url", this.jsonObject.get("project_url").getAsString());
-        variables.put("project_name", this.jsonObject.get("project_name").getAsString());
-        variables.put(" project_version", this.jsonObject.get("project_version").getAsString());
-
+        variables.put("project_name", jsonObject.get("project_name").getAsString());
+        variables.put("project_url", jsonObject.get("project_url").getAsString());
+        //variables.put(" project_version", this.jsonObject.get("project_version").getAsString());
+        System.out.println("VARIRABLES");
+        System.out.println(variables.toString());
+        System.out.println(messageEvent.toString());
         zeebe.newPublishMessageCommand() //
                 .messageName("message")
                 .correlationKey(messageEvent.getTopic())
