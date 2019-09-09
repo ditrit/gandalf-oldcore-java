@@ -2,7 +2,6 @@ package com.orness.gandalf.core.module.kafkamodule.core.consumer;
 
 import com.google.gson.Gson;
 import com.orness.gandalf.core.library.gandalfjavaclient.GandalfJavaClient;
-import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusProperties;
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.core.RunnableKafkaConsumer;
 import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class ConnectorKafkaConsumer extends RunnableKafkaConsumer {
     @Override
     protected void publish(Object message) {
         GandalfKafkaMessage event = (GandalfKafkaMessage) message;
-        this.gandalfJavaClient.sendEvent(event.getTopic(), event.getEvent(), event.getPayload());
+        //this.gandalfJavaClient.sendEvent(event.getTopic(), event.getEvent(), event.getPayload());
     }
 
     @Override
