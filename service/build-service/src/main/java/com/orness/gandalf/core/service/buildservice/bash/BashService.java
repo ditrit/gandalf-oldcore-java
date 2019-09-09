@@ -32,13 +32,17 @@ public class BashService {
             } else {
                 System.out.println("Directory already exists");
             }
+            //TODO REVOIR
             System.out.println("URL");
             System.out.println(url);
-            String updatedUrl = updateUrl(url);
+            //String updatedUrl = updateUrl(url);
+            String updatedUrl = url;
             System.out.println("URL UPDATED");
             System.out.println(updatedUrl);
+            System.out.println(SCRIPT_CLONE + " " + updatedUrl);
             process = new ProcessBuilder( "bash", "-c", SCRIPT_CLONE + " " + updatedUrl).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return false;
@@ -66,7 +70,7 @@ public class BashService {
     public boolean buildProject(String projectName) {
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", SCRIPT_BUILD).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", SCRIPT_BUILD).directory(new File(SCRIPT_BUILD_DIRECTORY + "/" + projectName)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -88,16 +92,13 @@ public class BashService {
     }
 
     public JsonObject uploadProject(File file) {
-        System.out.println(file.getPath());
         Process process;
         JsonObject result = new JsonObject();
         String url = "";
         try {
-            process = new ProcessBuilder("bash", "-c", "curl -F 'file=@" + file.getPath() +  "'" + serviceEndPointConnection + "/upload/single/file").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "curl -F 'file=@" + file.getPath() +  "' " + serviceEndPointConnection + "/upload/single/file").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
             url = new BufferedReader(new InputStreamReader(process.getInputStream())).lines().collect(Collectors.joining("\n"));
-            System.out.println("url");
-            System.out.println(url);
             result.addProperty("url", url);
             result.addProperty("result", process.exitValue() == 0 ? true : false);
         } catch (IOException | InterruptedException e) {
@@ -113,11 +114,9 @@ public class BashService {
         JsonObject result = new JsonObject();
         String url = "";
         try {
-            process = new ProcessBuilder("bash", "-c", "curl -F 'conf=@" + conf.getPath() +  "'" + serviceEndPointConnection + "/upload/single/conf").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "curl -F 'conf=@" + conf.getPath() +  "' " + serviceEndPointConnection + "/upload/single/conf").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
             url = new BufferedReader(new InputStreamReader(process.getInputStream())).lines().collect(Collectors.joining("\n"));
-            System.out.println("url");
-            System.out.println(url);
             result.addProperty("url", url);
             result.addProperty("result", process.exitValue() == 0 ? true : false);
         } catch (IOException | InterruptedException e) {

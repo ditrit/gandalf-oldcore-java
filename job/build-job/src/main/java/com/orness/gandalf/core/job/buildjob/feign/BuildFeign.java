@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "job.endPointName", url = "job.endPointConnection")
+@FeignClient(name = "${job.service.endPointName}", url = "${job.service.endPointConnection}")
 public interface BuildFeign {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/build/{projectName}")
-    JsonObject build(@PathVariable("projectName") String projectName, @RequestBody String projectUrl);
+    @RequestMapping(method = RequestMethod.POST, value = "/build")
+    String build(@RequestBody String projectValues);
 }

@@ -62,7 +62,7 @@ public class DeployJob implements JobHandler {
         Map<String, Object> workflow_variables = activatedJob.getVariablesAsMap();
         boolean succes = true;
         String projectName = workflow_variables.get("project_name").toString();
-        String version = workflow_variables.get("version").toString();
+        String version = workflow_variables.get("project_version").toString();
 
 /*        //DEPLOY
         succes &= deployFeign.deploy(projectName);
@@ -78,7 +78,7 @@ public class DeployJob implements JobHandler {
         payload.addProperty("service", projectName);
         payload.addProperty("version", version);
 
-        this.gandalfClient.sendCommand("deploy", this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DEPLOY", payload.getAsString());
+        this.gandalfClient.sendCommand("deploy", this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DEPLOY", payload.toString());
         //TODO RESULT
 
         if(succes) {

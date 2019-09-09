@@ -81,7 +81,7 @@ public class ConnectorCustomOrchestratorBashService {
             } else {
                 System.out.println("Directory already exists");
             }
-            process = new ProcessBuilder("bash", "-c", "wget " + serviceEndPointConnection + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "wget " + serviceEndPointConnection + "/" + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -100,7 +100,7 @@ public class ConnectorCustomOrchestratorBashService {
             } else {
                 System.out.println("Directory already exists");
             }
-            process = new ProcessBuilder("bash", "-c", "wget " + serviceEndPointConnection + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "wget " + serviceEndPointConnection + "/" + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

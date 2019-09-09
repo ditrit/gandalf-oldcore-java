@@ -3,7 +3,7 @@ package com.orness.gandalf.core.module.constantmodule.bash;
 public class BashConstant {
 
     public static final String SCRIPT_BUILD_DIRECTORY = System.getProperty("user.dir") + "/builds";
-    public static final String SCRIPT_CLONE = "git clone ";
+    public static final String SCRIPT_CLONE = "git clone";
     public static final String SCRIPT_BUILD = "mvn clean install -DskipTests";
     public static final String SCRIPT_TAR = "tar -czf ";
     public static final String SCRIPT_UNTAR = "tar -xzf ";

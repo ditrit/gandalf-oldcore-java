@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
+import org.zeromq.ZMsg;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -87,16 +88,29 @@ public class RegisterJob implements JobHandler {
         payloadDownload.addProperty("project_url", projectUrl);
         payloadDownload.addProperty("conf_url", confUrl);
 
-        this.gandalfClient.sendCommand("download", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DOWNLOAD", payloadDownload.getAsString());
-        //TODO RESULT
+        this.gandalfClient.sendCommand("download", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DOWNLOAD", payloadDownload.toString());
+      /*  ZMsg resultCommand = null;
+        while(resultCommand == null) {
+            resultCommand = this.gandalfClient.getCommandResult();
+        }
+        System.out.println(resultCommand);
+        succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
+        System.out.println("SUCCES");
+        System.out.println(succes);*/
 
         //SEND REGISTER
         JsonObject payloadRegister = new JsonObject();
         payloadRegister.addProperty("service", projectName);
         payloadRegister.addProperty("version", projectVersion);
 
-        this.gandalfClient.sendCommand("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "REGISTER", payloadRegister.getAsString());
-        //TODO RESULT
+        this.gandalfClient.sendCommand("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "REGISTER", payloadRegister.toString());
+        /*while(resultCommand == null) {
+            resultCommand = this.gandalfClient.getCommandResult();
+        }
+        System.out.println(resultCommand);
+        succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
+        System.out.println("SUCCES");
+        System.out.println(succes);*/
 
         if(succes) {
             //Send job complete command

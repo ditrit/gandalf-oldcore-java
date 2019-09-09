@@ -53,26 +53,28 @@ public class ArtifactRestController {
         return "/download/" + fileName;
     }
 
-  /*  @RequestMapping(method = RequestMethod.POST, value = "/upload/single/file")
+    @RequestMapping(method = RequestMethod.POST, value = "/upload/single/file")
     //@Headers("Content-Type: multipart/form-data")
-    public void uploadBuildSingleFile(@RequestParam MultipartFile file) {
+    public String uploadBuildSingleFile(@RequestParam MultipartFile file) {
         String fileName = null;
         try {
             fileName = artifactStorageService.storeSingleFile(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "/download/" + fileName;
     }
     @RequestMapping(method = RequestMethod.POST, value = "/upload/single/conf")
     //@Headers("Content-Type: multipart/form-data")
-    public void uploadBuildSingleConf(@RequestParam MultipartFile conf) {
+    public String uploadBuildSingleConf(@RequestParam MultipartFile conf) {
         String fileName = null;
         try {
             fileName = artifactStorageService.storeSingleConf(conf);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+        return "/download/" + fileName;
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/download/{fileName}")
     public ResponseEntity<Resource> downloadBuild(@PathVariable("fileName") String fileName) {

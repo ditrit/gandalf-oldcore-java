@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static com.orness.gandalf.core.module.constantmodule.storage.StorageConstant.BUILD_PROJECT_DIRECTORY;
+import static com.orness.gandalf.core.module.constantmodule.storage.StorageConstant.ARTIFACTS_PROJECT_DIRECTORY;
 
 @Service
 public class ArtifactStorageService {
@@ -23,7 +23,7 @@ public class ArtifactStorageService {
 
     @Autowired
     public ArtifactStorageService() {
-        this.fileStorageLocation = Paths.get(BUILD_PROJECT_DIRECTORY)
+        this.fileStorageLocation = Paths.get(ARTIFACTS_PROJECT_DIRECTORY)
                 .toAbsolutePath().normalize();
 
         try {

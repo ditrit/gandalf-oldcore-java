@@ -73,9 +73,11 @@ public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrches
         this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_down");
     }
 
-    public void downloadProject(String payload) {
+    public boolean downloadProject(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.connectorCustomOrchestratorBashService.downloadProject(jsonObject.get("project_url").getAsString());
-        this.connectorCustomOrchestratorBashService.downloadConfiguration(jsonObject.get("conf_url").getAsString());
+        boolean result = true;
+        result &= this.connectorCustomOrchestratorBashService.downloadProject(jsonObject.get("project_url").getAsString());
+        result &= this.connectorCustomOrchestratorBashService.downloadConfiguration(jsonObject.get("conf_url").getAsString());
+        return result;
     }
 }

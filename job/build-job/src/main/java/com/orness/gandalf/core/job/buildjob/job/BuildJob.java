@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.job.buildjob.job;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.orness.gandalf.core.job.buildjob.feign.BuildFeign;
 import com.orness.gandalf.core.job.buildjob.manager.BuildJobManager;
@@ -32,6 +33,7 @@ public class BuildJob implements JobHandler {
     private BuildJobManager buildJobManager;
     private BuildJobProperties buildJobProperties;
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+    private Gson mapper;
 
 
     @Autowired
@@ -43,6 +45,7 @@ public class BuildJob implements JobHandler {
         this.buildJobProperties = buildJobProperties;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
         this.threadPoolTaskExecutor.execute(gandalfClient.getClientCommand());
+        this.mapper = new Gson();
 
     }
 
@@ -66,33 +69,39 @@ public class BuildJob implements JobHandler {
 
         //Get workflow variables
         Map<String, Object> current_workflow_variables = activatedJob.getVariablesAsMap();
-        Map<String, String> workflow_variables = buildJobManager.createWorkflowVariables(current_workflow_variables);
-        String projectUrl = workflow_variables.get("project_url");
-        String projectName = workflow_variables.get("project_name");
+        //Map<String, String> workflow_variables = buildJobManager.createWorkflowVariables(current_workflow_variables);
+        String projectUrl = current_workflow_variables.get("project_url").toString();
+        String projectName = current_workflow_variables.get("project_name").toString();
 
         //Build
-        JsonObject result = buildFeign.build(projectName, projectUrl);
-        //System.out.println(projectUrl);
-        //System.out.println(projectVersion);
-        succes &= result.get("result").getAsBoolean();
+        JsonObject request = new JsonObject();
+        request.addProperty("name", projectName);
+        request.addProperty("url", projectUrl);
+
+        String result = buildFeign.build(request.toString());
+        JsonObject response = this.mapper.fromJson(result, JsonObject.class);
+        System.out.println(response);
+        succes &= response.get("succes").getAsBoolean();
+        System.out.println("SUCCES");
+        System.out.println(succes);
 
         //UPDATE PROJECT URL
-        workflow_variables.put("project_version", result.get("version").getAsString());
-        workflow_variables.put("project_url", result.get("project_url").getAsString());
-        workflow_variables.put("conf_url", result.get("conf_url").getAsString());
+        current_workflow_variables.put("project_version", response.get("version").getAsString());
+        current_workflow_variables.put("project_url", response.get("project_url").getAsString());
+        current_workflow_variables.put("conf_url", response.get("conf_url").getAsString());
 
         //ADD WORKFLOW VARIABLE ADD REPERTORY
         zeebe.newPublishMessageCommand()
                 .messageName("message")
                 .correlationKey("build")
-                .variables(workflow_variables)
+                .variables(current_workflow_variables)
                 .timeToLive(Duration.ofMinutes(30))
                 .send().join();
 
         if(succes) {
             //Send job complete command
             gandalfClient.sendEvent("build", "BUILD", projectUrl + "build : success" );
-            jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
+            jobClient.newCompleteCommand(activatedJob.getKey()).variables(current_workflow_variables).send().join();
         }
         else {
             gandalfClient.sendEvent("build", "BUILD", projectUrl + "build : fail" );

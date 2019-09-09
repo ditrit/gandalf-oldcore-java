@@ -35,6 +35,7 @@ public class ConnectorCustomOrchestratorNormativeWorker extends RunnableWorkerZe
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
         this.messageCommand = new MessageCommand(command);
+        Constant.Result result = Constant.Result.FAIL;
         switch (messageCommand.getCommand()) {
             case "REGISTER":
                 this.connectorCustomOrchestratorNormativeManager.register(messageCommand.getPayload());
@@ -61,12 +62,13 @@ public class ConnectorCustomOrchestratorNormativeWorker extends RunnableWorkerZe
                 this.connectorCustomOrchestratorNormativeManager.scaleDown(messageCommand.getPayload());
                 break;
             case "DOWNLOAD":
-                this.connectorCustomOrchestratorNormativeManager.downloadProject(messageCommand.getPayload());
+                boolean resultManager = this.connectorCustomOrchestratorNormativeManager.downloadProject(messageCommand.getPayload());
+                result = resultManager ? Constant.Result.SUCCESS : Constant.Result.FAIL;
                 break;
             default:
                 break;
         }
-        return null;
+        return result;
     }
 
     @Override
