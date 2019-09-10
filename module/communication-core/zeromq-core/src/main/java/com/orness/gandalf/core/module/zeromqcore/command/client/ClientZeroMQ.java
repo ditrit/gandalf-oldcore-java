@@ -6,6 +6,8 @@ import org.zeromq.ZMQ;
 
 import java.util.List;
 
+import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.COMMAND_CLIENT_SEND;
+
 public class ClientZeroMQ {
 
     protected ZContext context;
@@ -37,7 +39,9 @@ public class ClientZeroMQ {
     }
 
     public void sendCommand(String uuid, String connector, String serviceClass, String command, String payload) {
+        this.backEndClient.sendMore(COMMAND_CLIENT_SEND);
         this.backEndClient.sendMore(uuid);
+        this.backEndClient.sendMore(this.identity);
         this.backEndClient.sendMore(connector);
         this.backEndClient.sendMore(serviceClass);
         this.backEndClient.sendMore(command);

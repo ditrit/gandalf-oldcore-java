@@ -9,8 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.COMMAND_COMMAND_READY;
-import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.COMMAND_COMMAND_RESULT;
+import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.*;
 
 public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ implements Runnable {
 
@@ -35,8 +34,8 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
         poller.register(this.frontEndRoutingWorker, ZMQ.Poller.POLLIN);
         poller.register(this.backEndRoutingWorker, ZMQ.Poller.POLLIN);
 
-        ZMsg request;
-        ZMsg response;
+        ZMsg brokerMessage;
+        ZMsg workerMessage;
         boolean more = false;
 
         // Switch messages between sockets
@@ -47,16 +46,16 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive broker message
-                    request = ZMsg.recvMsg(this.frontEndRoutingWorker);
+                    brokerMessage = ZMsg.recvMsg(this.frontEndRoutingWorker);
                     more = this.frontEndRoutingWorker.hasReceiveMore();
-                    System.out.println(request);
+                    System.out.println(brokerMessage);
                     System.out.println(more);
 
-                    if (request == null) {
+                    if (brokerMessage == null) {
                         break; // Interrupted
                     }
 
-                    this.processRequest(request);
+                    this.processBrokerMessage(brokerMessage);
 
                     if(!more) {
                         break;
@@ -68,16 +67,16 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
             if (poller.pollin(1)) {
                 while (true) {
                     // Receive command message
-                    response = ZMsg.recvMsg(this.backEndRoutingWorker);
+                    workerMessage = ZMsg.recvMsg(this.backEndRoutingWorker);
                     more = this.backEndRoutingWorker.hasReceiveMore();
-                    System.out.println(response);
+                    System.out.println(workerMessage);
                     System.out.println(more);
 
-                    if (response == null) {
+                    if (workerMessage == null) {
                         break; // Interrupted
                     }
 
-                    this.processResponse(response);
+                    this.processWorkerMessage(workerMessage);
 
                     if(!more) {
                         break;
@@ -92,37 +91,55 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
         }
     }
 
-    private void processRequest(ZMsg request) {
-        ZMsg requestBackup = request.duplicate();
-        String client = requestBackup.popString();
-        String uuid = requestBackup.popString();
-        String connector = requestBackup.popString();
-        String serviceClass = requestBackup.popString();
+    private void processBrokerMessage(ZMsg brokerMessage) {
+        ZMsg brokerMessageBackup = brokerMessage.duplicate();
+        String connectorHeader = brokerMessageBackup.popString();
+        String commandType = brokerMessageBackup.popString();
+        if(commandType.equals(COMMAND_CLIENT_SEND)) {
+            String uuid = brokerMessageBackup.popString();
+            String client = brokerMessageBackup.popString();
+            String connector = brokerMessageBackup.popString();
+            String serviceClass = brokerMessageBackup.popString();
 
-        request = this.addHeaderToWorker(request, serviceClass);
-        this.getServiceClassZMsgLinkedList(serviceClass).add(request.duplicate());
-        requestBackup.destroy();
-        request.destroy();
+            brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, serviceClass);
+            this.getServiceClassZMsgLinkedList(serviceClass).add(brokerMessage.duplicate());
+        }
+        else {
+            System.out.println("E: invalid message");
+        }
+        brokerMessageBackup.destroy();
+        brokerMessage.destroy();
     }
 
-    private void processResponse(ZMsg response) {
-        ZMsg responseBackup = response.duplicate();
-        String serviceClass = responseBackup.popString();
-        String commandType = responseBackup.popString();
-        responseBackup.destroy();
+    private ZMsg updateHeaderBrokerMessage(ZMsg brokerMessage, String serviceClass) {
+        brokerMessage.removeFirst();
+        brokerMessage.addFirst(serviceClass);
+        return brokerMessage;
+    }
+
+    private void processWorkerMessage(ZMsg workerMessage) {
+        ZMsg workerMessageBackup = workerMessage.duplicate();
+        String serviceClass = workerMessageBackup.popString();
+        String commandType = workerMessageBackup.popString();
         if(commandType.equals(COMMAND_COMMAND_READY)) {
             if(!this.getServiceClassZMsgLinkedList(serviceClass).isEmpty()) {
                 this.sendToWorker(this.getServiceClassZMsgLinkedList(serviceClass).poll());
             }
         }
         else if(commandType.equals(COMMAND_COMMAND_RESULT)) {
-            response = this.removeHeaderFromWorker(response);
-            this.sendToBroker(response);
+            workerMessage = this.updateHeaderWorkerMessage(workerMessage);
+            this.sendToBroker(workerMessage);
         }
         else {
             System.out.println("E: invalid message");
         }
-        response.destroy();
+        workerMessageBackup.destroy();
+        workerMessage.destroy();
+    }
+
+    private ZMsg updateHeaderWorkerMessage(ZMsg response) {
+        response.removeFirst();
+        return response;
     }
 
     private LinkedList<ZMsg> getServiceClassZMsgLinkedList(String serviceClass) {
@@ -130,16 +147,6 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
             this.serviceClassZMsgLinkedList.put(serviceClass, new LinkedList<>());
         }
         return this.serviceClassZMsgLinkedList.get(serviceClass);
-    }
-
-    private ZMsg addHeaderToWorker(ZMsg request, String serviceClass) {
-        request.addFirst(serviceClass);
-        return request;
-    }
-
-    private ZMsg removeHeaderFromWorker(ZMsg response) {
-        response.removeFirst();
-        return response;
     }
 
     private void sendToWorker(ZMsg request) {

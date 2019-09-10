@@ -4,6 +4,9 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
+import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.COMMAND_CLIENT_SEND;
+import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.EVENT_CLIENT_SEND;
+
 public class PublisherZeroMQ {
 
     protected ZContext context;
@@ -28,6 +31,7 @@ public class PublisherZeroMQ {
     }
 
     public void sendEvent(String topic, String event, String payload) {
+        this.backEndPublisher.sendMore(EVENT_CLIENT_SEND);
         this.backEndPublisher.sendMore(topic);
         this.backEndPublisher.sendMore(event);
         this.backEndPublisher.send(payload);

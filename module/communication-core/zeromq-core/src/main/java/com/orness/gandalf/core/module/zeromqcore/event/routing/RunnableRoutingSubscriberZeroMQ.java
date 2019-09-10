@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
+import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.EVENT_CLIENT_SEND;
+
 public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZeroMQ implements Runnable {
 
     protected Gson mapper;
@@ -39,7 +41,6 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
                     if (publish == null) {
                         break; // Interrupted
                     }
-
                     this.processProxyPublish(publish);
                 }
             }
@@ -52,7 +53,15 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
     }
 
     private void processProxyPublish(ZMsg publish) {
-        this.sendToWorker(publish);
+        ZMsg publishBackup = publish.duplicate();
+        String commandType = publishBackup.popString();
+        if(commandType.equals(EVENT_CLIENT_SEND)) {
+            this.sendToWorker(publish);
+        }
+        else {
+            System.out.println("E: invalid message");
+        }
+        publishBackup.destroy();
         publish.destroy();
     }
 
