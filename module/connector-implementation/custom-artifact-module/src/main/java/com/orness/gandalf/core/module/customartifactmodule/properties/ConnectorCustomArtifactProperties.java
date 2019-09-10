@@ -9,4 +9,6 @@ import org.springframework.context.annotation.Profile;
 @Profile(value = "custom-artifact")
 public class ConnectorCustomArtifactProperties extends ConnectorArtifactProperties {
 
+    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.";
+
 }

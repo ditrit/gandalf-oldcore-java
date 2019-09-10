@@ -9,4 +9,6 @@ import org.springframework.context.annotation.Profile;
 @Profile(value = "zeebe")
 public class ConnectorZeebeProperties extends ConnectorWorkflowEngineProperties {
 
+    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.";
+
 }

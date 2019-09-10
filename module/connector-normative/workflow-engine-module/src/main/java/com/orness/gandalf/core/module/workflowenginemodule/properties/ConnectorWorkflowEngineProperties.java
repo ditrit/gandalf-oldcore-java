@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ConnectorWorkflowEngineProperties extends ConnectorProperties {
 
-    @Value("${${instance.name}.${connector.type}.${connector.name}.endPointConnection}")
+    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.";
+
+    @Value("${" + PROPERTIES_BASE + "endpoint.uri}")
     private String endPointConnection;
 
     public String getEndPointConnection() {

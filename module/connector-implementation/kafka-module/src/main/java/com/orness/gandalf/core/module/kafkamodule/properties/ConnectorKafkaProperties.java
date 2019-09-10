@@ -11,9 +11,11 @@ import java.util.List;
 @Profile(value = "kafka")
 public class ConnectorKafkaProperties extends ConnectorBusProperties {
 
-    @Value("${${connector.name}.${connector.type}.${connector.name}.${spring.profiles.active}.synchronizeTopics}")
+    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.";
+
+    @Value("${" + PROPERTIES_BASE + "synchronize.topics}")
     private List<String> synchronizeTopics;
-    @Value("${${connector.name}.${connector.type}.${connector.name}.${spring.profiles.active}.group}")
+    @Value("${" + PROPERTIES_BASE + "group}")
     private String group;
 
     public String getGroup() {
