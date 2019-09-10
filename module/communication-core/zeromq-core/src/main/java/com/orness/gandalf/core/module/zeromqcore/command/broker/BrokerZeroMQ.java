@@ -159,12 +159,14 @@ public class BrokerZeroMQ {
         String connector = backEndMessageBackup.popString();
         String commandType = backEndMessageBackup.popString();
         if (commandType.equals(COMMAND_COMMAND_RESULT)) {
+            String uuid = backEndMessageBackup.popString();
+            String client = backEndMessageBackup.popString();
             //TODO
             //Capture
             ZMsg backEndMessageCapture = backEndMessage.duplicate();
             //responseCapture.send(this.backEndCommandCapture);
             //Client
-            backEndMessage = this.updateHeaderBackEndMessage(backEndMessage);
+            backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, client);
             System.out.println("REP " + backEndMessage);
             backEndMessage.send(this.frontEndCommand);
         }
@@ -175,10 +177,10 @@ public class BrokerZeroMQ {
         backEndMessage.destroy();
     }
 
-    private ZMsg updateHeaderBackEndMessage(ZMsg response) {
-        response.removeFirst();
-        response.removeFirst();
-        return response;
+    private ZMsg updateHeaderBackEndMessage(ZMsg backEndMessage, String client) {
+        backEndMessage.removeFirst();
+        backEndMessage.addFirst(client);
+        return backEndMessage;
     }
 
 
