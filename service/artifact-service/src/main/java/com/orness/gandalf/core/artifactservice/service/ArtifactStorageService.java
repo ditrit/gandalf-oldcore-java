@@ -14,7 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static com.orness.gandalf.core.module.constantmodule.storage.StorageConstant.ARTIFACTS_PROJECT_DIRECTORY;
+import static com.orness.gandalf.core.artifactservice.constant.ArtifactConstant.ARTIFACTS_PROJECT_DIRECTORY;
+
 
 @Service
 public class ArtifactStorageService {

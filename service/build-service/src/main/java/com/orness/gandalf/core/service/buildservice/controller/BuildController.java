@@ -17,8 +17,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_BUILD_DIRECTORY;
-import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_DIRECTORY;
+
+import static com.orness.gandalf.core.service.buildservice.constant.BuildConstant.SCRIPT_DEPLOY_DIRECTORY;
 
 @RestController
 public class BuildController {
