@@ -11,7 +11,7 @@ import java.util.List;
 @Profile(value = "kafka")
 public class ConnectorKafkaProperties extends ConnectorBusProperties {
 
-    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.";
+    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.endpoint.";
 
     @Value("${" + PROPERTIES_BASE + "synchronize.topics}")
     private List<String> synchronizeTopics;

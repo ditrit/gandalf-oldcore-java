@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Profile;
 @Profile(value = "jenkins")
 public class ConnectorJenkinsProperties extends ConnectorOrchestratorProperties {
 
-    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.";
+    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.endpoint.";
 
 }
