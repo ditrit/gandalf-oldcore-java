@@ -14,6 +14,14 @@ public class PublisherZeroMQ {
     protected String backEndPublisherConnection;
     protected String identity;
 
+    public PublisherZeroMQ() {
+
+    }
+
+    public PublisherZeroMQ(String identity, String backEndPublisherConnection) {
+        this.init(identity, backEndPublisherConnection);
+    }
+
     protected void init(String identity, String backEndPublisherConnection) {
         this.context = new ZContext();
         this.identity = identity;
@@ -31,8 +39,8 @@ public class PublisherZeroMQ {
     }
 
     public void sendEvent(String topic, String event, String payload) {
-        this.backEndPublisher.sendMore(EVENT_CLIENT_SEND);
         this.backEndPublisher.sendMore(topic);
+        this.backEndPublisher.sendMore(EVENT_CLIENT_SEND);
         this.backEndPublisher.sendMore(event);
         this.backEndPublisher.send(payload);
     }

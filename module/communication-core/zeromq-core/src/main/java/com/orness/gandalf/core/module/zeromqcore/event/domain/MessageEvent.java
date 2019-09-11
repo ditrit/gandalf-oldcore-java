@@ -43,8 +43,8 @@ public class MessageEvent {
 
     public MessageEvent(ZMsg event) {
         this.message = event.duplicate();
-        this.topic = event.popString();
-        this.event = event.popString();
-        this.payload = event.popString();
+        this.topic = this.message.popString();
+        this.event = this.message.popString();
+        this.payload = this.message.popString();
     }
 }

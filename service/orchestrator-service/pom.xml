@@ -69,18 +69,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.orness.gandalf.core.module</groupId>
-			<artifactId>workflow-uid-module</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.orness.gandalf.core.module</groupId>
-			<artifactId>constant-module</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>io.github.openfeign</groupId>
 			<artifactId>feign-core</artifactId>
 			<version>9.7.0</version>

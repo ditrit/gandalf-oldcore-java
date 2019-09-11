@@ -70,11 +70,11 @@ public class MessageCommand {
 
     public MessageCommand(ZMsg command) {
         this.message = command.duplicate();
-        this.client = command.popString();
-        this.uuid = command.popString();
-        this.connector = command.popString();
-        this.serviceClass = command.popString();
-        this.command = command.popString();
-        this.payload = command.popString();
+        this.uuid = this.message.popString();
+        this.client = this.message.popString();
+        this.connector = this.message.popString();
+        this.serviceClass = this.message.popString();
+        this.command = this.message.popString();
+        this.payload = this.message.popString();
     }
 }

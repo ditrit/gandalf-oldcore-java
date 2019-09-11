@@ -54,8 +54,10 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
 
     private void processProxyPublish(ZMsg publish) {
         ZMsg publishBackup = publish.duplicate();
+        String topic = publishBackup.popString();
         String commandType = publishBackup.popString();
         if(commandType.equals(EVENT_CLIENT_SEND)) {
+            System.out.println("EVENT SEND");
             this.sendToWorker(publish);
         }
         else {

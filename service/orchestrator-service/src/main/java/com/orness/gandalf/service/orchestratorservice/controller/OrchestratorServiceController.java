@@ -8,13 +8,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class OrchestratorController {
+public class OrchestratorServiceController {
 
     private BashService bashService;
 
     @Autowired
-    public OrchestratorController(BashService bashService) {
+    public OrchestratorServiceController(BashService bashService) {
         this.bashService = bashService;
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/download/{urlProject}/{urlConf}")
+    public boolean download(@PathVariable("urlProject") String urlProject, @PathVariable("urlConf") String urlConf) {
+        boolean result = true;
+        System.out.println(urlProject);
+        System.out.println(urlConf);
+        System.out.println("DOWNLOAD");
+        result &= this.bashService.downloadProject(urlProject);
+        result &= this.bashService.downloadConfiguration(urlConf);
+        return result;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/register/{service}/{version}")
@@ -28,48 +40,49 @@ public class OrchestratorController {
         System.out.println("UNTAR");
         this.bashService.untarProject(service, version);*/
         System.out.println("REGISTER");
-        this.bashService.register(service, version);
-        return true;
+        return this.bashService.register(service, version);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/register/{service}/{version}")
+    public boolean unregister(@PathVariable("service") String service, @PathVariable("version") String version) {
+        System.out.println(service);
+        System.out.println(version);
+        System.out.println("UNREGISTER");
+        return this.bashService.unregister(service, version);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/deploy/{service}")
     public boolean deploy(@PathVariable("service") String service) {
         System.out.println(service);
-        this.bashService.execute(service, "deploy");
-        return true;
+        return this.bashService.execute(service, "deploy");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/undeploy/{service}")
     public boolean undeploy(@PathVariable("service") String service) {
         System.out.println(service);
-        this.bashService.execute(service, "undeploy");
-        return true;
+        return this.bashService.execute(service, "undeploy");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/stop/{service}")
     public boolean stop(@PathVariable("service") String service) {
         System.out.println(service);
-        this.bashService.execute(service, "stop");
-        return true;
+        return this.bashService.execute(service, "stop");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/start/{service}")
     public boolean start(@PathVariable("service") String service) {
         System.out.println(service);
-        this.bashService.execute(service, "start");
-        return true;
+        return this.bashService.execute(service, "start");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/scale_down/{service}")
     public boolean scaleDown(@PathVariable("service") String service) {
-        this.bashService.execute(service, "scale_down");
-        return true;
+        return this.bashService.execute(service, "scale_down");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/scale_up/{service}")
     public boolean scaleUp(@PathVariable("service") String service) {
         System.out.println(service);
-        this.bashService.execute(service, "scale_up");
-        return true;
+        return this.bashService.execute(service, "scale_up");
     }
 }

@@ -7,12 +7,16 @@ import org.zeromq.ZMsg;
 
 import java.util.List;
 
-public abstract class ListenerCommandZeroMQ {
+public class ListenerCommandZeroMQ {
 
     protected ZContext context;
     protected ZMQ.Socket frontEndListener;
     protected List<String> frontEndListenerConnections;
     protected String listenerConnector;
+
+    public ListenerCommandZeroMQ(String listenerConnector, List<String> frontEndListenerConnections) {
+        this.init(listenerConnector, frontEndListenerConnections);
+    }
 
     protected void init(String listenerConnector, List<String> frontEndListenerConnections) {
         this.context = new ZContext();
@@ -31,21 +35,21 @@ public abstract class ListenerCommandZeroMQ {
         ZMsg command;
         boolean more = false;
 
-        while (true) {
+        //while (true) {
             // Receive broker message
             command = ZMsg.recvMsg(this.frontEndListener);
             more = this.frontEndListener.hasReceiveMore();
             System.out.println(command);
             System.out.println(more);
 
-            if (command == null) {
+/*            if (command == null) {
                 break; // Interrupted
             }
 
             if(!more) {
                 break;
             }
-        }
+        }*/
         return command;
     }
 

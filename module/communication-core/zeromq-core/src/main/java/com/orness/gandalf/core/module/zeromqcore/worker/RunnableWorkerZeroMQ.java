@@ -7,6 +7,7 @@ import org.zeromq.ZMsg;
 import java.util.List;
 
 import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.COMMAND_CLIENT_SEND;
+import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.EVENT_CLIENT_SEND;
 
 public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
 
@@ -61,8 +62,6 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
                     // Receive broker message
                     event = ZMsg.recvMsg(this.frontEndSubscriberWorker, ZMQ.NOBLOCK);
                     more = this.frontEndSubscriberWorker.hasReceiveMore();
-                    ZMsg eventBackup = event.duplicate();
-
                     System.out.println(event);
                     System.out.println(more);
 
@@ -87,13 +86,13 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     }
 
     private void processRoutingWorkerCommand(ZMsg command) {
-        command = this.updateHeaderFrontEnd(command);
         ZMsg commandBackup = command.duplicate();
         String commandType = commandBackup.popString();
         if(commandType.equals(COMMAND_CLIENT_SEND)) {
             System.out.println("COMMAND");
             System.out.println(command);
             System.out.println("COMMAND WORKER");
+            command = this.updateHeaderFrontEndWorker(command);
             System.out.println(command);
             String result = this.executeRoutingWorkerCommand(command).toString();
             System.out.println("RESULT COMMAND WORKER");
@@ -109,9 +108,13 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     }
 
     private void processRoutingSubscriberCommand(ZMsg event) {
+        System.out.println("EVENT WORKER");
+        System.out.println(event);
         ZMsg eventBackup = event.duplicate();
+        String topic = eventBackup.popString();
         String commandType = eventBackup.popString();
-        if(commandType.equals(COMMAND_CLIENT_SEND)) {
+        if(commandType.equals(EVENT_CLIENT_SEND)) {
+            event = this.updateHeaderFrontEndSubscriber(event, topic);
             this.executeRoutingSubscriberCommand(event);
         }
         else {
@@ -121,9 +124,16 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
         event.destroy();
     }
 
-    private ZMsg updateHeaderFrontEnd(ZMsg command) {
+    private ZMsg updateHeaderFrontEndWorker(ZMsg command) {
         command.removeFirst();
         return command;
+    }
+
+    private ZMsg updateHeaderFrontEndSubscriber(ZMsg event, String topic) {
+        event.removeFirst();
+        event.removeFirst();
+        event.addFirst(topic);
+        return event;
     }
 
     protected void reconnectToRoutingWorker() {

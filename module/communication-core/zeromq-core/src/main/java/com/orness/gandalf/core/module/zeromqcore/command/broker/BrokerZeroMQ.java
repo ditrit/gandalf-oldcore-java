@@ -125,7 +125,7 @@ public class BrokerZeroMQ {
 
     protected void processFrontEndMessage(ZMsg frontEndMessage) {
         ZMsg frontEndMessageBackup = frontEndMessage.duplicate();
-        String clientHeader = frontEndMessageBackup.popString();
+        String sender = frontEndMessageBackup.popString();
         String commandType = frontEndMessageBackup.popString();
 
         if (commandType.equals(COMMAND_CLIENT_SEND)) {
@@ -156,7 +156,7 @@ public class BrokerZeroMQ {
 
     protected void processBackEndMessage(ZMsg backEndMessage) {
         ZMsg backEndMessageBackup = backEndMessage.duplicate();
-        String connector = backEndMessageBackup.popString();
+        String sender = backEndMessageBackup.popString();
         String commandType = backEndMessageBackup.popString();
         if (commandType.equals(COMMAND_COMMAND_RESULT)) {
             String uuid = backEndMessageBackup.popString();

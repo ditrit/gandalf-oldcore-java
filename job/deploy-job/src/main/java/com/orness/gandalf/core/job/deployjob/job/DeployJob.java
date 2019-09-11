@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
+import org.zeromq.ZMsg;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -79,7 +80,15 @@ public class DeployJob implements JobHandler {
         payload.addProperty("version", version);
 
         this.gandalfClient.sendCommand("deploy", this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DEPLOY", payload.toString());
-        //TODO RESULT
+        ZMsg resultCommand = null;
+        while(resultCommand == null) {
+            System.out.println("NULL");
+            resultCommand = this.gandalfClient.getCommandResult();
+        }
+        System.out.println(resultCommand);
+        succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
+        System.out.println("SUCCES");
+        System.out.println(succes);
 
         if(succes) {
             //Send job complete command

@@ -1,6 +1,5 @@
 package com.orness.gandalf.core.module.kafkamodule.core.config;
 
-import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusProperties;
 import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;

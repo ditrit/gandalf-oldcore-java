@@ -35,34 +35,43 @@ public class ConnectorCustomOrchestratorNormativeWorker extends RunnableWorkerZe
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
         this.messageCommand = new MessageCommand(command);
+        boolean resultManager;
         Constant.Result result = Constant.Result.FAIL;
         switch (messageCommand.getCommand()) {
             case "REGISTER":
-                this.connectorCustomOrchestratorNormativeManager.register(messageCommand.getPayload());
+                resultManager = this.connectorCustomOrchestratorNormativeManager.register(messageCommand.getPayload());
+                result = resultManager ? Constant.Result.SUCCESS : Constant.Result.FAIL;
                 break;
             case "UNREGISTER":
-                this.connectorCustomOrchestratorNormativeManager.unregister(messageCommand.getPayload());
+                resultManager = this.connectorCustomOrchestratorNormativeManager.unregister(messageCommand.getPayload());
+                result = resultManager ? Constant.Result.SUCCESS : Constant.Result.FAIL;
                 break;
             case "DEPLOY":
-                this.connectorCustomOrchestratorNormativeManager.deploy(messageCommand.getPayload());
+                resultManager = this.connectorCustomOrchestratorNormativeManager.deploy(messageCommand.getPayload());
+                result = resultManager ? Constant.Result.SUCCESS : Constant.Result.FAIL;
                 break;
             case "UNDEPLOY":
-                this.connectorCustomOrchestratorNormativeManager.undeploy(messageCommand.getPayload());
+                resultManager = this.connectorCustomOrchestratorNormativeManager.undeploy(messageCommand.getPayload());
+                result = resultManager ? Constant.Result.SUCCESS : Constant.Result.FAIL;
                 break;
             case "START":
-                this.connectorCustomOrchestratorNormativeManager.start(messageCommand.getPayload());
+                resultManager = this.connectorCustomOrchestratorNormativeManager.start(messageCommand.getPayload());
+                result = resultManager ? Constant.Result.SUCCESS : Constant.Result.FAIL;
                 break;
             case "STOP":
-                this.connectorCustomOrchestratorNormativeManager.stop(messageCommand.getPayload());
+                resultManager = this.connectorCustomOrchestratorNormativeManager.stop(messageCommand.getPayload());
+                result = resultManager ? Constant.Result.SUCCESS : Constant.Result.FAIL;
                 break;
             case "SCALE_UP":
-                this.connectorCustomOrchestratorNormativeManager.scaleUp(messageCommand.getPayload());
+                resultManager = this.connectorCustomOrchestratorNormativeManager.scaleUp(messageCommand.getPayload());
+                result = resultManager ? Constant.Result.SUCCESS : Constant.Result.FAIL;
                 break;
             case "SCALE_DOWN":
-                this.connectorCustomOrchestratorNormativeManager.scaleDown(messageCommand.getPayload());
+                resultManager = this.connectorCustomOrchestratorNormativeManager.scaleDown(messageCommand.getPayload());
+                result = resultManager ? Constant.Result.SUCCESS : Constant.Result.FAIL;
                 break;
             case "DOWNLOAD":
-                boolean resultManager = this.connectorCustomOrchestratorNormativeManager.downloadProject(messageCommand.getPayload());
+                resultManager = this.connectorCustomOrchestratorNormativeManager.downloadProject(messageCommand.getPayload());
                 result = resultManager ? Constant.Result.SUCCESS : Constant.Result.FAIL;
                 break;
             default:

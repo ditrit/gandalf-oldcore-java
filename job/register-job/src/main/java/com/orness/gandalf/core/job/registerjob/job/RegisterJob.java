@@ -89,14 +89,15 @@ public class RegisterJob implements JobHandler {
         payloadDownload.addProperty("conf_url", confUrl);
 
         this.gandalfClient.sendCommand("download", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DOWNLOAD", payloadDownload.toString());
-      /*  ZMsg resultCommand = null;
+        ZMsg resultCommand = null;
         while(resultCommand == null) {
             resultCommand = this.gandalfClient.getCommandResult();
+            System.out.println("NULL");
         }
         System.out.println(resultCommand);
         succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
         System.out.println("SUCCES");
-        System.out.println(succes);*/
+        System.out.println(succes);
 
         //SEND REGISTER
         JsonObject payloadRegister = new JsonObject();
@@ -104,21 +105,21 @@ public class RegisterJob implements JobHandler {
         payloadRegister.addProperty("version", projectVersion);
 
         this.gandalfClient.sendCommand("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "REGISTER", payloadRegister.toString());
-        /*while(resultCommand == null) {
+        while(resultCommand == null) {
             resultCommand = this.gandalfClient.getCommandResult();
         }
         System.out.println(resultCommand);
         succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
         System.out.println("SUCCES");
-        System.out.println(succes);*/
+        System.out.println(succes);
 
         if(succes) {
             //Send job complete command
-            this.gandalfClient.sendEvent("build", "REGISTER", projectName + "feign : success" );
+            this.gandalfClient.sendEvent("build", "REGISTER", projectName + " feign : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            this.gandalfClient.sendEvent("build", "REGISTER", projectName + "feign : fail" );
+            this.gandalfClient.sendEvent("build", "REGISTER", projectName + " feign : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }

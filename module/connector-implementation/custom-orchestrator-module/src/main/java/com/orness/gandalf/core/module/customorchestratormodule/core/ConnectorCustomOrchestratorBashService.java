@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static com.orness.gandalf.core.module.customorchestratormodule.properties.ConnectorCustomOrchestratorConstant.*;
+import static com.orness.gandalf.core.module.customorchestratormodule.constant.ConnectorCustomOrchestratorConstant.*;
 
 @Service
 @Profile(value = "custom-orchestrator")

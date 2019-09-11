@@ -68,7 +68,7 @@ public class ConnectorZeebeNormativeManager extends ConnectorWorkflowEngineNorma
         //variables.put(" project_version", this.jsonObject.get("project_version").getAsString());
         System.out.println("VARIRABLES");
         System.out.println(variables.toString());
-        System.out.println(messageEvent.toString());
+        System.out.println(messageEvent.getTopic());
         zeebe.newPublishMessageCommand() //
                 .messageName("message")
                 .correlationKey(messageEvent.getTopic())

@@ -27,9 +27,9 @@ public class ConnectorProperties {
     @Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
-    //@Value("${" + PROPERTIES_BASE + "connectorCommandBackEndConnection}")
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndConnection}")
     private String connectorCommandBackEndConnection;
-    //@Value("${" + PROPERTIES_BASE + "connectorEventBackEndConnection}")
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndConnection}")
     private String connectorEventBackEndConnection;
 
     private List<String> connectorCommandFrontEndConnection;
@@ -59,10 +59,10 @@ public class ConnectorProperties {
         this.connectorEventFrontEndConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
 
         //CONNECTEUR COMMAND BACK
-        this.connectorCommandBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonArray.get(0).getAsJsonObject().get(GANDALF_CLUSTER_PORT));
+        //this.connectorCommandBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonArray.get(0).getAsJsonObject().get(GANDALF_CLUSTER_PORT));
 
         //CONNECTEUR EVENT BACK
-        this.connectorEventBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
+        //this.connectorEventBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
 
     }
 

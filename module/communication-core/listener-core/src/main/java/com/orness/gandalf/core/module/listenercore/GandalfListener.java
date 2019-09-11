@@ -20,11 +20,11 @@ public class GandalfListener {
         this.listenerEvent = new ListenerEvent(this.listenerProperties);
     }
 
-    public void getCommand() {
-        this.listenerCommand.getCommand();
+    public ListenerCommand getListenerCommand() {
+        return listenerCommand;
     }
 
-    public void getEvent() {
-        this.listenerEvent.getEvent();
+    public ListenerEvent getListenerEvent() {
+        return listenerEvent;
     }
 }

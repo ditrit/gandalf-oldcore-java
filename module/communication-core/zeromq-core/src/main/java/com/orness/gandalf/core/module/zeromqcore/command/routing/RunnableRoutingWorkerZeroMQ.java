@@ -93,7 +93,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
 
     private void processBrokerMessage(ZMsg brokerMessage) {
         ZMsg brokerMessageBackup = brokerMessage.duplicate();
-        String connectorHeader = brokerMessageBackup.popString();
+        //String connectorHeader = brokerMessageBackup.popString();
         String commandType = brokerMessageBackup.popString();
         if(commandType.equals(COMMAND_CLIENT_SEND)) {
             String uuid = brokerMessageBackup.popString();
@@ -112,7 +112,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
     }
 
     private ZMsg updateHeaderBrokerMessage(ZMsg brokerMessage, String serviceClass) {
-        brokerMessage.removeFirst();
+        //brokerMessage.removeFirst();
         brokerMessage.addFirst(serviceClass);
         return brokerMessage;
     }
@@ -127,6 +127,8 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
             }
         }
         else if(commandType.equals(COMMAND_COMMAND_RESULT)) {
+            System.out.println("ROUTING RESULT");
+            System.out.println(workerMessage);
             workerMessage = this.updateHeaderWorkerMessage(workerMessage);
             this.sendToBroker(workerMessage);
         }

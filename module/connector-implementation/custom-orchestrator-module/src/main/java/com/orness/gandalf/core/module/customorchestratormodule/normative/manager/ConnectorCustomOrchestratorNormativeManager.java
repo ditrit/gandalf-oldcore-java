@@ -8,10 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-
-import static com.orness.gandalf.core.module.customorchestratormodule.properties.ConnectorCustomOrchestratorConstant.SCRIPT_BUILD_DIRECTORY;
-
 @Component(value = "normativeManager")
 @Profile(value = "custom-orchestrator")
 public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrchestratorNormativeManager {
@@ -26,51 +22,51 @@ public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrches
     }
 
     @Override
-    public void register(String payload) {
+    public boolean register(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.connectorCustomOrchestratorBashService.register(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
+        return this.connectorCustomOrchestratorBashService.register(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
     }
 
     @Override
-    public void unregister(String payload) {
+    public boolean unregister(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.connectorCustomOrchestratorBashService.unregister(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
+        return this.connectorCustomOrchestratorBashService.unregister(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
     }
 
     @Override
-    public void deploy(String payload) {
+    public boolean deploy(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "deploy");
+        return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "deploy");
     }
 
     @Override
-    public void undeploy(String payload) {
+    public boolean undeploy(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "undeploy");
+        return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "undeploy");
     }
 
     @Override
-    public void start(String payload) {
+    public boolean start(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "start");
+        return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "start");
     }
 
     @Override
-    public void stop(String payload) {
+    public boolean stop(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "stop");
+        return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "stop");
     }
 
     @Override
-    public void scaleUp(String payload) {
+    public boolean scaleUp(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_up");
+        return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_up");
     }
 
     @Override
-    public void scaleDown(String payload) {
+    public boolean scaleDown(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_down");
+        return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_down");
     }
 
     public boolean downloadProject(String payload) {
