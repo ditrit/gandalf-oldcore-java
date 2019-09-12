@@ -23,7 +23,7 @@ public class ConnectorDatabaseCoreConfiguration {
     @Autowired
     private ApplicationContext context;
 
-    @Value("spring.profiles.active")
+    @Value("${spring.profiles.active}")
     private String profile;
 
     @Bean

@@ -89,15 +89,8 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
         ZMsg commandBackup = command.duplicate();
         String commandType = commandBackup.popString();
         if(commandType.equals(COMMAND_CLIENT_SEND)) {
-            System.out.println("COMMAND");
-            System.out.println(command);
-            System.out.println("COMMAND WORKER");
             command = this.updateHeaderFrontEndWorker(command);
-            System.out.println(command);
             String result = this.executeRoutingWorkerCommand(command).toString();
-            System.out.println("RESULT COMMAND WORKER");
-            System.out.println(result);
-            System.out.println(command);
             this.sendResultCommand(command, result);
         }
         else {
@@ -108,8 +101,6 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     }
 
     private void processRoutingSubscriberCommand(ZMsg event) {
-        System.out.println("EVENT WORKER");
-        System.out.println(event);
         ZMsg eventBackup = event.duplicate();
         String topic = eventBackup.popString();
         String commandType = eventBackup.popString();

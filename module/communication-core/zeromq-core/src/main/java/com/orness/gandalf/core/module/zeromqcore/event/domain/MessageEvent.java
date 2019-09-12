@@ -8,6 +8,8 @@ public class MessageEvent {
     private String topic;
     private String event;
     private String payload;
+    private String createdAt;
+    private String timeout;
 
     public ZMsg getMessage() {
         return message;

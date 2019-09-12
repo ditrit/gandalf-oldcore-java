@@ -30,6 +30,8 @@ public class ConnectorH2NormativeWorker extends RunnableWorkerZeroMQ {
     //TODO PAYLOAD
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
+        System.out.println("WORKER");
+        Constant.Result result = null;
         this.messageCommand = new MessageCommand(command);
         switch(messageCommand.getCommand().toString()) {
             case "LIST":
@@ -47,11 +49,16 @@ public class ConnectorH2NormativeWorker extends RunnableWorkerZeroMQ {
             case "DELETE":
                 this.h2CommonManager.delete(this.messageCommand.getPayload());
                 break;
+                //TODO DELETE
+            case "TEST":
+                System.out.println("WOKER TEST");
+                result = Constant.Result.SUCCESS;
+                break;
             default:
                 //DO NOTHING
                 break;
         }
-        return null;
+        return result;
     }
 
     @Override

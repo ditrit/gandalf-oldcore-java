@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.test.testcommand.core;
 
 import com.orness.gandalf.core.test.testzeromq.Constant;
@@ -23,3 +24,4 @@ public class GandalfWorker extends RunnableWorker {
         System.out.println(this.workerServiceClass + " SUBSCRIBER START !!!");
     }
 }
+*/

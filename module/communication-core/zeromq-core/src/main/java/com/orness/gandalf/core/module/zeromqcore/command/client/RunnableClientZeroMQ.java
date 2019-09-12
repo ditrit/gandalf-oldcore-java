@@ -40,8 +40,6 @@ public class RunnableClientZeroMQ extends ClientZeroMQ implements Runnable {
                         break; // Interrupted
                     }
                     this.responses.add(response.duplicate());
-                    System.out.println("SIZE");
-                    System.out.println(responses.size());
 
                     if(!more) {
                         break;

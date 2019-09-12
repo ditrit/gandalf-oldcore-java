@@ -56,7 +56,7 @@ public class ThreadClientZeroMQ extends Thread {
         this.backEndClient.sendMore(serviceClass);
         this.backEndClient.sendMore(command);
         this.backEndClient.send(payload);
-        this.start();
+        this.run();
     }
 
     private ZMsg getResponseSync() {
@@ -83,13 +83,10 @@ public class ThreadClientZeroMQ extends Thread {
     }
 
     public ZMsg getResponseAsync() {
-        if(this.isInterrupted()) {
-            this.start();
-        }
         if(this.responses.isEmpty()) {
             return null;
         }
-        return this.responses.getLast();
+        return this.responses.poll();
     }
 
     @Override
@@ -116,8 +113,6 @@ public class ThreadClientZeroMQ extends Thread {
                         break; // Interrupted
                     }
                     this.responses.add(response.duplicate());
-                    System.out.println("SIZE");
-                    System.out.println(responses.size());
 
                     if(!more) {
                         break;
@@ -133,9 +128,6 @@ public class ThreadClientZeroMQ extends Thread {
     }
 
     public void close() {
-        if(this.isAlive()) {
-            this.stop();
-        }
         this.backEndClient.close();
         this.context.close();
     }

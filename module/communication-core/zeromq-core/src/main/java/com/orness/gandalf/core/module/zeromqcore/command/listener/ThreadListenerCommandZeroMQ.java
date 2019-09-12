@@ -8,13 +8,15 @@ import org.zeromq.ZMsg;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.COMMAND_COMMAND_RESULT;
+
 public class ThreadListenerCommandZeroMQ extends Thread {
 
     protected ZContext context;
     protected ZMQ.Socket frontEndListener;
     protected List<String> frontEndListenerConnections;
     protected String listenerConnector;
-    private LinkedList<ZMsg> requests;
+    private LinkedList<ZMsg> commands;
 
     public ThreadListenerCommandZeroMQ(String listenerConnector, List<String> frontEndListenerConnections) {
         this.init(listenerConnector, frontEndListenerConnections);
@@ -23,6 +25,8 @@ public class ThreadListenerCommandZeroMQ extends Thread {
     protected void init(String listenerConnector, List<String> frontEndListenerConnections) {
         this.context = new ZContext();
         this.listenerConnector = listenerConnector;
+        commands = new LinkedList<>();
+
         this.frontEndListener = this.context.createSocket(SocketType.DEALER);
         this.frontEndListener.setIdentity(this.listenerConnector.getBytes(ZMQ.CHARSET));
         this.frontEndListenerConnections = frontEndListenerConnections;
@@ -56,13 +60,16 @@ public class ThreadListenerCommandZeroMQ extends Thread {
     }
 
     public ZMsg getCommandAsync() {
-        if(this.isInterrupted()) {
-            this.start();
-        }
-        if(this.requests.isEmpty()) {
+        if(this.commands.isEmpty()) {
             return null;
         }
-        return this.requests.getLast();
+        return this.commands.poll();
+    }
+
+    public void sendResultCommand(ZMsg request, boolean result) {
+        request.addFirst(COMMAND_COMMAND_RESULT);
+        request.addLast(result ? "SUCCES": "FAIL");
+        request.send(this.frontEndListener);
     }
 
     @Override
@@ -88,9 +95,8 @@ public class ThreadListenerCommandZeroMQ extends Thread {
                     if (request == null) {
                         break; // Interrupted
                     }
-                    this.requests.add(request.duplicate());
-                    System.out.println("SIZE");
-                    System.out.println(requests.size());
+                    request = this.updateHeaderBrokerMessage(request);
+                    this.commands.add(request.duplicate());
 
                     if(!more) {
                         break;
@@ -105,10 +111,12 @@ public class ThreadListenerCommandZeroMQ extends Thread {
         }
     }
 
+    private ZMsg updateHeaderBrokerMessage(ZMsg request) {
+        request.removeFirst();
+        return request;
+    }
+
     public void close() {
-        if(this.isAlive()) {
-            this.stop();
-        }
         this.frontEndListener.close();
         this.context.close();
     }

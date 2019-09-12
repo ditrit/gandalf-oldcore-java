@@ -11,6 +11,8 @@ public class MessageCommand {
     private String serviceClass;
     private String command;
     private String payload;
+    private String createdAt;
+    private String timeout;
 
     public ZMsg getMessage() {
         return message;

@@ -22,6 +22,8 @@ public class ThreadListenerEventZeroMQ extends Thread {
     protected void init(String listenerConnector, String frontEndListenerConnection) {
         this.context = new ZContext();
         this.listenerConnector = listenerConnector;
+        events = new LinkedList<>();
+
         this.frontEndListener = this.context.createSocket(SocketType.SUB);
         this.frontEndListenerConnection = frontEndListenerConnection;
         System.out.println("ThreadListenerEventZeroMQ connect to frontEndListenerConnection: " + this.frontEndListenerConnection);
@@ -52,13 +54,10 @@ public class ThreadListenerEventZeroMQ extends Thread {
     }
 
     public ZMsg getEventAsync() {
-        if(this.isInterrupted()) {
-            this.start();
-        }
         if(this.events.isEmpty()) {
             return null;
         }
-        return this.events.getLast();
+        return this.events.poll();
     }
 
     @Override
@@ -85,8 +84,6 @@ public class ThreadListenerEventZeroMQ extends Thread {
                         break; // Interrupted
                     }
                     this.events.add(event.duplicate());
-                    System.out.println("SIZE");
-                    System.out.println(events.size());
 
                     if(!more) {
                         break;
@@ -102,9 +99,6 @@ public class ThreadListenerEventZeroMQ extends Thread {
     }
 
     public void close() {
-        if(this.isAlive()) {
-            this.stop();
-        }
         this.frontEndListener.close();
         this.context.close();
     }
