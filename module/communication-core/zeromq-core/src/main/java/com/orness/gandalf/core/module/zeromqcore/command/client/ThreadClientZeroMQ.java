@@ -5,6 +5,8 @@ import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,29 +39,37 @@ public class ThreadClientZeroMQ extends Thread {
         }
     }
 
-    public ZMsg sendCommandSync(String uuid, String connector, String serviceClass, String command, String payload) {
+    public ZMsg sendCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
         this.backEndClient.sendMore(COMMAND_CLIENT_SEND);
         this.backEndClient.sendMore(uuid);
         this.backEndClient.sendMore(this.identity);
         this.backEndClient.sendMore(connector);
         this.backEndClient.sendMore(serviceClass);
         this.backEndClient.sendMore(command);
+        this.backEndClient.sendMore(timeout);
+        this.backEndClient.sendMore(timestamp.toString());
         this.backEndClient.send(payload);
-        return this.getResponseSync();
+        return this.getCommandResultSync();
     }
 
-    public void sendCommandAsync(String uuid, String connector, String serviceClass, String command, String payload) {
+    public void sendCommandAsync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
         this.backEndClient.sendMore(COMMAND_CLIENT_SEND);
         this.backEndClient.sendMore(uuid);
         this.backEndClient.sendMore(this.identity);
         this.backEndClient.sendMore(connector);
         this.backEndClient.sendMore(serviceClass);
         this.backEndClient.sendMore(command);
+        this.backEndClient.sendMore(timeout);
+        this.backEndClient.sendMore(timestamp.toString());
         this.backEndClient.send(payload);
         this.run();
     }
 
-    private ZMsg getResponseSync() {
+    private ZMsg getCommandResultSync() {
 
         ZMsg response;
         boolean more = false;
@@ -82,7 +92,7 @@ public class ThreadClientZeroMQ extends Thread {
         return response;
     }
 
-    public ZMsg getResponseAsync() {
+    public ZMsg getCommandResultAsync() {
         if(this.responses.isEmpty()) {
             return null;
         }

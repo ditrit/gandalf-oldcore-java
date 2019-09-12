@@ -7,9 +7,9 @@ public class MessageEvent {
     private ZMsg message;
     private String topic;
     private String event;
-    private String payload;
-    private String createdAt;
     private String timeout;
+    private String createdAt;
+    private String payload;
 
     public ZMsg getMessage() {
         return message;
@@ -35,6 +35,22 @@ public class MessageEvent {
         this.event = event;
     }
 
+    public String getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(String timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public String getPayload() {
         return payload;
     }
@@ -47,6 +63,8 @@ public class MessageEvent {
         this.message = event.duplicate();
         this.topic = this.message.popString();
         this.event = this.message.popString();
+        this.timeout = this.message.popString();
+        this.createdAt = this.message.popString();
         this.payload = this.message.popString();
     }
 }

@@ -10,9 +10,9 @@ public class MessageCommand {
     private String connector;
     private String serviceClass;
     private String command;
-    private String payload;
-    private String createdAt;
     private String timeout;
+    private String createdAt;
+    private String payload;
 
     public ZMsg getMessage() {
         return message;
@@ -62,6 +62,22 @@ public class MessageCommand {
         this.command = command;
     }
 
+    public String getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(String timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public String getPayload() {
         return payload;
     }
@@ -77,6 +93,8 @@ public class MessageCommand {
         this.connector = this.message.popString();
         this.serviceClass = this.message.popString();
         this.command = this.message.popString();
+        this.timeout = this.message.popString();
+        this.createdAt = this.message.popString();
         this.payload = this.message.popString();
     }
 }

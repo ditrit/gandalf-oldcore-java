@@ -4,6 +4,8 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
+import java.sql.Timestamp;
+
 import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.COMMAND_CLIENT_SEND;
 import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.EVENT_CLIENT_SEND;
 
@@ -38,10 +40,14 @@ public class PublisherZeroMQ {
         this.context.close();
     }
 
-    public void sendEvent(String topic, String event, String payload) {
+    public void sendEvent(String topic, String event, String timeout, String payload) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
         this.backEndPublisher.sendMore(topic);
         this.backEndPublisher.sendMore(EVENT_CLIENT_SEND);
         this.backEndPublisher.sendMore(event);
+        this.backEndPublisher.sendMore(timeout);
+        this.backEndPublisher.sendMore(timestamp.toString());
         this.backEndPublisher.send(payload);
     }
 }
