@@ -25,12 +25,16 @@ public class CaptureWorker extends RunnableCaptureWorkerZeroMQ {
     @Override
     protected void executeRoutingWorkerCommand(ZMsg command) {
         //API
+        System.out.println("COMMAND");
+        System.out.println(command);
         //this.restTemplate...
     }
 
     @Override
     protected void executeRoutingSubscriberCommand(ZMsg command) {
         //API
+        System.out.println("EVENT");
+        System.out.println(command);
         //this.restTemplate...
     }
 }

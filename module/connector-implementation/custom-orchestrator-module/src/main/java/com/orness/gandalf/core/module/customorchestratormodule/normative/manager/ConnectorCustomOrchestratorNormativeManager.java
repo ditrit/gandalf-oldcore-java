@@ -6,8 +6,10 @@ import com.orness.gandalf.core.module.customorchestratormodule.core.ConnectorCus
 import com.orness.gandalf.core.module.customorchestratormodule.properties.ConnectorCustomOrchestratorProperties;
 import com.orness.gandalf.core.module.orchestratormodule.manager.ConnectorOrchestratorNormativeManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Component(value = "normativeManager")
 @ConditionalOnBean(ConnectorCustomOrchestratorProperties.class)
@@ -15,12 +17,14 @@ public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrches
 
     private ConnectorCustomOrchestratorBashService connectorCustomOrchestratorBashService;
     private Gson mapper;
-    private OrchestratorServiceFeign orchestratorServiceFeign;
+    @Value("${${instance.name}.connectors.${connector.type}.${connector.name}.target.endpoint.uri}")
+    private String uri;
+    private RestTemplate restTemplate;
 
     @Autowired
-    public ConnectorCustomOrchestratorNormativeManager(ConnectorCustomOrchestratorBashService connectorCustomOrchestratorBashService, OrchestratorServiceFeign orchestratorServiceFeign) {
+    public ConnectorCustomOrchestratorNormativeManager(ConnectorCustomOrchestratorBashService connectorCustomOrchestratorBashService) {
         this.connectorCustomOrchestratorBashService = connectorCustomOrchestratorBashService;
-        this.orchestratorServiceFeign = orchestratorServiceFeign;
+        this.restTemplate = new RestTemplate();
         this.mapper = new Gson();
     }
 
@@ -28,56 +32,71 @@ public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrches
     public boolean register(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         //return this.connectorCustomOrchestratorBashService.register(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
-        return this.orchestratorServiceFeign.register(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
+        //return this.orchestratorServiceFeign.register(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
+        return this.restTemplate.getForObject(uri + "orchestrator/register/" + jsonObject.get("service").getAsString() + "/" + jsonObject.get("version").getAsString(), boolean.class);
     }
 
     @Override
     public boolean unregister(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         //return this.connectorCustomOrchestratorBashService.unregister(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
-        return this.orchestratorServiceFeign.unregister(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
+        //return this.orchestratorServiceFeign.unregister(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
+        return this.restTemplate.getForObject(uri + "orchestrator/unregister/" + jsonObject.get("service").getAsString() + "/" + jsonObject.get("version").getAsString(), boolean.class);
+
     }
 
     @Override
     public boolean deploy(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         //return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "deploy");
-        return this.orchestratorServiceFeign.deploy(jsonObject.get("service").getAsString());
+        //return this.orchestratorServiceFeign.deploy(jsonObject.get("service").getAsString());
+        return this.restTemplate.getForObject(uri + "orchestrator/deploy/" + jsonObject.get("service").getAsString(), boolean.class);
+
     }
 
     @Override
     public boolean undeploy(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         //return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "undeploy");
-        return this.orchestratorServiceFeign.undeploy(jsonObject.get("service").getAsString());
+        //return this.orchestratorServiceFeign.undeploy(jsonObject.get("service").getAsString());
+        return this.restTemplate.getForObject(uri + "orchestrator/undeploy/" + jsonObject.get("service").getAsString(), boolean.class);
+
     }
 
     @Override
     public boolean start(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         //return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "start");
-        return this.orchestratorServiceFeign.start(jsonObject.get("service").getAsString());
+        //return this.orchestratorServiceFeign.start(jsonObject.get("service").getAsString());
+        return this.restTemplate.getForObject(uri + "orchestrator/start/" + jsonObject.get("service").getAsString(), boolean.class);
+
     }
 
     @Override
     public boolean stop(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         //return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "stop");
-        return this.orchestratorServiceFeign.stop(jsonObject.get("service").getAsString());
+       //return this.orchestratorServiceFeign.stop(jsonObject.get("service").getAsString());
+        return this.restTemplate.getForObject(uri + "orchestrator/stop/" + jsonObject.get("service").getAsString(), boolean.class);
+
     }
 
     @Override
     public boolean scaleUp(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         //return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_up");
-        return this.orchestratorServiceFeign.scaleUp(jsonObject.get("service").getAsString());
+        //return this.orchestratorServiceFeign.scaleUp(jsonObject.get("service").getAsString());
+        return this.restTemplate.getForObject(uri + "orchestrator/scale_up/" + jsonObject.get("service").getAsString(), boolean.class);
+
     }
 
     @Override
     public boolean scaleDown(String payload) {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         //return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_down");
-        return this.orchestratorServiceFeign.scaleDown(jsonObject.get("service").getAsString());
+        //return this.orchestratorServiceFeign.scaleDown(jsonObject.get("service").getAsString());
+        return this.restTemplate.getForObject(uri + "orchestrator/scale_down/" + jsonObject.get("service").getAsString(), boolean.class);
+
     }
 
     public boolean downloadProject(String payload) {
@@ -86,6 +105,8 @@ public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrches
         //result &= this.connectorCustomOrchestratorBashService.downloadProject(jsonObject.get("project_url").getAsString());
         //result &= this.connectorCustomOrchestratorBashService.downloadConfiguration(jsonObject.get("conf_url").getAsString());
         //return result;
-        return this.orchestratorServiceFeign.download(jsonObject.get("project_url").getAsString(), jsonObject.get("conf_url").getAsString());
+        //return this.orchestratorServiceFeign.download(jsonObject.get("project_url").getAsString(), jsonObject.get("conf_url").getAsString());
+        return this.restTemplate.getForObject(uri + "orchestrator/download/" + jsonObject.get("project_url").getAsString() + "/" + jsonObject.get("conf_url").getAsString(), boolean.class);
+
     }
 }

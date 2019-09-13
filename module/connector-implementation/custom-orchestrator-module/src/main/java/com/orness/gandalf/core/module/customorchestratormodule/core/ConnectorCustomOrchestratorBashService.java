@@ -17,10 +17,10 @@ import static com.orness.gandalf.core.module.customorchestratormodule.constant.C
 @ConditionalOnBean(ConnectorCustomOrchestratorProperties.class)
 public class ConnectorCustomOrchestratorBashService {
 
-    @Value("${service.endPointName}")
+    //@Value("${service.endPointName}")
     private String serviceEndPointName;
 
-    @Value("${service.endPointConnection}")
+    //@Value("${service.endPointConnection}")
     private String serviceEndPointConnection;
 
     public boolean execute(String service, String command) {

@@ -1,5 +1,6 @@
 package com.orness.gandalf.core.test.testcommand.core;
 
+import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.zeromqcore.command.client.ThreadClientZeroMQ;
 import com.orness.gandalf.core.module.zeromqcore.command.listener.ThreadListenerCommandZeroMQ;
 import com.orness.gandalf.core.module.zeromqcore.event.client.PublisherZeroMQ;
@@ -78,10 +79,13 @@ public class CommandConfiguration {
     public void gandalfLoop() {
         ThreadClientZeroMQ command = this.connectorCommandClient();
         PublisherZeroMQ event = this.connectorEventClient();
+        JsonObject toto = new JsonObject();
+        toto.addProperty("project_url", "toto");
+        toto.addProperty("conf_url", "tata");
         while(true) {
-            event.sendEvent("toto", "toto", "toto");
-            command.sendCommandAsync("toto", "connector_client_test", "toto", "toto", "toto");
-            ZMsg commandResponse = command.getResponseAsync();
+            event.sendEvent("toto", "toto", "5", toto.toString());
+            ZMsg commandResponse = command.sendCommandSync("toto", "connector_orchestrator_test", "WORKER_SERVICE_CLASS_NORMATIVE", "DOWNLOAD", "5", toto.toString());
+            //ZMsg commandResponse = command.getCommandResultAsync();
             if(commandResponse != null) {
                 System.out.println(commandResponse);
             }

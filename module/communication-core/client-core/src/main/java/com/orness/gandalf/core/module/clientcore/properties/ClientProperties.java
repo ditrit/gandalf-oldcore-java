@@ -16,7 +16,7 @@ import static com.orness.gandalf.core.module.clientcore.constant.ClientConstant.
 
 @Configuration
 public class ClientProperties {
-
+    
     private RestTemplate restTemplate;
     private Gson mapper;
 

@@ -43,7 +43,7 @@ public class OrchestratorServiceController {
         return this.bashService.register(service, version);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/register/{service}/{version}")
+    @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/unregister/{service}/{version}")
     public boolean unregister(@PathVariable("service") String service, @PathVariable("version") String version) {
         System.out.println(service);
         System.out.println(version);

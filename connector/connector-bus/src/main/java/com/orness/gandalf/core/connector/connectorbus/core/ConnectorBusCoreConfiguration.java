@@ -23,8 +23,7 @@ public class ConnectorBusCoreConfiguration {
 
     @Autowired
     private ApplicationContext context;
-
-    @Value("${spring.profiles.active}")
+    @Value("${${instance.name}.connectors.${connector.type}.${connector.name}.target.type}")
     private String profile;
 
     @Bean
@@ -49,14 +48,6 @@ public class ConnectorBusCoreConfiguration {
         ConnectorRoutingSubscriber connectorRoutingSubscriber = (ConnectorRoutingSubscriber) context.getBean("routingSubscriber");
         if(connectorRoutingSubscriber != null) {
             this.taskExecutor().execute(connectorRoutingSubscriber);
-        }
-    }
-
-    @Bean
-    public void connectorGandalfClient() {
-        GandalfClient gandalfClient = (GandalfClient) context.getBean("gandalfClient");
-        if(gandalfClient != null) {
-            this.taskExecutor().execute(gandalfClient.getClientCommand());
         }
     }
 

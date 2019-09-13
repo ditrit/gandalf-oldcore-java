@@ -22,7 +22,7 @@ public class ConnectorWorkflowEngineCoreConfiguration {
 
     @Autowired
     private ApplicationContext context;
-    @Value("${target.type}")
+    @Value("${${instance.name}.connectors.${connector.type}.${connector.name}.target.type}")
     private String targetType;
 
     @Bean
