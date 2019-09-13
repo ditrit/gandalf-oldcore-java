@@ -1,7 +1,9 @@
 package com.orness.gandalf.core.module.nexusmodule.normative.manager.feign;
 
+import com.orness.gandalf.core.module.nexusmodule.properties.ConnectorNexusProperties;
 import org.sonatype.nexus.rest.model.RepositoryListResource;
 import org.sonatype.nexus.rest.model.ArtifactResolveResource;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(value = "${${instance.name}.${connector.type}.${connector.name}.feignName}", url = "${${instance.name}.${connector.type}.${connector.name}.endPointConnection}")
+@FeignClient(value = "${${instance.name}.connectors.${connector.type}.${connector.name}.feignName}", url = "${${instance.name}.connectors.${connector.type}.${connector.name}.endPointConnection}")
+@ConditionalOnBean(ConnectorNexusProperties.class)
 public interface NexusFeign {
 
     @RequestMapping(method = RequestMethod.GET, value = "/service/rest/v1/repositories")

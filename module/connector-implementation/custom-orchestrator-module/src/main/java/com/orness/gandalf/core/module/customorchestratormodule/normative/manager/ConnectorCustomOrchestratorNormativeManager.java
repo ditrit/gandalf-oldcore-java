@@ -3,13 +3,14 @@ package com.orness.gandalf.core.module.customorchestratormodule.normative.manage
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.customorchestratormodule.core.ConnectorCustomOrchestratorBashService;
+import com.orness.gandalf.core.module.customorchestratormodule.properties.ConnectorCustomOrchestratorProperties;
 import com.orness.gandalf.core.module.orchestratormodule.manager.ConnectorOrchestratorNormativeManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 @Component(value = "normativeManager")
-@Profile(value = "custom-orchestrator")
+@ConditionalOnBean(ConnectorCustomOrchestratorProperties.class)
 public class ConnectorCustomOrchestratorNormativeManager extends ConnectorOrchestratorNormativeManager {
 
     private ConnectorCustomOrchestratorBashService connectorCustomOrchestratorBashService;

@@ -3,16 +3,16 @@ package com.orness.gandalf.core.module.kafkamodule.core.config;
 import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaAdmin;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@Profile(value = "kafka")
+@ConditionalOnBean(ConnectorKafkaProperties.class)
 public class KafkaConfiguration {
 
     private ConnectorKafkaProperties connectorKafkaProperties;

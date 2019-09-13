@@ -1,10 +1,10 @@
 package com.orness.gandalf.core.module.kafkamodule.custom.controller;
 
-
-import org.springframework.context.annotation.Profile;
+import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController(value = "customController")
-@Profile(value = "kafka")
+@ConditionalOnBean(ConnectorKafkaProperties.class)
 public class ConnectorKafkaCustomController {
 }

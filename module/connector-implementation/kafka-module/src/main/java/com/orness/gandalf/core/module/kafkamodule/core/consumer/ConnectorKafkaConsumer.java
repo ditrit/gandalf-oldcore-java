@@ -1,16 +1,15 @@
 package com.orness.gandalf.core.module.kafkamodule.core.consumer;
 
 import com.google.gson.Gson;
-import com.orness.gandalf.core.library.gandalfjavaclient.GandalfJavaClient;
 import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.core.RunnableKafkaConsumer;
 import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile(value = "kafka")
+@ConditionalOnBean(ConnectorKafkaProperties.class)
 public class ConnectorKafkaConsumer extends RunnableKafkaConsumer {
 
     private GandalfClient gandalfClient;

@@ -1,20 +1,19 @@
 package com.orness.gandalf.core.module.customartifactmodule.normative.worker;
 
-import com.orness.gandalf.core.module.connectorcore.properties.ConnectorProperties;
 import com.orness.gandalf.core.module.customartifactmodule.normative.manager.ConnectorCustomArtifactNormativeManager;
 import com.orness.gandalf.core.module.customartifactmodule.properties.ConnectorCustomArtifactProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
 @Component(value = "normativeWorker")
-@Profile(value = "custom-artifact")
+@ConditionalOnBean(ConnectorCustomArtifactProperties.class)
 public class ConnectorCustomArtifactNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorCustomArtifactNormativeManager connectorCustomArtifactNormativeManager;

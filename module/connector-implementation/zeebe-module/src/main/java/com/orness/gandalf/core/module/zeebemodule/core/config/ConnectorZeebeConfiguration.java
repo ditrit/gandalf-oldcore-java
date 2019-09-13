@@ -1,14 +1,15 @@
 package com.orness.gandalf.core.module.zeebemodule.core.config;
 
 import com.orness.gandalf.core.module.workflowenginemodule.properties.ConnectorWorkflowEngineProperties;
+import com.orness.gandalf.core.module.zeebemodule.properties.ConnectorZeebeProperties;
 import io.zeebe.client.ZeebeClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile(value = "zeebe")
+@ConditionalOnBean(ConnectorZeebeProperties.class)
 public class ConnectorZeebeConfiguration {
 
     private ConnectorWorkflowEngineProperties workflowEngineProperties;

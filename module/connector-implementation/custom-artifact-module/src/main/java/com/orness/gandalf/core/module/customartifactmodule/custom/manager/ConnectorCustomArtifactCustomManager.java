@@ -1,9 +1,10 @@
 package com.orness.gandalf.core.module.customartifactmodule.custom.manager;
 
-import org.springframework.context.annotation.Profile;
+import com.orness.gandalf.core.module.customartifactmodule.properties.ConnectorCustomArtifactProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 @Component(value = "customManager")
-@Profile(value = "custom-artifact")
+@ConditionalOnBean(ConnectorCustomArtifactProperties.class)
 public class ConnectorCustomArtifactCustomManager {
 }

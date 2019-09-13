@@ -7,7 +7,7 @@ import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.event.domain.MessageEvent;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
@@ -15,7 +15,7 @@ import org.zeromq.ZMsg;
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
 @Component(value = "normativeWorker")
-@Profile(value = "kafka")
+@ConditionalOnBean(ConnectorKafkaProperties.class)
 public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorKafkaNormativeManager  connectorKafkaNormativeManager;

@@ -1,13 +1,14 @@
 package com.orness.gandalf.core.module.customorchestratormodule.normative.manager;
 
+import com.orness.gandalf.core.module.customorchestratormodule.properties.ConnectorCustomOrchestratorProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient(url = "${${instance.name}.connectors.${connector.type}.${connector.name}.target.endpoint.uri}")
-@Profile(value = "custom-orchestrator")
+@ConditionalOnBean(ConnectorCustomOrchestratorProperties.class)
 public interface OrchestratorServiceFeign {
 
     @RequestMapping(method = RequestMethod.GET, value = "/orchestrator/download/{urlProject}/{urlConf}")

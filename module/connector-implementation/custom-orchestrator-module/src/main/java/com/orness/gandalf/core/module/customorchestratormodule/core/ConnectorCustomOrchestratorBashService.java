@@ -1,7 +1,8 @@
 package com.orness.gandalf.core.module.customorchestratormodule.core;
 
+import com.orness.gandalf.core.module.customorchestratormodule.properties.ConnectorCustomOrchestratorProperties;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -13,7 +14,7 @@ import java.nio.file.Paths;
 import static com.orness.gandalf.core.module.customorchestratormodule.constant.ConnectorCustomOrchestratorConstant.*;
 
 @Service
-@Profile(value = "custom-orchestrator")
+@ConditionalOnBean(ConnectorCustomOrchestratorProperties.class)
 public class ConnectorCustomOrchestratorBashService {
 
     @Value("${service.endPointName}")

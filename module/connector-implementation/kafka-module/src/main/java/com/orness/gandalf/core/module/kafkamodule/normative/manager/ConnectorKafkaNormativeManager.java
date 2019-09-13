@@ -5,11 +5,12 @@ import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.busmodule.manager.ConnectorBusNormativeManager;
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.ConnectorKafkaConsumer;
 import com.orness.gandalf.core.module.kafkamodule.core.producer.ConnectorKafkaProducer;
+import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component(value = "normativeManager")
-@Profile(value = "kafka")
+@ConditionalOnBean(ConnectorKafkaProperties.class)
 public class ConnectorKafkaNormativeManager extends ConnectorBusNormativeManager {
 
     private KafkaAdmin kafkaAdmin;

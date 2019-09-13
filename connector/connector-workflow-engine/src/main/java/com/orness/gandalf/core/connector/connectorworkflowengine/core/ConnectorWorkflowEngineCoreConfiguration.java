@@ -1,6 +1,5 @@
 package com.orness.gandalf.core.connector.connectorworkflowengine.core;
 
-import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import com.orness.gandalf.core.module.connectorcore.routing.ConnectorRoutingSubscriber;
 import com.orness.gandalf.core.module.connectorcore.routing.ConnectorRoutingWorker;
 import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
@@ -23,12 +22,12 @@ public class ConnectorWorkflowEngineCoreConfiguration {
 
     @Autowired
     private ApplicationContext context;
-
-    @Value("${spring.profiles.active}")
-    private String profile;
+    @Value("${target.type}")
+    private String targetType;
 
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
+
         ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
         pool.setCorePoolSize(10);
         pool.setMaxPoolSize(20);
@@ -53,14 +52,6 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     }
 
     @Bean
-    public void connectorGandalfClient() {
-        GandalfClient gandalfClient = (GandalfClient) context.getBean("gandalfClient");
-        if(gandalfClient != null) {
-            this.taskExecutor().execute(gandalfClient.getClientCommand());
-        }
-    }
-
-    @Bean
     public void connectorGandalfWorker() {
         ConnectorGandalfWorker gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
         if(gandalfWorker != null) {
@@ -71,7 +62,7 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     @Bean
     public void connectorNormativeWorker() {
         RunnableWorkerZeroMQ normativeWorker = null;
-        switch(profile) {
+        switch(targetType) {
             case "zeebe":
                 normativeWorker = (ConnectorZeebeNormativeWorker) context.getBean("normativeWorker");
                 break;
@@ -86,7 +77,7 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     @Bean
     public void connectorCustomWorker() {
         RunnableWorkerZeroMQ cutomWorker = null;
-        switch(profile) {
+        switch(targetType) {
             case "zeebe":
                 cutomWorker = (ConnectorZeebeCustomWorker) context.getBean("customWorker");
                 break;

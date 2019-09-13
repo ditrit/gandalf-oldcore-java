@@ -4,18 +4,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.workflowenginemodule.manager.ConnectorWorkflowEngineNormativeManager;
 import com.orness.gandalf.core.module.zeebemodule.core.domain.ConnectorZeebeMessage;
+import com.orness.gandalf.core.module.zeebemodule.properties.ConnectorZeebeProperties;
 import com.orness.gandalf.core.module.zeromqcore.event.domain.MessageEvent;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.events.DeploymentEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.HashMap;
 
 @Component(value = "normativeManager")
-@Profile(value = "zeebe")
+@ConditionalOnBean(ConnectorZeebeProperties.class)
 public class ConnectorZeebeNormativeManager extends ConnectorWorkflowEngineNormativeManager {
 
     private ZeebeClient zeebe;

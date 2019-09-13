@@ -1,9 +1,10 @@
 package com.orness.gandalf.core.module.kafkamodule.custom.manager;
 
-import org.springframework.context.annotation.Profile;
+import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 @Component(value = "customManager")
-@Profile(value = "kafka")
+@ConditionalOnBean(ConnectorKafkaProperties.class)
 public class ConnectorKafkaCustomManager {
 }
