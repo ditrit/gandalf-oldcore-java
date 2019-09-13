@@ -66,7 +66,7 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
         System.out.println("HOOK_MERGE");
         System.out.println(payload.toString());
         //this.gandalfClient.sendCommand("toto", "toto", "toto", "toto", "toto");
-        this.gandalfClient.sendEvent(topic.toString(), "HOOK_MERGE", payload.toString());
+        this.gandalfClient.sendEvent(topic.toString(), "HOOK_MERGE", "5", payload.toString());
 
     }
 

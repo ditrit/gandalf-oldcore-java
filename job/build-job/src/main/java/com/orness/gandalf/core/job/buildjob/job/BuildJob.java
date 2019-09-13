@@ -44,7 +44,6 @@ public class BuildJob implements JobHandler {
         this.gandalfClient = gandalfClient;
         this.buildJobProperties = buildJobProperties;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
-        this.threadPoolTaskExecutor.execute(gandalfClient.getClientCommand());
         this.mapper = new Gson();
 
     }
@@ -100,11 +99,11 @@ public class BuildJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            gandalfClient.sendEvent("build", "BUILD", projectUrl + " build : success" );
+            gandalfClient.sendEvent("build", "BUILD", "5", projectUrl + " build : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(current_workflow_variables).send().join();
         }
         else {
-            gandalfClient.sendEvent("build", "BUILD", projectUrl + " build : fail" );
+            gandalfClient.sendEvent("build", "BUILD", "5", projectUrl + " build : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }

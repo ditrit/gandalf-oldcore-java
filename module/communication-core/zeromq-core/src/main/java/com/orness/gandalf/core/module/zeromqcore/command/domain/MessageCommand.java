@@ -11,7 +11,7 @@ public class MessageCommand {
     private String serviceClass;
     private String command;
     private String timeout;
-    private String createdAt;
+    private String timestamp;
     private String payload;
 
     public ZMsg getMessage() {
@@ -70,12 +70,12 @@ public class MessageCommand {
         this.timeout = timeout;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getPayload() {
@@ -94,7 +94,7 @@ public class MessageCommand {
         this.serviceClass = this.message.popString();
         this.command = this.message.popString();
         this.timeout = this.message.popString();
-        this.createdAt = this.message.popString();
+        this.timestamp = this.message.popString();
         this.payload = this.message.popString();
     }
 }

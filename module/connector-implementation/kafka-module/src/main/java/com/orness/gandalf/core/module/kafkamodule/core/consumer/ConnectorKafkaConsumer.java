@@ -29,7 +29,7 @@ public class ConnectorKafkaConsumer extends RunnableKafkaConsumer {
     @Override
     protected void publish(Object message) {
         GandalfKafkaMessage event = (GandalfKafkaMessage) message;
-        //this.gandalfJavaClient.sendEvent(event.getTopic(), event.getEvent(), event.getPayload());
+        this.gandalfClient.sendEvent(event.getTopic(), event.getEvent(), event.getTimeout(), event.getPayload());
     }
 
     @Override
