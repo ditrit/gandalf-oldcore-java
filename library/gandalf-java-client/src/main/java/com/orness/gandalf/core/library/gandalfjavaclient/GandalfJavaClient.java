@@ -17,7 +17,6 @@ public class GandalfJavaClient {
     public GandalfJavaClient(ThreadPoolTaskExecutor threadPoolTaskExecutor, GandalfClient gandalfClient, GandalfListener gandalfListener) {
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
         this.gandalfClient = gandalfClient;
-        this.threadPoolTaskExecutor.execute(this.gandalfClient.getClientCommand());
         this.gandalfListener = gandalfListener;
     }
 
