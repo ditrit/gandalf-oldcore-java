@@ -58,6 +58,6 @@ public class RunnableClientZeroMQ extends ClientZeroMQ implements Runnable {
         if(this.responses.isEmpty()) {
             return null;
         }
-        return this.responses.poll();
+        return this.responses.getLast();
     }
 }

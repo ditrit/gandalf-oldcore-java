@@ -4,27 +4,31 @@ import com.orness.gandalf.core.module.kafkamodule.normative.manager.ConnectorKaf
 import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import com.orness.gandalf.core.module.zeromqcore.command.domain.MessageCommand;
 import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
+import com.orness.gandalf.core.module.zeromqcore.event.domain.MessageEvent;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
+
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
 @Component(value = "normativeWorker")
-@Profile(value = "kafka")
+@ConditionalOnBean(ConnectorKafkaProperties.class)
 public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorKafkaNormativeManager  connectorKafkaNormativeManager;
     private ConnectorKafkaProperties connectorKafkaProperties;
     private MessageCommand messageCommand;
+    private MessageEvent messageEvent;
 
     @Autowired
     public ConnectorKafkaNormativeWorker(ConnectorKafkaProperties connectorKafkaProperties, ConnectorKafkaNormativeManager connectorKafkaNormativeManager) {
         super();
-        this.connectorKafkaNormativeManager = connectorKafkaNormativeManager;
         this.connectorKafkaProperties = connectorKafkaProperties;
+        this.connectorKafkaNormativeManager = connectorKafkaNormativeManager;
+        this.connectorKafkaNormativeManager.setSynchronizeTopics(connectorKafkaProperties.getSynchronizeTopics());
         this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorKafkaProperties.getConnectorCommandBackEndConnection(), this.connectorKafkaProperties.getConnectorEventBackEndConnection(), this.connectorKafkaProperties.getTopics());
     }
 
@@ -32,7 +36,7 @@ public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
         this.messageCommand = new MessageCommand(command);
-        switch(messageCommand.getCommand().toString()) {
+        switch(messageCommand.getCommand()) {
             case "CREATE_TOPIC":
                 this.connectorKafkaNormativeManager.createTopic(this.messageCommand.getPayload());
                 break;
@@ -46,10 +50,10 @@ public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
                 this.connectorKafkaNormativeManager.receiveMessage(this.messageCommand.getPayload());
                 break;
             case "SYNCHRONIZE_GANDALF":
-                this.connectorKafkaNormativeManager.synchronizeToGandalf(this.messageCommand.getPayload());
+                this.connectorKafkaNormativeManager.addSynchronizeTopicToGandalf(this.messageCommand.getPayload());
                 break;
             case "SYNCHRONIZE_BUS":
-                this.connectorKafkaNormativeManager.synchronizeToBus(this.messageCommand.getPayload());
+                this.connectorKafkaNormativeManager.addSynchronizeTopicToBus(this.messageCommand.getPayload());
                 break;
             default:
                 //DO NOTHING
@@ -59,7 +63,15 @@ public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
     }
 
     @Override
-    protected void executeRoutingSubscriberCommand(ZMsg command) {
+    protected void executeRoutingSubscriberCommand(ZMsg event) {
+        this.messageEvent = new MessageEvent(event);
+        //Synchronize
+        this.connectorKafkaNormativeManager.synchronizeToBus(messageEvent.getTopic(), messageEvent.getEvent(), messageEvent.getPayload());
 
+        switch(messageEvent.getEvent()) {
+            default:
+                //DO NOTHING
+                break;
+        }
     }
 }

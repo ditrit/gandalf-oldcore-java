@@ -1,9 +1,10 @@
 package com.orness.gandalf.core.module.zeebemodule.custom.manager;
 
-import org.springframework.context.annotation.Profile;
+import com.orness.gandalf.core.module.zeebemodule.properties.ConnectorZeebeProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 @Component(value = "customManager")
-@Profile(value = "zeebe")
+@ConditionalOnBean(ConnectorZeebeProperties.class)
 public class ConnectorZeebeCustomManager {
 }

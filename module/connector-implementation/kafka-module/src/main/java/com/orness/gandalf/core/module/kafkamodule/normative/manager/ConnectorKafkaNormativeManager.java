@@ -5,11 +5,12 @@ import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.busmodule.manager.ConnectorBusNormativeManager;
 import com.orness.gandalf.core.module.kafkamodule.core.consumer.ConnectorKafkaConsumer;
 import com.orness.gandalf.core.module.kafkamodule.core.producer.ConnectorKafkaProducer;
+import com.orness.gandalf.core.module.kafkamodule.properties.ConnectorKafkaProperties;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component(value = "normativeManager")
-@Profile(value = "kafka")
+@ConditionalOnBean(ConnectorKafkaProperties.class)
 public class ConnectorKafkaNormativeManager extends ConnectorBusNormativeManager {
 
     private KafkaAdmin kafkaAdmin;
@@ -74,17 +75,37 @@ public class ConnectorKafkaNormativeManager extends ConnectorBusNormativeManager
     }
 
     @Override
-    public void synchronizeToGandalf(String payload) {
+    public void synchronizeToGandalf(String topic, String event, String payload) {
+
+    }
+
+    @Override
+    public void synchronizeToBus(String topic, String event, String payload) {
+        if(this.getSynchronizeTopics().contains(topic)) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("event", event);
+            jsonObject.addProperty("payload", payload);
+            System.out.println("SEND TO KAFKA");
+            System.out.println(topic);
+            System.out.println(jsonObject.toString());
+            this.connectorKafkaProducer.sendKafka(topic, jsonObject.toString());
+        }
+    }
+
+    @Override
+    public void addSynchronizeTopicToGandalf(String payload) {
         String topic = payload;
         this.connectorKafkaConsumer.addTopic(payload);
     }
 
     @Override
-    public void synchronizeToBus(String payload) {
-
-        //TODO ADD TOPICS
-        //this.gandalfSubscriberEventService.addInstanceByTopic(topic);
-        //this.gandalfSubscriberEventService
+    public void addSynchronizeTopicToBus(String payload) {
+        System.out.println("SYNCHRONIZE TO BUS");
+        System.out.println(payload);
+        String topic = payload;
+        if(!this.getSynchronizeTopics().contains(topic)) {
+            this.getSynchronizeTopics().add(topic);
+        }
     }
 
     private boolean isTopicExist(String topic, AdminClient adminClient) {

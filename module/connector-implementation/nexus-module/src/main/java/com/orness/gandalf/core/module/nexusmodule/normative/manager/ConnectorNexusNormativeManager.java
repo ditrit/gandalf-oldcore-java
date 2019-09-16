@@ -4,15 +4,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.artifactmodule.manager.ConnectorArtifactNormativeManager;
 import com.orness.gandalf.core.module.nexusmodule.normative.manager.feign.NexusFeign;
+import com.orness.gandalf.core.module.nexusmodule.properties.ConnectorNexusProperties;
 import org.sonatype.nexus.rest.model.ArtifactResolveResource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component(value = "normativeManager")
-@Profile(value = "nexus")
+@ConditionalOnBean(ConnectorNexusProperties.class)
 public class ConnectorNexusNormativeManager extends ConnectorArtifactNormativeManager {
 
     private NexusFeign nexusFeign;

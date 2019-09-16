@@ -10,6 +10,8 @@ public class MessageCommand {
     private String connector;
     private String serviceClass;
     private String command;
+    private String timeout;
+    private String timestamp;
     private String payload;
 
     public ZMsg getMessage() {
@@ -60,6 +62,22 @@ public class MessageCommand {
         this.command = command;
     }
 
+    public String getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(String timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public String getPayload() {
         return payload;
     }
@@ -70,11 +88,13 @@ public class MessageCommand {
 
     public MessageCommand(ZMsg command) {
         this.message = command.duplicate();
-        this.client = command.popString();
-        this.uuid = command.popString();
-        this.connector = command.popString();
-        this.serviceClass = command.popString();
-        this.command = command.popString();
-        this.payload = command.popString();
+        this.uuid = this.message.popString();
+        this.client = this.message.popString();
+        this.connector = this.message.popString();
+        this.serviceClass = this.message.popString();
+        this.command = this.message.popString();
+        this.timeout = this.message.popString();
+        this.timestamp = this.message.popString();
+        this.payload = this.message.popString();
     }
 }

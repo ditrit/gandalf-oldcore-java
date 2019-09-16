@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
+import org.zeromq.ZMsg;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -38,7 +39,6 @@ public class DeployJob implements JobHandler {
         this.gandalfClient = gandalfClient;
         this.deployJobProperties = deployJobProperties;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
-        this.threadPoolTaskExecutor.execute(gandalfClient.getClientCommand());
     }
 
     @PostConstruct
@@ -78,16 +78,24 @@ public class DeployJob implements JobHandler {
         payload.addProperty("service", projectName);
         payload.addProperty("version", version);
 
-        this.gandalfClient.sendCommand("deploy", this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DEPLOY", payload.toString());
-        //TODO RESULT
+        ZMsg resultCommand = this.gandalfClient.sendCommandSync("deploy", this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DEPLOY", "5", payload.toString());
+ /*       ZMsg resultCommand = null;
+        while(resultCommand == null) {
+            System.out.println("NULL");
+            resultCommand = this.gandalfClient.getCommandResultAsync();
+        }*/
+        System.out.println(resultCommand);
+        succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
+        System.out.println("SUCCES");
+        System.out.println(succes);
 
         if(succes) {
             //Send job complete command
-            this.gandalfClient.sendEvent("build", "DEPLOY",projectName + " deploy : success" );
+            this.gandalfClient.sendEvent("build", "DEPLOY", "5",projectName + " deploy : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            this.gandalfClient.sendEvent("build", "DEPLOY",projectName + " deploy : fail" );
+            this.gandalfClient.sendEvent("build", "DEPLOY", "5",projectName + " deploy : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
         }
     }

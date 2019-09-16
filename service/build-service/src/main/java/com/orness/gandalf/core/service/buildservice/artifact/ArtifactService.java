@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_DIRECTORY;
+import static com.orness.gandalf.core.service.buildservice.constant.BuildConstant.SCRIPT_DEPLOY_DIRECTORY;
 
 @Service
 public class ArtifactService {

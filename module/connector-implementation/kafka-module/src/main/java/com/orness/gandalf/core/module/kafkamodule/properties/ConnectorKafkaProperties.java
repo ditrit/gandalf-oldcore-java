@@ -2,18 +2,20 @@ package com.orness.gandalf.core.module.kafkamodule.properties;
 
 import com.orness.gandalf.core.module.busmodule.properties.ConnectorBusProperties;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 
 @Configuration
-@Profile(value = "kafka")
+@ConditionalOnExpression("#{'${${instance.name}.connectors.${connector.type}.${connector.name}.target.type}' == 'kafka'}")
 public class ConnectorKafkaProperties extends ConnectorBusProperties {
 
-    @Value("${${connector.name}.${connector.type}.${connector.name}.${spring.profiles.active}.synchronizeTopics}")
+    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.endpoint.";
+
+    @Value("${" + PROPERTIES_BASE + "synchronize.topics}")
     private List<String> synchronizeTopics;
-    @Value("${${connector.name}.${connector.type}.${connector.name}.${spring.profiles.active}.group}")
+    @Value("${" + PROPERTIES_BASE + "group}")
     private String group;
 
     public String getGroup() {

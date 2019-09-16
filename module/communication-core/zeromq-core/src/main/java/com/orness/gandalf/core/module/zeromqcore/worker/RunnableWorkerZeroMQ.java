@@ -6,6 +6,9 @@ import org.zeromq.ZMsg;
 
 import java.util.List;
 
+import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.COMMAND_CLIENT_SEND;
+import static com.orness.gandalf.core.module.zeromqcore.constant.Constant.EVENT_CLIENT_SEND;
+
 public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
 
     private List<String> topics;
@@ -39,8 +42,6 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
                     // Receive broker message
                     command = ZMsg.recvMsg(this.frontEndWorker, ZMQ.NOBLOCK);
                     more = this.frontEndWorker.hasReceiveMore();
-                    ZMsg commandBackup = command.duplicate();
-
                     System.out.println(command);
                     System.out.println(more);
 
@@ -49,10 +50,6 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
                     }
 
                     //Process
-                    typeRouting = commandBackup.popString();
-                    command = this.removeHeaderFromRoutingWorker(command);
-                    System.out.println("COMMAND");
-                    System.out.println(command);
                     this.processRoutingWorkerCommand(command);
 
                     if (!more) {
@@ -65,8 +62,6 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
                     // Receive broker message
                     event = ZMsg.recvMsg(this.frontEndSubscriberWorker, ZMQ.NOBLOCK);
                     more = this.frontEndSubscriberWorker.hasReceiveMore();
-                    ZMsg eventBackup = event.duplicate();
-
                     System.out.println(event);
                     System.out.println(more);
 
@@ -91,21 +86,45 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     }
 
     private void processRoutingWorkerCommand(ZMsg command) {
-        System.out.println("COMMAND WORKER");
-        System.out.println(command);
-        String result = this.executeRoutingWorkerCommand(command).toString();
-        System.out.println("RESULT COMMAND WORKER");
-        System.out.println(result);
-        System.out.println(command);
-        this.sendResultCommand(command, result);
+        ZMsg commandBackup = command.duplicate();
+        String commandType = commandBackup.popString();
+        if(commandType.equals(COMMAND_CLIENT_SEND)) {
+            command = this.updateHeaderFrontEndWorker(command);
+            String result = this.executeRoutingWorkerCommand(command).toString();
+            this.sendResultCommand(command, result);
+        }
+        else {
+            System.out.println("E: invalid message");
+        }
+        commandBackup.destroy();
+        command.destroy();
     }
 
     private void processRoutingSubscriberCommand(ZMsg event) {
-        this.executeRoutingSubscriberCommand(event);
+        ZMsg eventBackup = event.duplicate();
+        String topic = eventBackup.popString();
+        String commandType = eventBackup.popString();
+        if(commandType.equals(EVENT_CLIENT_SEND)) {
+            event = this.updateHeaderFrontEndSubscriber(event, topic);
+            this.executeRoutingSubscriberCommand(event);
+        }
+        else {
+            System.out.println("E: invalid message");
+        }
+        eventBackup.destroy();
+        event.destroy();
     }
 
-    private ZMsg removeHeaderFromRoutingWorker(ZMsg command) {
+    private ZMsg updateHeaderFrontEndWorker(ZMsg command) {
+        command.removeFirst();
         return command;
+    }
+
+    private ZMsg updateHeaderFrontEndSubscriber(ZMsg event, String topic) {
+        event.removeFirst();
+        event.removeFirst();
+        event.addFirst(topic);
+        return event;
     }
 
     protected void reconnectToRoutingWorker() {

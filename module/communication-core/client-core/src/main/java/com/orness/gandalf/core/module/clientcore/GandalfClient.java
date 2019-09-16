@@ -1,8 +1,8 @@
 package com.orness.gandalf.core.module.clientcore;
 
-import com.orness.gandalf.core.module.clientcore.client.ClientCommand;
-import com.orness.gandalf.core.module.clientcore.client.ClientEvent;
 import com.orness.gandalf.core.module.clientcore.properties.ClientProperties;
+import com.orness.gandalf.core.module.zeromqcore.command.client.ThreadClientZeroMQ;
+import com.orness.gandalf.core.module.zeromqcore.event.client.PublisherZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
@@ -11,29 +11,36 @@ import org.zeromq.ZMsg;
 public class GandalfClient {
 
     private ClientProperties clientProperties;
-    private ClientCommand clientCommand;
-    private ClientEvent clientEvent;
+    private ThreadClientZeroMQ threadClientZeroMQ;
+    private PublisherZeroMQ publisherZeroMQ;
 
-    public ClientCommand getClientCommand() {
-        return clientCommand;
-    }
 
     @Autowired
     public GandalfClient(ClientProperties clientProperties) {
         this.clientProperties = clientProperties;
-        this.clientCommand = new ClientCommand(this.clientProperties);
-        this.clientEvent = new ClientEvent(this.clientProperties);
+        this.threadClientZeroMQ = new ThreadClientZeroMQ(this.clientProperties.getConnectorName(), this.clientProperties.getClientCommandBackEndConnections());
+        this.publisherZeroMQ = new PublisherZeroMQ(this.clientProperties.getConnectorName(), this.clientProperties.getClientEventBackEndConnection());
     }
 
-    public void sendCommand(String uuid, String connector, String serviceClass, String command, String payload) {
-        this.clientCommand.sendCommand(uuid, connector, serviceClass, command, payload);
+    public ZMsg sendCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
+        return this.threadClientZeroMQ.sendCommandSync(uuid, connector, serviceClass, command, timeout, payload);
     }
 
-    public ZMsg getCommandResult() {
-        return this.clientCommand.getLastReponses();
+    public void sendCommandAsync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
+        if(this.threadClientZeroMQ.isInterrupted()) {
+            this.threadClientZeroMQ.start();
+        }
+        this.threadClientZeroMQ.sendCommandAsync(uuid, connector, serviceClass, command, timeout, payload);
     }
 
-    public void sendEvent(String topic, String event, String payload) {
-        this.clientEvent.sendEvent(topic, event, payload);
+    public ZMsg getCommandResultAsync() {
+        if(this.threadClientZeroMQ.isInterrupted()) {
+            this.threadClientZeroMQ.start();
+        }
+        return this.threadClientZeroMQ.getCommandResultAsync();
+    }
+
+    public void sendEvent(String topic, String event, String timeout, String payload) {
+        this.publisherZeroMQ.sendEvent(topic, event, timeout, payload);
     }
 }

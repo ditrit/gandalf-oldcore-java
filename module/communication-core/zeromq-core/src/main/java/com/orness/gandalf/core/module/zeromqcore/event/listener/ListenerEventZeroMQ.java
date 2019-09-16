@@ -5,12 +5,16 @@ import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
-public abstract class ListenerEventZeroMQ {
+public class ListenerEventZeroMQ {
 
     protected ZContext context;
     protected ZMQ.Socket frontEndListener;
     protected String frontEndListenerConnection;
     protected String listenerConnector;
+
+    public ListenerEventZeroMQ(String listenerConnector, String frontEndListenerConnection) {
+        this.init(listenerConnector, frontEndListenerConnection);
+    }
 
     protected void init(String listenerConnector, String frontEndListenerConnection) {
         this.context = new ZContext();
@@ -26,21 +30,21 @@ public abstract class ListenerEventZeroMQ {
         ZMsg event;
         boolean more = false;
 
-        while (true) {
+        //while (true) {
             // Receive broker message
             event = ZMsg.recvMsg(this.frontEndListener);
             more = this.frontEndListener.hasReceiveMore();
             System.out.println(event);
             System.out.println(more);
 
-            if (event == null) {
+/*            if (event == null) {
                 break; // Interrupted
             }
 
             if(!more) {
                 break;
             }
-        }
+        }*/
         return event;
     }
 

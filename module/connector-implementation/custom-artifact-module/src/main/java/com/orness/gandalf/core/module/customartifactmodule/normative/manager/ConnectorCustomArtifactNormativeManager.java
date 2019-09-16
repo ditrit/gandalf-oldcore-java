@@ -3,9 +3,10 @@ package com.orness.gandalf.core.module.customartifactmodule.normative.manager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.artifactmodule.manager.ConnectorArtifactNormativeManager;
+import com.orness.gandalf.core.module.customartifactmodule.properties.ConnectorCustomArtifactProperties;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ import java.util.List;
 import static com.orness.gandalf.core.module.customartifactmodule.properties.ConnectorCustomArtifactConstant.BUILD_PROJECT_DIRECTORY;
 
 @Component(value = "normativeManager")
-@Profile(value = "custom-artifact")
+@ConditionalOnBean(ConnectorCustomArtifactProperties.class)
 public class ConnectorCustomArtifactNormativeManager extends ConnectorArtifactNormativeManager {
 
     private final Path fileStorageLocation;

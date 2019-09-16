@@ -1,12 +1,13 @@
 package com.orness.gandalf.core.module.customorchestratormodule.custom.controller;
 
 import com.orness.gandalf.core.module.customorchestratormodule.custom.manager.ConnectorCustomOrchestratorCustomManager;
+import com.orness.gandalf.core.module.customorchestratormodule.properties.ConnectorCustomOrchestratorProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController(value = "customController")
-@Profile(value = "custom-orchestrator")
+@ConditionalOnBean(ConnectorCustomOrchestratorProperties.class)
 public class ConnectorCustomOrchestratorCustomController {
 
     private ConnectorCustomOrchestratorCustomManager connectorCustomOrchestratorCustomManager;

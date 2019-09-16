@@ -1,25 +1,28 @@
 package com.orness.gandalf.service.orchestratorservice.bash;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
-import java.io.InputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.*;
+import static com.orness.gandalf.service.orchestratorservice.constant.OrchestratorServiceConstant.*;
 
 @Service
 public class BashService {
 
+    @Value("${service.endPointName}")
+    private String serviceEndPointName;
+
+    @Value("${service.endPointConnection}")
+    private String serviceEndPointConnection;
+
     public boolean execute(String service, String command) {
         Process process;
         try {
-
             process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_COMMAND_FILE, command, service).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
@@ -41,10 +44,10 @@ public class BashService {
         return process.exitValue() == 0 ? true : false;
     }
 
-    public boolean untarProject(String service, String version) {
+    public boolean unregister(String service, String version) {
         Process process;
         try {
-            process = new ProcessBuilder("bash", "-c", SCRIPT_UNTAR + service + "_" + version + ".tar.gz").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -53,7 +56,19 @@ public class BashService {
         return process.exitValue() == 0 ? true : false;
     }
 
-    public boolean downloadProject(String projectName, String version) {
+    public boolean untarProject(String projectName, String version) {
+        Process process;
+        try {
+            process = new ProcessBuilder("bash", "-c", SCRIPT_UNTAR + projectName + "_" + version + ".tar.gz").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return process.exitValue() == 0 ? true : false;
+    }
+
+    public boolean downloadProject(String url) {
         Process process;
         try {
             Path path = Paths.get(SCRIPT_BUILD_DIRECTORY);
@@ -63,7 +78,7 @@ public class BashService {
             } else {
                 System.out.println("Directory already exists");
             }
-            process = new ProcessBuilder("bash", "-c", "wget artifact-service.service.gandalf:10000/download/" + projectName + "_" + version + ".tar.gz").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "wget " + serviceEndPointConnection + "/" + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -72,7 +87,7 @@ public class BashService {
         return process.exitValue() == 0 ? true : false;
     }
 
-    public boolean downloadConf(String projectName, String version) {
+    public boolean downloadConfiguration(String url) {
         Process process;
         try {
             Path path = Paths.get(SCRIPT_BUILD_DIRECTORY);
@@ -82,7 +97,7 @@ public class BashService {
             } else {
                 System.out.println("Directory already exists");
             }
-            process = new ProcessBuilder("bash", "-c", "wget artifact-service.service.gandalf:10000/download/" + projectName + "_" + version + ".ini").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
+            process = new ProcessBuilder("bash", "-c", "wget " + serviceEndPointConnection + "/" + url).directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

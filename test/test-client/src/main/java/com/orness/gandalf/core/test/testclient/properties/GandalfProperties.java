@@ -12,6 +12,7 @@ import java.util.List;
 public class GandalfProperties {
 
     private String connectorName;
+    private String commandFrontEndConnection;
     private String clientBackEndConnection1;
     private String clientBackEndConnection2;
     private String clientBackEndConnection3;

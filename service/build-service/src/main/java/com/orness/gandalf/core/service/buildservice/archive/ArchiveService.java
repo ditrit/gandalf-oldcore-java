@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import static com.orness.gandalf.core.module.constantmodule.bash.BashConstant.SCRIPT_DEPLOY_DIRECTORY;
+import static com.orness.gandalf.core.service.buildservice.constant.BuildConstant.SCRIPT_DEPLOY_DIRECTORY;
 
 @Service
 public class ArchiveService {

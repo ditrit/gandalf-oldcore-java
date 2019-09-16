@@ -17,8 +17,8 @@ public class SampleCLR implements CommandLineRunner {
     public void run(String... args) throws Exception {
         GandalfMessage gandalfMessage;
         for(int i = 0; i < 5 ; i++) {
-            gandalfMessage = new GandalfMessage("topic_"+i, "sender_"+i, "2009-10-20 00:00:00.0", "2020-12-06", "content_"+i);
-            gandalfMessageRepository.save(gandalfMessage);
+            //gandalfMessage = new GandalfMessage("topic_"+i, "sender_"+i, "2009-10-20 00:00:00.0", "2020-12-06", "content_"+i);
+            //gandalfMessageRepository.save(gandalfMessage);
         }
     }
 

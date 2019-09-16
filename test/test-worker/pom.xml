@@ -33,14 +33,20 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.orness.gandalf.core.test</groupId>
-			<artifactId>test-zeromq</artifactId>
+			<groupId>com.orness.gandalf.core.module.communication-core</groupId>
+			<artifactId>client-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.orness.gandalf.core.module</groupId>
-			<artifactId>zeromq-module</artifactId>
+			<groupId>com.orness.gandalf.core.module.communication-core</groupId>
+			<artifactId>listener-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.orness.gandalf.core.test</groupId>
+			<artifactId>test-zeromq</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>

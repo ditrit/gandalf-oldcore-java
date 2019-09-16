@@ -1,6 +1,5 @@
 package com.orness.gandalf.core.connector.connectorversioncontrol.core;
 
-import com.orness.gandalf.core.module.clientcore.GandalfClient;
 import com.orness.gandalf.core.module.connectorcore.routing.ConnectorRoutingSubscriber;
 import com.orness.gandalf.core.module.connectorcore.routing.ConnectorRoutingWorker;
 import com.orness.gandalf.core.module.gandalfmodule.worker.ConnectorGandalfWorker;
@@ -23,8 +22,7 @@ public class ConnectorVersionControlCoreConfiguration {
 
     @Autowired
     private ApplicationContext context;
-
-    @Value("${spring.profiles.active}")
+    @Value("${${instance.name}.connectors.${connector.type}.${connector.name}.target.type}")
     private String profile;
 
     @Bean
@@ -49,14 +47,6 @@ public class ConnectorVersionControlCoreConfiguration {
         ConnectorRoutingSubscriber connectorRoutingSubscriber = (ConnectorRoutingSubscriber) context.getBean("routingSubscriber");
         if(connectorRoutingSubscriber != null) {
             this.taskExecutor().execute(connectorRoutingSubscriber);
-        }
-    }
-
-    @Bean
-    public void connectorGandalfClient() {
-        GandalfClient gandalfClient = (GandalfClient) context.getBean("gandalfClient");
-        if(gandalfClient != null) {
-            this.taskExecutor().execute(gandalfClient.getClientCommand());
         }
     }
 

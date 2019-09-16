@@ -4,6 +4,8 @@ public class GandalfKafkaMessage {
 
     private String topic;
     private String event;
+    private String timeout;
+    private String timestamp;
     private String payload;
 
     public String getTopic() {
@@ -20,6 +22,22 @@ public class GandalfKafkaMessage {
 
     public void setEvent(String event) {
         this.event = event;
+    }
+
+    public String getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(String timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getPayload() {

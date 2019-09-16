@@ -3,26 +3,21 @@ package com.orness.gandalf.core.module.gitlabmodule.normative.manager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.orness.gandalf.core.module.clientcore.GandalfClient;
-import com.orness.gandalf.core.module.gitmodule.config.normative.manager.ConnectorGitNormativeManager;
+import com.orness.gandalf.core.module.gitlabmodule.properties.ConnectorGitlabProperties;
 import com.orness.gandalf.core.module.versioncontrolmodule.manager.ConnectorVersionControlNormativeManager;
-import com.orness.gandalf.core.module.zeromqcore.event.domain.MessageEvent;
-import org.gitlab4j.api.AbstractApi;
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.List;
 
 //TODO REVOIR
 @Component(value = "normativeManager")
 //@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gitmodule"})
-@Profile(value = "gitlab")
+@ConditionalOnBean(ConnectorGitlabProperties.class)
 public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNormativeManager {
 
     private GitLabApi gitLabApi;
@@ -66,7 +61,7 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
         System.out.println("HOOK_MERGE");
         System.out.println(payload.toString());
         //this.gandalfClient.sendCommand("toto", "toto", "toto", "toto", "toto");
-        this.gandalfClient.sendEvent(topic.toString(), "HOOK_MERGE", payload.toString());
+        this.gandalfClient.sendEvent(topic.toString(), "HOOK_MERGE", "5", payload.toString());
 
     }
 

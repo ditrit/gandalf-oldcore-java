@@ -7,14 +7,14 @@ import com.orness.gandalf.core.module.zeromqcore.constant.Constant;
 import com.orness.gandalf.core.module.zeromqcore.event.domain.MessageEvent;
 import com.orness.gandalf.core.module.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
 import static com.orness.gandalf.core.module.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_NORMATIVE;
 
 @Component(value = "normativeWorker")
-@Profile(value = "zeebe")
+@ConditionalOnBean(ConnectorZeebeProperties.class)
 public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorZeebeNormativeManager connectorZeebeNormativeManager;
@@ -32,6 +32,8 @@ public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
 //TODO PAYLOAD
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
+        System.out.println("COMMAND");
+        System.out.println(command);
         this.messageCommand = new MessageCommand(command);
         switch(messageCommand.getCommand()) {
             case "DEPLOY":
@@ -52,6 +54,8 @@ public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
 
     @Override
     protected void executeRoutingSubscriberCommand(ZMsg command) {
+        System.out.println("EVENT SUBS");
+        System.out.println(command);
         this.messageEvent = new MessageEvent(command);
         System.out.println(messageEvent.getEvent());
         switch(messageEvent.getEvent()) {
