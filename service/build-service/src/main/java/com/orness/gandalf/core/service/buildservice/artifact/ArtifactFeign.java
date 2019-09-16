@@ -23,7 +23,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import javax.servlet.MultipartConfigElement;
 
 
-@FeignClient(url = "${service.endPointConnection}", configuration = ArtifactFeign.FeignConfig.class)
+@FeignClient(name = "${service.endPointName}", url = "${service.endPointConnection}", configuration = ArtifactFeign.FeignConfig.class)
 public interface ArtifactFeign {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload/file")
