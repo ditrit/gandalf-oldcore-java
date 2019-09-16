@@ -18,7 +18,6 @@
         <module>workflow-service</module>
         <module>workflow-uid-service</module>
         <module>communication-service</module>
-        <module>gandalf-database-service</module>
         <module>artifact-service</module>
         <module>orchestrator-service</module>
         <module>build-service</module>
