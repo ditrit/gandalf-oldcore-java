@@ -1,7 +1,7 @@
 package com.orness.gandalf.core.library.gandalfjavaclient;
 
-import com.orness.gandalf.core.module.clientcore.GandalfClient;
-import com.orness.gandalf.core.module.listenercore.GandalfListener;
+import com.ditrit.gandalf.core.clientcore.GandalfClient;
+import com.ditrit.gandalf.core.listenercore.GandalfListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
