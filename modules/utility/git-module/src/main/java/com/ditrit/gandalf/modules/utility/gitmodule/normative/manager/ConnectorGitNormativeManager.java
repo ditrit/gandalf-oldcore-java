@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.modules.utility.gitmodule.normative.manager;
 
+import com.ditrit.gandalf.modules.abstractconnectors.abstractversioncontrol.manager.ConnectorVersionControlNormativeManager;
 import com.ditrit.gandalf.modules.utility.gitmodule.core.ConnectorGitService;
-import com.ditrit.gandalf.module.abstractconnectors.abstractversioncontrol.manager.ConnectorVersionControlNormativeManager;
 import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.beans.factory.annotation.Autowired;

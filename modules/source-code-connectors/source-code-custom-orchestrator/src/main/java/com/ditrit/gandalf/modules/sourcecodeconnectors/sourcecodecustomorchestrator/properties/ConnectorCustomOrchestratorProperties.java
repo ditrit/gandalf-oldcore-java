@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.properties;
 
-import com.orness.gandalf.core.module.orchestratormodule.properties.ConnectorOrchestratorProperties;
+import com.ditrit.gandalf.modules.abstractconnectors.abstractorchestrator.properties.ConnectorOrchestratorProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
 

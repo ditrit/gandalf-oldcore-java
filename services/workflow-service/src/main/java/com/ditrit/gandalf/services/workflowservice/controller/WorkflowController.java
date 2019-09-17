@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
-import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.*;
+import static com.ditrit.gandalf.modules.utility.constantmodule.workflow.WorkflowConstant.*;
 
 @RestController
 public class WorkflowController {

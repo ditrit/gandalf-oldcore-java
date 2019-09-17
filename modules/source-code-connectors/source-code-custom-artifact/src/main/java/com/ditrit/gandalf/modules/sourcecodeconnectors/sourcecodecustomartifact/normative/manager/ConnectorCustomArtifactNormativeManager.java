@@ -1,8 +1,8 @@
 package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomartifact.normative.manager;
 
+import com.ditrit.gandalf.modules.abstractconnectors.abstractartifact.manager.ConnectorArtifactNormativeManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.ditrit.gandalf.module.abstractconnector.abstractartifact.manager.ConnectorArtifactNormativeManager;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomartifact.properties.ConnectorCustomArtifactProperties;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;

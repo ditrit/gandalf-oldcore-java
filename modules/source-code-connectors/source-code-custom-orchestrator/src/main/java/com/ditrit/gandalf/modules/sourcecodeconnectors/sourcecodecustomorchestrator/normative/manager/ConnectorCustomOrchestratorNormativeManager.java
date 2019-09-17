@@ -1,10 +1,10 @@
 package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.normative.manager;
 
+import com.ditrit.gandalf.modules.abstractconnectors.abstractorchestrator.manager.ConnectorOrchestratorNormativeManager;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.core.ConnectorCustomOrchestratorBashService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.properties.ConnectorCustomOrchestratorProperties;
-import com.orness.gandalf.core.module.orchestratormodule.manager.ConnectorOrchestratorNormativeManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

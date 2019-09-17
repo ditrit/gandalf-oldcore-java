@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
-import static com.orness.gandalf.core.module.constantmodule.workflow.WorkflowConstant.KEY_VARIABLE_WORKFLOW_ID;
+import static com.ditrit.gandalf.modules.utility.constantmodule.workflow.WorkflowConstant.KEY_VARIABLE_WORKFLOW_ID;
 
 @Component
 public class WorkflowManager {

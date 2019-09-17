@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.services.workflowuidservice.controller;
 
-import com.orness.gandalf.core.module.workflowuidmodule.domain.WorkflowUID;
+import com.ditrit.gandalf.modules.utility.workflowuidmodule.domain.WorkflowUID;
 import com.ditrit.gandalf.services.workflowuidservice.service.WorkflowUIDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

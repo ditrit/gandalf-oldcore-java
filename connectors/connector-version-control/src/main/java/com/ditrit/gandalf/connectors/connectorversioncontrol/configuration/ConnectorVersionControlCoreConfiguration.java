@@ -2,7 +2,7 @@ package com.ditrit.gandalf.connectors.connectorversioncontrol.configuration;
 
 import com.ditrit.gandalf.core.connectorcore.routing.ConnectorRoutingSubscriber;
 import com.ditrit.gandalf.core.connectorcore.routing.ConnectorRoutingWorker;
-import com.ditrit.gandalf.module.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
+import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.custom.worker.ConnectorGitlabCustomWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.normative.worker.ConnectorGitlabNormativeWorker;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;

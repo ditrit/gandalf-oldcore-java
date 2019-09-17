@@ -1,8 +1,8 @@
 package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.normative.controller;
 
+import com.ditrit.gandalf.modules.abstractconnectors.abstractorchestrator.controller.ConnectorOrchestratorNormativeController;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.normative.manager.ConnectorCustomOrchestratorNormativeManager;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.properties.ConnectorCustomOrchestratorProperties;
-import com.orness.gandalf.core.module.orchestratormodule.controller.ConnectorOrchestratorNormativeController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.web.bind.annotation.RestController;
