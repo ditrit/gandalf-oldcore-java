@@ -64,7 +64,7 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.orness.gandalf.core.module</groupId>
+			<groupId>com.orness.gandalf.core.module.utility</groupId>
 			<artifactId>workflow-uid-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
