@@ -16,9 +16,10 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     protected void initRunnable(String workerServiceClass, String frontEndWorkerConnections, String frontEndSubscriberWorkerConnections, List<String> topics) {
         this.init(workerServiceClass, frontEndWorkerConnections, frontEndSubscriberWorkerConnections);
         this.topics = topics;
-        for(String topic : this.topics) {
+/*        for(String topic : this.topics) {
             this.frontEndSubscriberWorker.subscribe(topic.getBytes(ZMQ.CHARSET));
-        }
+        }*/
+        this.frontEndSubscriberWorker.subscribe(ZMQ.SUBSCRIPTION_ALL);
     }
 
     @Override

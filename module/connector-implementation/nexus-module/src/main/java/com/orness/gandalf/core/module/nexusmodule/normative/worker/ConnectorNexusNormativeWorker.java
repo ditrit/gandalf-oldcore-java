@@ -25,7 +25,7 @@ public class ConnectorNexusNormativeWorker extends RunnableWorkerZeroMQ {
         super();
         this.connectorNexusNormativeManager = connectorNexusNormativeManager;
         this.connectorNexusProperties = connectorNexusProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorNexusProperties.getConnectorCommandBackEndConnection(), this.connectorNexusProperties.getConnectorEventBackEndConnection(), this.connectorNexusProperties.getTopics());
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorNexusProperties.getConnectorCommandBackEndConnection(), this.connectorNexusProperties.getConnectorEventBackEndConnection(), null);
     }
 
     //TODO PAYLOAD

@@ -24,7 +24,7 @@ public class ConnectorProperties {
     private String instanceName;
     @Value("${connector.name}")
     private String connectorName;
-    @Value("${" + PROPERTIES_BASE + "topics}")
+    //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
     @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndConnection}")

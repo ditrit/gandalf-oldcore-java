@@ -29,7 +29,7 @@ public class ConnectorKafkaNormativeWorker extends RunnableWorkerZeroMQ {
         this.connectorKafkaProperties = connectorKafkaProperties;
         this.connectorKafkaNormativeManager = connectorKafkaNormativeManager;
         this.connectorKafkaNormativeManager.setSynchronizeTopics(connectorKafkaProperties.getSynchronizeTopics());
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorKafkaProperties.getConnectorCommandBackEndConnection(), this.connectorKafkaProperties.getConnectorEventBackEndConnection(), this.connectorKafkaProperties.getTopics());
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorKafkaProperties.getConnectorCommandBackEndConnection(), this.connectorKafkaProperties.getConnectorEventBackEndConnection(), null);
     }
 
     //TODO PAYLOAD
