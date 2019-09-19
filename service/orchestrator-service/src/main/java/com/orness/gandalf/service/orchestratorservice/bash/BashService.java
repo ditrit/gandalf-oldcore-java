@@ -14,9 +14,6 @@ import static com.orness.gandalf.service.orchestratorservice.constant.Orchestrat
 @Service
 public class BashService {
 
-    @Value("${service.endPointName}")
-    private String serviceEndPointName;
-
     @Value("${service.endPointConnection}")
     private String serviceEndPointConnection;
 
