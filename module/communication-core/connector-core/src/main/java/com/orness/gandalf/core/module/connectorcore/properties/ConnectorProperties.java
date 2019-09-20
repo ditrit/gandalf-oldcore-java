@@ -24,12 +24,12 @@ public class ConnectorProperties {
     private String instanceName;
     @Value("${connector.name}")
     private String connectorName;
-    @Value("${" + PROPERTIES_BASE + "topics}")
+    //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndConnection}")
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndConnection:tcp://127.0.0.1:9100}")
     private String connectorCommandBackEndConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndConnection}")
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndConnection:tcp://127.0.0.1:9101}")
     private String connectorEventBackEndConnection;
 
     private List<String> connectorCommandFrontEndConnection;

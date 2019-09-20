@@ -11,11 +11,11 @@ public class ConnectorGandalfProperties {
 
     private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.";
 
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndConnection}")
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndConnection:tcp://127.0.0.1:9100}")
     private String connectorCommandBackEndConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndConnection}")
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndConnection:tcp://127.0.0.1:9101}")
     private String connectorEventBackEndConnection;
-    @Value("${" + PROPERTIES_BASE + "topics}")
+    //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
     public String getConnectorCommandBackEndConnection() {
