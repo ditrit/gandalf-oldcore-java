@@ -1,0 +1,36 @@
+gandalf_version: 0.1
+
+instances:
+
+  orness:
+
+    connectors:
+      workflow-engine:
+        OrnessZeebe:
+          target:
+            type: zeebe
+            endpoint:
+              uri: zeebe
+
+      bus:
+        OrnessKafka:
+          target:
+            type: kafka
+            endpoint:
+              uri: kafka:9092
+
+      version-control:
+        OrnessGitlab:
+          target:
+            type: gitlab
+            endpoint:
+              uri: gitlab
+
+      orchestrator:
+        OrnessOrchestrator:
+          target:
+            type: custom-orchestrator
+            endpoint:
+              uri: demo-orchestrator-service.service.gandalf
+
+
