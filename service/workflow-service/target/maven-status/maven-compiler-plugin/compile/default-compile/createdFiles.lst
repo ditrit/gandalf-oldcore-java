@@ -1,0 +1,3 @@
+com\orness\gandalf\core\service\workflowservice\sample\WorkflowServiceSample.class
+com\orness\gandalf\core\service\workflowservice\WorkflowServiceApplication.class
+com\orness\gandalf\core\service\workflowservice\manager\WorkflowManager.class

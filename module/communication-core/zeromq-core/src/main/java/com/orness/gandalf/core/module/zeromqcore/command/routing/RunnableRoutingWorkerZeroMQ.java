@@ -48,6 +48,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
                     // Receive broker message
                     brokerMessage = ZMsg.recvMsg(this.frontEndRoutingWorker);
                     more = this.frontEndRoutingWorker.hasReceiveMore();
+                    System.out.println("COMMAND CLUSTER");
                     System.out.println(brokerMessage);
                     System.out.println(more);
 
@@ -69,6 +70,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
                     // Receive command message
                     workerMessage = ZMsg.recvMsg(this.backEndRoutingWorker);
                     more = this.backEndRoutingWorker.hasReceiveMore();
+                    System.out.println("COMMAND WORKER");
                     System.out.println(workerMessage);
                     System.out.println(more);
 

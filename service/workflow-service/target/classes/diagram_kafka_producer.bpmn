@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0llsvkf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.6.2">
+  <bpmn:process id="Process_1t5fvfa" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_17i140z</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ServiceTask_1wy28kx" name="print">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="print" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_17i140z</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0jpsdsd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_17i140z" sourceRef="StartEvent_1" targetRef="ServiceTask_1wy28kx" />
+    <bpmn:serviceTask id="ServiceTask_0x1cdiq" name="kafka_producer">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="kafka_producer" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0jpsdsd</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1tm0c0x</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0jpsdsd" sourceRef="ServiceTask_1wy28kx" targetRef="ServiceTask_0x1cdiq" />
+    <bpmn:endEvent id="EndEvent_1v6ek36">
+      <bpmn:incoming>SequenceFlow_1tm0c0x</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1tm0c0x" sourceRef="ServiceTask_0x1cdiq" targetRef="EndEvent_1v6ek36" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1t5fvfa">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="103" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1wy28kx_di" bpmnElement="ServiceTask_1wy28kx">
+        <dc:Bounds x="265" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_17i140z_di" bpmnElement="SequenceFlow_17i140z">
+        <di:waypoint x="215" y="121" />
+        <di:waypoint x="265" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0x1cdiq_di" bpmnElement="ServiceTask_0x1cdiq">
+        <dc:Bounds x="415" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0jpsdsd_di" bpmnElement="SequenceFlow_0jpsdsd">
+        <di:waypoint x="365" y="121" />
+        <di:waypoint x="415" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1v6ek36_di" bpmnElement="EndEvent_1v6ek36">
+        <dc:Bounds x="565" y="103" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1tm0c0x_di" bpmnElement="SequenceFlow_1tm0c0x">
+        <di:waypoint x="515" y="121" />
+        <di:waypoint x="565" y="121" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

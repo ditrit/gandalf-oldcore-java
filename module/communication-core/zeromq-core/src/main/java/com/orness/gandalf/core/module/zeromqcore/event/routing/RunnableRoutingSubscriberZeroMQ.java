@@ -37,6 +37,7 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
                 while (true) {
                     // Receive broker message
                     publish = ZMsg.recvMsg(this.frontEndRoutingSubscriber);
+                    System.out.println("PUBLISH CLUSTER");
                     System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted

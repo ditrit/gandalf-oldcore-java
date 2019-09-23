@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1hvpoo3" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.6.2">
+  <bpmn:process id="Process_0fdsxw8" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_10hkwmy</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:receiveTask id="ReceiveTask_1d8unxo" name="message" messageRef="Message_0sq94vw">
+      <bpmn:incoming>SequenceFlow_10hkwmy</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ppfbze</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="SequenceFlow_10hkwmy" sourceRef="StartEvent_1" targetRef="ReceiveTask_1d8unxo" />
+    <bpmn:serviceTask id="ServiceTask_0kzsz16" name="print">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="print" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0ppfbze</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0zy2mwy</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0ppfbze" sourceRef="ReceiveTask_1d8unxo" targetRef="ServiceTask_0kzsz16" />
+    <bpmn:serviceTask id="ServiceTask_1mfc1vl" name="kafka_producer">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="kafka_producer" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0zy2mwy</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_073di2e</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0zy2mwy" sourceRef="ServiceTask_0kzsz16" targetRef="ServiceTask_1mfc1vl" />
+    <bpmn:endEvent id="EndEvent_0q5j1ql">
+      <bpmn:incoming>SequenceFlow_073di2e</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_073di2e" sourceRef="ServiceTask_1mfc1vl" targetRef="EndEvent_0q5j1ql" />
+  </bpmn:process>
+  <bpmn:message id="Message_0sq94vw" name="message">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="listen_topic" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0fdsxw8">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="103" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReceiveTask_1d8unxo_di" bpmnElement="ReceiveTask_1d8unxo">
+        <dc:Bounds x="265" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_10hkwmy_di" bpmnElement="SequenceFlow_10hkwmy">
+        <di:waypoint x="215" y="121" />
+        <di:waypoint x="265" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0kzsz16_di" bpmnElement="ServiceTask_0kzsz16">
+        <dc:Bounds x="415" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ppfbze_di" bpmnElement="SequenceFlow_0ppfbze">
+        <di:waypoint x="365" y="121" />
+        <di:waypoint x="415" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1mfc1vl_di" bpmnElement="ServiceTask_1mfc1vl">
+        <dc:Bounds x="565" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zy2mwy_di" bpmnElement="SequenceFlow_0zy2mwy">
+        <di:waypoint x="515" y="121" />
+        <di:waypoint x="565" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0q5j1ql_di" bpmnElement="EndEvent_0q5j1ql">
+        <dc:Bounds x="715" y="103" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_073di2e_di" bpmnElement="SequenceFlow_073di2e">
+        <di:waypoint x="665" y="121" />
+        <di:waypoint x="715" y="121" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
