@@ -24,7 +24,7 @@ public abstract class RoutingWorkerZeroMQ {
         this.frontEndRoutingWorker.setIdentity(this.routingWorkerConnector.getBytes(ZMQ.CHARSET));
         this.frontEndRoutingWorkerConnections = frontEndRoutingWorkerConnections;
         for(String connection : this.frontEndRoutingWorkerConnections) {
-            System.out.println("WorkerZeroMQ connect to frontEndRoutingWorkerConnections: " + connection);
+            System.out.println("RoutingWorkerZeroMQ connect to frontEndRoutingWorkerConnections: " + connection);
             this.frontEndRoutingWorker.connect(connection);
         }
 
@@ -32,7 +32,7 @@ public abstract class RoutingWorkerZeroMQ {
         this.backEndRoutingWorker = this.context.createSocket(SocketType.ROUTER);
         this.backEndRoutingWorker.setIdentity(this.routingWorkerConnector.getBytes(ZMQ.CHARSET));
         this.backEndRoutingWorkerConnection = backEndRoutingWorkerConnection;
-        System.out.println("WorkerZeroMQ binding to backEndRoutingWorkerConnection: " + this.backEndRoutingWorkerConnection);
+        System.out.println("RoutingWorkerZeroMQ binding to backEndRoutingWorkerConnection: " + this.backEndRoutingWorkerConnection);
         this.backEndRoutingWorker.bind(this.backEndRoutingWorkerConnection);
     }
 
