@@ -94,8 +94,8 @@ public class RegisterJob implements JobHandler {
             System.out.println("NULL");
         }*/
         //System.out.println(resultCommand);
-        //succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
-        //System.out.println("SUCCES");
+        //succes &= resultCommand.getLast().toString().equals("SUCCESS") ? true : false;
+        //System.out.println("SUCCESS");
         //System.out.println(succes);
 
         //SEND REGISTER
@@ -108,8 +108,8 @@ public class RegisterJob implements JobHandler {
             resultCommand = this.gandalfClient.getCommandResult();
         }*/
         System.out.println(resultCommand);
-        succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
-        System.out.println("SUCCES");
+        succes &= resultCommand.getLast().toString().equals("SUCCESS") ? true : false;
+        System.out.println("SUCCESS");
         System.out.println(succes);
 
         if(succes) {

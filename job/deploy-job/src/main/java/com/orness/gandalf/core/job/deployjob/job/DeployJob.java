@@ -85,8 +85,8 @@ public class DeployJob implements JobHandler {
             resultCommand = this.gandalfClient.getCommandResultAsync();
         }*/
         System.out.println(resultCommand);
-        succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
-        System.out.println("SUCCES");
+        succes &= resultCommand.getLast().toString().equals("SUCCESS") ? true : false;
+        System.out.println("SUCCESS");
         System.out.println(succes);
 
         if(succes) {
