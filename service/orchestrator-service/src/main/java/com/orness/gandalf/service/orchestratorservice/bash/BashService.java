@@ -111,7 +111,7 @@ public class BashService {
 
     private String getFileAbsolutePathFromResources(String fileName) {
         try {
-            return new ClassPathResource("script/"+fileName).getFile().getAbsolutePath();
+            return new ClassPathResource("script/"+fileName).getFile().getCanonicalPath();
         } catch (IOException e) {
             e.printStackTrace();
         }
