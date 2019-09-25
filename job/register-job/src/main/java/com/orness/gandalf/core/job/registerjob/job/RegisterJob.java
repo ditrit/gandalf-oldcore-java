@@ -83,33 +83,33 @@ public class RegisterJob implements JobHandler {
 
         //ORCHESTRATOR
         //SEND DOWNLOAD
-        JsonObject payloadDownload = new JsonObject();
-        payloadDownload.addProperty("project_url", projectUrl);
-        payloadDownload.addProperty("conf_url", confUrl);
+        //JsonObject payloadDownload = new JsonObject();
+        //payloadDownload.addProperty("project_url", projectUrl);
+        //payloadDownload.addProperty("conf_url", confUrl);
 
-        ZMsg resultCommand = this.gandalfClient.sendCommandSync("download", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DOWNLOAD", "5", payloadDownload.toString());
+        //ZMsg resultCommand = this.gandalfClient.sendCommandSync("download", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DOWNLOAD", "5", payloadDownload.toString());
 /*        ZMsg resultCommand = null;
         while(resultCommand == null) {
             resultCommand = this.gandalfClient.getCommandResult();
             System.out.println("NULL");
         }*/
-        System.out.println(resultCommand);
-        succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
-        System.out.println("SUCCES");
-        System.out.println(succes);
+        //System.out.println(resultCommand);
+        //succes &= resultCommand.getLast().toString().equals("SUCCESS") ? true : false;
+        //System.out.println("SUCCESS");
+        //System.out.println(succes);
 
         //SEND REGISTER
         JsonObject payloadRegister = new JsonObject();
         payloadRegister.addProperty("service", projectName);
         payloadRegister.addProperty("version", projectVersion);
 
-        resultCommand = this.gandalfClient.sendCommandSync("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "REGISTER", "5", payloadRegister.toString());
+        ZMsg resultCommand = this.gandalfClient.sendCommandSync("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "REGISTER", "5", payloadRegister.toString());
 /*        while(resultCommand == null) {
             resultCommand = this.gandalfClient.getCommandResult();
         }*/
         System.out.println(resultCommand);
-        succes &= resultCommand.getLast().toString().equals("SUCCES") ? true : false;
-        System.out.println("SUCCES");
+        succes &= resultCommand.getLast().toString().equals("SUCCESS") ? true : false;
+        System.out.println("SUCCESS");
         System.out.println(succes);
 
         if(succes) {
