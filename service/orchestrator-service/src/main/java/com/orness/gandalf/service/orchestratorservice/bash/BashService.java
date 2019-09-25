@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,7 +21,8 @@ public class BashService {
     public boolean execute(String service, String command) {
         Process process;
         try {
-            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_COMMAND_FILE, command, service).start();
+            //process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_COMMAND_FILE, command, service).start();
+            process = new ProcessBuilder(this.getFileAbsolutePathFromResources(SCRIPT_COMMAND_FILE), command, service).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -32,7 +34,8 @@ public class BashService {
     public boolean register(String service, String version) {
         Process process;
         try {
-            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
+            //process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
+            process = new ProcessBuilder(this.getFileAbsolutePathFromResources(SCRIPT_REGISTER_FILE), service, version).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -44,7 +47,8 @@ public class BashService {
     public boolean unregister(String service, String version) {
         Process process;
         try {
-            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
+            //process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
+            process = new ProcessBuilder(this.getFileAbsolutePathFromResources(SCRIPT_REGISTER_FILE), service, version).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -56,6 +60,7 @@ public class BashService {
     public boolean untarProject(String projectName, String version) {
         Process process;
         try {
+            //process = new ProcessBuilder("bash", "-c", SCRIPT_UNTAR + projectName + "_" + version + ".tar.gz").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process = new ProcessBuilder("bash", "-c", SCRIPT_UNTAR + projectName + "_" + version + ".tar.gz").directory(new File(SCRIPT_BUILD_DIRECTORY)).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
@@ -101,5 +106,16 @@ public class BashService {
             return false;
         }
         return process.exitValue() == 0 ? true : false;
+    }
+
+    private String getFileAbsolutePathFromResources(String fileName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource("script/"+fileName);
+        if (resource == null) {
+            throw new IllegalArgumentException("file is not found!");
+        } else {
+            return new File(resource.getFile()).getAbsolutePath();
+        }
+
     }
 }
