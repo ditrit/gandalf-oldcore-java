@@ -36,6 +36,8 @@ public class BashService {
         Process process;
         try {
             //process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
+            System.out.println("PATH");
+            System.out.println(this.getFileAbsolutePathFromResources(SCRIPT_REGISTER_FILE));
             process = new ProcessBuilder(this.getFileAbsolutePathFromResources(SCRIPT_REGISTER_FILE), service, version).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
@@ -111,7 +113,7 @@ public class BashService {
 
     private String getFileAbsolutePathFromResources(String fileName) {
         try {
-            return new ClassPathResource("script/"+fileName).getFile().getCanonicalPath();
+            return new ClassPathResource("script/"+fileName).getFile().getPath();
         } catch (IOException e) {
             e.printStackTrace();
         }
