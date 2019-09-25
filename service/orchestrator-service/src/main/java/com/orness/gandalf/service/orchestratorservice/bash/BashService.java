@@ -112,11 +112,6 @@ public class BashService {
     }
 
     private String getFileAbsolutePathFromResources(String fileName) {
-        try {
-            return new ClassPathResource("script/"+fileName).getFile().getPath();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return "/opt/orchestrator-service/classes/script/" + fileName;
     }
 }
