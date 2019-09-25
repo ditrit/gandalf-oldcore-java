@@ -1,6 +1,7 @@
 package com.orness.gandalf.service.orchestratorservice.bash;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -109,13 +110,10 @@ public class BashService {
     }
 
     private String getFileAbsolutePathFromResources(String fileName) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource("script/"+fileName);
-        if (resource == null) {
-            throw new IllegalArgumentException("file is not found!");
-        } else {
-            return new File(resource.getFile()).getAbsolutePath();
+        try {
+            return new ClassPathResource("script/"+fileName).getFile().getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 }
