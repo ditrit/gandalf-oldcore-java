@@ -115,5 +115,6 @@ public class BashService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
