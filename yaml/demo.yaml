@@ -31,6 +31,6 @@ instances:
           target:
             type: custom-orchestrator
             endpoint:
-              uri: demo-orchestrator-service.service.gandalf
+                    uri: http://demo-orchestrator-service.service.gandalf:8080
 
 
