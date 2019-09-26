@@ -23,7 +23,7 @@ public class BashService {
         Process process;
         try {
             //process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_COMMAND_FILE, command, service).start();
-            process = new ProcessBuilder(SCRIPT_COMMAND_FILE, command, service).directory(new File(SCRIPT_RESSOURCES_DIRECTORY)).start();
+            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + SCRIPT_COMMAND_FILE, command, service).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -38,7 +38,7 @@ public class BashService {
             //process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
             System.out.println("PATH");
             System.out.println(this.getFileAbsolutePathFromResources(SCRIPT_REGISTER_FILE));
-            process = new ProcessBuilder(SCRIPT_REGISTER_FILE, service, version).directory(new File(SCRIPT_RESSOURCES_DIRECTORY)).start();
+            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + SCRIPT_REGISTER_FILE, service, version).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -51,7 +51,7 @@ public class BashService {
         Process process;
         try {
             //process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
-            process = new ProcessBuilder(SCRIPT_REGISTER_FILE, service, version).directory(new File(SCRIPT_RESSOURCES_DIRECTORY)).start();
+            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + SCRIPT_REGISTER_FILE, service, version).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
