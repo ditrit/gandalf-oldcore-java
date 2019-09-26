@@ -1,6 +1,7 @@
 package com.orness.gandalf.service.orchestratorservice.bash;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -22,7 +23,7 @@ public class BashService {
         Process process;
         try {
             //process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_COMMAND_FILE, command, service).start();
-            process = new ProcessBuilder(this.getFileAbsolutePathFromResources(SCRIPT_COMMAND_FILE), command, service).start();
+            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + SCRIPT_COMMAND_FILE, command, service).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -35,7 +36,9 @@ public class BashService {
         Process process;
         try {
             //process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
-            process = new ProcessBuilder(this.getFileAbsolutePathFromResources(SCRIPT_REGISTER_FILE), service, version).start();
+            System.out.println("PATH");
+            System.out.println(this.getFileAbsolutePathFromResources(SCRIPT_REGISTER_FILE));
+            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + SCRIPT_REGISTER_FILE, service, version).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -48,7 +51,7 @@ public class BashService {
         Process process;
         try {
             //process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + "/" + SCRIPT_REGISTER_FILE, service, version).start();
-            process = new ProcessBuilder(this.getFileAbsolutePathFromResources(SCRIPT_REGISTER_FILE), service, version).start();
+            process = new ProcessBuilder(SCRIPT_RESSOURCES_DIRECTORY + SCRIPT_REGISTER_FILE, service, version).start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -109,13 +112,6 @@ public class BashService {
     }
 
     private String getFileAbsolutePathFromResources(String fileName) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource("script/"+fileName);
-        if (resource == null) {
-            throw new IllegalArgumentException("file is not found!");
-        } else {
-            return new File(resource.getFile()).getAbsolutePath();
-        }
-
+        return "/opt/orchestrator-service/classes/script/" + fileName;
     }
 }

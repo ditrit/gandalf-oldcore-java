@@ -28,7 +28,7 @@ wget -O $tmp_tar $svc_tar
 
 echo "#!/bin/bash" > $tmp_sh
 cat $tmp_vars >> $tmp_sh
-cat ./service.script >> $tmp_sh
+cat /opt/orchestrator-service/classes/script/service.script >> $tmp_sh
 chmod a+x $tmp_sh
 ssh $lxc_host rm $svc_sh
 ssh $lxc_host mkdir -p /tmp/$svc_name
