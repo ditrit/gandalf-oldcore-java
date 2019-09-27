@@ -54,7 +54,7 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
         JsonObject payload = new JsonObject();
         StringBuilder topic = new StringBuilder(jsonObjectRepository.get("name").getAsString()).append(".").append(jsonObjectProject.get("name").getAsString());
         payload.addProperty("correlation_key", topic.toString());
-        payload.addProperty("project_url", jsonObjectProject.get("git_ssh_url").getAsString());
+        payload.addProperty("project_url", jsonObjectProject.get("git_http_url").getAsString());
         payload.addProperty("project_name", jsonObjectProject.get("name").getAsString());
         System.out.println("SEND");
         System.out.println(topic.toString());
