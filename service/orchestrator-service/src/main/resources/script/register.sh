@@ -5,7 +5,7 @@ svc_version=$2
 tmp_sh=/tmp/$1_$2.script
 svc_sh=/usr/local/bin/manage_$1.sh
 tmp_vars=/tmp/$1_$2.vars
-lxc_host=192.168.3.205
+lxc_host=192.168.3.204
 
 usage() {
   echo Register a service 
