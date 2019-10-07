@@ -29,11 +29,15 @@ public class ConnectorProperties {
 
     @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndConnection:tcp://127.0.0.1:9020}")
     private String connectorCommandBackEndConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndConnection:tcp://127.0.0.1:9021}")
-    private String connectorEventBackEndConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://127.0.0.1:9021}")
+    private String connectorEventBackEndReceiveConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://127.0.0.1:9022}")
+    private String connectorEventBackEndSendConnection;
 
-    private List<String> connectorCommandFrontEndConnection;
-    private String connectorEventFrontEndConnection;
+    private List<String> connectorCommandFrontEndReceiveConnections;
+    private List<String> connectorCommandFrontEndSendConnections;
+    private String connectorEventFrontEndReceiveConnection;
+    private String connectorEventFrontEndSendConnection;
 
     public ConnectorProperties() {
         this.restTemplate = new RestTemplate();
@@ -46,17 +50,29 @@ public class ConnectorProperties {
     }
 
     private void initProperties() {
-        //CONNECTEUR COMMAND FRONT
+        //CONNECTEUR COMMAND RECEIVE FRONT
         JsonArray currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_BACKEND);
-        this.connectorCommandFrontEndConnection = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
+        this.connectorCommandFrontEndReceiveConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
                .map(JsonObject.class::cast)
                .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
                .collect(Collectors.toList());
 
-        //CONNECTEUR EVENT FRONT
+        //CONNECTEUR COMMAND SEND FRONT
+        currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_FRONTEND);
+        this.connectorCommandFrontEndSendConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
+                .map(JsonObject.class::cast)
+                .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
+                .collect(Collectors.toList());
+
+        //CONNECTEUR EVENT RECEIVE FRONT
         currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_BACKEND);
         JsonObject currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
-        this.connectorEventFrontEndConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
+        this.connectorEventFrontEndReceiveConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
+
+        //CONNECTEUR EVENT SEND FRONT
+        currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_FRONTEND);
+        currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
+        this.connectorEventFrontEndSendConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
 
         //CONNECTEUR COMMAND BACK
         //this.connectorCommandBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonArray.get(0).getAsJsonObject().get(GANDALF_CLUSTER_PORT));
@@ -98,12 +114,20 @@ public class ConnectorProperties {
         this.connectorCommandBackEndConnection = connectorCommandBackEndConnection;
     }
 
-    public String getConnectorEventBackEndConnection() {
-        return connectorEventBackEndConnection;
+    public String getConnectorEventBackEndReceiveConnection() {
+        return connectorEventBackEndReceiveConnection;
     }
 
-    public void setConnectorEventBackEndConnection(String connectorEventBackEndConnection) {
-        this.connectorEventBackEndConnection = connectorEventBackEndConnection;
+    public void setConnectorEventBackEndReceiveConnection(String connectorEventBackEndReceiveConnection) {
+        this.connectorEventBackEndReceiveConnection = connectorEventBackEndReceiveConnection;
+    }
+
+    public String getConnectorEventBackEndSendConnection() {
+        return connectorEventBackEndSendConnection;
+    }
+
+    public void setConnectorEventBackEndSendConnection(String connectorEventBackEndSendConnection) {
+        this.connectorEventBackEndSendConnection = connectorEventBackEndSendConnection;
     }
 
     public List<String> getTopics() {
@@ -114,19 +138,35 @@ public class ConnectorProperties {
         this.topics = topics;
     }
 
-    public List<String> getConnectorCommandFrontEndConnection() {
-        return connectorCommandFrontEndConnection;
+    public List<String> getConnectorCommandFrontEndReceiveConnections() {
+        return connectorCommandFrontEndReceiveConnections;
     }
 
-    public void setConnectorCommandFrontEndConnection(List<String> connectorCommandFrontEndConnection) {
-        this.connectorCommandFrontEndConnection = connectorCommandFrontEndConnection;
+    public void setConnectorCommandFrontEndReceiveConnections(List<String> connectorCommandFrontEndReceiveConnections) {
+        this.connectorCommandFrontEndReceiveConnections = connectorCommandFrontEndReceiveConnections;
     }
 
-    public String getConnectorEventFrontEndConnection() {
-        return connectorEventFrontEndConnection;
+    public List<String> getConnectorCommandFrontEndSendConnections() {
+        return connectorCommandFrontEndSendConnections;
     }
 
-    public void setConnectorEventFrontEndConnection(String connectorEventFrontEndConnection) {
-        this.connectorEventFrontEndConnection = connectorEventFrontEndConnection;
+    public void setConnectorCommandFrontEndSendConnections(List<String> connectorCommandFrontEndSendConnections) {
+        this.connectorCommandFrontEndSendConnections = connectorCommandFrontEndSendConnections;
+    }
+
+    public String getConnectorEventFrontEndReceiveConnection() {
+        return connectorEventFrontEndReceiveConnection;
+    }
+
+    public void setConnectorEventFrontEndReceiveConnection(String connectorEventFrontEndReceiveConnection) {
+        this.connectorEventFrontEndReceiveConnection = connectorEventFrontEndReceiveConnection;
+    }
+
+    public String getConnectorEventFrontEndSendConnection() {
+        return connectorEventFrontEndSendConnection;
+    }
+
+    public void setConnectorEventFrontEndSendConnection(String connectorEventFrontEndSendConnection) {
+        this.connectorEventFrontEndSendConnection = connectorEventFrontEndSendConnection;
     }
 }

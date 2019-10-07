@@ -6,7 +6,6 @@ import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,14 +16,31 @@ public class ThreadClientZeroMQ extends Thread {
     protected ZContext context;
     protected ZMQ.Socket backEndClient;
     private List<String> backEndClientConnections;
+    private String backEndClientConnection;
     protected String identity;
     private LinkedList<ZMsg> responses;
 
-    public ThreadClientZeroMQ(String identity, List<String> backEndClientConnections) {
-        this.init(identity, backEndClientConnections);
+    public ThreadClientZeroMQ(String identity, String backEndClientConnection) {
+        this.init(identity, backEndClientConnection);
     }
 
-    protected void init(String identity, List<String> backEndClientConnections) {
+    protected void init(String identity, String backEndClientConnection) {
+        this.context = new ZContext();
+        this.identity = identity;
+        responses = new LinkedList<>();
+
+        //Broker
+        this.backEndClient = this.context.createSocket(SocketType.DEALER);
+        this.backEndClient.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
+        this.backEndClientConnection = backEndClientConnection;
+        this.backEndClient.connect( this.backEndClientConnection);
+    }
+
+    public ThreadClientZeroMQ(String identity, List<String> backEndClientConnections) {
+        this.initList(identity, backEndClientConnections);
+    }
+
+    protected void initList(String identity, List<String> backEndClientConnections) {
         this.context = new ZContext();
         this.identity = identity;
         responses = new LinkedList<>();

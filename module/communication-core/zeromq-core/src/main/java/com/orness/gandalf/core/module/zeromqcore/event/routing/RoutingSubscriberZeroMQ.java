@@ -7,38 +7,59 @@ import org.zeromq.ZMQ;
 public abstract class RoutingSubscriberZeroMQ {
 
     protected ZContext context;
-    protected ZMQ.Socket frontEndRoutingSubscriber;
-    protected String frontEndRoutingSubscriberConnection;
-    protected ZMQ.Socket backEndRoutingSubscriber;
-    protected String backEndRoutingSubscriberConnection;
+    protected ZMQ.Socket frontEndSendRoutingSubscriber;
+    protected String frontEndSendRoutingSubscriberConnection;
+    protected ZMQ.Socket frontEndReceiveRoutingSubscriber;
+    protected String frontEndReceiveRoutingSubscriberConnection;
+    protected ZMQ.Socket backEndSendRoutingSubscriber;
+    protected String backEndSendRoutingSubscriberConnection;
+    protected ZMQ.Socket backEndReceiveRoutingSubscriber;
+    protected String backEndReceiveRoutingSubscriberConnection;
     protected String routingSubscriberConnector;
 
-    protected void init(String routingSubscriberConnector, String frontEndRoutingSubscriberConnection, String backEndSubscriberConnection) {
+    protected void init(String routingSubscriberConnector, String frontEndSendRoutingSubscriberConnection, String backEndSendRoutingSubscriberConnection, String frontEndReceiveRoutingSubscriberConnection, String backEndReceiveRoutingSubscriberConnection) {
         this.context = new ZContext();
         this.routingSubscriberConnector = routingSubscriberConnector;
-        //Proxy
-        this.frontEndRoutingSubscriber = this.context.createSocket(SocketType.SUB);
-        this.frontEndRoutingSubscriberConnection = frontEndRoutingSubscriberConnection;
-        System.out.println("RoutingSubscriberZeroMQ connect to frontEndRoutingSubscriberConnection: " + this.frontEndRoutingSubscriberConnection);
-        this.frontEndRoutingSubscriber.connect(this.frontEndRoutingSubscriberConnection);
-        //Worker
-        this.backEndRoutingSubscriber = this.context.createSocket(SocketType.XPUB);
-        this.backEndRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
-        this.backEndRoutingSubscriberConnection = backEndSubscriberConnection;
-        System.out.println("RoutingSubscriberZeroMQ binding to backEndRoutingSubscriberConnection: " + this.backEndRoutingSubscriberConnection);
-        this.backEndRoutingSubscriber.bind(this.backEndRoutingSubscriberConnection);
+
+        //Send Proxy
+        this.frontEndSendRoutingSubscriber = this.context.createSocket(SocketType.PUB);
+        this.frontEndSendRoutingSubscriberConnection = frontEndSendRoutingSubscriberConnection;
+        System.out.println("RoutingSubscriberZeroMQ connect to frontEndSendRoutingSubscriberConnection: " + this.frontEndSendRoutingSubscriberConnection);
+        this.frontEndSendRoutingSubscriber.connect(this.frontEndSendRoutingSubscriberConnection);
+
+        //Receive Proxy
+        this.frontEndReceiveRoutingSubscriber = this.context.createSocket(SocketType.SUB);
+        this.frontEndReceiveRoutingSubscriberConnection = frontEndReceiveRoutingSubscriberConnection;
+        System.out.println("RoutingSubscriberZeroMQ connect to frontEndReceiveRoutingSubscriberConnection: " + this.frontEndReceiveRoutingSubscriberConnection);
+        this.frontEndReceiveRoutingSubscriber.connect(this.frontEndReceiveRoutingSubscriberConnection);
+
+        //Send Worker
+        this.backEndSendRoutingSubscriber = this.context.createSocket(SocketType.XSUB);
+        this.backEndSendRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
+        this.backEndSendRoutingSubscriberConnection = backEndSendRoutingSubscriberConnection;
+        System.out.println("RoutingSubscriberZeroMQ binding to backEndSendRoutingSubscriberConnection: " + this.backEndSendRoutingSubscriberConnection);
+        this.backEndSendRoutingSubscriber.bind(this.backEndSendRoutingSubscriberConnection);
+
+        //Receive Worker
+        this.backEndReceiveRoutingSubscriber = this.context.createSocket(SocketType.XPUB);
+        this.backEndReceiveRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
+        this.backEndReceiveRoutingSubscriberConnection = backEndReceiveRoutingSubscriberConnection;
+        System.out.println("RoutingSubscriberZeroMQ binding to backEndReceiveRoutingSubscriberConnection: " + this.backEndReceiveRoutingSubscriberConnection);
+        this.backEndReceiveRoutingSubscriber.bind(this.backEndReceiveRoutingSubscriberConnection);
     }
 
     public void close() {
-        this.frontEndRoutingSubscriber.close();
-        this.backEndRoutingSubscriber.close();
+        this.frontEndSendRoutingSubscriber.close();
+        this.backEndSendRoutingSubscriber.close();
+        this.frontEndReceiveRoutingSubscriber.close();
+        this.backEndReceiveRoutingSubscriber.close();
         this.context.close();
     }
 
     protected void reconnectToProxy() {
-        if (this.frontEndRoutingSubscriberConnection != null) {
-            this.context.destroySocket(frontEndRoutingSubscriber);
+        if (this.frontEndReceiveRoutingSubscriberConnection != null) {
+            this.context.destroySocket(frontEndReceiveRoutingSubscriber);
         }
-        this.init(this.routingSubscriberConnector, this.frontEndRoutingSubscriberConnection, this.backEndRoutingSubscriberConnection);
+        this.init(this.routingSubscriberConnector, this.frontEndSendRoutingSubscriberConnection, this.backEndSendRoutingSubscriberConnection , this.frontEndReceiveRoutingSubscriberConnection, this.backEndReceiveRoutingSubscriberConnection);
     }
 }

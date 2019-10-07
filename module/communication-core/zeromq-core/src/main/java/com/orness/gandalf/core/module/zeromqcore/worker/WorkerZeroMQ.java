@@ -14,29 +14,30 @@ public abstract class WorkerZeroMQ {
     protected ZContext context;
     //TODO MULTIPLE
     protected ZMQ.Socket frontEndWorker;
-    protected String frontEndWorkerConnections; //IPC
+    protected String frontEndWorkerConnection;
     protected ZMQ.Socket frontEndSubscriberWorker;
-    protected String frontEndSubscriberWorkerConnections; //IPC
+    protected String frontEndSubscriberWorkerConnection;
     protected String workerServiceClass;
 
-    protected void init(String workerServiceClass, String frontEndWorkerConnections, String frontEndSubscriberWorkerConnections) {
+    protected void init(String workerServiceClass, String frontEndWorkerConnection, String frontEndSubscriberWorkerConnection) {
         this.context = new ZContext();
         this.workerServiceClass = workerServiceClass;
         //this.workerServiceClassType = workerServiceClassType;
 
-        //Worker
+        //Command Worker
         this.frontEndWorker = this.context.createSocket(SocketType.DEALER);
         this.frontEndWorker.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
-        this.frontEndWorkerConnections = frontEndWorkerConnections;
-        System.out.println("WorkerZeroMQ connect to: " + this.frontEndWorkerConnections);
-        this.frontEndWorker.connect(this.frontEndWorkerConnections);
+        this.frontEndWorkerConnection = frontEndWorkerConnection;
+        System.out.println("WorkerZeroMQ connect to: " + this.frontEndWorkerConnection);
+        this.frontEndWorker.connect(this.frontEndWorkerConnection);
 
-        //Worker
+
+        //Event Worker
         this.frontEndSubscriberWorker = this.context.createSocket(SocketType.SUB);
         this.frontEndSubscriberWorker.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
-        this.frontEndSubscriberWorkerConnections = frontEndSubscriberWorkerConnections;
-        System.out.println("WorkerZeroMQ connect to: " + this.frontEndSubscriberWorkerConnections);
-        this.frontEndSubscriberWorker.connect(this.frontEndSubscriberWorkerConnections);
+        this.frontEndSubscriberWorkerConnection = frontEndSubscriberWorkerConnection;
+        System.out.println("WorkerZeroMQ connect to: " + this.frontEndSubscriberWorkerConnection);
+        this.frontEndSubscriberWorker.connect(this.frontEndSubscriberWorkerConnection);
 
     }
 
