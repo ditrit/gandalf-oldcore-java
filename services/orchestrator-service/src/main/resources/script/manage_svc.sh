@@ -12,6 +12,6 @@ usage() {
 [ -z "$svc_name" ] && usage
 [ -z "$svc_cmd" ] && usage
 
-ssh root@192.168.3.206 /usr/local/bin/manage_$svc_name.sh $svc_cmd
+ssh root@192.168.3.204 /usr/local/bin/manage_$svc_name.sh $svc_cmd
 echo $?
 

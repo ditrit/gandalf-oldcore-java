@@ -3,10 +3,11 @@ package com.ditrit.gandalf.core.zeromqcore.worker;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
+//TODO REVOIR
 public abstract class RunnableCaptureWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
 
-    protected void initRunnable(String workerServiceClass, String frontEndWorkerConnections, String frontEndSubscriberWorkerConnections) {
-        this.init(workerServiceClass, frontEndWorkerConnections, frontEndSubscriberWorkerConnections);
+    protected void initRunnable(String workerServiceClass, String frontEndWorkerConnection, String frontEndSubscriberWorkerConnection) {
+        this.init(workerServiceClass, frontEndWorkerConnection, frontEndSubscriberWorkerConnection);
         this.frontEndSubscriberWorker.subscribe(ZMQ.SUBSCRIPTION_ALL);
     }
 
@@ -99,7 +100,7 @@ public abstract class RunnableCaptureWorkerZeroMQ extends WorkerZeroMQ implement
         if (this.frontEndWorker != null) {
             this.context.destroySocket(frontEndWorker);
         }
-        this.initRunnable(this.workerServiceClass, this.frontEndWorkerConnections, this.frontEndSubscriberWorkerConnections);
+        this.initRunnable(this.workerServiceClass, this.frontEndWorkerConnection, this.frontEndSubscriberWorkerConnection);
 
         // Register service with broker
         this.sendReadyCommand();

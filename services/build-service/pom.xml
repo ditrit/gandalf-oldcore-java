@@ -9,7 +9,7 @@
 	</parent>
 
 	<groupId>com.ditrit.gandalf.service</groupId>
-	<artifactId>build-services</artifactId>
+	<artifactId>build-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>build-service</name>
 	<description>Demo project for Spring Boot</description>
@@ -45,14 +45,14 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3.1</version>
 		</dependency>
-		<dependency>
+<!--		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		<!--<dependency>
+		</dependency>-->
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-consul-all</artifactId>
-		</dependency>-->
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-zipkin</artifactId>

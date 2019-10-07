@@ -1,3 +1,4 @@
+
 # expected env : VERSION, NAME, ARTIFACT, SCALING
 
 mkdir -p /etc/gandalf
@@ -11,7 +12,7 @@ usage() {
 svc_name=$NAME
 artifact_tar=${ARTIFACT}_${VERSION}.tar.gz
 pushd /tmp/$svc_name
-[ -d $svc_name ] || tar xf $artifact_tar
+[ -d $svc_name ] || tar -xf $artifact_tar
 popd
 
   cat > /tmp/$svc_name.sh <<EOF
@@ -29,7 +30,7 @@ EOB
 cat > /usr/local/bin/$svc_name << EOB
 #!/bin/bash
 
-java -jar /opt/$svc_name/*.jar
+java -jar /opt/$svc_name/target/*.jar
 EOB
 
 chmod a+rx /usr/local/bin/$svc_name
@@ -73,7 +74,7 @@ deploy_svc() {
   for inst_nb in `seq 1 $SCALING`
   do
     inst_name=${svc_name}-${inst_nb}
-    lxc launch gandalfimg $inst_name
+    lxc launch gandalf-client-img $inst_name
     lxc file push /tmp/$svc_name/$svc_name $inst_name/opt/ -p -r
     lxc file push /tmp/$svc_name.sh $inst_name/root/
     lxc exec $inst_name bash /root/$svc_name.sh 
@@ -173,7 +174,7 @@ scale_up_svc() {
     fi
     new_nb=`expr $nb + 1`
     inst_name=${svc_name}-${new_nb}
-    lxc launch gandalfimg $inst_name
+    lxc launch gandalf-client-img $inst_name
     lxc file push /tmp/$svc_name/ $inst_name/opt/ -p -r
     lxc file push /tmp/$svc_name.sh $inst_name/root/
     lxc exec $inst_name bash $svc_name.sh 

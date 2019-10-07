@@ -13,9 +13,9 @@ public class ConnectorKafkaProperties extends ConnectorBusProperties {
 
     private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.endpoint.";
 
-    @Value("${" + PROPERTIES_BASE + "synchronize.topics}")
+    @Value("${" + PROPERTIES_BASE + "synchronize.topics:test}")
     private List<String> synchronizeTopics;
-    @Value("${" + PROPERTIES_BASE + "group}")
+    @Value("${" + PROPERTIES_BASE + "group:kafka}")
     private String group;
 
     public String getGroup() {

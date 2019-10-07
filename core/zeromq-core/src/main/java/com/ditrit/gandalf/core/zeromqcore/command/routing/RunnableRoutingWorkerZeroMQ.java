@@ -21,8 +21,8 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
         this.serviceClassZMsgLinkedList = new HashMap<>();
     }
 
-    protected void initRunnable(String routingWorkerConnector, List<String> frontEndWorkerConnections, String backEndWorkerConnection) {
-        this.init(routingWorkerConnector, frontEndWorkerConnections, backEndWorkerConnection);
+    protected void initRunnable(String routingWorkerConnector, List<String> frontEndSendWorkerConnections, List<String> frontEndReceiveWorkerConnections, String backEndWorkerConnection) {
+        this.init(routingWorkerConnector, frontEndSendWorkerConnections, frontEndReceiveWorkerConnections, backEndWorkerConnection);
     }
 
     @Override
@@ -30,7 +30,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
 
         // Initialize poll set
         ZMQ.Poller poller = context.createPoller(2);
-        poller.register(this.frontEndRoutingWorker, ZMQ.Poller.POLLIN);
+        poller.register(this.frontEndReceiveRoutingWorker, ZMQ.Poller.POLLIN);
         poller.register(this.backEndRoutingWorker, ZMQ.Poller.POLLIN);
 
         ZMsg brokerMessage;
@@ -45,8 +45,9 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive broker message
-                    brokerMessage = ZMsg.recvMsg(this.frontEndRoutingWorker);
-                    more = this.frontEndRoutingWorker.hasReceiveMore();
+                    brokerMessage = ZMsg.recvMsg(this.frontEndReceiveRoutingWorker);
+                    more = this.frontEndReceiveRoutingWorker.hasReceiveMore();
+                    System.out.println("COMMAND CLUSTER");
                     System.out.println(brokerMessage);
                     System.out.println(more);
 
@@ -68,6 +69,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
                     // Receive command message
                     workerMessage = ZMsg.recvMsg(this.backEndRoutingWorker);
                     more = this.backEndRoutingWorker.hasReceiveMore();
+                    System.out.println("COMMAND WORKER");
                     System.out.println(workerMessage);
                     System.out.println(more);
 
@@ -129,7 +131,10 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
             System.out.println("ROUTING RESULT");
             System.out.println(workerMessage);
             workerMessage = this.updateHeaderWorkerMessage(workerMessage);
-            this.sendToBroker(workerMessage);
+            this.sendResponseToBroker(workerMessage);
+        }
+        else if(commandType.equals(COMMAND_CLIENT_SEND)) {
+            this.sendComandToBroker(workerMessage);
         }
         else {
             System.out.println("E: invalid message");
@@ -157,10 +162,17 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
         request.send(this.backEndRoutingWorker);
     }
 
-    private void sendToBroker(ZMsg response) {
+    private void sendResponseToBroker(ZMsg response) {
         //Worker
         System.out.println("SEND REP");
         System.out.println(response);
-        response.send(this.frontEndRoutingWorker);
+        response.send(this.frontEndReceiveRoutingWorker);
+    }
+
+    private void sendComandToBroker(ZMsg command) {
+        //Worker
+        System.out.println("SEND CMD");
+        System.out.println(command);
+        command.send(this.frontEndSendRoutingWorker);
     }
 }

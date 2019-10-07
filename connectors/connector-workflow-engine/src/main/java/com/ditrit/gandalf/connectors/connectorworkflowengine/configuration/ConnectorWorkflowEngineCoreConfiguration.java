@@ -27,7 +27,6 @@ public class ConnectorWorkflowEngineCoreConfiguration {
 
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
-
         ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
         pool.setCorePoolSize(10);
         pool.setMaxPoolSize(20);

@@ -14,17 +14,18 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
         mapper = new Gson();
     }
 
-    protected void initRunnable(String routingSubscriberConnector, String frontEndRoutingSubcriberConnection, String backEndRoutingSubscriberConnection) {
-        this.init(routingSubscriberConnector, frontEndRoutingSubcriberConnection, backEndRoutingSubscriberConnection);
-        this.frontEndRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
+    protected void initRunnable(String routingSubscriberConnector, String frontEndSendRoutingSubscriberConnection, String backEndSendRoutingSubscriberConnection, String frontEndReceiveRoutingSubscriberConnection, String backEndReceiveRoutingSubscriberConnection) {
+        this.init(routingSubscriberConnector, frontEndSendRoutingSubscriberConnection, backEndSendRoutingSubscriberConnection, frontEndReceiveRoutingSubscriberConnection, backEndReceiveRoutingSubscriberConnection);
+        this.frontEndReceiveRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
         //this.frontEndRoutingSubscriber.subscribe("test.Test".getBytes(ZMQ.CHARSET));
     }
 
     @Override
     public void run() {
         // Initialize poll set
-        ZMQ.Poller poller = context.createPoller(1);
-        poller.register(this.frontEndRoutingSubscriber, ZMQ.Poller.POLLIN);
+        ZMQ.Poller poller = context.createPoller(2);
+        poller.register(this.frontEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
+        //poller.register(this.frontEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
 
         ZMsg publish;
 
@@ -35,7 +36,8 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive broker message
-                    publish = ZMsg.recvMsg(this.frontEndRoutingSubscriber);
+                    publish = ZMsg.recvMsg(this.frontEndReceiveRoutingSubscriber);
+                    System.out.println("PUBLISH CLUSTER");
                     System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted
@@ -67,6 +69,11 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
 
     public void sendToWorker(ZMsg publish) {
         //Command
-        publish.send(this.backEndRoutingSubscriber);
+        publish.send(this.backEndReceiveRoutingSubscriber);
+    }
+
+    public void sendToProxy(ZMsg publish) {
+        //Command
+        publish.send(this.frontEndSendRoutingSubscriber);
     }
 }

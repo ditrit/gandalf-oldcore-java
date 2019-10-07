@@ -15,10 +15,10 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>workflow-service</module>
         <module>workflow-uid-service</module>
         <module>artifact-service</module>
         <module>orchestrator-service</module>
+        <module>workflow-service</module>
         <module>build-service</module>
     </modules>
 
