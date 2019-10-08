@@ -20,9 +20,8 @@ import javax.annotation.PreDestroy;
 import java.time.Duration;
 import java.util.Map;
 
-
 @Component
-@ComponentScan(basePackages = {"com.ditrit.gandalf.core.module.clientcore.library"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.core.clientcore.library"})
 public class DeployJob implements JobHandler {
 
     private ZeebeClient zeebe;
