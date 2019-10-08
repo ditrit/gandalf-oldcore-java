@@ -27,12 +27,15 @@ public class ConnectorProperties {
     //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndConnection:tcp://127.0.0.1:9020}")
-    private String connectorCommandBackEndConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://127.0.0.1:9021}")
-    private String connectorEventBackEndReceiveConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndSendConnection:tcp://127.0.0.1:9020}")
+    private String connectorCommandBackEndSendConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndReceiveConnection:tcp://127.0.0.1:9021}")
+    private String connectorCommandBackEndReceiveConnection;
     @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://127.0.0.1:9022}")
     private String connectorEventBackEndSendConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://127.0.0.1:9023}")
+    private String connectorEventBackEndReceiveConnection;
+
 
     private List<String> connectorCommandFrontEndReceiveConnections;
     private List<String> connectorCommandFrontEndSendConnections;
@@ -106,12 +109,20 @@ public class ConnectorProperties {
         this.connectorName = connectorName;
     }
 
-    public String getConnectorCommandBackEndConnection() {
-        return connectorCommandBackEndConnection;
+    public String getConnectorCommandBackEndSendConnection() {
+        return connectorCommandBackEndSendConnection;
     }
 
-    public void setConnectorCommandBackEndConnection(String connectorCommandBackEndConnection) {
-        this.connectorCommandBackEndConnection = connectorCommandBackEndConnection;
+    public void setConnectorCommandBackEndSendConnection(String connectorCommandBackEndSendConnection) {
+        this.connectorCommandBackEndSendConnection = connectorCommandBackEndSendConnection;
+    }
+
+    public String getConnectorCommandBackEndReceiveConnection() {
+        return connectorCommandBackEndReceiveConnection;
+    }
+
+    public void setConnectorCommandBackEndReceiveConnection(String connectorCommandBackEndReceiveConnection) {
+        this.connectorCommandBackEndReceiveConnection = connectorCommandBackEndReceiveConnection;
     }
 
     public String getConnectorEventBackEndReceiveConnection() {

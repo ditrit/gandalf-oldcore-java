@@ -66,7 +66,6 @@ public class ThreadListenerCommandZeroMQ extends Thread {
     }
 
     public void sendResultCommand(ZMsg request, boolean result) {
-        request.addFirst(Constant.COMMAND_COMMAND_RESULT);
         request.addLast(result ? "SUCCES": "FAIL");
         request.send(this.frontEndListener);
     }

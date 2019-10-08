@@ -13,11 +13,13 @@ public abstract class RoutingWorkerZeroMQ {
     private List<String> frontEndSendRoutingWorkerConnections;
     protected ZMQ.Socket frontEndReceiveRoutingWorker;
     private List<String> frontEndReceiveRoutingWorkerConnections;
-    protected ZMQ.Socket backEndRoutingWorker;
-    private String backEndRoutingWorkerConnection; //IPC
+    protected ZMQ.Socket backEndSendRoutingWorker;
+    private String backEndSendRoutingWorkerConnection; //IPC
+    protected ZMQ.Socket backEndReceiveRoutingWorker;
+    private String backEndReceiveRoutingWorkerConnection; //IPC
     protected String routingWorkerConnector;
 
-    protected void init(String routingWorkerConnector, List<String> frontEndSendRoutingWorkerConnections, List<String> frontEndReceiveRoutingWorkerConnections, String backEndRoutingWorkerConnection) {
+    protected void init(String routingWorkerConnector, List<String> frontEndSendRoutingWorkerConnections, List<String> frontEndReceiveRoutingWorkerConnections, String backEndSendRoutingWorkerConnection, String backEndReceiveRoutingWorkerConnection) {
         this.context = new ZContext();
         this.routingWorkerConnector = routingWorkerConnector;
 
@@ -39,17 +41,26 @@ public abstract class RoutingWorkerZeroMQ {
             this.frontEndReceiveRoutingWorker.connect(connection);
         }
 
-        //Worker
-        this.backEndRoutingWorker = this.context.createSocket(SocketType.ROUTER);
-        this.backEndRoutingWorker.setIdentity(this.routingWorkerConnector.getBytes(ZMQ.CHARSET));
-        this.backEndRoutingWorkerConnection = backEndRoutingWorkerConnection;
-        System.out.println("RoutingWorkerZeroMQ binding to backEndReceiveRoutingWorkerConnection: " + this.backEndRoutingWorkerConnection);
-        this.backEndRoutingWorker.bind(this.backEndRoutingWorkerConnection);
+        //Send Worker
+        this.backEndSendRoutingWorker = this.context.createSocket(SocketType.ROUTER);
+        this.backEndSendRoutingWorker.setIdentity(this.routingWorkerConnector.getBytes(ZMQ.CHARSET));
+        this.backEndSendRoutingWorkerConnection = backEndSendRoutingWorkerConnection;
+        System.out.println("RoutingWorkerZeroMQ binding to backEndSendRoutingWorkerConnection: " + this.backEndSendRoutingWorkerConnection);
+        this.backEndSendRoutingWorker.bind(this.backEndSendRoutingWorkerConnection);
+
+        //Receive Worker
+        this.backEndReceiveRoutingWorker = this.context.createSocket(SocketType.ROUTER);
+        this.backEndReceiveRoutingWorker.setIdentity(this.routingWorkerConnector.getBytes(ZMQ.CHARSET));
+        this.backEndReceiveRoutingWorkerConnection = backEndReceiveRoutingWorkerConnection;
+        System.out.println("RoutingWorkerZeroMQ binding to backEndReceiveRoutingWorkerConnection: " + this.backEndReceiveRoutingWorkerConnection);
+        this.backEndReceiveRoutingWorker.bind(this.backEndReceiveRoutingWorkerConnection);
     }
 
     public void close() {
+        this.frontEndSendRoutingWorker.close();
         this.frontEndReceiveRoutingWorker.close();
-        this.backEndRoutingWorker.close();
+        this.backEndSendRoutingWorker.close();
+        this.backEndReceiveRoutingWorker.close();
         this.context.close();
     }
 
@@ -57,7 +68,7 @@ public abstract class RoutingWorkerZeroMQ {
         if (this.frontEndReceiveRoutingWorker != null) {
             this.context.destroySocket(frontEndReceiveRoutingWorker);
         }
-        this.init(this.routingWorkerConnector, this.frontEndSendRoutingWorkerConnections, this.frontEndReceiveRoutingWorkerConnections, this.backEndRoutingWorkerConnection);
+        this.init(this.routingWorkerConnector, this.frontEndSendRoutingWorkerConnections, this.frontEndReceiveRoutingWorkerConnections, this.backEndSendRoutingWorkerConnection, this.backEndReceiveRoutingWorkerConnection);
         // Register service with broker
     }
 }

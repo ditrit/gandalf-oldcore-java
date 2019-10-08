@@ -11,8 +11,8 @@ public class WorkerClientProperties {
     @Value("${connector.name}")
     private String connectorName;
 
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndConnection:tcp://127.0.0.1:9020}")
-    private String connectorCommandBackEndConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndSendConnection:tcp://127.0.0.1:9020}")
+    private String connectorCommandBackEndSendConnection;
     @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://127.0.0.1:9022}")
     private String connectorEventBackEndSendConnection;
 
@@ -24,12 +24,12 @@ public class WorkerClientProperties {
         this.connectorName = connectorName;
     }
 
-    public String getConnectorCommandBackEndConnection() {
-        return connectorCommandBackEndConnection;
+    public String getConnectorCommandBackEndSendConnection() {
+        return connectorCommandBackEndSendConnection;
     }
 
-    public void setConnectorCommandBackEndConnection(String connectorCommandBackEndConnection) {
-        this.connectorCommandBackEndConnection = connectorCommandBackEndConnection;
+    public void setConnectorCommandBackEndSendConnection(String connectorCommandBackEndSendConnection) {
+        this.connectorCommandBackEndSendConnection = connectorCommandBackEndSendConnection;
     }
 
     public String getConnectorEventBackEndSendConnection() {

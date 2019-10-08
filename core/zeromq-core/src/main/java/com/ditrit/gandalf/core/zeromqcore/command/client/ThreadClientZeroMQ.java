@@ -57,7 +57,6 @@ public class ThreadClientZeroMQ extends Thread {
     public ZMsg sendCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        this.backEndClient.sendMore(Constant.COMMAND_CLIENT_SEND);
         this.backEndClient.sendMore(uuid);
         this.backEndClient.sendMore(this.identity);
         this.backEndClient.sendMore(connector);
@@ -72,7 +71,6 @@ public class ThreadClientZeroMQ extends Thread {
     public void sendCommandAsync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        this.backEndClient.sendMore(Constant.COMMAND_CLIENT_SEND);
         this.backEndClient.sendMore(uuid);
         this.backEndClient.sendMore(this.identity);
         this.backEndClient.sendMore(connector);

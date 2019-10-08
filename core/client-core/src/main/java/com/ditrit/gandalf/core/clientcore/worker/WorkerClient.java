@@ -18,7 +18,7 @@ public class WorkerClient {
     @Autowired
     public WorkerClient(WorkerClientProperties workerClientProperties) {
         this.workerClientProperties = workerClientProperties;
-        this.threadClientZeroMQ = new ThreadClientZeroMQ(this.workerClientProperties.getConnectorName(), this.workerClientProperties.getConnectorCommandBackEndConnection());
+        this.threadClientZeroMQ = new ThreadClientZeroMQ(this.workerClientProperties.getConnectorName(), this.workerClientProperties.getConnectorCommandBackEndSendConnection());
         this.publisherZeroMQ = new PublisherZeroMQ(this.workerClientProperties.getConnectorName(), this.workerClientProperties.getConnectorEventBackEndSendConnection());
     }
 

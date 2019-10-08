@@ -42,7 +42,6 @@ public class PublisherZeroMQ {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         this.backEndPublisher.sendMore(topic);
-        this.backEndPublisher.sendMore(Constant.EVENT_CLIENT_SEND);
         this.backEndPublisher.sendMore(event);
         this.backEndPublisher.sendMore(timeout);
         this.backEndPublisher.sendMore(timestamp.toString());

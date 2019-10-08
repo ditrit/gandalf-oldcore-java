@@ -54,16 +54,12 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
     }
 
     private void processProxyPublish(ZMsg publish) {
-        ZMsg publishBackup = publish.duplicate();
-        String topic = publishBackup.popString();
-        String commandType = publishBackup.popString();
-        if(commandType.equals(Constant.EVENT_CLIENT_SEND)) {
+        if(publish.size() == 5) {
             this.sendToWorker(publish);
         }
         else {
             System.out.println("E: invalid message");
         }
-        publishBackup.destroy();
         publish.destroy();
     }
 
