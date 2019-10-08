@@ -23,7 +23,7 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
     @Override
     public void run() {
         // Initialize poll set
-        ZMQ.Poller poller = context.createPoller(2);
+        ZMQ.Poller poller = context.createPoller(1);
         poller.register(this.frontEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
         //poller.register(this.frontEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
 

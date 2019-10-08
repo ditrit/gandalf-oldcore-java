@@ -142,6 +142,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
     }
 
     private void processWorkerSendMessage(ZMsg workerMessage) {
+        workerMessage = this.updateIdentityWorkerMessage(workerMessage);
         if(workerMessage.size() == 7) {
             this.sendComandToBroker(workerMessage);
         }
@@ -151,14 +152,16 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
         workerMessage.destroy();
     }
 
-    private ZMsg updateIdentityWorkerMessage(ZMsg command) {
-        String uuid = command.popString();
-        command.addFirst(this.routingWorkerConnector);
-        command.addFirst(uuid);
-        return command;
+    private ZMsg updateIdentityWorkerMessage(ZMsg workerMessage) {
+        String serviceClass = workerMessage.popString();
+        String uuid = workerMessage.popString();
+        workerMessage.addFirst(serviceClass);
+        workerMessage.addFirst(this.routingWorkerConnector);
+        workerMessage.addFirst(uuid);
+        return workerMessage;
     }
 
-    private ZMsg updateHeaderWorkerMessage(ZMsg response) {
+    private ZMsg updateHeaderWorkerReceiveMessage(ZMsg response) {
         response.removeFirst();
         return response;
     }
@@ -175,7 +178,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
         else if(workerMessage.size() == 9) {
             System.out.println("ROUTING RESULT");
             System.out.println(workerMessage);
-            workerMessage = this.updateHeaderWorkerMessage(workerMessage);
+            workerMessage = this.updateHeaderWorkerReceiveMessage(workerMessage);
             this.sendResponseToBroker(workerMessage);
         }
         else {
