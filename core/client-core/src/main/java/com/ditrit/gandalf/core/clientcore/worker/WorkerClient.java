@@ -1,25 +1,25 @@
-package com.ditrit.gandalf.core.connectorcore.client;
+package com.ditrit.gandalf.core.clientcore.worker;
 
-import com.ditrit.gandalf.core.connectorcore.properties.ConnectorProperties;
+import com.ditrit.gandalf.core.clientcore.worker.properties.WorkerClientProperties;
 import com.ditrit.gandalf.core.zeromqcore.command.client.ThreadClientZeroMQ;
 import com.ditrit.gandalf.core.zeromqcore.event.client.PublisherZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
-@Component(value = "connectorClient")
-public class ConnectorClient {
+@Component(value = "workerClient")
+public class WorkerClient {
 
-    private ConnectorProperties connectorProperties;
+    private WorkerClientProperties workerClientProperties;
     private ThreadClientZeroMQ threadClientZeroMQ;
     private PublisherZeroMQ publisherZeroMQ;
 
 
     @Autowired
-    public ConnectorClient(ConnectorProperties connectorProperties) {
-        this.connectorProperties = connectorProperties;
-        this.threadClientZeroMQ = new ThreadClientZeroMQ(this.connectorProperties.getConnectorName(), this.connectorProperties.getConnectorCommandBackEndConnection());
-        this.publisherZeroMQ = new PublisherZeroMQ(this.connectorProperties.getConnectorName(), this.connectorProperties.getConnectorEventBackEndSendConnection());
+    public WorkerClient(WorkerClientProperties workerClientProperties) {
+        this.workerClientProperties = workerClientProperties;
+        this.threadClientZeroMQ = new ThreadClientZeroMQ(this.workerClientProperties.getConnectorName(), this.workerClientProperties.getConnectorCommandBackEndConnection());
+        this.publisherZeroMQ = new PublisherZeroMQ(this.workerClientProperties.getConnectorName(), this.workerClientProperties.getConnectorEventBackEndSendConnection());
     }
 
     public ZMsg sendCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {

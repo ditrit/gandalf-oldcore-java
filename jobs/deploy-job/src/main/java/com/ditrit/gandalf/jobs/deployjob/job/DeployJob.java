@@ -3,7 +3,7 @@ package com.ditrit.gandalf.jobs.deployjob.job;
 import com.google.gson.JsonObject;
 import com.ditrit.gandalf.jobs.deployjob.feign.DeployFeign;
 import com.ditrit.gandalf.jobs.deployjob.properties.DeployJobProperties;
-import com.ditrit.gandalf.core.clientcore.GandalfClient;
+import com.ditrit.gandalf.core.clientcore.library.LibraryClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;
@@ -28,12 +28,12 @@ public class DeployJob implements JobHandler {
     private ZeebeClient zeebe;
     private DeployFeign deployFeign;
     private JobWorker subscription;
-    private GandalfClient gandalfClient;
+    private LibraryClient gandalfClient;
     private DeployJobProperties deployJobProperties;
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Autowired
-    public DeployJob(ZeebeClient zeebe, DeployFeign deployFeign, GandalfClient gandalfClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, DeployJobProperties deployJobProperties) {
+    public DeployJob(ZeebeClient zeebe, DeployFeign deployFeign, LibraryClient gandalfClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, DeployJobProperties deployJobProperties) {
         this.zeebe = zeebe;
         this.deployFeign = deployFeign;
         this.gandalfClient = gandalfClient;

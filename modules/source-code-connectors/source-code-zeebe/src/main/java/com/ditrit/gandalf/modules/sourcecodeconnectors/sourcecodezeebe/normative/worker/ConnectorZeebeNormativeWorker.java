@@ -27,7 +27,7 @@ public class ConnectorZeebeNormativeWorker extends RunnableWorkerZeroMQ {
         super();
         this.connectorZeebeNormativeManager = connectorZeebeNormativeManager;
         this.connectorZeebeProperties = connectorZeebeProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorZeebeProperties.getConnectorCommandBackEndConnection(), this.connectorZeebeProperties.getConnectorEventBackEndConnection(), null);
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorZeebeProperties.getConnectorCommandBackEndConnection(), this.connectorZeebeProperties.getConnectorEventBackEndReceiveConnection(), null);
     }
 //TODO PAYLOAD
     @Override

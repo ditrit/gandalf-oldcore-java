@@ -1,6 +1,6 @@
-package com.ditrit.gandalf.core.clientcore.constant;
+package com.ditrit.gandalf.core.clientcore.library.constant;
 
-public class ClientConstant {
+public class LibraryClientConstant {
 
     public static final String COMMAND_CLIENT_SEND = "COMMAND_CLIENT_SEND";
 

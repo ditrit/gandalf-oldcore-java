@@ -3,7 +3,7 @@ package com.ditrit.gandalf.jobs.registerjob.job;
 import com.ditrit.gandalf.jobs.registerjob.feign.RegisterFeign;
 import com.google.gson.JsonObject;
 import com.ditrit.gandalf.jobs.registerjob.properties.RegisterJobProperties;
-import com.ditrit.gandalf.core.clientcore.GandalfClient;
+import com.ditrit.gandalf.core.clientcore.library.LibraryClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;
@@ -28,12 +28,12 @@ public class RegisterJob implements JobHandler {
     private ZeebeClient zeebe;
     private RegisterFeign registerFeign;
     private JobWorker subscription;
-    private GandalfClient gandalfClient;
+    private LibraryClient gandalfClient;
     private RegisterJobProperties registerJobProperties;
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Autowired
-    public RegisterJob(ZeebeClient zeebe, RegisterFeign registerFeign, GandalfClient gandalfClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, RegisterJobProperties registerJobProperties) {
+    public RegisterJob(ZeebeClient zeebe, RegisterFeign registerFeign, LibraryClient gandalfClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, RegisterJobProperties registerJobProperties) {
         this.zeebe = zeebe;
         this.registerFeign = registerFeign;
         this.gandalfClient = gandalfClient;

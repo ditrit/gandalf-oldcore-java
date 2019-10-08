@@ -2,7 +2,7 @@ package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.normati
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.ditrit.gandalf.core.clientcore.GandalfClient;
+import com.ditrit.gandalf.core.clientcore.library.LibraryClient;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.properties.ConnectorGitlabProperties;
 import com.ditrit.gandalf.modules.abstractconnectors.abstractversioncontrol.manager.ConnectorVersionControlNormativeManager;
 import org.gitlab4j.api.GitLabApi;
@@ -21,7 +21,7 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
 
     private GitLabApi gitLabApi;
     //private ConnectorGitNormativeManager gitCommonManager;
-    private GandalfClient gandalfClient;
+    private LibraryClient gandalfClient;
     private Gson mapper;
     private JsonObject jsonObject;
 
@@ -38,7 +38,7 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }*/
 
     @Autowired
-    public ConnectorGitlabNormativeManager(GandalfClient gandalfClient) {
+    public ConnectorGitlabNormativeManager(LibraryClient gandalfClient) {
         this.gandalfClient = gandalfClient;
         this.mapper = new Gson();
     }

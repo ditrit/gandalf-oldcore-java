@@ -28,7 +28,7 @@ public class ConnectorCustomOrchestratorNormativeWorker extends RunnableWorkerZe
         this.connectorCustomOrchestratorNormativeManager = connectorCustomOrchestratorNormativeManager;
         this.connectorProperties = connectorProperties;
         this.connectorCustomOrchestratorProperties = connectorCustomOrchestratorProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getConnectorCommandBackEndConnection(), this.connectorProperties.getConnectorEventBackEndConnection(), null);
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getConnectorCommandBackEndConnection(), this.connectorProperties.getConnectorEventBackEndReceiveConnection(), null);
     }
 
     //TODO PAYLOAD

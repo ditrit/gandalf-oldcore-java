@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.ditrit.gandalf.core.listenercore.constant.ListenerConstant.*;
+import static com.ditrit.gandalf.core.listenercore.constant.LibraryListenerConstant.*;
 
 @Configuration
-public class ListenerProperties {
+public class LibraryListenerProperties {
 
     private RestTemplate restTemplate;
 
@@ -23,7 +23,7 @@ public class ListenerProperties {
     private List<String> listenerCommandBackEndConnections;
     private String listenerEventBackEndConnection;
 
-    public ListenerProperties() {
+    public LibraryListenerProperties() {
         this.restTemplate = new RestTemplate();
         this.initProperties();
     }

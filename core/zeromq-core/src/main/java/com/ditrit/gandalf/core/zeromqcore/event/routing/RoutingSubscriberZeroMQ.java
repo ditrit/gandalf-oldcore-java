@@ -22,13 +22,13 @@ public abstract class RoutingSubscriberZeroMQ {
         this.routingSubscriberConnector = routingSubscriberConnector;
 
         //Send Proxy
-        this.frontEndSendRoutingSubscriber = this.context.createSocket(SocketType.PUB);
+        this.frontEndSendRoutingSubscriber = this.context.createSocket(SocketType.XPUB);
         this.frontEndSendRoutingSubscriberConnection = frontEndSendRoutingSubscriberConnection;
         System.out.println("RoutingSubscriberZeroMQ connect to frontEndSendRoutingSubscriberConnection: " + this.frontEndSendRoutingSubscriberConnection);
         this.frontEndSendRoutingSubscriber.connect(this.frontEndSendRoutingSubscriberConnection);
 
         //Receive Proxy
-        this.frontEndReceiveRoutingSubscriber = this.context.createSocket(SocketType.SUB);
+        this.frontEndReceiveRoutingSubscriber = this.context.createSocket(SocketType.XSUB);
         this.frontEndReceiveRoutingSubscriberConnection = frontEndReceiveRoutingSubscriberConnection;
         System.out.println("RoutingSubscriberZeroMQ connect to frontEndReceiveRoutingSubscriberConnection: " + this.frontEndReceiveRoutingSubscriberConnection);
         this.frontEndReceiveRoutingSubscriber.connect(this.frontEndReceiveRoutingSubscriberConnection);

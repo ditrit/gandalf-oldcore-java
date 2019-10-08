@@ -18,7 +18,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.orness.gandalf.core.module.connectorcore", "com.orness.gandalf.core.module.clientcore", "com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.customartifactmodule"})
+@ComponentScan(basePackages = {"com.orness.gandalf.core.module.connectorcore", "com.orness.gandalf.core.module.clientcore.worker", "com.orness.gandalf.core.module.gandalfmodule", "com.orness.gandalf.core.module.customartifactmodule"})
 @Order
 public class ConnectorArtifactCoreConfiguration {
 

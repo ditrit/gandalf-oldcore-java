@@ -1,4 +1,4 @@
-package com.ditrit.gandalf.core.clientcore.properties;
+package com.ditrit.gandalf.core.clientcore.library.properties;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.ditrit.gandalf.core.clientcore.constant.ClientConstant.*;
+import static com.ditrit.gandalf.core.clientcore.library.constant.LibraryClientConstant.*;
 
 @Configuration
-public class ClientProperties {
+public class LibraryClientProperties {
     
     private RestTemplate restTemplate;
     private Gson mapper;
@@ -26,7 +26,7 @@ public class ClientProperties {
     private List<String> clientCommandBackEndConnections;
     private String clientEventBackEndConnection;
 
-    public ClientProperties() {
+    public LibraryClientProperties() {
         this.restTemplate = new RestTemplate();
         this.mapper = new Gson();
         this.initProperties();

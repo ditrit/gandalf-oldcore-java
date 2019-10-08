@@ -1,24 +1,24 @@
 package com.ditrit.gandalf.core.listenercore;
 
-import com.ditrit.gandalf.core.listenercore.properties.ListenerProperties;
+import com.ditrit.gandalf.core.listenercore.properties.LibraryListenerProperties;
 import com.ditrit.gandalf.core.zeromqcore.command.listener.ThreadListenerCommandZeroMQ;
 import com.ditrit.gandalf.core.zeromqcore.event.listener.ThreadListenerEventZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
-@Component(value = "gandalfListener")
-public class GandalfListener {
+@Component(value = "libraryListener")
+public class LibraryListener {
 
-    private ListenerProperties listenerProperties;
+    private LibraryListenerProperties libraryListenerProperties;
     private ThreadListenerCommandZeroMQ threadListenerCommandZeroMQ;
     private ThreadListenerEventZeroMQ threadListenerEventZeroMQ;
 
     @Autowired
-    public GandalfListener(ListenerProperties listenerProperties) {
-        this.listenerProperties = listenerProperties;
-        this.threadListenerCommandZeroMQ = new ThreadListenerCommandZeroMQ(this.listenerProperties.getConnectorName(), this.listenerProperties.getListenerCommandBackEndConnections());
-        this.threadListenerEventZeroMQ = new ThreadListenerEventZeroMQ(this.listenerProperties.getConnectorName(), this.listenerProperties.getListenerEventBackEndConnection());
+    public LibraryListener(LibraryListenerProperties libraryListenerProperties) {
+        this.libraryListenerProperties = libraryListenerProperties;
+        this.threadListenerCommandZeroMQ = new ThreadListenerCommandZeroMQ(this.libraryListenerProperties.getConnectorName(), this.libraryListenerProperties.getListenerCommandBackEndConnections());
+        this.threadListenerEventZeroMQ = new ThreadListenerEventZeroMQ(this.libraryListenerProperties.getConnectorName(), this.libraryListenerProperties.getListenerEventBackEndConnection());
     }
 
     public ZMsg getEventSync() {

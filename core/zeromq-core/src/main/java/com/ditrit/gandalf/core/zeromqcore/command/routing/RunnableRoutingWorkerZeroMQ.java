@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static com.ditrit.gandalf.core.zeromqcore.constant.Constant.COMMAND_CLIENT_SEND;
+
 public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ implements Runnable {
 
     protected Gson mapper;
@@ -96,7 +98,7 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
         ZMsg brokerMessageBackup = brokerMessage.duplicate();
         //String connectorHeader = brokerMessageBackup.popString();
         String commandType = brokerMessageBackup.popString();
-        if(commandType.equals(Constant.COMMAND_CLIENT_SEND)) {
+        if(commandType.equals(COMMAND_CLIENT_SEND)) {
             String uuid = brokerMessageBackup.popString();
             String client = brokerMessageBackup.popString();
             String connector = brokerMessageBackup.popString();
