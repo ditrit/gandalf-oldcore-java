@@ -13,92 +13,93 @@ public abstract class WorkerZeroMQ {
 
     protected ZContext context;
     //TODO MULTIPLE
-    protected ZMQ.Socket frontEndSendWorker;
-    protected String frontEndSendWorkerConnection;
-    protected ZMQ.Socket frontEndReceiveWorker;
-    protected String frontEndReceiveWorkerConnection;
-    protected ZMQ.Socket frontEndPublisher;
-    protected String frontEndPublisherConnection;
-    protected ZMQ.Socket frontEndSubscriberWorker;
-    protected String frontEndSubscriberWorkerConnection;
+    protected ZMQ.Socket workerCommandFrontEndSend;
+    protected String workerCommandFrontEndSendConnection;
+    protected ZMQ.Socket workerCommandFrontEndReceive;
+    protected String workerCommandFrontEndReceiveConnection;
+    protected ZMQ.Socket workerEventFrontEndSend;
+    protected String workerEventFrontEndSendConnection;
+    protected ZMQ.Socket workerEventFrontEndReceive;
+    protected String workerEventFrontEndReceiveConnection;
     protected String workerServiceClass;
 
-    protected void init(String workerServiceClass, String frontEndSendWorkerConnection, String frontEndReceiveWorkerConnection, String frontEndPublisherWorkerConnection, String frontEndSubscriberWorkerConnection) {
+    protected void init(String workerServiceClass, String workerCommandFrontEndSendConnection, String workerCommandFrontEndReceiveConnection, String workerEventFrontEndSendConnection, String workerEventFrontEndReceiveConnection) {
         this.context = new ZContext();
         this.workerServiceClass = workerServiceClass;
         //this.workerServiceClassType = workerServiceClassType;
 
         //Command Send Worker
-        this.frontEndSendWorker = this.context.createSocket(SocketType.DEALER);
-        this.frontEndSendWorker.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
-        this.frontEndSendWorkerConnection = frontEndSendWorkerConnection;
-        System.out.println("WorkerZeroMQ connect to: " + this.frontEndSendWorkerConnection);
-        this.frontEndSendWorker.connect(this.frontEndSendWorkerConnection);
+        this.workerCommandFrontEndSend = this.context.createSocket(SocketType.DEALER);
+        this.workerCommandFrontEndSend.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
+        this.workerCommandFrontEndSendConnection = workerCommandFrontEndSendConnection;
+        System.out.println("WorkerZeroMQ connect to: " + this.workerCommandFrontEndSendConnection);
+        this.workerCommandFrontEndSend.connect(this.workerCommandFrontEndSendConnection);
 
         //Command Receive Worker
-        this.frontEndReceiveWorker = this.context.createSocket(SocketType.DEALER);
-        this.frontEndReceiveWorker.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
-        this.frontEndReceiveWorkerConnection = frontEndReceiveWorkerConnection;
-        System.out.println("WorkerZeroMQ connect to: " + this.frontEndReceiveWorkerConnection);
-        this.frontEndReceiveWorker.connect(this.frontEndReceiveWorkerConnection);
+        this.workerCommandFrontEndReceive = this.context.createSocket(SocketType.DEALER);
+        this.workerCommandFrontEndReceive.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
+        this.workerCommandFrontEndReceiveConnection = workerCommandFrontEndReceiveConnection;
+        System.out.println("WorkerZeroMQ connect to: " + this.workerCommandFrontEndReceiveConnection);
+        this.workerCommandFrontEndReceive.connect(this.workerCommandFrontEndReceiveConnection);
 
 
-        //Event Publish Worker
-        this.frontEndPublisher = this.context.createSocket(SocketType.PUB);
-        this.frontEndPublisher.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
-        this.frontEndPublisherConnection = frontEndPublisherWorkerConnection;
-        System.out.println("WorkerZeroMQ connect to: " + this.frontEndPublisherConnection);
-        this.frontEndPublisher.connect(this.frontEndPublisherConnection);
+        //Event Send Worker
+        this.workerEventFrontEndSend = this.context.createSocket(SocketType.PUB);
+        this.workerEventFrontEndSend.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
+        this.workerEventFrontEndSendConnection = workerEventFrontEndSendConnection;
+        System.out.println("WorkerZeroMQ connect to: " + this.workerEventFrontEndSendConnection);
+        this.workerEventFrontEndSend.connect(this.workerEventFrontEndSendConnection);
 
-        //Event Subscribe Worker
-        this.frontEndSubscriberWorker = this.context.createSocket(SocketType.SUB);
-        this.frontEndSubscriberWorker.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
-        this.frontEndSubscriberWorkerConnection = frontEndSubscriberWorkerConnection;
-        System.out.println("WorkerZeroMQ connect to: " + this.frontEndSubscriberWorkerConnection);
-        this.frontEndSubscriberWorker.connect(this.frontEndSubscriberWorkerConnection);
+        //Event Receive Worker
+        this.workerEventFrontEndReceive = this.context.createSocket(SocketType.SUB);
+        this.workerEventFrontEndReceive.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
+        this.workerEventFrontEndReceiveConnection = workerEventFrontEndReceiveConnection;
+        System.out.println("WorkerZeroMQ connect to: " + this.workerEventFrontEndReceiveConnection);
+        this.workerEventFrontEndReceive.connect(this.workerEventFrontEndReceiveConnection);
 
     }
 
     protected void close() {
-        this.frontEndSendWorker.close();
-        this.frontEndReceiveWorker.close();
-        this.frontEndSubscriberWorker.close();
+        this.workerCommandFrontEndSend.close();
+        this.workerCommandFrontEndReceive.close();
+        this.workerEventFrontEndSend.close();
+        this.workerEventFrontEndReceive.close();
         this.context.close();
     }
 
     protected void sendReadyCommand() {
         ZMsg ready = new ZMsg();
         ready.add(Constant.COMMAND_READY);
-        ready.send(this.frontEndReceiveWorker);
+        ready.send(this.workerCommandFrontEndReceive);
         ready.destroy();
     }
 
     protected void sendResultCommand(ZMsg request, String result) {
         request.addLast(result);
-        request.send(this.frontEndReceiveWorker);
+        request.send(this.workerCommandFrontEndReceive);
     }
 
     public void sendEvent(String topic, String event, String timeout, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        this.frontEndPublisher.sendMore(topic);
-        this.frontEndPublisher.sendMore(event);
-        this.frontEndPublisher.sendMore(timeout);
-        this.frontEndPublisher.sendMore(timestamp.toString());
-        this.frontEndPublisher.send(payload);
+        this.workerEventFrontEndSend.sendMore(topic);
+        this.workerEventFrontEndSend.sendMore(event);
+        this.workerEventFrontEndSend.sendMore(timeout);
+        this.workerEventFrontEndSend.sendMore(timestamp.toString());
+        this.workerEventFrontEndSend.send(payload);
     }
 
     protected void sendCommand(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        this.frontEndSendWorker.sendMore(uuid);
+        this.workerCommandFrontEndSend.sendMore(uuid);
         //this.frontEndSendWorker.sendMore(this.workerServiceClass);
-        this.frontEndSendWorker.sendMore(connector);
-        this.frontEndSendWorker.sendMore(serviceClass);
-        this.frontEndSendWorker.sendMore(command);
-        this.frontEndSendWorker.sendMore(timeout);
-        this.frontEndSendWorker.sendMore(timestamp.toString());
-        this.frontEndSendWorker.send(payload);
+        this.workerCommandFrontEndSend.sendMore(connector);
+        this.workerCommandFrontEndSend.sendMore(serviceClass);
+        this.workerCommandFrontEndSend.sendMore(command);
+        this.workerCommandFrontEndSend.sendMore(timeout);
+        this.workerCommandFrontEndSend.sendMore(timestamp.toString());
+        this.workerCommandFrontEndSend.send(payload);
     }
 
 }

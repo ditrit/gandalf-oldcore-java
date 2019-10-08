@@ -4,7 +4,7 @@ import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
 //TODO REVOIR
-public abstract class RunnableCaptureWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
+public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ implements Runnable {
 
     protected void initRunnable(String workerServiceClass, String frontEndWorkerConnection, String frontEndSubscriberWorkerConnection) {
         this.init(workerServiceClass, frontEndWorkerConnection, frontEndSubscriberWorkerConnection);

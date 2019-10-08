@@ -14,21 +14,21 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     private LinkedList<ZMsg> results;
 
 
-    protected void initRunnable(String workerServiceClass, String frontEndSendWorkerConnection, String frontEndReceiveWorkerConnection, String frontEndPublisherWorkerConnection, String frontEndSubscriberWorkerConnection, List<String> topics) {
-        this.init(workerServiceClass, frontEndSendWorkerConnection, frontEndReceiveWorkerConnection, frontEndPublisherWorkerConnection, frontEndSubscriberWorkerConnection);
+    protected void initRunnable(String workerServiceClass, String workerCommandFrontEndSendConnection, String workerCommandFrontEndReceiveConnection, String workerEventFrontEndSendConnection, String workerEventFrontEndReceiveConnection, List<String> topics) {
+        this.init(workerServiceClass, workerCommandFrontEndSendConnection, workerCommandFrontEndReceiveConnection, workerEventFrontEndSendConnection, workerEventFrontEndReceiveConnection);
         this.topics = topics;
 /*        for(String topic : this.topics) {
             this.frontEndSubscriberWorker.subscribe(topic.getBytes(ZMQ.CHARSET));
         }*/
-        this.frontEndSubscriberWorker.subscribe(ZMQ.SUBSCRIPTION_ALL);
+        this.workerEventFrontEndReceive.subscribe(ZMQ.SUBSCRIPTION_ALL);
     }
 
     @Override
     public void run() {
         ZMQ.Poller poller = this.context.createPoller(3);
-        poller.register(this.frontEndSendWorker, ZMQ.Poller.POLLIN);
-        poller.register(this.frontEndReceiveWorker, ZMQ.Poller.POLLIN);
-        poller.register(this.frontEndSubscriberWorker, ZMQ.Poller.POLLIN);
+        poller.register(this.workerCommandFrontEndSend, ZMQ.Poller.POLLIN);
+        poller.register(this.workerCommandFrontEndReceive, ZMQ.Poller.POLLIN);
+        poller.register(this.workerEventFrontEndReceive, ZMQ.Poller.POLLIN);
 
         ZMsg command;
         ZMsg event;
@@ -43,8 +43,8 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive broker message
-                    command = ZMsg.recvMsg(this.frontEndSendWorker, ZMQ.NOBLOCK);
-                    more = this.frontEndSendWorker.hasReceiveMore();
+                    command = ZMsg.recvMsg(this.workerCommandFrontEndSend, ZMQ.NOBLOCK);
+                    more = this.workerCommandFrontEndSend.hasReceiveMore();
                     System.out.println(command);
                     System.out.println(more);
 
@@ -65,8 +65,8 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
             if (poller.pollin(1)) {
                 while (true) {
                     // Receive broker message
-                    command = ZMsg.recvMsg(this.frontEndReceiveWorker, ZMQ.NOBLOCK);
-                    more = this.frontEndReceiveWorker.hasReceiveMore();
+                    command = ZMsg.recvMsg(this.workerCommandFrontEndReceive, ZMQ.NOBLOCK);
+                    more = this.workerCommandFrontEndReceive.hasReceiveMore();
                     System.out.println(command);
                     System.out.println(more);
 
@@ -87,8 +87,8 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
             if (poller.pollin(2)) {
                 while (true) {
                     // Receive broker message
-                    event = ZMsg.recvMsg(this.frontEndSubscriberWorker, ZMQ.NOBLOCK);
-                    more = this.frontEndSubscriberWorker.hasReceiveMore();
+                    event = ZMsg.recvMsg(this.workerEventFrontEndReceive, ZMQ.NOBLOCK);
+                    more = this.workerEventFrontEndReceive.hasReceiveMore();
                     System.out.println(event);
                     System.out.println(more);
 
@@ -148,16 +148,20 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
         return command;
     }
 
-
-
     protected void reconnectToRoutingWorker() {
-        if (this.frontEndSendWorker != null) {
-            this.context.destroySocket(frontEndSendWorker);
+        if (this.workerCommandFrontEndSend != null) {
+            this.context.destroySocket(workerCommandFrontEndSend);
         }
-        if(this.frontEndReceiveWorker != null) {
-            this.context.destroySocket(this.frontEndReceiveWorker);
+        if(this.workerCommandFrontEndReceive != null) {
+            this.context.destroySocket(this.workerCommandFrontEndReceive);
         }
-        this.initRunnable(this.workerServiceClass, this.frontEndSendWorkerConnection, this.frontEndReceiveWorkerConnection, this.frontEndPublisherConnection, this.frontEndSubscriberWorkerConnection, this.topics);
+        if(this.workerEventFrontEndSend != null) {
+            this.context.destroySocket(this.workerEventFrontEndSend);
+        }
+        if(this.workerEventFrontEndReceive != null) {
+            this.context.destroySocket(this.workerEventFrontEndReceive);
+        }
+        this.initRunnable(this.workerServiceClass, this.workerCommandFrontEndSendConnection, this.workerCommandFrontEndReceiveConnection, this.workerEventFrontEndSendConnection, this.workerEventFrontEndReceiveConnection, this.topics);
 
         // Register service with broker
         this.sendReadyCommand();

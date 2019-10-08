@@ -1,6 +1,5 @@
 package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.normative.worker;
 
-import com.ditrit.gandalf.core.connectorcore.properties.ConnectorProperties;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.normative.manager.ConnectorCustomOrchestratorNormativeManager;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.properties.ConnectorCustomOrchestratorProperties;
 import com.ditrit.gandalf.core.zeromqcore.command.domain.MessageCommand;
@@ -18,17 +17,15 @@ import static com.ditrit.gandalf.core.connectorcore.constant.ConnectorConstant.W
 public class ConnectorCustomOrchestratorNormativeWorker extends RunnableWorkerZeroMQ {
 
     private ConnectorCustomOrchestratorNormativeManager connectorCustomOrchestratorNormativeManager;
-    private ConnectorProperties connectorProperties;
     private ConnectorCustomOrchestratorProperties connectorCustomOrchestratorProperties;
     private MessageCommand messageCommand;
 
     @Autowired
-    public ConnectorCustomOrchestratorNormativeWorker(ConnectorProperties connectorProperties, ConnectorCustomOrchestratorProperties connectorCustomOrchestratorProperties, ConnectorCustomOrchestratorNormativeManager connectorCustomOrchestratorNormativeManager) {
+    public ConnectorCustomOrchestratorNormativeWorker(ConnectorCustomOrchestratorProperties connectorCustomOrchestratorProperties, ConnectorCustomOrchestratorNormativeManager connectorCustomOrchestratorNormativeManager) {
         super();
         this.connectorCustomOrchestratorNormativeManager = connectorCustomOrchestratorNormativeManager;
-        this.connectorProperties = connectorProperties;
         this.connectorCustomOrchestratorProperties = connectorCustomOrchestratorProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorProperties.getConnectorCommandBackEndConnection(), this.connectorProperties.getConnectorEventBackEndReceiveConnection(), null);
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorCustomOrchestratorProperties.getConnectorCommandBackEndSendConnection(), this.connectorCustomOrchestratorProperties.getConnectorCommandBackEndReceiveConnection(), this.connectorCustomOrchestratorProperties.getConnectorEventBackEndSendConnection(), this.connectorCustomOrchestratorProperties.getConnectorEventBackEndReceiveConnection(), null);
     }
 
     //TODO PAYLOAD

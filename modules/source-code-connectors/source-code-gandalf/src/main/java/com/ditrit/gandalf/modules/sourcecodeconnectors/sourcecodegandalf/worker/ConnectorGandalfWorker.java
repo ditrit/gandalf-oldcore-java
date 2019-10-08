@@ -20,7 +20,7 @@ public class ConnectorGandalfWorker extends RunnableWorkerZeroMQ {
     public ConnectorGandalfWorker(ConnectorGandalfProperties connectorGandalfProperties, ConnectorGandalfManager connectorGandalfManager) {
         this.connectorGandalfProperties = connectorGandalfProperties;
         this.connectorGandalfManager = connectorGandalfManager;
-        this.initRunnable(WORKER_SERVICE_CLASS_ADMIN, this.connectorGandalfProperties.getConnectorCommandBackEndConnection(), this.connectorGandalfProperties.getConnectorEventBackEndConnection(), null);
+        this.initRunnable(WORKER_SERVICE_CLASS_ADMIN, this.connectorGandalfProperties.getConnectorCommandBackEndSendConnection(), this.connectorGandalfProperties.getConnectorCommandBackEndReceiveConnection(), this.connectorGandalfProperties.getConnectorEventBackEndSendConnection(), this.connectorGandalfProperties.getConnectorEventBackEndReceiveConnection(), null);
     }
 
     @Override
