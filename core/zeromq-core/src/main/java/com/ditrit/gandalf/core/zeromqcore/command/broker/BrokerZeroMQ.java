@@ -123,7 +123,7 @@ public class BrokerZeroMQ {
 
     protected void processFrontEndMessage(ZMsg frontEndMessage) {
         ZMsg frontEndMessageBackup = frontEndMessage.duplicate();
-        if (frontEndMessage.size() == 9) {
+        if (frontEndMessage.size() == 10) {
             String sender = frontEndMessageBackup.popString();
             String uuid = frontEndMessageBackup.popString();
             String sourceConnector = frontEndMessageBackup.popString();
@@ -154,7 +154,7 @@ public class BrokerZeroMQ {
     protected void processBackEndMessage(ZMsg backEndMessage) {
         ZMsg backEndMessageBackup = backEndMessage.duplicate();
 
-        if (backEndMessage.size() == 9) {
+        if (backEndMessage.size() == 10) {
             String sender = backEndMessageBackup.popString();
             String uuid = backEndMessageBackup.popString();
             String sourceConnector = backEndMessageBackup.popString();
