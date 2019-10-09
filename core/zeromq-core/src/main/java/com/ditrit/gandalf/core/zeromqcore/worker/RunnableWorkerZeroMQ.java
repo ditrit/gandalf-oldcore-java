@@ -113,7 +113,7 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     }
 
     private void processRoutingWorkerResultCommand(ZMsg result) {
-        if(result.size() == 9) {
+        if(result.size() == 10) {
             this.results.add(result.duplicate());
         }
         else {
@@ -123,7 +123,7 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     }
 
     private void processRoutingWorkerCommand(ZMsg command) {
-        if(command.size() == 7) {
+        if(command.size() == 9) {
             String result = this.executeRoutingWorkerCommand(command).toString();
             this.sendResultCommand(command, result);
         }

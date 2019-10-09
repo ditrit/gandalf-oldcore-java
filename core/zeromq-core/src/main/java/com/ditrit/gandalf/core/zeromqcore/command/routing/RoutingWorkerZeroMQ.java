@@ -14,9 +14,9 @@ public abstract class RoutingWorkerZeroMQ {
     protected ZMQ.Socket frontEndReceiveRoutingWorker;
     private List<String> frontEndReceiveRoutingWorkerConnections;
     protected ZMQ.Socket backEndSendRoutingWorker;
-    private String backEndSendRoutingWorkerConnection; //IPC
+    private String backEndSendRoutingWorkerConnection;
     protected ZMQ.Socket backEndReceiveRoutingWorker;
-    private String backEndReceiveRoutingWorkerConnection; //IPC
+    private String backEndReceiveRoutingWorkerConnection;
     protected String routingWorkerConnector;
 
     protected void init(String routingWorkerConnector, List<String> frontEndSendRoutingWorkerConnections, List<String> frontEndReceiveRoutingWorkerConnections, String backEndSendRoutingWorkerConnection, String backEndReceiveRoutingWorkerConnection) {

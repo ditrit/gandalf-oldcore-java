@@ -123,17 +123,17 @@ public class BrokerZeroMQ {
 
     protected void processFrontEndMessage(ZMsg frontEndMessage) {
         ZMsg frontEndMessageBackup = frontEndMessage.duplicate();
-        if (frontEndMessage.size() == 8) {
+        if (frontEndMessage.size() == 9) {
             String sender = frontEndMessageBackup.popString();
-            String commandType = frontEndMessageBackup.popString();
             String uuid = frontEndMessageBackup.popString();
-            String client = frontEndMessageBackup.popString();
-            String connector = frontEndMessageBackup.popString();
+            String sourceConnector = frontEndMessageBackup.popString();
+            String sourceServiceClass = frontEndMessageBackup.popString();
+            String targetConnector = frontEndMessageBackup.popString();
             //Capture
             //TODO
             //requestCapture.send(this.backEndCommandCapture);
             //Worker
-            frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, connector);
+            frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, targetConnector);
             frontEndMessageBackup.destroy();
             System.out.println("REQ " + frontEndMessage);
             frontEndMessage.send(this.backEndCommand);
@@ -156,15 +156,15 @@ public class BrokerZeroMQ {
 
         if (backEndMessage.size() == 9) {
             String sender = backEndMessageBackup.popString();
-            String commandType = backEndMessageBackup.popString();
             String uuid = backEndMessageBackup.popString();
-            String client = backEndMessageBackup.popString();
+            String sourceConnector = backEndMessageBackup.popString();
+            String sourceServiceClass = backEndMessageBackup.popString();
             //TODO
             //Capture
             ZMsg backEndMessageCapture = backEndMessage.duplicate();
             //responseCapture.send(this.backEndCommandCapture);
             //Client
-            backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, client);
+            backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, sourceConnector);
             System.out.println("REP " + backEndMessage);
             backEndMessage.send(this.frontEndCommand);
         }
