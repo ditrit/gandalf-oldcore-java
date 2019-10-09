@@ -15,6 +15,6 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>gandalf-java-client</module>
+        <module>gandalf-worker-client</module>
     </modules>
 </project>

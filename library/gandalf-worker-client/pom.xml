@@ -9,9 +9,9 @@
 	</parent>
 
 	<groupId>com.ditrit.gandalf.library</groupId>
-	<artifactId>gandalf-java-client</artifactId>
+	<artifactId>gandalf-worker-client</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gandalf-java-client</name>
+	<name>gandalf-worker-client</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

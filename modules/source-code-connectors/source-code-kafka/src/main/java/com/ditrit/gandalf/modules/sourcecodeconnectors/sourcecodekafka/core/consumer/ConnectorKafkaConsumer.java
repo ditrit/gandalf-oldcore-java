@@ -1,8 +1,8 @@
 package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.core.consumer;
 
+import com.ditrit.gandalf.library.gandalfworkerclient.LibraryWorkerClient;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.properties.ConnectorKafkaProperties;
 import com.google.gson.Gson;
-import com.ditrit.gandalf.core.clientcore.library.LibraryClient;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.core.consumer.core.RunnableKafkaConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 @ConditionalOnBean(ConnectorKafkaProperties.class)
 public class ConnectorKafkaConsumer extends RunnableKafkaConsumer {
 
-    private LibraryClient gandalfClient;
+    private LibraryWorkerClient libraryWorkerClient;
     private ConnectorKafkaProperties connectorKafkaProperties;
     protected Gson mapper;
 
     @Autowired
-    public ConnectorKafkaConsumer(LibraryClient gandalfClient, ConnectorKafkaProperties connectorKafkaProperties) {
+    public ConnectorKafkaConsumer(LibraryWorkerClient libraryWorkerClient, ConnectorKafkaProperties connectorKafkaProperties) {
         super();
-        this.gandalfClient = gandalfClient;
+        this.libraryWorkerClient = libraryWorkerClient;
         this.connectorKafkaProperties = connectorKafkaProperties;
         this.mapper = new Gson();
         this.initRunnable(this.connectorKafkaProperties.getEndPointConnection(), this.connectorKafkaProperties.getGroup(), this.connectorKafkaProperties.getSynchronizeTopics());
@@ -28,7 +28,7 @@ public class ConnectorKafkaConsumer extends RunnableKafkaConsumer {
     @Override
     protected void publish(Object message) {
         GandalfKafkaMessage event = (GandalfKafkaMessage) message;
-        this.gandalfClient.sendEvent(event.getTopic(), event.getEvent(), event.getTimeout(), event.getPayload());
+        this.libraryWorkerClient.getWorkerClient().sendEvent(event.getTopic(), event.getEvent(), event.getTimeout(), event.getPayload());
     }
 
     @Override

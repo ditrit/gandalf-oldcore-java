@@ -1,9 +1,9 @@
 package com.ditrit.gandalf.jobs.registerjob.job;
 
 import com.ditrit.gandalf.jobs.registerjob.feign.RegisterFeign;
+import com.ditrit.gandalf.library.gandalfworkerclient.LibraryWorkerClient;
 import com.google.gson.JsonObject;
 import com.ditrit.gandalf.jobs.registerjob.properties.RegisterJobProperties;
-import com.ditrit.gandalf.core.clientcore.library.LibraryClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;
@@ -22,21 +22,21 @@ import java.util.Map;
 
 
 @Component
-@ComponentScan(basePackages = {"com.ditrit.gandalf.core.clientcore.library"})
+//@ComponentScan(basePackages = {"com.ditrit.gandalf.library"})
 public class RegisterJob implements JobHandler {
 
     private ZeebeClient zeebe;
     private RegisterFeign registerFeign;
     private JobWorker subscription;
-    private LibraryClient gandalfClient;
+    private LibraryWorkerClient libraryWorkerClient;
     private RegisterJobProperties registerJobProperties;
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Autowired
-    public RegisterJob(ZeebeClient zeebe, RegisterFeign registerFeign, LibraryClient gandalfClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, RegisterJobProperties registerJobProperties) {
+    public RegisterJob(ZeebeClient zeebe, RegisterFeign registerFeign, LibraryWorkerClient libraryWorkerClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, RegisterJobProperties registerJobProperties) {
         this.zeebe = zeebe;
         this.registerFeign = registerFeign;
-        this.gandalfClient = gandalfClient;
+        this.libraryWorkerClient = libraryWorkerClient;
         this.registerJobProperties = registerJobProperties;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
     }
@@ -103,7 +103,7 @@ public class RegisterJob implements JobHandler {
         payloadRegister.addProperty("service", projectName);
         payloadRegister.addProperty("version", projectVersion);
 
-        ZMsg resultCommand = this.gandalfClient.sendCommandSync("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "REGISTER", "5", payloadRegister.toString());
+        ZMsg resultCommand = this.libraryWorkerClient.getWorkerClient().sendCommandSync("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "REGISTER", "5", payloadRegister.toString());
 /*        while(resultCommand == null) {
             resultCommand = this.gandalfClient.getCommandResult();
         }*/
@@ -114,11 +114,11 @@ public class RegisterJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            this.gandalfClient.sendEvent("build", "REGISTER", "5", projectName + " feign : success" );
+            this.libraryWorkerClient.getWorkerClient().sendEvent("build", "REGISTER", "5", projectName + " feign : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            this.gandalfClient.sendEvent("build", "REGISTER", "5", projectName + " feign : fail" );
+            this.libraryWorkerClient.getWorkerClient().sendEvent("build", "REGISTER", "5", projectName + " feign : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }

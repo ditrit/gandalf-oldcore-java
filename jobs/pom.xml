@@ -22,8 +22,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ditrit.gandalf.core</groupId>
-            <artifactId>client-core</artifactId>
+            <groupId>com.ditrit.gandalf.library</groupId>
+            <artifactId>gandalf-worker-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

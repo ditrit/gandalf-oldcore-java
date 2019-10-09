@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.modules.utility.jobmodule.core;
 
-import com.orness.gandalf.core.library.gandalfjavaclient.GandalfJavaClient;
+import com.ditrit.gandalf.library.gandalfworkerclient.LibraryWorkerClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;
@@ -19,7 +19,7 @@ public abstract class Job implements JobHandler {
 
     protected ZeebeClient zeebe;
     protected JobWorker subscription;
-    protected GandalfJavaClient gandalfJavaClient;
+    protected LibraryWorkerClient libraryWorkerClient;
     @Value("${gandalf.build.topic}")
     private String jobType;
 
