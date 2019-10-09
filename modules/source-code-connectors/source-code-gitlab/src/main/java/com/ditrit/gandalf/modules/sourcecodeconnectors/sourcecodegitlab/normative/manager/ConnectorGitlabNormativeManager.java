@@ -1,5 +1,6 @@
 package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.normative.manager;
 
+import com.ditrit.gandalf.core.clientcore.worker.WorkerClient;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ditrit.gandalf.core.clientcore.library.LibraryClient;
@@ -9,19 +10,20 @@ import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 //TODO REVOIR
 @Component(value = "normativeManager")
-//@ComponentScan(basePackages = {"com.orness.gandalf.core.module.gitmodule"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.core.clientcore.worker"})
 @ConditionalOnBean(ConnectorGitlabProperties.class)
 public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNormativeManager {
 
     private GitLabApi gitLabApi;
     //private ConnectorGitNormativeManager gitCommonManager;
-    private LibraryClient gandalfClient;
+    private WorkerClient workerClient;
     private Gson mapper;
     private JsonObject jsonObject;
 
@@ -38,8 +40,8 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
     }*/
 
     @Autowired
-    public ConnectorGitlabNormativeManager(LibraryClient gandalfClient) {
-        this.gandalfClient = gandalfClient;
+    public ConnectorGitlabNormativeManager(WorkerClient workerClient) {
+        this.workerClient = workerClient;
         this.mapper = new Gson();
     }
 
@@ -60,7 +62,7 @@ public class ConnectorGitlabNormativeManager extends ConnectorVersionControlNorm
         System.out.println("HOOK_MERGE");
         System.out.println(payload.toString());
         //this.gandalfClient.sendCommand("toto", "toto", "toto", "toto", "toto");
-        this.gandalfClient.sendEvent(topic.toString(), "HOOK_MERGE", "5", payload.toString());
+        this.workerClient.sendEvent(topic.toString(), "HOOK_MERGE", "5", payload.toString());
 
     }
 

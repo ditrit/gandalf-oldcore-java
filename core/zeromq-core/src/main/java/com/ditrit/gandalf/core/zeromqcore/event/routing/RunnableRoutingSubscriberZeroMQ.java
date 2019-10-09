@@ -16,7 +16,7 @@ public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZ
 
     protected void initRunnable(String routingSubscriberConnector, String frontEndSendRoutingSubscriberConnection, String backEndSendRoutingSubscriberConnection, String frontEndReceiveRoutingSubscriberConnection, String backEndReceiveRoutingSubscriberConnection) {
         this.init(routingSubscriberConnector, frontEndSendRoutingSubscriberConnection, backEndSendRoutingSubscriberConnection, frontEndReceiveRoutingSubscriberConnection, backEndReceiveRoutingSubscriberConnection);
-        this.frontEndReceiveRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
+        //this.frontEndReceiveRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
         //this.frontEndRoutingSubscriber.subscribe("test.Test".getBytes(ZMQ.CHARSET));
     }
 

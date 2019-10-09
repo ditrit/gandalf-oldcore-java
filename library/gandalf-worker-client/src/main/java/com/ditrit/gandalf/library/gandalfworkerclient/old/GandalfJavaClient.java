@@ -1,3 +1,4 @@
+/*
 package com.orness.gandalf.core.library.gandalfjavaclient;
 
 import com.ditrit.gandalf.core.clientcore.library.LibraryClient;
@@ -28,3 +29,4 @@ public class GandalfJavaClient {
         return libraryListener;
     }
 }
+*/

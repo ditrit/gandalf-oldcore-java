@@ -4,10 +4,12 @@ import com.ditrit.gandalf.core.clientcore.worker.properties.WorkerClientProperti
 import com.ditrit.gandalf.core.zeromqcore.command.client.ThreadClientZeroMQ;
 import com.ditrit.gandalf.core.zeromqcore.event.client.PublisherZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
 @Component(value = "workerClient")
+@Scope("singleton")
 public class WorkerClient {
 
     private WorkerClientProperties workerClientProperties;

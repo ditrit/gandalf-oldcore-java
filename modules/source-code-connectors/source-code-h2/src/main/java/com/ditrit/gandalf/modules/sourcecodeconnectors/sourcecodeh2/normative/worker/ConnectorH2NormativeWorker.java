@@ -23,7 +23,7 @@ public class ConnectorH2NormativeWorker extends RunnableWorkerZeroMQ {
         super();
         this.h2CommonManager = h2CommonManager;
         this.connectorH2Properties = connectorH2Properties;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorH2Properties.getConnectorCommandBackEndSendConnection(), this.connectorH2Properties.getConnectorCommandBackEndReceiveConnection(), this.connectorH2Properties.getConnectorEventBackEndSendConnection(), this.connectorH2Properties.getConnectorEventBackEndReceiveConnection(), null);
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorH2Properties.getConnectorCommandBackEndReceiveConnection(), this.connectorH2Properties.getConnectorEventBackEndReceiveConnection(), null);
     }
 
     //TODO PAYLOAD

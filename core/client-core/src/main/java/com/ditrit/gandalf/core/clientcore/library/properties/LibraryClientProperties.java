@@ -1,3 +1,4 @@
+/*
 package com.ditrit.gandalf.core.clientcore.library.properties;
 
 import com.google.gson.Gson;
@@ -78,3 +79,4 @@ public class LibraryClientProperties {
         this.clientCommandBackEndConnections = clientCommandBackEndConnections;
     }
 }
+*/

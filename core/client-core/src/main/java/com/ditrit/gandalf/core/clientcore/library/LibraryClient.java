@@ -1,3 +1,4 @@
+/*
 package com.ditrit.gandalf.core.clientcore.library;
 
 import com.ditrit.gandalf.core.clientcore.library.properties.LibraryClientProperties;
@@ -44,3 +45,4 @@ public class LibraryClient {
         this.publisherZeroMQ.sendEvent(topic, event, timeout, payload);
     }
 }
+*/

@@ -25,7 +25,7 @@ public class ConnectorCustomArtifactNormativeWorker extends RunnableWorkerZeroMQ
         super();
         this.connectorCustomArtifactProperties = connectorCustomArtifactProperties;
         this.connectorCustomArtifactNormativeManager = connectorCustomArtifactNormativeManager;
-        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorCustomArtifactProperties.getConnectorCommandBackEndSendConnection(), this.connectorCustomArtifactProperties.getConnectorCommandBackEndReceiveConnection(), this.connectorCustomArtifactProperties.getConnectorEventBackEndSendConnection(), this.connectorCustomArtifactProperties.getConnectorEventBackEndReceiveConnection(), null);
+        this.initRunnable(WORKER_SERVICE_CLASS_NORMATIVE, this.connectorCustomArtifactProperties.getConnectorCommandBackEndReceiveConnection(), this.connectorCustomArtifactProperties.getConnectorEventBackEndReceiveConnection(), null);
     }
 
     @Override
