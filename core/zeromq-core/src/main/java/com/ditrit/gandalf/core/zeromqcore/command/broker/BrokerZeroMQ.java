@@ -154,7 +154,7 @@ public class BrokerZeroMQ {
     protected void processBackEndMessage(ZMsg backEndMessage) {
         ZMsg backEndMessageBackup = backEndMessage.duplicate();
 
-        if (backEndMessage.size() == 10) {
+        if (backEndMessage.size() == 11) {
             String sender = backEndMessageBackup.popString();
             String uuid = backEndMessageBackup.popString();
             String sourceConnector = backEndMessageBackup.popString();
