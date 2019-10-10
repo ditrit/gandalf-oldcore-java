@@ -2,7 +2,7 @@ package com.ditrit.gandalf.core.connectorcore.aggregator;
 
 import com.ditrit.gandalf.core.connectorcore.properties.ConnectorProperties;
 import com.google.gson.Gson;
-import com.ditrit.gandalf.core.zeromqcore.event.routing.RunnableAggregatorSubscriberZeroMQ;
+import com.ditrit.gandalf.core.zeromqcore.event.aggregator.RunnableAggregatorSubscriberZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

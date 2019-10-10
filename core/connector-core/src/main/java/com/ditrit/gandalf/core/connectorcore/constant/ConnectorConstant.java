@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class ConnectorConstant {
 
-    public static final String WORKER_SERVICE_CLASS_NORMATIVE = "WORKER_SERVICE_CLASS_NORMATIVE";
+    public static final String WORKER_SERVICE_CLASS_STANDARD = "WORKER_SERVICE_CLASS_STANDARD";
     public static final String WORKER_SERVICE_CLASS_CUSTOM = "WORKER_SERVICE_CLASS_CUSTOM";
     public static final String GANDALF_CLUSTER_COMMAND_BACKEND = "gandalf-cmd-backend";
     public static final String GANDALF_CLUSTER_EVENT_BACKEND = "gandalf-event-backend";

@@ -3,10 +3,10 @@ package com.ditrit.gandalf.connectors.connectorartifact.configuration;
 import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorSubscriber;
 import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomartifact.custom.worker.ConnectorCustomArtifactCustomWorker;
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomartifact.normative.worker.ConnectorCustomArtifactNormativeWorker;
+import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomartifact.standard.worker.ConnectorCustomArtifactStandardWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodenexus.custom.worker.ConnectorNexusCustomWorker;
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodenexus.normative.worker.ConnectorNexusNormativeWorker;
+import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodenexus.standard.worker.ConnectorNexusStandardWorker;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,20 +61,20 @@ public class ConnectorArtifactCoreConfiguration {
     }
 
     @Bean
-    public void connectorNormativeWorker() {
-        RunnableWorkerZeroMQ normativeWorker = null;
+    public void connectorStandardWorker() {
+        RunnableWorkerZeroMQ standardWorker = null;
         switch(profile) {
             case "custom-artifact":
-                normativeWorker = (ConnectorCustomArtifactNormativeWorker) context.getBean("normativeWorker");
+                standardWorker = (ConnectorCustomArtifactStandardWorker) context.getBean("standardWorker");
                 break;
             case "nexus":
-                normativeWorker = (ConnectorNexusNormativeWorker) context.getBean("normativeWorker");
+                standardWorker = (ConnectorNexusStandardWorker) context.getBean("standardWorker");
                 break;
             default:
                 break;
         }
-        if(normativeWorker != null) {
-            this.taskExecutor().execute(normativeWorker);
+        if(standardWorker != null) {
+            this.taskExecutor().execute(standardWorker);
         }
     }
 

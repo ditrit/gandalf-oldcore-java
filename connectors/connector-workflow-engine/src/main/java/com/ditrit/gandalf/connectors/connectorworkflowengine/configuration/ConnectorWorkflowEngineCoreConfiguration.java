@@ -4,7 +4,7 @@ import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorSubsc
 import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodezeebe.custom.worker.ConnectorZeebeCustomWorker;
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodezeebe.normative.worker.ConnectorZeebeNormativeWorker;
+import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodezeebe.standard.worker.ConnectorZeebeStandardWorker;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,7 +63,7 @@ public class ConnectorWorkflowEngineCoreConfiguration {
         RunnableWorkerZeroMQ normativeWorker = null;
         switch(targetType) {
             case "zeebe":
-                normativeWorker = (ConnectorZeebeNormativeWorker) context.getBean("normativeWorker");
+                normativeWorker = (ConnectorZeebeStandardWorker) context.getBean("normativeWorker");
                 break;
             default:
                 break;

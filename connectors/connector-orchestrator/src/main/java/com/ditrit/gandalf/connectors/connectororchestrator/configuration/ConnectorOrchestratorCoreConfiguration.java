@@ -3,7 +3,7 @@ package com.ditrit.gandalf.connectors.connectororchestrator.configuration;
 import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorSubscriber;
 import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.custom.worker.ConnectorCustomOrchestratorCustomWorker;
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.normative.worker.ConnectorCustomOrchestratorNormativeWorker;
+import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomorchestrator.standard.worker.ConnectorCustomOrchestratorStandardWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,17 +59,17 @@ public class ConnectorOrchestratorCoreConfiguration {
     }
 
     @Bean
-    public void connectorNormativeWorker() {
-        RunnableWorkerZeroMQ normativeWorker = null;
+    public void connectorStandardWorker() {
+        RunnableWorkerZeroMQ standardWorker = null;
         switch(profile) {
             case "custom-orchestrator":
-                normativeWorker = (ConnectorCustomOrchestratorNormativeWorker) context.getBean("normativeWorker");
+                standardWorker = (ConnectorCustomOrchestratorStandardWorker) context.getBean("standardWorker");
                 break;
             default:
                 break;
         }
-        if(normativeWorker != null) {
-            this.taskExecutor().execute(normativeWorker);
+        if(standardWorker != null) {
+            this.taskExecutor().execute(standardWorker);
         }
     }
 

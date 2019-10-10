@@ -4,7 +4,7 @@ import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorSubsc
 import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.custom.worker.ConnectorGitlabCustomWorker;
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.normative.worker.ConnectorGitlabNormativeWorker;
+import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.standard.worker.ConnectorGitlabStandardWorker;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,18 +59,18 @@ public class ConnectorVersionControlCoreConfiguration {
     }
 
     @Bean
-    public void connectorNormativeWorker() {
-        RunnableWorkerZeroMQ normativeWorker = null;
+    public void connectorStandardWorker() {
+        RunnableWorkerZeroMQ standardWorker = null;
         switch(profile) {
             case "gitlab":
-                normativeWorker = (ConnectorGitlabNormativeWorker) context.getBean("normativeWorker");
-                System.out.println(normativeWorker);
+                standardWorker = (ConnectorGitlabStandardWorker) context.getBean("standardWorker");
+                System.out.println(standardWorker);
                 break;
             default:
                 break;
         }
-        if(normativeWorker != null) {
-            this.taskExecutor().execute(normativeWorker);
+        if(standardWorker != null) {
+            this.taskExecutor().execute(standardWorker);
         }
     }
 

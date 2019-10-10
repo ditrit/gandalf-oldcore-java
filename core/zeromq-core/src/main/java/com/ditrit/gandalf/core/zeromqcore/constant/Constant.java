@@ -16,6 +16,6 @@ public class Constant {
     public static final String COMMAND_READY = "COMMAND_READY";
     public static final String COMMAND_RESULT = "COMMAND_RESULT";
 
-    public static final List<String> GANDALF_SERVICECLASS = Arrays.asList("admin", "normative", "custom");
+    public static final List<String> GANDALF_SERVICECLASS = Arrays.asList("WORKER_SERVICE_CLASS_ADMIN", "WORKER_SERVICE_CLASS_STANDARD", "WORKER_SERVICE_CLASS_CUSTOM");
 
 }

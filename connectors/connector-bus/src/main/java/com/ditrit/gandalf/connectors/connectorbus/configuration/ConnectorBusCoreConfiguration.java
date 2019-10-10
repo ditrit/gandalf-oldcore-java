@@ -4,7 +4,7 @@ import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorSubsc
 import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.custom.worker.ConnectorKafkaCustomWorker;
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.normative.worker.ConnectorKafkaNormativeWorker;
+import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.standard.worker.ConnectorKafkaStandardWorker;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,17 +59,17 @@ public class ConnectorBusCoreConfiguration {
     }
 
     @Bean
-    public void connectorNormativeWorker() {
-        RunnableWorkerZeroMQ normativeWorker = null;
+    public void connectorStandardWorker() {
+        RunnableWorkerZeroMQ standardWorker = null;
         switch(profile) {
             case "kafka":
-                normativeWorker = (ConnectorKafkaNormativeWorker) context.getBean("normativeWorker");
+                standardWorker = (ConnectorKafkaStandardWorker) context.getBean("standardWorker");
                 break;
             default:
                 break;
         }
-        if(normativeWorker != null) {
-            this.taskExecutor().execute(normativeWorker);
+        if(standardWorker != null) {
+            this.taskExecutor().execute(standardWorker);
         }
     }
 

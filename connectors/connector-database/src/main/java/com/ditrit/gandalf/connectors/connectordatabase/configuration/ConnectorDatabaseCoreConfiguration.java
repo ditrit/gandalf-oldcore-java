@@ -3,7 +3,7 @@ package com.ditrit.gandalf.connectors.connectordatabase.configuration;
 import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorSubscriber;
 import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodeh2.normative.worker.ConnectorH2NormativeWorker;
+import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodeh2.standard.worker.ConnectorH2StandardWorker;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,17 +58,17 @@ public class ConnectorDatabaseCoreConfiguration {
     }
 
     @Bean
-    public void connectorNormativeWorker() {
-        RunnableWorkerZeroMQ normativeWorker = null;
+    public void connectorStandardWorker() {
+        RunnableWorkerZeroMQ standardWorker = null;
         switch(profile) {
             case "h2":
-                normativeWorker = (ConnectorH2NormativeWorker) context.getBean("normativeWorker");
+                standardWorker = (ConnectorH2StandardWorker) context.getBean("standardWorker");
                 break;
             default:
                 break;
         }
-        if(normativeWorker != null) {
-            this.taskExecutor().execute(normativeWorker);
+        if(standardWorker != null) {
+            this.taskExecutor().execute(standardWorker);
         }
     }
 
