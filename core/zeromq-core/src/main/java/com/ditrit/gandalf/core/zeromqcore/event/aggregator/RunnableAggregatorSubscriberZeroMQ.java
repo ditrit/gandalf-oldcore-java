@@ -28,7 +28,6 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
         poller.register(this.backEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
 
         ZMsg publish;
-
         // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
             poller.poll();
@@ -45,7 +44,7 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
                     this.processProxyPublish(publish);
                 }
             }
-            
+
             if (poller.pollin(1)) {
                 while (true) {
                     // Receive broker message

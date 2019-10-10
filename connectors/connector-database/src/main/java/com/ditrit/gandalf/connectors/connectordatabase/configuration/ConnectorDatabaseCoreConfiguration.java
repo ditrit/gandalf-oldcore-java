@@ -34,7 +34,7 @@ public class ConnectorDatabaseCoreConfiguration {
     }
 
     @Bean
-    public void connectorRoutingWorker() {
+    public void connectorAggregatorWorker() {
         ConnectorAggregatorWorker connectorAggregatorWorker = (ConnectorAggregatorWorker) context.getBean("aggregatorWorker");
         if(connectorAggregatorWorker != null) {
             this.taskExecutor().execute(connectorAggregatorWorker);
@@ -42,7 +42,7 @@ public class ConnectorDatabaseCoreConfiguration {
     }
 
     @Bean
-    public void connectorRoutingSubscriber() {
+    public void connectorAggregatorSubscriber() {
         ConnectorAggregatorSubscriber connectorAggregatorSubscriber = (ConnectorAggregatorSubscriber) context.getBean("aggregatorSubscriber");
         if(connectorAggregatorSubscriber != null) {
             this.taskExecutor().execute(connectorAggregatorSubscriber);
