@@ -32,7 +32,8 @@ public class ThreadClientZeroMQ extends Thread {
         this.backEndClient = this.context.createSocket(SocketType.DEALER);
         this.backEndClient.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
         this.backEndClientConnection = backEndClientConnection;
-        this.backEndClient.connect( this.backEndClientConnection);
+        System.out.println("ClientZeroMQ connect to: " + backEndClientConnection);
+        this.backEndClient.connect(this.backEndClientConnection);
     }
 
     public ThreadClientZeroMQ(String identity, List<String> backEndClientConnections) {
