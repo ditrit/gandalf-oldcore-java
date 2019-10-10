@@ -45,17 +45,18 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
                     this.processProxyPublish(publish);
                 }
             }
-        }
-        if (poller.pollin(1)) {
-            while (true) {
-                // Receive broker message
-                publish = ZMsg.recvMsg(this.backEndSendRoutingSubscriber);
-                System.out.println("PUBLISH WORKER");
-                System.out.println(publish);
-                if (publish == null) {
-                    break; // Interrupted
+            
+            if (poller.pollin(1)) {
+                while (true) {
+                    // Receive broker message
+                    publish = ZMsg.recvMsg(this.backEndSendRoutingSubscriber);
+                    System.out.println("PUBLISH WORKER");
+                    System.out.println(publish);
+                    if (publish == null) {
+                        break; // Interrupted
+                    }
+                    this.processWorkerPublish(publish);
                 }
-                this.processWorkerPublish(publish);
             }
         }
         if (Thread.currentThread().isInterrupted()) {
