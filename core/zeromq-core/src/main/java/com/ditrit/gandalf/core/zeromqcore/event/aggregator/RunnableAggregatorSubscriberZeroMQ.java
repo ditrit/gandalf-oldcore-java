@@ -15,7 +15,8 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
 
     protected void initRunnable(String routingSubscriberConnector, String frontEndSendRoutingSubscriberConnection, String backEndSendRoutingSubscriberConnection, String frontEndReceiveRoutingSubscriberConnection, String backEndReceiveRoutingSubscriberConnection) {
         this.init(routingSubscriberConnector, frontEndSendRoutingSubscriberConnection, backEndSendRoutingSubscriberConnection, frontEndReceiveRoutingSubscriberConnection, backEndReceiveRoutingSubscriberConnection);
-        //this.frontEndReceiveRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
+        this.frontEndReceiveRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
+        this.backEndSendRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
         //this.frontEndRoutingSubscriber.subscribe("test.Test".getBytes(ZMQ.CHARSET));
     }
 
