@@ -22,9 +22,9 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
     @Override
     public void run() {
         // Initialize poll set
-        ZMQ.Poller poller = context.createPoller(1);
+        ZMQ.Poller poller = context.createPoller(2);
         poller.register(this.frontEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
-        //poller.register(this.frontEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
+        poller.register(this.backEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
 
         ZMsg publish;
 
@@ -45,6 +45,18 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
                 }
             }
         }
+        if (poller.pollin(1)) {
+            while (true) {
+                // Receive broker message
+                publish = ZMsg.recvMsg(this.backEndSendRoutingSubscriber);
+                System.out.println("PUBLISH WORKER");
+                System.out.println(publish);
+                if (publish == null) {
+                    break; // Interrupted
+                }
+                this.processWorkerPublish(publish);
+            }
+        }
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
             poller.close();
@@ -55,6 +67,16 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
     private void processProxyPublish(ZMsg publish) {
         if(publish.size() == 5) {
             this.sendToWorker(publish);
+        }
+        else {
+            System.out.println("E: invalid message");
+        }
+        publish.destroy();
+    }
+
+    private void processWorkerPublish(ZMsg publish) {
+        if(publish.size() == 5) {
+            this.sendToProxy(publish);
         }
         else {
             System.out.println("E: invalid message");
