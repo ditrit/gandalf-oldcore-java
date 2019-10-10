@@ -1,5 +1,9 @@
 package com.ditrit.gandalf.core.connectorcore.constant;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class ConnectorConstant {
 
     public static final String WORKER_SERVICE_CLASS_NORMATIVE = "WORKER_SERVICE_CLASS_NORMATIVE";
@@ -11,3 +15,5 @@ public abstract class ConnectorConstant {
     public static final String GANDALF_CLUSTER_ADDRESS = "Address";
     public static final String GANDALF_CLUSTER_PORT = "ServicePort";
 }
+
+

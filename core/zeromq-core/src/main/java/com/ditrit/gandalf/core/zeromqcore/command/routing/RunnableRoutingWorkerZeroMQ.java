@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.ditrit.gandalf.core.zeromqcore.constant.Constant.COMMAND_CLIENT_SEND;
+import static com.ditrit.gandalf.core.zeromqcore.constant.Constant.GANDALF_SERVICECLASS;
 
 public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ implements Runnable {
 
@@ -148,9 +149,13 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
             String sourceServiceClass = brokerMessageBackup.popString();
             String targetConnector = brokerMessageBackup.popString();
             String targetServiceClass = brokerMessageBackup.popString();
-
-            brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
-            this.sendResultToWorker(brokerMessage.duplicate());
+            if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
+                brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
+                this.sendResultToWorker(brokerMessage.duplicate());
+            }
+            else {
+                System.out.println("E: invalid serviceClass");
+            }
         }
         else {
             System.out.println("E: invalid message");
@@ -167,9 +172,13 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
             String sourceServiceClass = brokerMessageBackup.popString();
             String targetConnector = brokerMessageBackup.popString();
             String targetServiceClass = brokerMessageBackup.popString();
-
-            brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
-            this.getServiceClassZMsgLinkedList(targetServiceClass).add(brokerMessage.duplicate());
+            if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
+                brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
+                this.getServiceClassZMsgLinkedList(targetServiceClass).add(brokerMessage.duplicate());
+            }
+            else {
+                System.out.println("E: invalid serviceClass");
+            }
         }
         else {
             System.out.println("E: invalid message");
@@ -186,8 +195,14 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
 
     private void processWorkerSendMessage(ZMsg workerMessage) {
         if(workerMessage.size() == 7) {
-            workerMessage = this.updateIdentityWorkerMessage(workerMessage);
-            this.sendComandToBroker(workerMessage);
+            String serviceClass = workerMessage.popString();
+            if(GANDALF_SERVICECLASS.contains(serviceClass)) {
+                workerMessage = this.updateIdentityWorkerMessage(workerMessage, serviceClass);
+                this.sendComandToBroker(workerMessage);
+            }
+            else {
+                System.out.println("E: invalid serviceClass");
+            }
         }
         else {
             System.out.println("E: invalid message");
@@ -195,8 +210,8 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
         workerMessage.destroy();
     }
 
-    private ZMsg updateIdentityWorkerMessage(ZMsg workerMessage) {
-        String serviceClass = workerMessage.popString();
+    private ZMsg updateIdentityWorkerMessage(ZMsg workerMessage, String serviceClass) {
+        //String serviceClass = workerMessage.popString();
         String uuid = workerMessage.popString();
         workerMessage.addFirst(serviceClass);
         workerMessage.addFirst(this.routingWorkerConnector);
@@ -209,8 +224,13 @@ public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ im
         String serviceClass = workerMessageBackup.popString();
         String commandType = workerMessageBackup.popString();
         if(commandType.equals(Constant.COMMAND_READY)) {
-            if(!this.getServiceClassZMsgLinkedList(serviceClass).isEmpty()) {
-                this.sendCommandToWorker(this.getServiceClassZMsgLinkedList(serviceClass).poll());
+            if(GANDALF_SERVICECLASS.contains(serviceClass)) {
+                if(!this.getServiceClassZMsgLinkedList(serviceClass).isEmpty()) {
+                    this.sendCommandToWorker(this.getServiceClassZMsgLinkedList(serviceClass).poll());
+                }
+            }
+            else {
+                System.out.println("E: invalid serviceClass");
             }
         }
         else if(workerMessage.size() == 10) {
