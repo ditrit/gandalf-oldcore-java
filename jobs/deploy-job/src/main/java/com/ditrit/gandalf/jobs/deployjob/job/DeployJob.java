@@ -21,7 +21,7 @@ import java.time.Duration;
 import java.util.Map;
 
 @Component
-@ComponentScan(basePackages = {"com.ditrit.gandalf.core.clientcore.library"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.library.gandalfworkerclient"})
 public class DeployJob implements JobHandler {
 
     private ZeebeClient zeebe;
