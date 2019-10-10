@@ -66,22 +66,25 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
     }
 
     private void processProxyPublish(ZMsg publish) {
-        if(publish.size() == 5) {
+        this.sendToWorker(publish);
+/*        if(publish.size() == 5) {
             this.sendToWorker(publish);
         }
         else {
             System.out.println("E: invalid message");
-        }
+        }*/
         publish.destroy();
     }
 
     private void processWorkerPublish(ZMsg publish) {
+        this.sendToProxy(publish);
+/*
         if(publish.size() == 5) {
             this.sendToProxy(publish);
         }
         else {
             System.out.println("E: invalid message");
-        }
+        }*/
         publish.destroy();
     }
 
