@@ -2,9 +2,11 @@ package com.ditrit.gandalf.library.gandalfworkerclient;
 
 import com.ditrit.gandalf.core.clientcore.worker.WorkerClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 @Component
+@ComponentScan("com.ditrit.gandalf.core.clientcore.worker")
 public class LibraryWorkerClient {
 
     private WorkerClient workerClient;
