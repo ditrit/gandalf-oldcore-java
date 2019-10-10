@@ -59,17 +59,17 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     }
 
     @Bean
-    public void connectorNormativeWorker() {
-        RunnableWorkerZeroMQ normativeWorker = null;
+    public void connectorStandardWorker() {
+        RunnableWorkerZeroMQ standardWorker = null;
         switch(targetType) {
             case "zeebe":
-                normativeWorker = (ConnectorZeebeStandardWorker) context.getBean("normativeWorker");
+                standardWorker = (ConnectorZeebeStandardWorker) context.getBean("standardWorker");
                 break;
             default:
                 break;
         }
-        if(normativeWorker != null) {
-            this.taskExecutor().execute(normativeWorker);
+        if(standardWorker != null) {
+            this.taskExecutor().execute(standardWorker);
         }
     }
 
