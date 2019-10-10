@@ -1,5 +1,4 @@
-/*
-package com.ditrit.gandalf.core.clientcore.library;
+/*package com.ditrit.gandalf.core.clientcore.library;
 
 import com.ditrit.gandalf.core.clientcore.library.properties.LibraryClientProperties;
 import com.ditrit.gandalf.core.zeromqcore.command.client.ThreadClientZeroMQ;
@@ -19,8 +18,8 @@ public class LibraryClient {
     @Autowired
     public LibraryClient(LibraryClientProperties libraryClientProperties) {
         this.libraryClientProperties = libraryClientProperties;
-        this.threadClientZeroMQ = new ThreadClientZeroMQ(this.libraryClientProperties.getConnectorName(), this.libraryClientProperties.getClientCommandBackEndConnections());
-        this.publisherZeroMQ = new PublisherZeroMQ(this.libraryClientProperties.getConnectorName(), this.libraryClientProperties.getClientEventBackEndConnection());
+        this.threadClientZeroMQ = new ThreadClientZeroMQ(this.libraryClientProperties.getConnectorName(), this.libraryClientProperties.getConnectorCommandBackEndSendConnection());
+        this.publisherZeroMQ = new PublisherZeroMQ(this.libraryClientProperties.getConnectorName(), this.libraryClientProperties.getConnectorEventBackEndSendConnection());
     }
 
     public ZMsg sendCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
@@ -44,5 +43,4 @@ public class LibraryClient {
     public void sendEvent(String topic, String event, String timeout, String payload) {
         this.publisherZeroMQ.sendEvent(topic, event, timeout, payload);
     }
-}
-*/
+}*/

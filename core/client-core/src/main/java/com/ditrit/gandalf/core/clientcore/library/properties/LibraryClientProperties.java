@@ -1,5 +1,4 @@
-/*
-package com.ditrit.gandalf.core.clientcore.library.properties;
+/*package com.ditrit.gandalf.core.clientcore.library.properties;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -24,20 +23,27 @@ public class LibraryClientProperties {
     @Value("${connector.name}")
     private String connectorName;
 
+
+    @Value("tcp://127.0.0.1:9020")
+    private String connectorCommandBackEndSendConnection;
+    @Value("tcp://127.0.0.1:9022")
+    private String connectorEventBackEndSendConnection;
+
+
     private List<String> clientCommandBackEndConnections;
     private String clientEventBackEndConnection;
 
     public LibraryClientProperties() {
         this.restTemplate = new RestTemplate();
         this.mapper = new Gson();
-        this.initProperties();
+        //this.initProperties();
     }
 
     private JsonArray restTemplateRequest(String clusterPropertiesName) {
         return mapper.fromJson(this.restTemplate.getForObject("http://localhost:8500/v1/catalog/service/"+clusterPropertiesName, String.class), JsonArray.class);
     }
 
-    private void initProperties() {
+   private void initProperties() {
         //CONNECTEUR COMMAND FRONT
         JsonArray currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_FRONTEND);
         this.clientCommandBackEndConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
@@ -63,6 +69,22 @@ public class LibraryClientProperties {
         this.connectorName = connectorName;
     }
 
+    public String getConnectorCommandBackEndSendConnection() {
+        return connectorCommandBackEndSendConnection;
+    }
+
+    public void setConnectorCommandBackEndSendConnection(String connectorCommandBackEndSendConnection) {
+        this.connectorCommandBackEndSendConnection = connectorCommandBackEndSendConnection;
+    }
+
+    public String getConnectorEventBackEndSendConnection() {
+        return connectorEventBackEndSendConnection;
+    }
+
+    public void setConnectorEventBackEndSendConnection(String connectorEventBackEndSendConnection) {
+        this.connectorEventBackEndSendConnection = connectorEventBackEndSendConnection;
+    }
+
     public String getClientEventBackEndConnection() {
         return clientEventBackEndConnection;
     }
@@ -78,5 +100,5 @@ public class LibraryClientProperties {
     public void setClientCommandBackEndConnections(List<String> clientCommandBackEndConnections) {
         this.clientCommandBackEndConnections = clientCommandBackEndConnections;
     }
-}
-*/
+}*/
+
