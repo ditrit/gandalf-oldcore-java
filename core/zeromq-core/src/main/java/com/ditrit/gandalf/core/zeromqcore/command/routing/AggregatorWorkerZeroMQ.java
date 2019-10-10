@@ -6,7 +6,7 @@ import org.zeromq.ZMQ;
 
 import java.util.List;
 
-public abstract class RoutingWorkerZeroMQ {
+public abstract class AggregatorWorkerZeroMQ {
 
     protected ZContext context;
     protected ZMQ.Socket frontEndSendRoutingWorker;

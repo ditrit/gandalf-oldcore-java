@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.connectors.connectordatabase.configuration;
 
-import com.ditrit.gandalf.core.connectorcore.routing.ConnectorRoutingSubscriber;
-import com.ditrit.gandalf.core.connectorcore.routing.ConnectorRoutingWorker;
+import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorSubscriber;
+import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodeh2.normative.worker.ConnectorH2NormativeWorker;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
@@ -35,17 +35,17 @@ public class ConnectorDatabaseCoreConfiguration {
 
     @Bean
     public void connectorRoutingWorker() {
-        ConnectorRoutingWorker connectorRoutingWorker = (ConnectorRoutingWorker) context.getBean("routingWorker");
-        if(connectorRoutingWorker != null) {
-            this.taskExecutor().execute(connectorRoutingWorker);
+        ConnectorAggregatorWorker connectorAggregatorWorker = (ConnectorAggregatorWorker) context.getBean("aggregatorWorker");
+        if(connectorAggregatorWorker != null) {
+            this.taskExecutor().execute(connectorAggregatorWorker);
         }
     }
 
     @Bean
     public void connectorRoutingSubscriber() {
-        ConnectorRoutingSubscriber connectorRoutingSubscriber = (ConnectorRoutingSubscriber) context.getBean("routingSubscriber");
-        if(connectorRoutingSubscriber != null) {
-            this.taskExecutor().execute(connectorRoutingSubscriber);
+        ConnectorAggregatorSubscriber connectorAggregatorSubscriber = (ConnectorAggregatorSubscriber) context.getBean("aggregatorSubscriber");
+        if(connectorAggregatorSubscriber != null) {
+            this.taskExecutor().execute(connectorAggregatorSubscriber);
         }
     }
 

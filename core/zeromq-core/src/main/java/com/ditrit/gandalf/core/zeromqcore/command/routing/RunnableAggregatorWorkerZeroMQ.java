@@ -10,15 +10,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static com.ditrit.gandalf.core.zeromqcore.constant.Constant.COMMAND_CLIENT_SEND;
 import static com.ditrit.gandalf.core.zeromqcore.constant.Constant.GANDALF_SERVICECLASS;
 
-public abstract class RunnableRoutingWorkerZeroMQ extends RoutingWorkerZeroMQ implements Runnable {
+public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZeroMQ implements Runnable {
 
     protected Gson mapper;
     private Map<String, LinkedList<ZMsg>> serviceClassZMsgLinkedList;
 
-    public RunnableRoutingWorkerZeroMQ() {
+    public RunnableAggregatorWorkerZeroMQ() {
         super();
         mapper = new Gson();
         this.serviceClassZMsgLinkedList = new HashMap<>();

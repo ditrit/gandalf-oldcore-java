@@ -1,15 +1,14 @@
 package com.ditrit.gandalf.core.zeromqcore.event.routing;
 
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
 import com.google.gson.Gson;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
-public abstract class RunnableRoutingSubscriberZeroMQ extends RoutingSubscriberZeroMQ implements Runnable {
+public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubscriberZeroMQ implements Runnable {
 
     protected Gson mapper;
 
-    public RunnableRoutingSubscriberZeroMQ() {
+    public RunnableAggregatorSubscriberZeroMQ() {
         super();
         mapper = new Gson();
     }
