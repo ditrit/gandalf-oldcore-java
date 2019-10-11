@@ -28,7 +28,7 @@ public class ConnectorGitlabStandardWorker extends RunnableWorkerZeroMQ {
         super();
         this.connectorGitlabStandardManager = connectorGitlabStandardManager;
         this.connectorGitlabProperties = connectorGitlabProperties;
-        this.initRunnable(WORKER_SERVICE_CLASS_STANDARD, this.connectorGitlabProperties.getWorkerCommandBackEndReceiveConnection(), this.connectorGitlabProperties.getWorkerEventBackEndReceiveConnection(), null);
+        this.initRunnable(WORKER_SERVICE_CLASS_STANDARD, this.connectorGitlabProperties.getConnectorCommandBackEndReceiveConnection(), this.connectorGitlabProperties.getConnectorEventBackEndReceiveConnection(), null);
     }
 //TODO PAYLOAD
     @Override
