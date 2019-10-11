@@ -25,12 +25,14 @@ public abstract class AggregatorSubscriberZeroMQ {
 
         //Send Proxy
         this.frontEndSendRoutingSubscriber = this.context.createSocket(SocketType.XPUB);
+        this.backEndSendRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
         this.frontEndSendRoutingSubscriberConnection = frontEndSendRoutingSubscriberConnection;
         System.out.println("RoutingSubscriberZeroMQ connect to frontEndSendRoutingSubscriberConnection: " + this.frontEndSendRoutingSubscriberConnection);
         this.frontEndSendRoutingSubscriber.connect(this.frontEndSendRoutingSubscriberConnection);
 
         //Receive Proxy
         this.frontEndReceiveRoutingSubscriber = this.context.createSocket(SocketType.XSUB);
+        this.backEndSendRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
         this.frontEndReceiveRoutingSubscriberConnection = frontEndReceiveRoutingSubscriberConnection;
         System.out.println("RoutingSubscriberZeroMQ connect to frontEndReceiveRoutingSubscriberConnection: " + this.frontEndReceiveRoutingSubscriberConnection);
         for(String connection : this.frontEndReceiveRoutingSubscriberConnection) {
