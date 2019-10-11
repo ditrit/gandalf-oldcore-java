@@ -4,20 +4,22 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
+import java.util.List;
+
 public abstract class AggregatorSubscriberZeroMQ {
 
     protected ZContext context;
     protected ZMQ.Socket frontEndSendRoutingSubscriber;
     protected String frontEndSendRoutingSubscriberConnection;
     protected ZMQ.Socket frontEndReceiveRoutingSubscriber;
-    protected String frontEndReceiveRoutingSubscriberConnection;
+    protected List<String> frontEndReceiveRoutingSubscriberConnection;
     protected ZMQ.Socket backEndSendRoutingSubscriber;
     protected String backEndSendRoutingSubscriberConnection;
     protected ZMQ.Socket backEndReceiveRoutingSubscriber;
     protected String backEndReceiveRoutingSubscriberConnection;
     protected String routingSubscriberConnector;
 
-    protected void init(String routingSubscriberConnector, String frontEndSendRoutingSubscriberConnection, String backEndSendRoutingSubscriberConnection, String frontEndReceiveRoutingSubscriberConnection, String backEndReceiveRoutingSubscriberConnection) {
+    protected void init(String routingSubscriberConnector, String frontEndSendRoutingSubscriberConnection, String backEndSendRoutingSubscriberConnection, List<String> frontEndReceiveRoutingSubscriberConnection, String backEndReceiveRoutingSubscriberConnection) {
         this.context = new ZContext();
         this.routingSubscriberConnector = routingSubscriberConnector;
 
@@ -31,7 +33,9 @@ public abstract class AggregatorSubscriberZeroMQ {
         this.frontEndReceiveRoutingSubscriber = this.context.createSocket(SocketType.XSUB);
         this.frontEndReceiveRoutingSubscriberConnection = frontEndReceiveRoutingSubscriberConnection;
         System.out.println("RoutingSubscriberZeroMQ connect to frontEndReceiveRoutingSubscriberConnection: " + this.frontEndReceiveRoutingSubscriberConnection);
-        this.frontEndReceiveRoutingSubscriber.connect(this.frontEndReceiveRoutingSubscriberConnection);
+        for(String connection : this.frontEndReceiveRoutingSubscriberConnection) {
+            this.frontEndReceiveRoutingSubscriber.connect(connection);
+        }
 
         //Send Worker
         this.backEndSendRoutingSubscriber = this.context.createSocket(SocketType.XSUB);

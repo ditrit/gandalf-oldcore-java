@@ -13,6 +13,7 @@ public abstract class ConnectorConstant {
     public static final String GANDALF_CLUSTER_COMMAND_FRONTEND = "gandalf-cmd-frontend";
     public static final String GANDALF_CLUSTER_EVENT_FRONTEND = "gandalf-event-frontend";
     public static final String GANDALF_CLUSTER_ADDRESS = "Address";
+    public static final String GANDALF_CLUSTER_SERVICE = "ServiceName";
     public static final String GANDALF_CLUSTER_PORT = "ServicePort";
 }
 

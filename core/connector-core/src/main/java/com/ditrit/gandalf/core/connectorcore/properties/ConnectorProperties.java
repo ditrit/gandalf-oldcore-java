@@ -36,52 +36,9 @@ public class ConnectorProperties {
     @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://*:9031}")
     private String connectorEventBackEndReceiveConnection;
 
-    //TODO REVOIR START
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndSendConnection:tcp://127.0.0.1:9020}")
-    private String workerCommandBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndReceiveConnection:tcp://127.0.0.1:9021}")
-    private String workerCommandBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://127.0.0.1:9030}")
-    private String workerEventBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://127.0.0.1:9031}")
-    private String workerEventBackEndReceiveConnection;
-
-    public String getWorkerCommandBackEndSendConnection() {
-        return workerCommandBackEndSendConnection;
-    }
-
-    public void setWorkerCommandBackEndSendConnection(String workerCommandBackEndSendConnection) {
-        this.workerCommandBackEndSendConnection = workerCommandBackEndSendConnection;
-    }
-
-    public String getWorkerCommandBackEndReceiveConnection() {
-        return workerCommandBackEndReceiveConnection;
-    }
-
-    public void setWorkerCommandBackEndReceiveConnection(String workerCommandBackEndReceiveConnection) {
-        this.workerCommandBackEndReceiveConnection = workerCommandBackEndReceiveConnection;
-    }
-
-    public String getWorkerEventBackEndSendConnection() {
-        return workerEventBackEndSendConnection;
-    }
-
-    public void setWorkerEventBackEndSendConnection(String workerEventBackEndSendConnection) {
-        this.workerEventBackEndSendConnection = workerEventBackEndSendConnection;
-    }
-
-    public String getWorkerEventBackEndReceiveConnection() {
-        return workerEventBackEndReceiveConnection;
-    }
-
-    public void setWorkerEventBackEndReceiveConnection(String workerEventBackEndReceiveConnection) {
-        this.workerEventBackEndReceiveConnection = workerEventBackEndReceiveConnection;
-    }
-    //TODO REVOIR END
-
     private List<String> connectorCommandFrontEndReceiveConnections;
     private List<String> connectorCommandFrontEndSendConnections;
-    private String connectorEventFrontEndReceiveConnection;
+    private List<String> connectorEventFrontEndReceiveConnection;
     private String connectorEventFrontEndSendConnection;
 
     public ConnectorProperties() {
@@ -112,12 +69,16 @@ public class ConnectorProperties {
         //CONNECTEUR EVENT RECEIVE FRONT
         currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_BACKEND);
         JsonObject currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
-        this.connectorEventFrontEndReceiveConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
+        this.connectorEventFrontEndReceiveConnection = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
+                .map(JsonObject.class::cast)
+                .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
+                .collect(Collectors.toList());
 
         //CONNECTEUR EVENT SEND FRONT
         currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_FRONTEND);
         currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
-        this.connectorEventFrontEndSendConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
+        //this.connectorEventFrontEndSendConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
+        this.connectorEventFrontEndSendConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_SERVICE), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
 
         //CONNECTEUR COMMAND BACK
         //this.connectorCommandBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonArray.get(0).getAsJsonObject().get(GANDALF_CLUSTER_PORT));
@@ -132,7 +93,7 @@ public class ConnectorProperties {
     }
 
     private String concatBackEndAddressPort(JsonElement port) {
-        return new StringBuilder("tcp://").append("127.0.0.1:").append(port.getAsString()).toString();
+        return new StringBuilder("tcp://").append("*:").append(port.getAsString()).toString();
     }
 
     public String getInstanceName() {
@@ -207,11 +168,11 @@ public class ConnectorProperties {
         this.connectorCommandFrontEndSendConnections = connectorCommandFrontEndSendConnections;
     }
 
-    public String getConnectorEventFrontEndReceiveConnection() {
+    public List<String> getConnectorEventFrontEndReceiveConnection() {
         return connectorEventFrontEndReceiveConnection;
     }
 
-    public void setConnectorEventFrontEndReceiveConnection(String connectorEventFrontEndReceiveConnection) {
+    public void setConnectorEventFrontEndReceiveConnection(List<String> connectorEventFrontEndReceiveConnection) {
         this.connectorEventFrontEndReceiveConnection = connectorEventFrontEndReceiveConnection;
     }
 

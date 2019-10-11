@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
+import java.util.List;
+
 public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubscriberZeroMQ implements Runnable {
 
     protected Gson mapper;
@@ -13,7 +15,7 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
         mapper = new Gson();
     }
 
-    protected void initRunnable(String routingSubscriberConnector, String frontEndSendRoutingSubscriberConnection, String backEndSendRoutingSubscriberConnection, String frontEndReceiveRoutingSubscriberConnection, String backEndReceiveRoutingSubscriberConnection) {
+    protected void initRunnable(String routingSubscriberConnector, String frontEndSendRoutingSubscriberConnection, String backEndSendRoutingSubscriberConnection, List<String> frontEndReceiveRoutingSubscriberConnection, String backEndReceiveRoutingSubscriberConnection) {
         this.init(routingSubscriberConnector, frontEndSendRoutingSubscriberConnection, backEndSendRoutingSubscriberConnection, frontEndReceiveRoutingSubscriberConnection, backEndReceiveRoutingSubscriberConnection);
         //this.frontEndReceiveRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
         //this.backEndSendRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
@@ -22,10 +24,10 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
 
     @Override
     public void run() {
-        //ZMQ.proxy(this.backEndSendRoutingSubscriber, this.frontEndSendRoutingSubscriber,  null);
-        //ZMQ.proxy(this.frontEndReceiveRoutingSubscriber, this.backEndReceiveRoutingSubscriber,  null);
+        ZMQ.proxy(this.backEndSendRoutingSubscriber, this.frontEndSendRoutingSubscriber,  null);
+        ZMQ.proxy(this.frontEndReceiveRoutingSubscriber, this.backEndReceiveRoutingSubscriber,  null);
         // Initialize poll set
-        ZMQ.Poller poller = context.createPoller(4);
+      /*  ZMQ.Poller poller = context.createPoller(4);
         poller.register(this.frontEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
         poller.register(this.backEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
         poller.register(this.frontEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
@@ -90,7 +92,7 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
             System.out.println("W: interrupted");
             poller.close();
             this.close(); // interrupted
-        }
+        }*/
     }
 
     private void processProxyPublish(ZMsg publish) {
