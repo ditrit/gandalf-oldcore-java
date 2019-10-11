@@ -27,8 +27,8 @@ public abstract class AggregatorWorkerZeroMQ {
         this.frontEndSendRoutingWorker = this.context.createSocket(SocketType.DEALER);
         this.frontEndSendRoutingWorker.setIdentity(this.routingWorkerConnector.getBytes(ZMQ.CHARSET));
         this.frontEndSendRoutingWorkerConnections = frontEndSendRoutingWorkerConnections;
+        System.out.println("RoutingWorkerZeroMQ connect to frontEndSendRoutingWorkerConnections: " + this.frontEndSendRoutingWorkerConnections);
         for(String connection : this.frontEndSendRoutingWorkerConnections) {
-            System.out.println("RoutingWorkerZeroMQ connect to frontEndSendRoutingWorkerConnections: " + connection);
             this.frontEndSendRoutingWorker.connect(connection);
         }
 
@@ -36,8 +36,8 @@ public abstract class AggregatorWorkerZeroMQ {
         this.frontEndReceiveRoutingWorker = this.context.createSocket(SocketType.DEALER);
         this.frontEndReceiveRoutingWorker.setIdentity(this.routingWorkerConnector.getBytes(ZMQ.CHARSET));
         this.frontEndReceiveRoutingWorkerConnections = frontEndReceiveRoutingWorkerConnections;
+        System.out.println("RoutingWorkerZeroMQ connect to frontEndReceiveRoutingWorkerConnections: " + this.frontEndReceiveRoutingWorkerConnections);
         for(String connection : this.frontEndReceiveRoutingWorkerConnections) {
-            System.out.println("RoutingWorkerZeroMQ connect to frontEndReceiveRoutingWorkerConnections: " + connection);
             this.frontEndReceiveRoutingWorker.connect(connection);
         }
 
