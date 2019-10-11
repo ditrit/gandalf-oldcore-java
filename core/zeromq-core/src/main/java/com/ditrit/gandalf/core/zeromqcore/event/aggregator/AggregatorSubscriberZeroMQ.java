@@ -39,7 +39,7 @@ public abstract class AggregatorSubscriberZeroMQ {
         this.backEndSendRoutingSubscriberConnection = backEndSendRoutingSubscriberConnection;
         System.out.println("RoutingSubscriberZeroMQ binding to backEndSendRoutingSubscriberConnection: " + this.backEndSendRoutingSubscriberConnection);
         this.backEndSendRoutingSubscriber.bind(this.backEndSendRoutingSubscriberConnection);
-        this.backEndReceiveRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
+        this.backEndSendRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
 
         //Receive Worker
         this.backEndReceiveRoutingSubscriber = this.context.createSocket(SocketType.XPUB);
