@@ -28,14 +28,12 @@ public abstract class AggregatorSubscriberZeroMQ {
 
         //Send Proxy
         this.frontEndSendRoutingSubscriber = this.context.createSocket(SocketType.XPUB);
-        this.backEndSendRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
         this.frontEndSendRoutingSubscriberConnection = frontEndSendRoutingSubscriberConnection;
         System.out.println("RoutingSubscriberZeroMQ connect to frontEndSendRoutingSubscriberConnection: " + this.frontEndSendRoutingSubscriberConnection);
         this.frontEndSendRoutingSubscriber.connect(this.frontEndSendRoutingSubscriberConnection);
 
         //Receive Proxy
         this.frontEndReceiveRoutingSubscriber = this.context.createSocket(SocketType.XSUB);
-        this.backEndSendRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
         this.frontEndReceiveRoutingSubscriberConnection = frontEndReceiveRoutingSubscriberConnection;
         System.out.println("RoutingSubscriberZeroMQ connect to frontEndReceiveRoutingSubscriberConnection: " + this.frontEndReceiveRoutingSubscriberConnection);
         for(String connection : this.frontEndReceiveRoutingSubscriberConnection) {
@@ -44,14 +42,12 @@ public abstract class AggregatorSubscriberZeroMQ {
 
         //Send Worker
         this.backEndSendRoutingSubscriber = this.context.createSocket(SocketType.XSUB);
-        this.backEndSendRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
         this.backEndSendRoutingSubscriberConnection = backEndSendRoutingSubscriberConnection;
         System.out.println("RoutingSubscriberZeroMQ binding to backEndSendRoutingSubscriberConnection: " + this.backEndSendRoutingSubscriberConnection);
         this.backEndSendRoutingSubscriber.bind(this.backEndSendRoutingSubscriberConnection);
 
         //Receive Worker
         this.backEndReceiveRoutingSubscriber = this.context.createSocket(SocketType.XPUB);
-        this.backEndReceiveRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
         this.backEndReceiveRoutingSubscriberConnection = backEndReceiveRoutingSubscriberConnection;
         System.out.println("RoutingSubscriberZeroMQ binding to backEndReceiveRoutingSubscriberConnection: " + this.backEndReceiveRoutingSubscriberConnection);
         this.backEndReceiveRoutingSubscriber.bind(this.backEndReceiveRoutingSubscriberConnection);
