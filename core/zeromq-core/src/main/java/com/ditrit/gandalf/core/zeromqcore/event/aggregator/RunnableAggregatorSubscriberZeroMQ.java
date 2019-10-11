@@ -34,6 +34,8 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
         poller.register(this.backEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
 
         ZMsg publish;
+        boolean more = false;
+
         // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
             poller.poll();
@@ -42,12 +44,17 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
                 while (true) {
                     // Receive broker message
                     publish = ZMsg.recvMsg(this.frontEndSendRoutingSubscriber);
+                    more = this.frontEndSendRoutingSubscriber.hasReceiveMore();
                     System.out.println("BLOOP CLUSTER");
                     System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted
                     }
                     publish.send(this.backEndSendRoutingSubscriber);
+
+                    if(!more) {
+                        break;
+                    }
                 }
             }
 
@@ -55,12 +62,17 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
                 while (true) {
                     // Receive broker message
                     publish = ZMsg.recvMsg(this.backEndSendRoutingSubscriber);
+                    more = this.backEndSendRoutingSubscriber.hasReceiveMore();
                     System.out.println("PUBLISH WORKER");
                     System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted
                     }
                     this.processWorkerPublish(publish);
+
+                    if(!more) {
+                        break;
+                    }
                 }
             }
 
@@ -68,12 +80,17 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
                 while (true) {
                     // Receive broker message
                     publish = ZMsg.recvMsg(this.frontEndReceiveRoutingSubscriber);
+                    more = this.frontEndReceiveRoutingSubscriber.hasReceiveMore();
                     System.out.println("PUBLISH CLUSTER");
                     System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted
                     }
                     this.processProxyPublish(publish);
+
+                    if(!more) {
+                        break;
+                    }
                 }
             }
 
@@ -81,12 +98,17 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
                 while (true) {
                     // Receive broker message
                     publish = ZMsg.recvMsg(this.backEndReceiveRoutingSubscriber);
+                    more = this.backEndReceiveRoutingSubscriber.hasReceiveMore();
                     System.out.println("BLOOP WORKER");
                     System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted
                     }
                     publish.send(this.frontEndReceiveRoutingSubscriber);
+
+                    if(!more) {
+                        break;
+                    }
                 }
             }
         }
