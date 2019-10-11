@@ -22,8 +22,8 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
 
     @Override
     public void run() {
-        ZMQ.proxy(this.frontEndSendRoutingSubscriber, this.frontEndReceiveRoutingSubscriber,  null);
-        ZMQ.proxy(this.backEndSendRoutingSubscriber, this.backEndReceiveRoutingSubscriber,  null);
+        ZMQ.proxy(this.frontEndSendRoutingSubscriber, this.backEndSendRoutingSubscriber,  null);
+        ZMQ.proxy(this.frontEndReceiveRoutingSubscriber, this.backEndReceiveRoutingSubscriber,  null);
         // Initialize poll set
        /* ZMQ.Poller poller = context.createPoller(2);
         poller.register(this.frontEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
