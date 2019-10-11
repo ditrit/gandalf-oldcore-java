@@ -25,9 +25,11 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
         //ZMQ.proxy(this.backEndSendRoutingSubscriber, this.frontEndSendRoutingSubscriber,  null);
         //ZMQ.proxy(this.frontEndReceiveRoutingSubscriber, this.backEndReceiveRoutingSubscriber,  null);
         // Initialize poll set
-        ZMQ.Poller poller = context.createPoller(2);
-        poller.register(this.frontEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
+        ZMQ.Poller poller = context.createPoller(4);
+        poller.register(this.frontEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
         poller.register(this.backEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
+        poller.register(this.frontEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
+        poller.register(this.backEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
 
         ZMsg publish;
         // Switch messages between sockets
@@ -37,13 +39,12 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive broker message
-                    publish = ZMsg.recvMsg(this.frontEndReceiveRoutingSubscriber);
-                    System.out.println("PUBLISH CLUSTER");
+                    publish = ZMsg.recvMsg(this.frontEndSendRoutingSubscriber);
                     System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted
                     }
-                    this.processProxyPublish(publish);
+                    publish.send(this.backEndSendRoutingSubscriber);
                 }
             }
 
@@ -57,6 +58,31 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
                         break; // Interrupted
                     }
                     this.processWorkerPublish(publish);
+                }
+            }
+
+            if (poller.pollin(2)) {
+                while (true) {
+                    // Receive broker message
+                    publish = ZMsg.recvMsg(this.frontEndReceiveRoutingSubscriber);
+                    System.out.println("PUBLISH CLUSTER");
+                    System.out.println(publish);
+                    if (publish == null) {
+                        break; // Interrupted
+                    }
+                    this.processProxyPublish(publish);
+                }
+            }
+
+            if (poller.pollin(3)) {
+                while (true) {
+                    // Receive broker message
+                    publish = ZMsg.recvMsg(this.backEndSendRoutingSubscriber);
+                    System.out.println(publish);
+                    if (publish == null) {
+                        break; // Interrupted
+                    }
+                    publish.send(this.frontEndSendRoutingSubscriber);
                 }
             }
         }
