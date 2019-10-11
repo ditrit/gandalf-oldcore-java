@@ -23,6 +23,9 @@ public abstract class AggregatorSubscriberZeroMQ {
         this.context = new ZContext();
         this.routingSubscriberConnector = routingSubscriberConnector;
 
+        System.out.println("IDENTITY");
+        System.out.println(routingSubscriberConnector);
+
         //Send Proxy
         this.frontEndSendRoutingSubscriber = this.context.createSocket(SocketType.XPUB);
         this.backEndSendRoutingSubscriber.setIdentity(this.routingSubscriberConnector.getBytes(ZMQ.CHARSET));
