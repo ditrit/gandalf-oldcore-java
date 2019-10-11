@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.core.clientcore.custom;
 
-import com.ditrit.gandalf.core.clientcore.library.properties.CustomClientProperties;
+import com.ditrit.gandalf.core.clientcore.custom.properties.CustomClientProperties;
 import com.ditrit.gandalf.core.zeromqcore.command.client.ThreadClientZeroMQ;
 import com.ditrit.gandalf.core.zeromqcore.event.client.PublisherZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
