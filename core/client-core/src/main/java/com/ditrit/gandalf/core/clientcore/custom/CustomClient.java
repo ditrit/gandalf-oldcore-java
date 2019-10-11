@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.core.clientcore.custom;
 
-import com.ditrit.gandalf.core.clientcore.library.properties.LibraryClientProperties;
+import com.ditrit.gandalf.core.clientcore.library.properties.CustomClientProperties;
 import com.ditrit.gandalf.core.zeromqcore.command.client.ThreadClientZeroMQ;
 import com.ditrit.gandalf.core.zeromqcore.event.client.PublisherZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +10,16 @@ import org.zeromq.ZMsg;
 @Component(value = "customClient")
 public class CustomClient {
 
-    private LibraryClientProperties libraryClientProperties;
+    private CustomClientProperties customClientProperties;
     private ThreadClientZeroMQ threadClientZeroMQ;
     private PublisherZeroMQ publisherZeroMQ;
 
 
     @Autowired
-    public CustomClient(LibraryClientProperties libraryClientProperties) {
-        this.libraryClientProperties = libraryClientProperties;
-        this.threadClientZeroMQ = new ThreadClientZeroMQ(this.libraryClientProperties.getConnectorName(), this.libraryClientProperties.getClientCommandBackEndConnections());
-        this.publisherZeroMQ = new PublisherZeroMQ(this.libraryClientProperties.getConnectorName(), this.libraryClientProperties.getConnectorCommandBackEndSendConnection());
+    public CustomClient(CustomClientProperties customClientProperties) {
+        this.customClientProperties = customClientProperties;
+        this.threadClientZeroMQ = new ThreadClientZeroMQ(this.customClientProperties.getConnectorName(), this.customClientProperties.getClientCommandBackEndConnections());
+        this.publisherZeroMQ = new PublisherZeroMQ(this.customClientProperties.getConnectorName(), this.customClientProperties.getConnectorCommandBackEndSendConnection());
     }
 
     public ZMsg sendCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {

@@ -4,10 +4,12 @@ import com.ditrit.gandalf.core.clientcore.custom.CustomClient;
 import com.ditrit.gandalf.core.clientcore.library.LibraryClient;
 import com.ditrit.gandalf.core.listenercore.LibraryListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
+@ComponentScan("com.ditrit.gandalf.core.clientcore.custom")
 public class GandalfCustomClient {
 
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
