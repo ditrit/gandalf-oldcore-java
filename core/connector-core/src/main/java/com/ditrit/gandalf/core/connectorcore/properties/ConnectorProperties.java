@@ -27,15 +27,57 @@ public class ConnectorProperties {
     //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndSendConnection:tcp://127.0.0.1:9020}")
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndSendConnection:tcp://*:9020}")
     private String connectorCommandBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndReceiveConnection:tcp://127.0.0.1:9021}")
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndReceiveConnection:tcp://*:9021}")
     private String connectorCommandBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://127.0.0.1:9030}")
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://*:9030}")
     private String connectorEventBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://127.0.0.1:9031}")
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://*:9031}")
     private String connectorEventBackEndReceiveConnection;
 
+    //TODO REVOIR START
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndSendConnection:tcp://127.0.0.1:9020}")
+    private String workerCommandBackEndSendConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndReceiveConnection:tcp://127.0.0.1:9021}")
+    private String workerCommandBackEndReceiveConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://127.0.0.1:9030}")
+    private String workerEventBackEndSendConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://127.0.0.1:9031}")
+    private String workerEventBackEndReceiveConnection;
+
+    public String getWorkerCommandBackEndSendConnection() {
+        return workerCommandBackEndSendConnection;
+    }
+
+    public void setWorkerCommandBackEndSendConnection(String workerCommandBackEndSendConnection) {
+        this.workerCommandBackEndSendConnection = workerCommandBackEndSendConnection;
+    }
+
+    public String getWorkerCommandBackEndReceiveConnection() {
+        return workerCommandBackEndReceiveConnection;
+    }
+
+    public void setWorkerCommandBackEndReceiveConnection(String workerCommandBackEndReceiveConnection) {
+        this.workerCommandBackEndReceiveConnection = workerCommandBackEndReceiveConnection;
+    }
+
+    public String getWorkerEventBackEndSendConnection() {
+        return workerEventBackEndSendConnection;
+    }
+
+    public void setWorkerEventBackEndSendConnection(String workerEventBackEndSendConnection) {
+        this.workerEventBackEndSendConnection = workerEventBackEndSendConnection;
+    }
+
+    public String getWorkerEventBackEndReceiveConnection() {
+        return workerEventBackEndReceiveConnection;
+    }
+
+    public void setWorkerEventBackEndReceiveConnection(String workerEventBackEndReceiveConnection) {
+        this.workerEventBackEndReceiveConnection = workerEventBackEndReceiveConnection;
+    }
+    //TODO REVOIR END
 
     private List<String> connectorCommandFrontEndReceiveConnections;
     private List<String> connectorCommandFrontEndSendConnections;

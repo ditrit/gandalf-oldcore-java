@@ -21,9 +21,9 @@ public class ConnectorGandalfProperties {
     private String connectorCommandBackEndSendConnection;
     @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndReceiveConnection:tcp://127.0.0.1:9021}")
     private String connectorCommandBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://127.0.0.1:9022}")
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://127.0.0.1:9030}")
     private String connectorEventBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://127.0.0.1:9023}")
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://127.0.0.1:9031}")
     private String connectorEventBackEndReceiveConnection;
 
     public String getInstanceName() {
