@@ -80,13 +80,13 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
             if (poller.pollin(3)) {
                 while (true) {
                     // Receive broker message
-                    publish = ZMsg.recvMsg(this.backEndSendRoutingSubscriber);
+                    publish = ZMsg.recvMsg(this.backEndReceiveRoutingSubscriber);
                     System.out.println("BLOOP WORKER");
                     System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted
                     }
-                    publish.send(this.frontEndSendRoutingSubscriber);
+                    publish.send(this.frontEndReceiveRoutingSubscriber);
                 }
             }
         }
