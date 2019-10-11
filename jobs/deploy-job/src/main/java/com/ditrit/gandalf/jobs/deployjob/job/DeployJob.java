@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.jobs.deployjob.job;
 
-import com.ditrit.gandalf.library.gandalfworkerclient.LibraryWorkerClient;
+import com.ditrit.gandalf.library.gandalfcustomclient.GandalfCustomClient;
 import com.google.gson.JsonObject;
 import com.ditrit.gandalf.jobs.deployjob.feign.DeployFeign;
 import com.ditrit.gandalf.jobs.deployjob.properties.DeployJobProperties;
@@ -27,15 +27,15 @@ public class DeployJob implements JobHandler {
     private ZeebeClient zeebe;
     private DeployFeign deployFeign;
     private JobWorker subscription;
-    private LibraryWorkerClient libraryWorkerClient;
+    private GandalfCustomClient gandalfCustomClient;
     private DeployJobProperties deployJobProperties;
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Autowired
-    public DeployJob(ZeebeClient zeebe, DeployFeign deployFeign, LibraryWorkerClient libraryWorkerClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, DeployJobProperties deployJobProperties) {
+    public DeployJob(ZeebeClient zeebe, DeployFeign deployFeign, GandalfCustomClient gandalfCustomClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, DeployJobProperties deployJobProperties) {
         this.zeebe = zeebe;
         this.deployFeign = deployFeign;
-        this.libraryWorkerClient = libraryWorkerClient;
+        this.gandalfCustomClient = gandalfCustomClient;
         this.deployJobProperties = deployJobProperties;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
     }
@@ -77,7 +77,7 @@ public class DeployJob implements JobHandler {
         payload.addProperty("service", projectName);
         payload.addProperty("version", version);
 
-        ZMsg resultCommand = this.libraryWorkerClient.getWorkerClient().sendCommandSync("deploy", this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DEPLOY", "5", payload.toString());
+        ZMsg resultCommand = this.gandalfCustomClient.getCustomClient().sendCommandSync("deploy", this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DEPLOY", "5", payload.toString());
  /*       ZMsg resultCommand = null;
         while(resultCommand == null) {
             System.out.println("NULL");
@@ -90,11 +90,11 @@ public class DeployJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            this.libraryWorkerClient.getWorkerClient().sendEvent("build", "DEPLOY", "5",projectName + " deploy : success" );
+            this.gandalfCustomClient.getCustomClient().sendEvent("build", "DEPLOY", "5",projectName + " deploy : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            this.libraryWorkerClient.getWorkerClient().sendEvent("build", "DEPLOY", "5",projectName + " deploy : fail" );
+            this.gandalfCustomClient.getCustomClient().sendEvent("build", "DEPLOY", "5",projectName + " deploy : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
         }
     }

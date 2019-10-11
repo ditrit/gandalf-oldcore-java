@@ -1,4 +1,4 @@
-/*package com.ditrit.gandalf.core.clientcore.library.properties;
+package com.ditrit.gandalf.core.clientcore.library.properties;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -26,7 +26,7 @@ public class LibraryClientProperties {
 
     @Value("tcp://127.0.0.1:9020")
     private String connectorCommandBackEndSendConnection;
-    @Value("tcp://127.0.0.1:9022")
+    @Value("tcp://127.0.0.1:9030")
     private String connectorEventBackEndSendConnection;
 
 
@@ -100,5 +100,5 @@ public class LibraryClientProperties {
     public void setClientCommandBackEndConnections(List<String> clientCommandBackEndConnections) {
         this.clientCommandBackEndConnections = clientCommandBackEndConnections;
     }
-}*/
+}
 
