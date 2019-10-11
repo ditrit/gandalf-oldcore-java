@@ -59,7 +59,6 @@ public class ThreadClientZeroMQ extends Thread {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         this.backEndClient.sendMore(uuid);
-        this.backEndClient.sendMore(this.identity);
         this.backEndClient.sendMore(connector);
         this.backEndClient.sendMore(serviceClass);
         this.backEndClient.sendMore(command);
@@ -73,6 +72,35 @@ public class ThreadClientZeroMQ extends Thread {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         this.backEndClient.sendMore(uuid);
+        this.backEndClient.sendMore(connector);
+        this.backEndClient.sendMore(serviceClass);
+        this.backEndClient.sendMore(command);
+        this.backEndClient.sendMore(timeout);
+        this.backEndClient.sendMore(timestamp.toString());
+        this.backEndClient.send(payload);
+        this.run();
+    }
+
+    public ZMsg sendCustomCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        this.backEndClient.sendMore(uuid);
+        this.backEndClient.sendMore(this.identity);
+        this.backEndClient.sendMore(this.identity);
+        this.backEndClient.sendMore(connector);
+        this.backEndClient.sendMore(serviceClass);
+        this.backEndClient.sendMore(command);
+        this.backEndClient.sendMore(timeout);
+        this.backEndClient.sendMore(timestamp.toString());
+        this.backEndClient.send(payload);
+        return this.getCommandResultSync();
+    }
+
+    public void sendCustomCommandAsync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        this.backEndClient.sendMore(uuid);
+        this.backEndClient.sendMore(this.identity);
         this.backEndClient.sendMore(this.identity);
         this.backEndClient.sendMore(connector);
         this.backEndClient.sendMore(serviceClass);
