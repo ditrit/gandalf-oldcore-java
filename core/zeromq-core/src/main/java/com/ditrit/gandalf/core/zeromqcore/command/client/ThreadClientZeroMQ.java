@@ -81,6 +81,8 @@ public class ThreadClientZeroMQ extends Thread {
         this.run();
     }
 
+
+    //TODO REMOVE
     public ZMsg sendCustomCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
@@ -96,6 +98,7 @@ public class ThreadClientZeroMQ extends Thread {
         return this.getCommandResultSync();
     }
 
+    //TODO REMOVE
     public void sendCustomCommandAsync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 

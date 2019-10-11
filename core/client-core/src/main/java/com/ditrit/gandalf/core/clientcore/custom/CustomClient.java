@@ -23,14 +23,14 @@ public class CustomClient {
     }
 
     public ZMsg sendCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
-        return this.threadClientZeroMQ.sendCommandSync(uuid, connector, serviceClass, command, timeout, payload);
+        return this.threadClientZeroMQ.sendCustomCommandSync(uuid, connector, serviceClass, command, timeout, payload);
     }
 
     public void sendCommandAsync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
         if(this.threadClientZeroMQ.isInterrupted()) {
             this.threadClientZeroMQ.start();
         }
-        this.threadClientZeroMQ.sendCommandAsync(uuid, connector, serviceClass, command, timeout, payload);
+        this.threadClientZeroMQ.sendCustomCommandAsync(uuid, connector, serviceClass, command, timeout, payload);
     }
 
     public ZMsg getCommandResultAsync() {
