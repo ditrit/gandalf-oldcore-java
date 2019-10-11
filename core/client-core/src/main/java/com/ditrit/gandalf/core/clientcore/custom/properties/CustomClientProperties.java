@@ -1,4 +1,4 @@
-package com.ditrit.gandalf.core.clientcore.library.properties;
+package com.ditrit.gandalf.core.clientcore.custom.properties;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
