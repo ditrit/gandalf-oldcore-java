@@ -17,13 +17,13 @@ public class ConnectorGandalfProperties {
     //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndSendConnection:tcp://127.0.0.1:9020}")
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndSendConnection:tcp://*:9020}")
     private String connectorCommandBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndReceiveConnection:tcp://127.0.0.1:9021}")
+    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndReceiveConnection:tcp://*:9021}")
     private String connectorCommandBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://127.0.0.1:9030}")
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://*:9030}")
     private String connectorEventBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://127.0.0.1:9031}")
+    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://*:9031}")
     private String connectorEventBackEndReceiveConnection;
 
     public String getInstanceName() {
