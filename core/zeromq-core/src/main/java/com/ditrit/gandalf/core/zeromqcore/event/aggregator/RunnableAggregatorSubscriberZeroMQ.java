@@ -24,10 +24,10 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
 
     @Override
     public void run() {
-        ZMQ.proxy(this.backEndSendRoutingSubscriber, this.frontEndSendRoutingSubscriber,  null);
-        ZMQ.proxy(this.frontEndReceiveRoutingSubscriber, this.backEndReceiveRoutingSubscriber,  null);
+        //ZMQ.proxy(this.backEndSendRoutingSubscriber, this.frontEndSendRoutingSubscriber,  null);
+        //ZMQ.proxy(this.frontEndReceiveRoutingSubscriber, this.backEndReceiveRoutingSubscriber,  null);
         // Initialize poll set
-      /*  ZMQ.Poller poller = context.createPoller(4);
+        ZMQ.Poller poller = context.createPoller(4);
         poller.register(this.frontEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
         poller.register(this.backEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
         poller.register(this.frontEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
@@ -42,6 +42,7 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
                 while (true) {
                     // Receive broker message
                     publish = ZMsg.recvMsg(this.frontEndSendRoutingSubscriber);
+                    System.out.println("BLOOP CLUSTER");
                     System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted
@@ -80,6 +81,7 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
                 while (true) {
                     // Receive broker message
                     publish = ZMsg.recvMsg(this.backEndSendRoutingSubscriber);
+                    System.out.println("BLOOP WORKER");
                     System.out.println(publish);
                     if (publish == null) {
                         break; // Interrupted
@@ -92,7 +94,7 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
             System.out.println("W: interrupted");
             poller.close();
             this.close(); // interrupted
-        }*/
+        }
     }
 
     private void processProxyPublish(ZMsg publish) {
