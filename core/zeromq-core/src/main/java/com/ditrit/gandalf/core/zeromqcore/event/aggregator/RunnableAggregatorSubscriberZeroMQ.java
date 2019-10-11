@@ -22,8 +22,10 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
 
     @Override
     public void run() {
+        ZMQ.proxy(this.frontEndSendRoutingSubscriber, this.frontEndReceiveRoutingSubscriber,  null);
+        ZMQ.proxy(this.backEndSendRoutingSubscriber, this.backEndReceiveRoutingSubscriber,  null);
         // Initialize poll set
-        ZMQ.Poller poller = context.createPoller(2);
+       /* ZMQ.Poller poller = context.createPoller(2);
         poller.register(this.frontEndReceiveRoutingSubscriber, ZMQ.Poller.POLLIN);
         poller.register(this.backEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
 
@@ -62,7 +64,7 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
             System.out.println("W: interrupted");
             poller.close();
             this.close(); // interrupted
-        }
+        }*/
     }
 
     private void processProxyPublish(ZMsg publish) {
