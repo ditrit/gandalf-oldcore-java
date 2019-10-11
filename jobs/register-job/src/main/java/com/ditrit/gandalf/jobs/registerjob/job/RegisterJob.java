@@ -22,7 +22,7 @@ import java.util.Map;
 
 
 @Component
-@ComponentScan(basePackages = {"com.ditrit.gandalf.library.gandalfworkerclient"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.library.gandalfcustomclient"})
 public class RegisterJob implements JobHandler {
 
     private ZeebeClient zeebe;
