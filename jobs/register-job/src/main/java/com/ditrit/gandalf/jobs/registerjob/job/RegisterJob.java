@@ -103,7 +103,7 @@ public class RegisterJob implements JobHandler {
         payloadRegister.addProperty("service", projectName);
         payloadRegister.addProperty("version", projectVersion);
 
-        ZMsg resultCommand = this.gandalfCustomClient.getCustomClient().sendCommandSync("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "REGISTER", "5", payloadRegister.toString());
+        ZMsg resultCommand = this.gandalfCustomClient.getCustomClient().sendCommandSync("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_STANDARD", "REGISTER", "5", payloadRegister.toString());
 /*        while(resultCommand == null) {
             resultCommand = this.gandalfClient.getCommandResult();
         }*/
