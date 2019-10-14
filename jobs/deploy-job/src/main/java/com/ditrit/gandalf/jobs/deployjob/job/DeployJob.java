@@ -77,7 +77,7 @@ public class DeployJob implements JobHandler {
         payload.addProperty("service", projectName);
         payload.addProperty("version", version);
 
-        ZMsg resultCommand = this.gandalfClient.getClient().sendCommandSync("deploy", this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_NORMATIVE", "DEPLOY", "5", payload.toString());
+        ZMsg resultCommand = this.gandalfClient.getClient().sendCommandSync("deploy", this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_STANDARD", "DEPLOY", "5", payload.toString());
  /*       ZMsg resultCommand = null;
         while(resultCommand == null) {
             System.out.println("NULL");
