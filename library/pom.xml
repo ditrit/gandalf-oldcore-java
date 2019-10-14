@@ -15,7 +15,6 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>gandalf-worker-client</module>
-        <module>gandalf-custom-client</module>
+        <module>gandalf-client</module>
     </modules>
 </project>
