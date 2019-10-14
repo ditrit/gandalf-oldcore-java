@@ -5,10 +5,11 @@ import org.zeromq.ZMsg;
 public class MessageCommand {
 
     private ZMsg message;
-    private String client;
     private String uuid;
-    private String connector;
-    private String serviceClass;
+    String sourceConnector;
+    String sourceServiceClass;
+    String targetConnector;
+    String targetServiceClass;
     private String command;
     private String timeout;
     private String timestamp;
@@ -22,14 +23,6 @@ public class MessageCommand {
         this.message = message;
     }
 
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
-    }
-
     public String getUuid() {
         return uuid;
     }
@@ -38,20 +31,36 @@ public class MessageCommand {
         this.uuid = uuid;
     }
 
-    public String getConnector() {
-        return connector;
+    public String getSourceConnector() {
+        return sourceConnector;
     }
 
-    public void setConnector(String connector) {
-        this.connector = connector;
+    public void setSourceConnector(String sourceConnector) {
+        this.sourceConnector = sourceConnector;
     }
 
-    public String getServiceClass() {
-        return serviceClass;
+    public String getSourceServiceClass() {
+        return sourceServiceClass;
     }
 
-    public void setServiceClass(String serviceClass) {
-        this.serviceClass = serviceClass;
+    public void setSourceServiceClass(String sourceServiceClass) {
+        this.sourceServiceClass = sourceServiceClass;
+    }
+
+    public String getTargetConnector() {
+        return targetConnector;
+    }
+
+    public void setTargetConnector(String targetConnector) {
+        this.targetConnector = targetConnector;
+    }
+
+    public String getTargetServiceClass() {
+        return targetServiceClass;
+    }
+
+    public void setTargetServiceClass(String targetServiceClass) {
+        this.targetServiceClass = targetServiceClass;
     }
 
     public String getCommand() {
@@ -89,9 +98,10 @@ public class MessageCommand {
     public MessageCommand(ZMsg command) {
         this.message = command.duplicate();
         this.uuid = this.message.popString();
-        this.client = this.message.popString();
-        this.connector = this.message.popString();
-        this.serviceClass = this.message.popString();
+        this.sourceConnector = this.message.popString();
+        this.sourceServiceClass = this.message.popString();
+        this.targetConnector = this.message.popString();
+        this.targetServiceClass = this.message.popString();
         this.command = this.message.popString();
         this.timeout = this.message.popString();
         this.timestamp = this.message.popString();
