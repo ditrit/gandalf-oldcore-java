@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.core.consumer;
 
-import com.ditrit.gandalf.library.gandalfworkerclient.LibraryWorkerClient;
+import com.ditrit.gandalf.library.gandalfclient.GandalfClient;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.properties.ConnectorKafkaProperties;
 import com.google.gson.Gson;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.core.consumer.core.RunnableKafkaConsumer;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 @ConditionalOnBean(ConnectorKafkaProperties.class)
 public class ConnectorKafkaConsumer extends RunnableKafkaConsumer {
 
-    private LibraryWorkerClient libraryWorkerClient;
+    private GandalfClient gandalfClient;
     private ConnectorKafkaProperties connectorKafkaProperties;
     protected Gson mapper;
 
     @Autowired
-    public ConnectorKafkaConsumer(LibraryWorkerClient libraryWorkerClient, ConnectorKafkaProperties connectorKafkaProperties) {
+    public ConnectorKafkaConsumer(GandalfClient gandalfClient, ConnectorKafkaProperties connectorKafkaProperties) {
         super();
-        this.libraryWorkerClient = libraryWorkerClient;
+        this.gandalfClient = gandalfClient;
         this.connectorKafkaProperties = connectorKafkaProperties;
         this.mapper = new Gson();
         this.initRunnable(this.connectorKafkaProperties.getEndPointConnection(), this.connectorKafkaProperties.getGroup(), this.connectorKafkaProperties.getSynchronizeTopics());
@@ -28,7 +28,7 @@ public class ConnectorKafkaConsumer extends RunnableKafkaConsumer {
     @Override
     protected void publish(Object message) {
         GandalfKafkaMessage event = (GandalfKafkaMessage) message;
-        this.libraryWorkerClient.getWorkerClient().sendEvent(event.getTopic(), event.getEvent(), event.getTimeout(), event.getPayload());
+        this.gandalfClient.getClient().sendEvent(event.getTopic(), event.getEvent(), event.getTimeout(), event.getPayload());
     }
 
     @Override

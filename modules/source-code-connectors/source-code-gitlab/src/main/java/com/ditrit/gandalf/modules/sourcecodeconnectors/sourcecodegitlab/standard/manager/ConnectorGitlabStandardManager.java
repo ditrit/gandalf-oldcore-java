@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.standard.manager;
 
-import com.ditrit.gandalf.library.gandalfworkerclient.LibraryWorkerClient;
+import com.ditrit.gandalf.library.gandalfclient.GandalfClient;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.properties.ConnectorGitlabProperties;
@@ -21,7 +21,7 @@ public class ConnectorGitlabStandardManager extends ConnectorVersionControlStand
 
     private GitLabApi gitLabApi;
     //private ConnectorGitNormativeManager gitCommonManager;
-    private LibraryWorkerClient libraryWorkerClient;
+    private GandalfClient gandalfClient;
     private Gson mapper;
     private JsonObject jsonObject;
 
@@ -38,8 +38,8 @@ public class ConnectorGitlabStandardManager extends ConnectorVersionControlStand
     }*/
 
     @Autowired
-    public ConnectorGitlabStandardManager(LibraryWorkerClient libraryWorkerClient) {
-        this.libraryWorkerClient = libraryWorkerClient;
+    public ConnectorGitlabStandardManager(GandalfClient gandalfClient) {
+        this.gandalfClient = gandalfClient;
         this.mapper = new Gson();
     }
 
@@ -61,7 +61,7 @@ public class ConnectorGitlabStandardManager extends ConnectorVersionControlStand
         System.out.println("HOOK_MERGE");
         System.out.println(payload.toString());
         //this.gandalfClient.sendCommand("toto", "toto", "toto", "toto", "toto");
-        this.libraryWorkerClient.getWorkerClient().sendEvent(topic, "HOOK_MERGE", "5", payload.toString());
+        this.gandalfClient.getClient().sendEvent(topic, "HOOK_MERGE", "5", payload.toString());
 
     }
 
