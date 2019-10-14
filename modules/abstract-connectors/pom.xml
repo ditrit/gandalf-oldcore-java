@@ -21,7 +21,6 @@
         <module>abstract-artifact</module>
         <module>abstract-database</module>
         <module>abstract-orchestrator</module>
-        <module>abstract-generic</module>
     </modules>
 
     <dependencies>
