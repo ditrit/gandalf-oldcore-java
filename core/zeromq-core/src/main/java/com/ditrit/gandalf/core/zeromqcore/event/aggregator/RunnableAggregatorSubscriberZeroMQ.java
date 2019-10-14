@@ -17,15 +17,10 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
 
     protected void initRunnable(String routingSubscriberConnector, String frontEndSendRoutingSubscriberConnection, String backEndSendRoutingSubscriberConnection, List<String> frontEndReceiveRoutingSubscriberConnection, String backEndReceiveRoutingSubscriberConnection) {
         this.init(routingSubscriberConnector, frontEndSendRoutingSubscriberConnection, backEndSendRoutingSubscriberConnection, frontEndReceiveRoutingSubscriberConnection, backEndReceiveRoutingSubscriberConnection);
-        //this.frontEndReceiveRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
-        //this.backEndSendRoutingSubscriber.subscribe(ZMQ.SUBSCRIPTION_ALL);
-        //this.frontEndRoutingSubscriber.subscribe("test.Test".getBytes(ZMQ.CHARSET));
     }
 
     @Override
     public void run() {
-        //ZMQ.proxy(this.backEndSendRoutingSubscriber, this.frontEndSendRoutingSubscriber,  null);
-        //ZMQ.proxy(this.frontEndReceiveRoutingSubscriber, this.backEndReceiveRoutingSubscriber,  null);
         // Initialize poll set
         ZMQ.Poller poller = context.createPoller(4);
         poller.register(this.frontEndSendRoutingSubscriber, ZMQ.Poller.POLLIN);
@@ -42,7 +37,6 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
             //Client
             if (poller.pollin(0)) {
                 while (true) {
-                    // Receive broker message
                     publish = ZMsg.recvMsg(this.frontEndSendRoutingSubscriber);
                     more = this.frontEndSendRoutingSubscriber.hasReceiveMore();
                     System.out.println("BLOOP CLUSTER");
@@ -60,7 +54,6 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
 
             if (poller.pollin(1)) {
                 while (true) {
-                    // Receive broker message
                     publish = ZMsg.recvMsg(this.backEndSendRoutingSubscriber);
                     more = this.backEndSendRoutingSubscriber.hasReceiveMore();
                     System.out.println("PUBLISH WORKER");
@@ -78,7 +71,6 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
 
             if (poller.pollin(2)) {
                 while (true) {
-                    // Receive broker message
                     publish = ZMsg.recvMsg(this.frontEndReceiveRoutingSubscriber);
                     more = this.frontEndReceiveRoutingSubscriber.hasReceiveMore();
                     System.out.println("PUBLISH CLUSTER");
@@ -96,7 +88,6 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
 
             if (poller.pollin(3)) {
                 while (true) {
-                    // Receive broker message
                     publish = ZMsg.recvMsg(this.backEndReceiveRoutingSubscriber);
                     more = this.backEndReceiveRoutingSubscriber.hasReceiveMore();
                     System.out.println("BLOOP WORKER");
@@ -121,34 +112,19 @@ public abstract class RunnableAggregatorSubscriberZeroMQ extends AggregatorSubsc
 
     private void processProxyPublish(ZMsg publish) {
         this.sendToWorker(publish);
-/*        if(publish.size() == 5) {
-            this.sendToWorker(publish);
-        }
-        else {
-            System.out.println("E: invalid message");
-        }*/
         publish.destroy();
     }
 
     private void processWorkerPublish(ZMsg publish) {
         this.sendToProxy(publish);
-/*
-        if(publish.size() == 5) {
-            this.sendToProxy(publish);
-        }
-        else {
-            System.out.println("E: invalid message");
-        }*/
         publish.destroy();
     }
 
     public void sendToWorker(ZMsg publish) {
-        //Command
         publish.send(this.backEndReceiveRoutingSubscriber);
     }
 
     public void sendToProxy(ZMsg publish) {
-        //Command
         publish.send(this.frontEndSendRoutingSubscriber);
     }
 }

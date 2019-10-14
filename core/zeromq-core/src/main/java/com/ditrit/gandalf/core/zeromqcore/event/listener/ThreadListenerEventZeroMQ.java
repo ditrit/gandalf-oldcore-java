@@ -73,7 +73,6 @@ public class ThreadListenerEventZeroMQ extends Thread {
             //Client
             if (poller.pollin(0)) {
                 while (true) {
-                    // Receive broker message
                     event = ZMsg.recvMsg(this.frontEndListener, ZMQ.NOBLOCK);
                     more = this.frontEndListener.hasReceiveMore();
 

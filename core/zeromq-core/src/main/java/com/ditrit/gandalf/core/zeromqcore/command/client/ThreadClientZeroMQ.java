@@ -157,7 +157,6 @@ public class ThreadClientZeroMQ extends Thread {
             //Client
             if (poller.pollin(0)) {
                 while (true) {
-                    // Receive broker message
                     response = ZMsg.recvMsg(this.backEndClient, ZMQ.NOBLOCK);
                     more = this.backEndClient.hasReceiveMore();
 

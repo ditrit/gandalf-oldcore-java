@@ -31,7 +31,6 @@ public class ListenerEventZeroMQ {
         boolean more = false;
 
         //while (true) {
-            // Receive broker message
             event = ZMsg.recvMsg(this.frontEndListener);
             more = this.frontEndListener.hasReceiveMore();
             System.out.println(event);

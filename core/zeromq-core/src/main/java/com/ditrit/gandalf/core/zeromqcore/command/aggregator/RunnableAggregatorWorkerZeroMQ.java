@@ -48,7 +48,6 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
             //Client
             if (poller.pollin(0)) {
                 while (true) {
-                    // Receive broker message
                     brokerMessage = ZMsg.recvMsg(this.frontEndSendRoutingWorker);
                     more = this.frontEndSendRoutingWorker.hasReceiveMore();
                     System.out.println("RESULT COMMAND CLUSTER");
@@ -70,7 +69,6 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
             //Client
             if (poller.pollin(1)) {
                 while (true) {
-                    // Receive broker message
                     brokerMessage = ZMsg.recvMsg(this.frontEndReceiveRoutingWorker);
                     more = this.frontEndReceiveRoutingWorker.hasReceiveMore();
                     System.out.println("COMMAND CLUSTER");
@@ -92,7 +90,6 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
             //Worker
             if (poller.pollin(2)) {
                 while (true) {
-                    // Receive command message
                     workerMessage = ZMsg.recvMsg(this.backEndSendRoutingWorker);
                     more = this.backEndSendRoutingWorker.hasReceiveMore();
                     System.out.println("COMMAND SEND WORKER");
@@ -114,7 +111,6 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
             //Worker
             if (poller.pollin(3)) {
                 while (true) {
-                    // Receive command message
                     workerMessage = ZMsg.recvMsg(this.backEndReceiveRoutingWorker);
                     more = this.backEndReceiveRoutingWorker.hasReceiveMore();
                     System.out.println("COMMAND RECEIVE WORKER");
@@ -142,46 +138,38 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
 
     private void processBrokerSendMessage(ZMsg brokerMessage) {
         ZMsg brokerMessageBackup = brokerMessage.duplicate();
-        if(brokerMessage.size() == 10) {
-            String uuid = brokerMessageBackup.popString();
-            String sourceConnector = brokerMessageBackup.popString();
-            String sourceServiceClass = brokerMessageBackup.popString();
-            String targetConnector = brokerMessageBackup.popString();
-            String targetServiceClass = brokerMessageBackup.popString();
-            if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
-                brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
-                this.sendResultToWorker(brokerMessage.duplicate());
-            }
-            else {
-                System.out.println("E: invalid serviceClass");
-            }
+        String uuid = brokerMessageBackup.popString();
+        String sourceConnector = brokerMessageBackup.popString();
+        String sourceServiceClass = brokerMessageBackup.popString();
+        String targetConnector = brokerMessageBackup.popString();
+        String targetServiceClass = brokerMessageBackup.popString();
+        if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
+            brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
+            this.sendResultToWorker(brokerMessage.duplicate());
         }
         else {
-            System.out.println("E: invalid message");
+            System.out.println("E: invalid serviceClass");
         }
+
         brokerMessageBackup.destroy();
         brokerMessage.destroy();
     }
 
     private void processBrokerReceiveMessage(ZMsg brokerMessage) {
         ZMsg brokerMessageBackup = brokerMessage.duplicate();
-        if(brokerMessage.size() == 9) {
-            String uuid = brokerMessageBackup.popString();
-            String sourceConnector = brokerMessageBackup.popString();
-            String sourceServiceClass = brokerMessageBackup.popString();
-            String targetConnector = brokerMessageBackup.popString();
-            String targetServiceClass = brokerMessageBackup.popString();
-            if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
-                brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
-                this.getServiceClassZMsgLinkedList(targetServiceClass).add(brokerMessage.duplicate());
-            }
-            else {
-                System.out.println("E: invalid serviceClass");
-            }
+        String uuid = brokerMessageBackup.popString();
+        String sourceConnector = brokerMessageBackup.popString();
+        String sourceServiceClass = brokerMessageBackup.popString();
+        String targetConnector = brokerMessageBackup.popString();
+        String targetServiceClass = brokerMessageBackup.popString();
+        if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
+            brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
+            this.getServiceClassZMsgLinkedList(targetServiceClass).add(brokerMessage.duplicate());
         }
         else {
-            System.out.println("E: invalid message");
+            System.out.println("E: invalid serviceClass");
         }
+
         brokerMessageBackup.destroy();
         brokerMessage.destroy();
     }
@@ -193,24 +181,19 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
     }
 
     private void processWorkerSendMessage(ZMsg workerMessage) {
-        if(workerMessage.size() == 7) {
-            String serviceClass = workerMessage.popString();
-            if(GANDALF_SERVICECLASS.contains(serviceClass)) {
-                workerMessage = this.updateIdentityWorkerMessage(workerMessage, serviceClass);
-                this.sendComandToBroker(workerMessage);
-            }
-            else {
-                System.out.println("E: invalid serviceClass");
-            }
+        String serviceClass = workerMessage.popString();
+        if(GANDALF_SERVICECLASS.contains(serviceClass)) {
+            workerMessage = this.updateIdentityWorkerMessage(workerMessage, serviceClass);
+            this.sendComandToBroker(workerMessage);
         }
         else {
-            System.out.println("E: invalid message");
+            System.out.println("E: invalid serviceClass");
         }
+
         workerMessage.destroy();
     }
 
     private ZMsg updateIdentityWorkerMessage(ZMsg workerMessage, String serviceClass) {
-        //String serviceClass = workerMessage.popString();
         String uuid = workerMessage.popString();
         workerMessage.addFirst(serviceClass);
         workerMessage.addFirst(this.routingWorkerConnector);
@@ -232,15 +215,13 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
                 System.out.println("E: invalid serviceClass");
             }
         }
-        else if(workerMessage.size() == 10) {
+        else {
             System.out.println("ROUTING RESULT");
             System.out.println(workerMessage);
             workerMessage = this.updateHeaderWorkerReceiveMessage(workerMessage);
             this.sendResultToBroker(workerMessage);
         }
-        else {
-            System.out.println("E: invalid message");
-        }
+
         workerMessageBackup.destroy();
         workerMessage.destroy();
     }

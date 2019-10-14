@@ -20,7 +20,6 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
 /*        for(String topic : this.topics) {
             this.frontEndSubscriberWorker.subscribe(topic.getBytes(ZMQ.CHARSET));
         }*/
-        //this.workerEventFrontEndReceive.subscribe(ZMQ.SUBSCRIPTION_ALL);
         this.workerEventFrontEndReceive.subscribe("demonstration");
     }
 
@@ -43,7 +42,6 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
             //Worker Receive Command
             if (poller.pollin(0)) {
                 while (true) {
-                    // Receive broker message
                     command = ZMsg.recvMsg(this.workerCommandFrontEndReceive, ZMQ.NOBLOCK);
                     more = this.workerCommandFrontEndReceive.hasReceiveMore();
                     System.out.println(command);
@@ -65,7 +63,6 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
             //Worker Receive Event
             if (poller.pollin(1)) {
                 while (true) {
-                    // Receive broker message
                     event = ZMsg.recvMsg(this.workerEventFrontEndReceive, ZMQ.NOBLOCK);
                     more = this.workerEventFrontEndReceive.hasReceiveMore();
                     System.out.println(event);
@@ -92,33 +89,21 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     }
 
     private void processRoutingWorkerResultCommand(ZMsg result) {
-        if(result.size() == 10) {
-            this.results.add(result.duplicate());
-        }
-        else {
-            System.out.println("E: invalid message");
-        }
+        this.results.add(result.duplicate());
+
         result.destroy();
     }
 
     private void processRoutingWorkerCommand(ZMsg command) {
-        if(command.size() == 9) {
-            String result = this.executeRoutingWorkerCommand(command).toString();
-            this.sendResultCommand(command, result);
-        }
-        else {
-            System.out.println("E: invalid message");
-        }
+        String result = this.executeRoutingWorkerCommand(command).toString();
+        this.sendResultCommand(command, result);
+
         command.destroy();
     }
 
     private void processRoutingSubscriberCommand(ZMsg event) {
-        if(event.size() == 5) {
-            this.executeRoutingSubscriberCommand(event);
-        }
-        else {
-            System.out.println("E: invalid message");
-        }
+        this.executeRoutingSubscriberCommand(event);
+
         event.destroy();
     }
 

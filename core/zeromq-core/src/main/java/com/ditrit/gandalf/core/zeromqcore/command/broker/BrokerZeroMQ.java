@@ -64,7 +64,6 @@ public class BrokerZeroMQ {
             //Client
             if (poller.pollin(0)) {
                 while (true) {
-                    // Receive client message
                     frontEndMessage = ZMsg.recvMsg(this.frontEndCommand);
                     more = this.frontEndCommand.hasReceiveMore();
                     System.out.println(frontEndMessage);
@@ -86,7 +85,6 @@ public class BrokerZeroMQ {
             //Worker
             if (poller.pollin(1)) {
                 while (true) {
-                    // Receive worker message
                     backEndMessage = ZMsg.recvMsg(this.backEndCommand);
                     more = this.backEndCommand.hasReceiveMore();
 
@@ -123,24 +121,20 @@ public class BrokerZeroMQ {
 
     protected void processFrontEndMessage(ZMsg frontEndMessage) {
         ZMsg frontEndMessageBackup = frontEndMessage.duplicate();
-        if (frontEndMessage.size() == 10) {
-            String sender = frontEndMessageBackup.popString();
-            String uuid = frontEndMessageBackup.popString();
-            String sourceConnector = frontEndMessageBackup.popString();
-            String sourceServiceClass = frontEndMessageBackup.popString();
-            String targetConnector = frontEndMessageBackup.popString();
-            //Capture
-            //TODO
-            //requestCapture.send(this.backEndCommandCapture);
-            //Worker
-            frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, targetConnector);
-            frontEndMessageBackup.destroy();
-            System.out.println("REQ " + frontEndMessage);
-            frontEndMessage.send(this.backEndCommand);
-        }
-        else {
-            System.out.println("E: invalid message");
-        }
+        String sender = frontEndMessageBackup.popString();
+        String uuid = frontEndMessageBackup.popString();
+        String sourceConnector = frontEndMessageBackup.popString();
+        String sourceServiceClass = frontEndMessageBackup.popString();
+        String targetConnector = frontEndMessageBackup.popString();
+        //Capture
+        //TODO
+        //requestCapture.send(this.backEndCommandCapture);
+        //Worker
+        frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, targetConnector);
+        frontEndMessageBackup.destroy();
+        System.out.println("REQ " + frontEndMessage);
+        frontEndMessage.send(this.backEndCommand);
+
         frontEndMessageBackup.destroy();
         frontEndMessage.destroy();
     }
@@ -153,24 +147,19 @@ public class BrokerZeroMQ {
 
     protected void processBackEndMessage(ZMsg backEndMessage) {
         ZMsg backEndMessageBackup = backEndMessage.duplicate();
+        String sender = backEndMessageBackup.popString();
+        String uuid = backEndMessageBackup.popString();
+        String sourceConnector = backEndMessageBackup.popString();
+        String sourceServiceClass = backEndMessageBackup.popString();
+        //TODO
+        //Capture
+        ZMsg backEndMessageCapture = backEndMessage.duplicate();
+        //responseCapture.send(this.backEndCommandCapture);
+        //Client
+        backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, sourceConnector);
+        System.out.println("REP " + backEndMessage);
+        backEndMessage.send(this.frontEndCommand);
 
-        if (backEndMessage.size() == 11) {
-            String sender = backEndMessageBackup.popString();
-            String uuid = backEndMessageBackup.popString();
-            String sourceConnector = backEndMessageBackup.popString();
-            String sourceServiceClass = backEndMessageBackup.popString();
-            //TODO
-            //Capture
-            ZMsg backEndMessageCapture = backEndMessage.duplicate();
-            //responseCapture.send(this.backEndCommandCapture);
-            //Client
-            backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, sourceConnector);
-            System.out.println("REP " + backEndMessage);
-            backEndMessage.send(this.frontEndCommand);
-        }
-        else {
-            System.out.println("E: invalid message");
-        }
         backEndMessageBackup.destroy();
         backEndMessage.destroy();
     }
