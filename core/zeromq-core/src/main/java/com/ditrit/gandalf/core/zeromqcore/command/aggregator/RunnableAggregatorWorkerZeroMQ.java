@@ -141,10 +141,8 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
         String uuid = brokerMessageBackup.popString();
         String sourceConnector = brokerMessageBackup.popString();
         String sourceServiceClass = brokerMessageBackup.popString();
-        String targetConnector = brokerMessageBackup.popString();
-        String targetServiceClass = brokerMessageBackup.popString();
         //if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
-        brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
+        brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, sourceServiceClass);
         this.sendResultToWorker(brokerMessage.duplicate());
         //}
         //else {
