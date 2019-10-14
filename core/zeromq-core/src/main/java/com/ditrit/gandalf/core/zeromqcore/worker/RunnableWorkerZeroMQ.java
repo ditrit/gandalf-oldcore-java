@@ -20,7 +20,7 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
 /*        for(String topic : this.topics) {
             this.frontEndSubscriberWorker.subscribe(topic.getBytes(ZMQ.CHARSET));
         }*/
-        this.workerEventFrontEndReceive.subscribe("demonstration");
+        this.workerEventFrontEndReceive.subscribe(ZMQ.SUBSCRIPTION_ALL);
     }
 
     @Override

@@ -143,13 +143,13 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
         String sourceServiceClass = brokerMessageBackup.popString();
         String targetConnector = brokerMessageBackup.popString();
         String targetServiceClass = brokerMessageBackup.popString();
-        if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
-            brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
-            this.sendResultToWorker(brokerMessage.duplicate());
-        }
-        else {
-            System.out.println("E: invalid serviceClass");
-        }
+        //if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
+        brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
+        this.sendResultToWorker(brokerMessage.duplicate());
+        //}
+        //else {
+        //    System.out.println("E: invalid serviceClass");
+        //}
 
         brokerMessageBackup.destroy();
         brokerMessage.destroy();
@@ -162,13 +162,13 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
         String sourceServiceClass = brokerMessageBackup.popString();
         String targetConnector = brokerMessageBackup.popString();
         String targetServiceClass = brokerMessageBackup.popString();
-        if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
-            brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
-            this.getServiceClassZMsgLinkedList(targetServiceClass).add(brokerMessage.duplicate());
-        }
-        else {
-            System.out.println("E: invalid serviceClass");
-        }
+        //if(GANDALF_SERVICECLASS.contains(targetServiceClass)) {
+        brokerMessage = this.updateHeaderBrokerMessage(brokerMessage, targetServiceClass);
+        this.getServiceClassZMsgLinkedList(targetServiceClass).add(brokerMessage.duplicate());
+        //}
+        //else {
+        //    System.out.println("E: invalid serviceClass");
+        //}
 
         brokerMessageBackup.destroy();
         brokerMessage.destroy();
@@ -182,13 +182,13 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
 
     private void processWorkerSendMessage(ZMsg workerMessage) {
         String serviceClass = workerMessage.popString();
-        if(GANDALF_SERVICECLASS.contains(serviceClass)) {
-            workerMessage = this.updateIdentityWorkerMessage(workerMessage, serviceClass);
-            this.sendComandToBroker(workerMessage);
-        }
-        else {
-            System.out.println("E: invalid serviceClass");
-        }
+        //if(GANDALF_SERVICECLASS.contains(serviceClass)) {
+        workerMessage = this.updateIdentityWorkerMessage(workerMessage, serviceClass);
+        this.sendComandToBroker(workerMessage);
+        //}
+        //else {
+        //    System.out.println("E: invalid serviceClass");
+        //}
 
         workerMessage.destroy();
     }
@@ -206,14 +206,14 @@ public abstract class RunnableAggregatorWorkerZeroMQ extends AggregatorWorkerZer
         String serviceClass = workerMessageBackup.popString();
         String commandType = workerMessageBackup.popString();
         if(commandType.equals(Constant.COMMAND_READY)) {
-            if(GANDALF_SERVICECLASS.contains(serviceClass)) {
-                if(!this.getServiceClassZMsgLinkedList(serviceClass).isEmpty()) {
-                    this.sendCommandToWorker(this.getServiceClassZMsgLinkedList(serviceClass).poll());
+            //if(GANDALF_SERVICECLASS.contains(serviceClass)) {
+            if(!this.getServiceClassZMsgLinkedList(serviceClass).isEmpty()) {
+                this.sendCommandToWorker(this.getServiceClassZMsgLinkedList(serviceClass).poll());
                 }
-            }
-            else {
-                System.out.println("E: invalid serviceClass");
-            }
+            //}
+            //else {
+            //    System.out.println("E: invalid serviceClass");
+            //}
         }
         else {
             System.out.println("ROUTING RESULT");
