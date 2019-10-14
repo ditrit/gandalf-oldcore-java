@@ -34,6 +34,8 @@ public class ConnectorCustomOrchestratorStandardManager extends ConnectorOrchest
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         //return this.connectorCustomOrchestratorBashService.register(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
         //return this.orchestratorServiceFeign.register(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
+        System.out.println("URL");
+        System.out.println(uri + "/orchestrator-service/register/" + jsonObject.get("service").getAsString() + "/" + jsonObject.get("version").getAsString());
         return this.restTemplate.getForObject(uri + "/orchestrator-service/register/" + jsonObject.get("service").getAsString() + "/" + jsonObject.get("version").getAsString(), boolean.class);
     }
 
