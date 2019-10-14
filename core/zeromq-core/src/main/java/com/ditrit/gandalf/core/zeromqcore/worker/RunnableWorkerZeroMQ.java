@@ -36,6 +36,7 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
         boolean more = false;
 
         while (!Thread.currentThread().isInterrupted()) {
+            this.sendReadyCommand();
 
             poller.poll(1000);
 
