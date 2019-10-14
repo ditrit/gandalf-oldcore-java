@@ -3,7 +3,7 @@ package com.ditrit.gandalf.jobs.buildjob.job;
 import com.ditrit.gandalf.jobs.buildjob.feign.BuildFeign;
 import com.ditrit.gandalf.jobs.buildjob.manager.BuildJobManager;
 import com.ditrit.gandalf.jobs.buildjob.properties.BuildJobProperties;
-import com.ditrit.gandalf.library.gandalfcustomclient.GandalfCustomClient;
+import com.ditrit.gandalf.library.gandalfclient.GandalfClient;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.zeebe.client.ZeebeClient;
@@ -23,13 +23,13 @@ import java.util.Map;
 
 
 @Component
-@ComponentScan(basePackages = {"com.ditrit.gandalf.library.gandalfcustomclient"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.library.gandalfclient"})
 public class BuildJob implements JobHandler {
 
     private ZeebeClient zeebe;
     private BuildFeign buildFeign;
     private JobWorker subscription;
-    private GandalfCustomClient gandalfCustomClient;
+    private GandalfClient gandalfClient;
     private BuildJobManager buildJobManager;
     private BuildJobProperties buildJobProperties;
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
@@ -37,11 +37,11 @@ public class BuildJob implements JobHandler {
 
 
     @Autowired
-    public BuildJob(ZeebeClient zeebe, BuildFeign buildFeign, BuildJobManager buildJobManager, GandalfCustomClient gandalfCustomClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, BuildJobProperties buildJobProperties) {
+    public BuildJob(ZeebeClient zeebe, BuildFeign buildFeign, BuildJobManager buildJobManager, GandalfClient gandalfClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, BuildJobProperties buildJobProperties) {
         this.zeebe = zeebe;
         this.buildFeign = buildFeign;
         this.buildJobManager = buildJobManager;
-        this.gandalfCustomClient = gandalfCustomClient;
+        this.gandalfClient = gandalfClient;
         this.buildJobProperties = buildJobProperties;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
         this.mapper = new Gson();
@@ -99,11 +99,11 @@ public class BuildJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            gandalfCustomClient.getCustomClient().sendEvent("build", "BUILD", "5", projectUrl + " build : success" );
+            gandalfClient.getClient().sendEvent("build", "BUILD", "5", projectUrl + " build : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(current_workflow_variables).send().join();
         }
         else {
-            gandalfCustomClient.getCustomClient().sendEvent("build", "BUILD", "5", projectUrl + " build : fail" );
+            gandalfClient.getClient().sendEvent("build", "BUILD", "5", projectUrl + " build : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }
