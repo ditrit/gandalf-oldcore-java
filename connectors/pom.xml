@@ -21,6 +21,7 @@
         <module>connector-artifact</module>
         <module>connector-database</module>
         <module>connector-orchestrator</module>
+        <module>connector-generic</module>
     </modules>
 
     <dependencies>
