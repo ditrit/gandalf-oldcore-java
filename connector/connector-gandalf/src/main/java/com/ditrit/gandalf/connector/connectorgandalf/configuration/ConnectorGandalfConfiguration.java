@@ -1,11 +1,8 @@
-package com.ditrit.gandalf.connectors.connectorworkflowengine.configuration;
+package com.ditrit.gandalf.connector.connectorgandalf.configuration;
 
+import com.ditrit.gandalf.core.connectorcore.connector.ConnectorService;
 import com.ditrit.gandalf.core.connectorcore.connector.ConnectorSubscriber;
 import com.ditrit.gandalf.core.connectorcore.connector.ConnectorWorker;
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodezeebe.custom.worker.ConnectorZeebeCustomWorker;
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodezeebe.standard.worker.ConnectorZeebeStandardWorker;
-import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -16,9 +13,9 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.ditrit.gandalf.core.connectorcore", "com.ditrit.gandalf.library.gandalfclient", "com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf", "com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodezeebe"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.core.connectorcore"})
 @Order
-public class ConnectorWorkflowEngineCoreConfiguration {
+public class ConnectorGandalfConfiguration {
 
     @Autowired
     private ApplicationContext context;
@@ -35,22 +32,30 @@ public class ConnectorWorkflowEngineCoreConfiguration {
     }
 
     @Bean
-    public void connectorRoutingWorker() {
-        ConnectorWorker connectorWorker = (ConnectorWorker) context.getBean("aggregatorWorker");
-        if(connectorWorker != null) {
-            this.taskExecutor().execute(connectorWorker);
+    public void gandalfConnectorWorker() {
+        ConnectorWorker gandalfConnectorWorker = (ConnectorWorker) context.getBean("connectorWorker");
+        if(gandalfConnectorWorker != null) {
+            this.taskExecutor().execute(gandalfConnectorWorker);
         }
     }
 
     @Bean
-    public void connectorRoutingSubscriber() {
-        ConnectorSubscriber connectorSubscriber = (ConnectorSubscriber) context.getBean("aggregatorSubscriber");
-        if(connectorSubscriber != null) {
-            this.taskExecutor().execute(connectorSubscriber);
+    public void gandalfConnectorSubscriber() {
+        ConnectorSubscriber gandalfConnectorSubscriber = (ConnectorSubscriber) context.getBean("connectorSubscriber");
+        if(gandalfConnectorSubscriber != null) {
+            this.taskExecutor().execute(gandalfConnectorSubscriber);
         }
     }
 
     @Bean
+    public void gandalfConnectorService() {
+        ConnectorService gandalfConnectorService = (ConnectorService) context.getBean("connectorService");
+        if(gandalfConnectorService != null) {
+            this.taskExecutor().execute(gandalfConnectorService);
+        }
+    }
+
+  /*  @Bean
     public void connectorGandalfWorker() {
         ConnectorGandalfWorker gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
         if(gandalfWorker != null) {
@@ -86,5 +91,5 @@ public class ConnectorWorkflowEngineCoreConfiguration {
         if(cutomWorker != null) {
             this.taskExecutor().execute(cutomWorker);
         }
-    }
+    }*/
 }

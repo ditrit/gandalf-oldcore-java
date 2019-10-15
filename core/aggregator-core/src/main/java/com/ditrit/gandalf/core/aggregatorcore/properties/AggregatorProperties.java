@@ -1,4 +1,4 @@
-package com.ditrit.gandalf.core.connectorcore.properties;
+package com.ditrit.gandalf.core.aggregatorcore.properties;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.ditrit.gandalf.core.connectorcore.constant.ConnectorConstant.*;
+import static com.ditrit.gandalf.core.aggregatorcore.constant.AggregatorConstant.*;
 
-public class ConnectorProperties {
+public class AggregatorProperties {
 
     private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.";
 
@@ -22,6 +22,8 @@ public class ConnectorProperties {
 
     @Value("${instance.name}")
     private String instanceName;
+    @Value("${aggregator.name}")
+    private String aggregatorName;
     @Value("${connector.name}")
     private String connectorName;
     //@Value("${" + PROPERTIES_BASE + "topics}")
@@ -35,15 +37,13 @@ public class ConnectorProperties {
     private String connectorEventBackEndSendConnection;
     @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://*:9011}")
     private String connectorEventBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorServiceConnection:tcp://*:9030}")
-    private String connectorServiceConnection;
 
     private List<String> connectorCommandFrontEndReceiveConnections;
     private List<String> connectorCommandFrontEndSendConnections;
     private List<String> connectorEventFrontEndReceiveConnection;
     private String connectorEventFrontEndSendConnection;
 
-    public ConnectorProperties() {
+    public AggregatorProperties() {
         this.restTemplate = new RestTemplate();
         this.mapper = new Gson();
         this.initProperties();
@@ -110,6 +110,14 @@ public class ConnectorProperties {
         this.instanceName = instanceName;
     }
 
+    public String getAggregatorName() {
+        return aggregatorName;
+    }
+
+    public void setAggregatorName(String aggregatorName) {
+        this.aggregatorName = aggregatorName;
+    }
+
     public String getConnectorName() {
         return connectorName;
     }
@@ -148,14 +156,6 @@ public class ConnectorProperties {
 
     public void setConnectorEventBackEndSendConnection(String connectorEventBackEndSendConnection) {
         this.connectorEventBackEndSendConnection = connectorEventBackEndSendConnection;
-    }
-
-    public String getConnectorServiceConnection() {
-        return connectorServiceConnection;
-    }
-
-    public void setConnectorServiceConnection(String connectorServiceConnection) {
-        this.connectorServiceConnection = connectorServiceConnection;
     }
 
     public List<String> getTopics() {

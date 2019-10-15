@@ -37,5 +37,7 @@
         <module>services</module>
         <module>jobs</module>
         <module>core</module>
+        <module>aggregator</module>
+        <module>connector</module>
     </modules>
 </project>

@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.connectors.connectorversioncontrol.configuration;
 
-import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorSubscriber;
-import com.ditrit.gandalf.core.connectorcore.aggregator.ConnectorAggregatorWorker;
+import com.ditrit.gandalf.core.connectorcore.connector.ConnectorSubscriber;
+import com.ditrit.gandalf.core.connectorcore.connector.ConnectorWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.custom.worker.ConnectorGitlabCustomWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.standard.worker.ConnectorGitlabStandardWorker;
@@ -36,17 +36,17 @@ public class ConnectorVersionControlCoreConfiguration {
 
     @Bean
     public void connectorAggregatorWorker() {
-        ConnectorAggregatorWorker connectorAggregatorWorker = (ConnectorAggregatorWorker) context.getBean("aggregatorWorker");
-        if(connectorAggregatorWorker != null) {
-            this.taskExecutor().execute(connectorAggregatorWorker);
+        ConnectorWorker connectorWorker = (ConnectorWorker) context.getBean("aggregatorWorker");
+        if(connectorWorker != null) {
+            this.taskExecutor().execute(connectorWorker);
         }
     }
 
     @Bean
     public void connectorAggregatorSubscriber() {
-        ConnectorAggregatorSubscriber connectorAggregatorSubscriber = (ConnectorAggregatorSubscriber) context.getBean("aggregatorSubscriber");
-        if(connectorAggregatorSubscriber != null) {
-            this.taskExecutor().execute(connectorAggregatorSubscriber);
+        ConnectorSubscriber connectorSubscriber = (ConnectorSubscriber) context.getBean("aggregatorSubscriber");
+        if(connectorSubscriber != null) {
+            this.taskExecutor().execute(connectorSubscriber);
         }
     }
 

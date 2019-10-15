@@ -1,4 +1,4 @@
-package com.ditrit.gandalf.core.connectorcore.aggregator;
+package com.ditrit.gandalf.core.connectorcore.connector;
 
 import com.ditrit.gandalf.core.connectorcore.properties.ConnectorProperties;
 import com.google.gson.Gson;
@@ -6,13 +6,13 @@ import com.ditrit.gandalf.core.zeromqcore.event.aggregator.RunnableAggregatorSub
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component(value = "aggregatorSubscriber")
-public class ConnectorAggregatorSubscriber extends RunnableAggregatorSubscriberZeroMQ {
+@Component(value = "connectorSubscriber")
+public class ConnectorSubscriber extends RunnableAggregatorSubscriberZeroMQ {
 
     private ConnectorProperties connectorProperties;
 
     @Autowired
-    public ConnectorAggregatorSubscriber(ConnectorProperties connectorProperties) {
+    public ConnectorSubscriber(ConnectorProperties connectorProperties) {
         super();
         this.connectorProperties = connectorProperties;
         this.mapper = new Gson();

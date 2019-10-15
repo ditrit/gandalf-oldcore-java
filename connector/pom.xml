@@ -3,7 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
     <parent>
         <artifactId>gandalf</artifactId>
         <groupId>com.ditrit</groupId>
@@ -11,15 +10,10 @@
     </parent>
 
     <groupId>com.ditrit.gandalf</groupId>
-    <artifactId>core</artifactId>
+    <artifactId>connector</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>connector-core</module>
-        <module>client-core</module>
-        <module>listener-core</module>
-        <module>cluster-core</module>
-        <module>zeromq-core</module>
-        <module>aggregator-core</module>
+        <module>connector-gandalf</module>
     </modules>
 </project>
