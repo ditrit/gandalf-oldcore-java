@@ -6,6 +6,7 @@ import com.ditrit.gandalf.core.zeromqcore.command.domain.MessageCommand;
 import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
 import com.ditrit.gandalf.core.zeromqcore.event.domain.MessageEvent;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
@@ -62,8 +63,10 @@ public class ConnectorZeebeStandardWorker extends RunnableWorkerZeroMQ {
         System.out.println("EVENT SUBS");
         System.out.println(command);
         //TODO REMOVE
+        String foxxCommand2 = new Gson().toJson(command, ZMsg.class);
         String foxxCommand = "{event :" + Arrays.toString(command.toArray()) + "}";
         System.out.println(foxxCommand);
+        System.out.println(foxxCommand2);
         new RestTemplate().postForObject( "http://arangodb.service.gandalf:8529/_db/gandalf/keep/event", foxxCommand, String.class);
         //TODO END REMOVE
         this.messageEvent = new MessageEvent(command);
