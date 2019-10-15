@@ -39,5 +39,6 @@
         <module>core</module>
         <module>aggregator</module>
         <module>connector</module>
+        <module>worker</module>
     </modules>
 </project>
