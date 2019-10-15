@@ -63,7 +63,7 @@ public class ConnectorZeebeStandardWorker extends RunnableWorkerZeroMQ {
         System.out.println("EVENT SUBS");
         System.out.println(command);
         //TODO REMOVE
-        String foxxCommand2 = new Gson().toJson(Arrays.toString(command.toArray()), String[].class);
+        String foxxCommand2 = new Gson().toJson(command.toArray(), String[].class);
         System.out.println(foxxCommand2);
         String foxxCommand = "{event :" + Arrays.toString(command.toArray()) + "}";
         System.out.println(foxxCommand);
