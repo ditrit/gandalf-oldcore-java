@@ -63,7 +63,7 @@ public class ConnectorZeebeStandardWorker extends RunnableWorkerZeroMQ {
         System.out.println(command);
         //TODO REMOVE
         String foxxCommand = "{cmd :" + Arrays.toString(command.toArray()) + "}";
-        new RestTemplate().postForObject( "http://arangodb/_db/gandalf/keep/event", foxxCommand, String.class);
+        new RestTemplate().postForObject( "http://arangodb.service.gandalf/_db/gandalf/keep/event", foxxCommand, String.class);
         //TODO END REMOVE
         this.messageEvent = new MessageEvent(command);
         System.out.println(messageEvent.getEvent());
