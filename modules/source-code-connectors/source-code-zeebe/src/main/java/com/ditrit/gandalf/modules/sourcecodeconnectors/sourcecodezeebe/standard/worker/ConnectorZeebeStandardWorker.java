@@ -65,13 +65,13 @@ public class ConnectorZeebeStandardWorker extends RunnableWorkerZeroMQ {
         System.out.println("EVENT SUBS");
         System.out.println(command);
         //TODO REMOVE
-        JsonArray toto = new JsonArray();
-        toto.add(command.popString());
-        toto.add(command.popString());
-        toto.add(command.popString());
-        toto.add(command.popString());
-        toto.add(command.popString());
-        String foxxCommand = "{event: " + toto.toString() + "}";
+        JsonArray event = new JsonArray();
+        event.add(command.popString());
+        event.add(command.popString());
+        event.add(command.popString());
+        event.add(command.popString());
+        event.add(command.popString());
+        String foxxCommand = "{\"event\": " + event.toString() + "}";
         System.out.println(foxxCommand);
         new RestTemplate().postForObject( "http://arangodb.service.gandalf:8529/_db/gandalf/keep/event", foxxCommand, String.class);
         //TODO END REMOVE
