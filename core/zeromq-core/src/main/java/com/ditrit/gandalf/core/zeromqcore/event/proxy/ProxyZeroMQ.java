@@ -34,13 +34,12 @@ public class ProxyZeroMQ {
         System.out.println("ProxySubscriberZeroMQ binding to backEndEventConnection: " + this.backEndEventConnection);
         this.backEndEvent.bind(this.backEndEventConnection);
         //Capture
-        //TODO
-      /*  this.backEndEventCapture = this.context.createSocket(SocketType.DEALER);
+        this.backEndEventCapture = this.context.createSocket(SocketType.ROUTER);
         System.out.println("BrokerCaptureZeroMQ binding to backEndCaptureEventConnection: " + this.backEndCaptureEventConnection);
-        this.backEndEventCapture.bind(this.backEndCaptureEventConnection);*/
+        this.backEndEventCapture.bind(this.backEndCaptureEventConnection);
         // Run the proxy
-        //ZMQ.proxy(this.frontEndEvent, this.backEndEvent,  this.backEndEventCapture);
-        ZMQ.proxy(this.frontEndEvent, this.backEndEvent,  null);
+        ZMQ.proxy(this.frontEndEvent, this.backEndEvent,  this.backEndEventCapture);
+        //ZMQ.proxy(this.frontEndEvent, this.backEndEvent,  null);
 
         this.close();
     }

@@ -9,7 +9,6 @@ import org.zeromq.ZMsg;
 public abstract class CaptureWorkerZeroMQ {
 
     protected ZContext context;
-    //TODO MULTIPLE
     protected ZMQ.Socket frontEndWorker;
     protected String frontEndWorkerConnection; //IPC
     protected ZMQ.Socket frontEndSubscriberWorker;
@@ -29,7 +28,7 @@ public abstract class CaptureWorkerZeroMQ {
         this.frontEndWorker.connect(this.frontEndWorkerConnection);
 
         //Worker
-        this.frontEndSubscriberWorker = this.context.createSocket(SocketType.SUB);
+        this.frontEndSubscriberWorker = this.context.createSocket(SocketType.DEALER);
         this.frontEndSubscriberWorker.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
         this.frontEndSubscriberWorkerConnection = frontEndSubscriberWorkerConnection;
         System.out.println("WorkerZeroMQ connect to: " + this.frontEndSubscriberWorkerConnection);
@@ -42,16 +41,4 @@ public abstract class CaptureWorkerZeroMQ {
         this.frontEndSubscriberWorker.close();
         this.context.close();
     }
-
-    protected void sendReadyCommand() {
-        ZMsg ready = new ZMsg();
-        ready.send(this.frontEndWorker);
-        ready.destroy();
-    }
-
-    protected void sendResultCommand(ZMsg request, String result) {
-        request.addLast(result);
-        request.send(this.frontEndWorker);
-    }
-
 }

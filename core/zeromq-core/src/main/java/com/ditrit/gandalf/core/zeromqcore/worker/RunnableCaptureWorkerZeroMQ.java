@@ -3,12 +3,10 @@ package com.ditrit.gandalf.core.zeromqcore.worker;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
-//TODO REVOIR
 public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ implements Runnable {
 
     protected void initRunnable(String workerServiceClass, String frontEndWorkerConnection, String frontEndSubscriberWorkerConnection) {
         this.init(workerServiceClass, frontEndWorkerConnection, frontEndSubscriberWorkerConnection);
-        this.frontEndSubscriberWorker.subscribe(ZMQ.SUBSCRIPTION_ALL);
     }
 
     @Override
@@ -22,14 +20,13 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
         boolean more = false;
 
         while (!Thread.currentThread().isInterrupted()) {
-            this.sendReadyCommand();
 
-            poller.poll(1000);
+            poller.poll();
             //Client
             if (poller.pollin(0)) {
                 while (true) {
                     // Receive broker message
-                    command = ZMsg.recvMsg(this.frontEndWorker, ZMQ.NOBLOCK);
+                    command = ZMsg.recvMsg(this.frontEndWorker);
                     more = this.frontEndWorker.hasReceiveMore();
                     System.out.println(command);
                     System.out.println(more);
@@ -49,7 +46,7 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
             if (poller.pollin(1)) {
                 while (true) {
                     // Receive broker message
-                    event = ZMsg.recvMsg(this.frontEndSubscriberWorker, ZMQ.NOBLOCK);
+                    event = ZMsg.recvMsg(this.frontEndSubscriberWorker);
                     more = this.frontEndSubscriberWorker.hasReceiveMore();
                     System.out.println(event);
                     System.out.println(more);
@@ -102,8 +99,6 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
         }
         this.initRunnable(this.workerServiceClass, this.frontEndWorkerConnection, this.frontEndSubscriberWorkerConnection);
 
-        // Register service with broker
-        this.sendReadyCommand();
     }
 
     protected abstract void executeRoutingWorkerCommand(ZMsg command);

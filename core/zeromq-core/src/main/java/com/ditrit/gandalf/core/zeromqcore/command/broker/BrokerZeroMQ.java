@@ -39,11 +39,10 @@ public class BrokerZeroMQ {
         System.out.println("BrokerClientZeroMQ binding to backEndCommandConnection: " + this.backEndCommandConnection);
         this.backEndCommand.bind(this.backEndCommandConnection);
 
-        //TODO
-/*        //Capture EndPoint
-        this.backEndCommandCapture = this.context.createSocket(SocketType.DEALER);
+        //Capture EndPoint
+        this.backEndCommandCapture = this.context.createSocket(SocketType.ROUTER);
         System.out.println("BrokerCaptureZeroMQ binding to backEndCaptureCommandConnection: " + this.backEndCaptureCommandConnection);
-        this.backEndCommandCapture.bind(this.backEndCaptureCommandConnection);*/
+        this.backEndCommandCapture.bind(this.backEndCaptureCommandConnection);
     }
 
     protected void run() {
@@ -127,8 +126,8 @@ public class BrokerZeroMQ {
         String sourceServiceClass = frontEndMessageBackup.popString();
         String targetConnector = frontEndMessageBackup.popString();
         //Capture
-        //TODO
-        //requestCapture.send(this.backEndCommandCapture);
+        ZMsg frontEndMessageCapture = frontEndMessage.duplicate();
+        frontEndMessageCapture.send(this.backEndCommandCapture);
         //Worker
         frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, targetConnector);
         frontEndMessageBackup.destroy();
@@ -136,6 +135,7 @@ public class BrokerZeroMQ {
         frontEndMessage.send(this.backEndCommand);
 
         frontEndMessageBackup.destroy();
+        frontEndMessageCapture.destroy();
         frontEndMessage.destroy();
     }
 
@@ -151,16 +151,16 @@ public class BrokerZeroMQ {
         String uuid = backEndMessageBackup.popString();
         String sourceConnector = backEndMessageBackup.popString();
         String sourceServiceClass = backEndMessageBackup.popString();
-        //TODO
         //Capture
         ZMsg backEndMessageCapture = backEndMessage.duplicate();
-        //responseCapture.send(this.backEndCommandCapture);
+        backEndMessageCapture.send(this.backEndCommandCapture);
         //Client
         backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, sourceConnector);
         System.out.println("REP " + backEndMessage);
         backEndMessage.send(this.frontEndCommand);
 
         backEndMessageBackup.destroy();
+        backEndMessageCapture.destroy();
         backEndMessage.destroy();
     }
 
@@ -170,19 +170,22 @@ public class BrokerZeroMQ {
         return backEndMessage;
     }
 
-    protected void sendToRoutingWorker(ZMsg request) {
-        ZMsg requestBackup = request.duplicate();
-        String uuid = requestBackup.popString();
-        String client = requestBackup.popString();
-        String connector = requestBackup.popString();
+/*    protected void sendToRoutingWorker(ZMsg backEndMessage) {
+        ZMsg backEndMessageBackup = backEndMessage.duplicate();
+        String uuid = backEndMessageBackup.popString();
+        String client = backEndMessageBackup.popString();
+        String connector = backEndMessageBackup.popString();
         //Capture
-        //TODO
-        //requestCapture.send(this.backEndCommandCapture);
+        ZMsg backEndMessageCapture = backEndMessage.duplicate();
+        backEndMessageCapture.send(this.backEndCommandCapture);
         //Worker
-        request= this.addHeaderToRoutingWorker(request, connector);
-        requestBackup.destroy();
-        System.out.println("REQ " + request);
-        request.send(this.backEndCommand);
+        backEndMessage= this.addHeaderToRoutingWorker(backEndMessage, connector);
+        System.out.println("REQ " + backEndMessage);
+        backEndMessage.send(this.backEndCommand);
+
+        backEndMessageBackup.destroy();
+        backEndMessageCapture.destroy();
+        backEndMessage.destroy();
     }
 
     private ZMsg addHeaderToRoutingWorker(ZMsg request, String connector) {
@@ -194,8 +197,7 @@ public class BrokerZeroMQ {
     protected void sendToClient(ZMsg response, String client) {
         ZMsg responseCapture = response.duplicate();
         //Capture
-        //TODO
-        //responseCapture.send(this.backEndCommandCapture);
+        responseCapture.send(this.backEndCommandCapture);
         //Client
         response = this.removeHeaderToClient(response);
         response.addFirst(client);
@@ -207,5 +209,5 @@ public class BrokerZeroMQ {
         response.removeFirst();
         //response.removeFirst();
         return response;
-    }
+    }*/
 }
