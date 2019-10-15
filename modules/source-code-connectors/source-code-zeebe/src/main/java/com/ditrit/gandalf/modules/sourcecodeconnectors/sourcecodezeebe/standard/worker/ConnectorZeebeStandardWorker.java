@@ -9,7 +9,12 @@ import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
+//TODO REMOVE
+import org.springframework.web.client.RestTemplate;
+//TODO END REMOVE
 import org.zeromq.ZMsg;
+
+import java.util.Arrays;
 
 import static com.ditrit.gandalf.core.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_STANDARD;
 
@@ -56,6 +61,10 @@ public class ConnectorZeebeStandardWorker extends RunnableWorkerZeroMQ {
     protected void executeRoutingSubscriberCommand(ZMsg command) {
         System.out.println("EVENT SUBS");
         System.out.println(command);
+        //TODO REMOVE
+        String foxxCommand = "{cmd :" + Arrays.toString(command.toArray()) + "}";
+        new RestTemplate().postForObject( "http://arangodb/_db/gandalf/keep/event", foxxCommand, String.class);
+        //TODO END REMOVE
         this.messageEvent = new MessageEvent(command);
         System.out.println(messageEvent.getEvent());
         switch(messageEvent.getEvent()) {
