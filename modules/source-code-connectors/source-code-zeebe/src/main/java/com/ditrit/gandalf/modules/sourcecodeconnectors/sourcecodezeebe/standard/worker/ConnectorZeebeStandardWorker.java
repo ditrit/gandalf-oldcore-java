@@ -9,6 +9,7 @@ import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
@@ -65,6 +66,10 @@ public class ConnectorZeebeStandardWorker extends RunnableWorkerZeroMQ {
         System.out.println("EVENT SUBS");
         System.out.println(command);
         //TODO REMOVE
+        JsonParser jsonParser = new JsonParser();
+        JsonArray event2 = (JsonArray) jsonParser.parse(Arrays.toString(command.toArray()));
+        System.out.println("TOTO");
+        System.out.println(event2);
         JsonArray event = new JsonArray();
         event.add(command.popString());
         event.add(command.popString());
