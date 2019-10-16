@@ -6,6 +6,8 @@ import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
+import static com.ditrit.gandalf.core.zeromqcore.constant.Constant.WORKER_SERVICE_CLASS_CAPTURE;
+
 public class BrokerZeroMQ {
 
     public ZMQ.Socket frontEndCommand;
@@ -127,7 +129,7 @@ public class BrokerZeroMQ {
         String targetConnector = frontEndMessageBackup.popString();
         //Capture
         ZMsg frontEndMessageCapture = frontEndMessage.duplicate();
-        frontEndMessageCapture.send(this.backEndCommandCapture);
+        this.processFrontEndCaptureMessage(frontEndMessageCapture);
         //Worker
         frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, targetConnector);
         frontEndMessageBackup.destroy();
@@ -153,7 +155,7 @@ public class BrokerZeroMQ {
         String sourceServiceClass = backEndMessageBackup.popString();
         //Capture
         ZMsg backEndMessageCapture = backEndMessage.duplicate();
-        backEndMessageCapture.send(this.backEndCommandCapture);
+        this.processBackEndCaptureMessage(backEndMessageCapture);
         //Client
         backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, sourceConnector);
         System.out.println("REP " + backEndMessage);
@@ -170,44 +172,19 @@ public class BrokerZeroMQ {
         return backEndMessage;
     }
 
-/*    protected void sendToRoutingWorker(ZMsg backEndMessage) {
-        ZMsg backEndMessageBackup = backEndMessage.duplicate();
-        String uuid = backEndMessageBackup.popString();
-        String client = backEndMessageBackup.popString();
-        String connector = backEndMessageBackup.popString();
-        //Capture
-        ZMsg backEndMessageCapture = backEndMessage.duplicate();
+    protected void processBackEndCaptureMessage(ZMsg backEndMessageCapture) {
+        backEndMessageCapture = this.updateHeaderCaptureMessage(backEndMessageCapture);
         backEndMessageCapture.send(this.backEndCommandCapture);
-        //Worker
-        backEndMessage= this.addHeaderToRoutingWorker(backEndMessage, connector);
-        System.out.println("REQ " + backEndMessage);
-        backEndMessage.send(this.backEndCommand);
 
-        backEndMessageBackup.destroy();
-        backEndMessageCapture.destroy();
-        backEndMessage.destroy();
     }
 
-    private ZMsg addHeaderToRoutingWorker(ZMsg request, String connector) {
-        request.addFirst(connector);
-        return request;
+    protected void processFrontEndCaptureMessage(ZMsg frontEndMessageCapture) {
+        frontEndMessageCapture = this.updateHeaderCaptureMessage(frontEndMessageCapture);
+        frontEndMessageCapture.send(this.backEndCommandCapture);
     }
 
-    //TODO
-    protected void sendToClient(ZMsg response, String client) {
-        ZMsg responseCapture = response.duplicate();
-        //Capture
-        responseCapture.send(this.backEndCommandCapture);
-        //Client
-        response = this.removeHeaderToClient(response);
-        response.addFirst(client);
-        System.out.println("REP " + response);
-        response.send(this.frontEndCommand);
+    private ZMsg updateHeaderCaptureMessage(ZMsg frontEndMessage) {
+        frontEndMessage.addFirst(WORKER_SERVICE_CLASS_CAPTURE);
+        return frontEndMessage;
     }
-
-    private ZMsg removeHeaderToClient(ZMsg response) {
-        response.removeFirst();
-        //response.removeFirst();
-        return response;
-    }*/
 }
