@@ -34,7 +34,7 @@ public class ProxyZeroMQ {
         System.out.println("ProxySubscriberZeroMQ binding to backEndEventConnection: " + this.backEndEventConnection);
         this.backEndEvent.bind(this.backEndEventConnection);
         //Capture
-        this.backEndEventCapture = this.context.createSocket(SocketType.ROUTER);
+        this.backEndEventCapture = this.context.createSocket(SocketType.PUB);
         System.out.println("BrokerCaptureZeroMQ binding to backEndCaptureEventConnection: " + this.backEndCaptureEventConnection);
         this.backEndEventCapture.bind(this.backEndCaptureEventConnection);
         // Run the proxy

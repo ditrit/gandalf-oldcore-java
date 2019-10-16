@@ -28,11 +28,12 @@ public abstract class CaptureWorkerZeroMQ {
         this.frontEndWorker.connect(this.frontEndWorkerConnection);
 
         //Worker
-        this.frontEndSubscriberWorker = this.context.createSocket(SocketType.DEALER);
+        this.frontEndSubscriberWorker = this.context.createSocket(SocketType.SUB);
         this.frontEndSubscriberWorker.setIdentity(this.workerServiceClass.getBytes(ZMQ.CHARSET));
         this.frontEndSubscriberWorkerConnection = frontEndSubscriberWorkerConnection;
         System.out.println("WorkerZeroMQ connect to: " + this.frontEndSubscriberWorkerConnection);
         this.frontEndSubscriberWorker.connect(this.frontEndSubscriberWorkerConnection);
+        this.frontEndSubscriberWorker.subscribe(ZMQ.SUBSCRIPTION_ALL);
 
     }
 
