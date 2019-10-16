@@ -47,16 +47,18 @@ public class CaptureWorker extends RunnableCaptureWorkerZeroMQ {
 
     @Override
     protected void executeRoutingSubscriberCommand(ZMsg command) {
-        //API
         System.out.println("EVENT");
         System.out.println(command);
-        JsonArray eventJson = new JsonArray();
-        Arrays.stream(command.toArray())
-                .map(o -> o.toString())
-                .forEachOrdered(eventJson::add);
-        String foxxEvent = "{\"event\": " + eventJson.toString() + "}";
-        System.out.println(foxxEvent);
+        //API
+        if(command.size() > 1) {
+            JsonArray eventJson = new JsonArray();
+            Arrays.stream(command.toArray())
+                    .map(o -> o.toString())
+                    .forEachOrdered(eventJson::add);
+            String foxxEvent = "{\"event\": " + eventJson.toString() + "}";
+            System.out.println(foxxEvent);
 
-        this.restTemplate.postForObject(WORKER_SERVICE_CLASS_CAPTURE_URL_EVENT, foxxEvent, String.class);
+            this.restTemplate.postForObject(WORKER_SERVICE_CLASS_CAPTURE_URL_EVENT, foxxEvent, String.class);
+        }
     }
 }

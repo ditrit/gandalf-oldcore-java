@@ -83,13 +83,10 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
 
     private ZMsg updateHeaderCommand(ZMsg command) {
         command.removeFirst();
-        command.removeFirst();
         return command;
     }
 
     private ZMsg updateHeaderEvent(ZMsg event) {
-        event.removeFirst();
-        event.removeFirst();
         return event;
     }
 
