@@ -183,8 +183,8 @@ public class BrokerZeroMQ {
         frontEndMessageCapture.send(this.backEndCommandCapture);
     }
 
-    private ZMsg updateHeaderCaptureMessage(ZMsg frontEndMessage) {
-        frontEndMessage.addFirst(WORKER_SERVICE_CLASS_CAPTURE);
-        return frontEndMessage;
+    private ZMsg updateHeaderCaptureMessage(ZMsg captureMessage) {
+        captureMessage.addFirst(WORKER_SERVICE_CLASS_CAPTURE);
+        return captureMessage;
     }
 }
