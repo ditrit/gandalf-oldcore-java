@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.connectors.connectorartifact.configuration;
 
-import com.ditrit.gandalf.core.connectorcore.connector.ConnectorSubscriber;
-import com.ditrit.gandalf.core.connectorcore.connector.ConnectorWorker;
+import com.ditrit.gandalf.core.connectorcore.connector.ConnectorEvent;
+import com.ditrit.gandalf.core.connectorcore.connector.ConnectorCommand;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomartifact.custom.worker.ConnectorCustomArtifactCustomWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodecustomartifact.standard.worker.ConnectorCustomArtifactStandardWorker;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker.ConnectorGandalfWorker;
@@ -38,7 +38,7 @@ public class ConnectorArtifactCoreConfiguration {
 
     @Bean
     public void connectorAggregatorWorker() {
-        ConnectorWorker connectorWorker = (ConnectorWorker) context.getBean("aggregatorWorker");
+        ConnectorCommand connectorWorker = (ConnectorCommand) context.getBean("aggregatorWorker");
         if(connectorWorker != null) {
             this.taskExecutor().execute(connectorWorker);
         }
@@ -46,7 +46,7 @@ public class ConnectorArtifactCoreConfiguration {
 
     @Bean
     public void connectorAggregatorSubscriber() {
-        ConnectorSubscriber connectorSubscriber = (ConnectorSubscriber) context.getBean("aggregatorSubscriber");
+        ConnectorEvent connectorSubscriber = (ConnectorEvent) context.getBean("aggregatorSubscriber");
         if(connectorSubscriber != null) {
             this.taskExecutor().execute(connectorSubscriber);
         }

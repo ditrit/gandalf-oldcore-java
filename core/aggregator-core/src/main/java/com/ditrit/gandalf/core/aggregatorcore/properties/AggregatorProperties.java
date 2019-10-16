@@ -13,6 +13,7 @@ import java.util.stream.StreamSupport;
 
 import static com.ditrit.gandalf.core.aggregatorcore.constant.AggregatorConstant.*;
 
+//TODO REVOIR ALL
 public class AggregatorProperties {
 
     private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.";
@@ -29,19 +30,19 @@ public class AggregatorProperties {
     //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndSendConnection:tcp://*:9000}")
-    private String connectorCommandBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndReceiveConnection:tcp://*:9001}")
-    private String connectorCommandBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://*:9010}")
-    private String connectorEventBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://*:9011}")
-    private String connectorEventBackEndReceiveConnection;
+    @Value("${" + PROPERTIES_BASE + "aggregatorCommandBackEndSendConnection:tcp://*:9000}")
+    private String aggregatorCommandBackEndSendConnection;
+    @Value("${" + PROPERTIES_BASE + "aggregatorCommandBackEndReceiveConnection:tcp://*:9001}")
+    private String aggregatorCommandBackEndReceiveConnection;
+    @Value("${" + PROPERTIES_BASE + "aggregatorEventBackEndSendConnection:tcp://*:9010}")
+    private String aggregatorEventBackEndSendConnection;
+    @Value("${" + PROPERTIES_BASE + "aggregatorEventBackEndReceiveConnection:tcp://*:9011}")
+    private String aggregatorEventBackEndReceiveConnection;
 
-    private List<String> connectorCommandFrontEndReceiveConnections;
-    private List<String> connectorCommandFrontEndSendConnections;
-    private List<String> connectorEventFrontEndReceiveConnection;
-    private String connectorEventFrontEndSendConnection;
+    private List<String> aggregatorCommandFrontEndReceiveConnections;
+    private List<String> aggregatorCommandFrontEndSendConnections;
+    private List<String> aggregatorEventFrontEndReceiveConnection;
+    private String aggregatorEventFrontEndSendConnection;
 
     public AggregatorProperties() {
         this.restTemplate = new RestTemplate();
@@ -56,14 +57,14 @@ public class AggregatorProperties {
     private void initProperties() {
         //CONNECTEUR COMMAND RECEIVE FRONT
         JsonArray currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_BACKEND);
-        this.connectorCommandFrontEndReceiveConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
+        this.aggregatorCommandFrontEndReceiveConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
                .map(JsonObject.class::cast)
                .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
                .collect(Collectors.toList());
 
         //CONNECTEUR COMMAND SEND FRONT
         currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_FRONTEND);
-        this.connectorCommandFrontEndSendConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
+        this.aggregatorCommandFrontEndSendConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
                 .map(JsonObject.class::cast)
                 .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
                 .collect(Collectors.toList());
@@ -71,7 +72,7 @@ public class AggregatorProperties {
         //CONNECTEUR EVENT RECEIVE FRONT
         currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_BACKEND);
         JsonObject currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
-        this.connectorEventFrontEndReceiveConnection = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
+        this.aggregatorEventFrontEndReceiveConnection = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
                 .map(JsonObject.class::cast)
                 .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
                 .collect(Collectors.toList());
@@ -80,7 +81,7 @@ public class AggregatorProperties {
         currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_FRONTEND);
         currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
         //this.connectorEventFrontEndSendConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
-        this.connectorEventFrontEndSendConnection = concatFrontEndServicePort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_SERVICE), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
+        this.aggregatorEventFrontEndSendConnection = concatFrontEndServicePort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_SERVICE), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
 
         //CONNECTEUR COMMAND BACK
         //this.connectorCommandBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonArray.get(0).getAsJsonObject().get(GANDALF_CLUSTER_PORT));
@@ -126,36 +127,68 @@ public class AggregatorProperties {
         this.connectorName = connectorName;
     }
 
-    public String getConnectorCommandBackEndSendConnection() {
-        return connectorCommandBackEndSendConnection;
+    public String getAggregatorCommandBackEndSendConnection() {
+        return aggregatorCommandBackEndSendConnection;
     }
 
-    public void setConnectorCommandBackEndSendConnection(String connectorCommandBackEndSendConnection) {
-        this.connectorCommandBackEndSendConnection = connectorCommandBackEndSendConnection;
+    public void setAggregatorCommandBackEndSendConnection(String aggregatorCommandBackEndSendConnection) {
+        this.aggregatorCommandBackEndSendConnection = aggregatorCommandBackEndSendConnection;
     }
 
-    public String getConnectorCommandBackEndReceiveConnection() {
-        return connectorCommandBackEndReceiveConnection;
+    public String getAggregatorCommandBackEndReceiveConnection() {
+        return aggregatorCommandBackEndReceiveConnection;
     }
 
-    public void setConnectorCommandBackEndReceiveConnection(String connectorCommandBackEndReceiveConnection) {
-        this.connectorCommandBackEndReceiveConnection = connectorCommandBackEndReceiveConnection;
+    public void setAggregatorCommandBackEndReceiveConnection(String aggregatorCommandBackEndReceiveConnection) {
+        this.aggregatorCommandBackEndReceiveConnection = aggregatorCommandBackEndReceiveConnection;
     }
 
-    public String getConnectorEventBackEndReceiveConnection() {
-        return connectorEventBackEndReceiveConnection;
+    public String getAggregatorEventBackEndSendConnection() {
+        return aggregatorEventBackEndSendConnection;
     }
 
-    public void setConnectorEventBackEndReceiveConnection(String connectorEventBackEndReceiveConnection) {
-        this.connectorEventBackEndReceiveConnection = connectorEventBackEndReceiveConnection;
+    public void setAggregatorEventBackEndSendConnection(String aggregatorEventBackEndSendConnection) {
+        this.aggregatorEventBackEndSendConnection = aggregatorEventBackEndSendConnection;
     }
 
-    public String getConnectorEventBackEndSendConnection() {
-        return connectorEventBackEndSendConnection;
+    public String getAggregatorEventBackEndReceiveConnection() {
+        return aggregatorEventBackEndReceiveConnection;
     }
 
-    public void setConnectorEventBackEndSendConnection(String connectorEventBackEndSendConnection) {
-        this.connectorEventBackEndSendConnection = connectorEventBackEndSendConnection;
+    public void setAggregatorEventBackEndReceiveConnection(String aggregatorEventBackEndReceiveConnection) {
+        this.aggregatorEventBackEndReceiveConnection = aggregatorEventBackEndReceiveConnection;
+    }
+
+    public List<String> getAggregatorCommandFrontEndReceiveConnections() {
+        return aggregatorCommandFrontEndReceiveConnections;
+    }
+
+    public void setAggregatorCommandFrontEndReceiveConnections(List<String> aggregatorCommandFrontEndReceiveConnections) {
+        this.aggregatorCommandFrontEndReceiveConnections = aggregatorCommandFrontEndReceiveConnections;
+    }
+
+    public List<String> getAggregatorCommandFrontEndSendConnections() {
+        return aggregatorCommandFrontEndSendConnections;
+    }
+
+    public void setAggregatorCommandFrontEndSendConnections(List<String> aggregatorCommandFrontEndSendConnections) {
+        this.aggregatorCommandFrontEndSendConnections = aggregatorCommandFrontEndSendConnections;
+    }
+
+    public List<String> getAggregatorEventFrontEndReceiveConnection() {
+        return aggregatorEventFrontEndReceiveConnection;
+    }
+
+    public void setAggregatorEventFrontEndReceiveConnection(List<String> aggregatorEventFrontEndReceiveConnection) {
+        this.aggregatorEventFrontEndReceiveConnection = aggregatorEventFrontEndReceiveConnection;
+    }
+
+    public String getAggregatorEventFrontEndSendConnection() {
+        return aggregatorEventFrontEndSendConnection;
+    }
+
+    public void setAggregatorEventFrontEndSendConnection(String aggregatorEventFrontEndSendConnection) {
+        this.aggregatorEventFrontEndSendConnection = aggregatorEventFrontEndSendConnection;
     }
 
     public List<String> getTopics() {
@@ -164,37 +197,5 @@ public class AggregatorProperties {
 
     public void setTopics(List<String> topics) {
         this.topics = topics;
-    }
-
-    public List<String> getConnectorCommandFrontEndReceiveConnections() {
-        return connectorCommandFrontEndReceiveConnections;
-    }
-
-    public void setConnectorCommandFrontEndReceiveConnections(List<String> connectorCommandFrontEndReceiveConnections) {
-        this.connectorCommandFrontEndReceiveConnections = connectorCommandFrontEndReceiveConnections;
-    }
-
-    public List<String> getConnectorCommandFrontEndSendConnections() {
-        return connectorCommandFrontEndSendConnections;
-    }
-
-    public void setConnectorCommandFrontEndSendConnections(List<String> connectorCommandFrontEndSendConnections) {
-        this.connectorCommandFrontEndSendConnections = connectorCommandFrontEndSendConnections;
-    }
-
-    public List<String> getConnectorEventFrontEndReceiveConnection() {
-        return connectorEventFrontEndReceiveConnection;
-    }
-
-    public void setConnectorEventFrontEndReceiveConnection(List<String> connectorEventFrontEndReceiveConnection) {
-        this.connectorEventFrontEndReceiveConnection = connectorEventFrontEndReceiveConnection;
-    }
-
-    public String getConnectorEventFrontEndSendConnection() {
-        return connectorEventFrontEndSendConnection;
-    }
-
-    public void setConnectorEventFrontEndSendConnection(String connectorEventFrontEndSendConnection) {
-        this.connectorEventFrontEndSendConnection = connectorEventFrontEndSendConnection;
     }
 }

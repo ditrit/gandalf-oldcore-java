@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.aggregator.aggregatorgandalf.configuration;
 
-import com.ditrit.gandalf.core.aggregatorcore.aggregator.AggregatorSubscriber;
-import com.ditrit.gandalf.core.aggregatorcore.aggregator.AggregatorWorker;
+import com.ditrit.gandalf.core.aggregatorcore.aggregator.AggregatorEvent;
+import com.ditrit.gandalf.core.aggregatorcore.aggregator.AggregatorCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -28,18 +28,18 @@ public class AggregatorGandalfConfiguration {
     }
 
     @Bean
-    public void gandalfAggregatorWorker() {
-        AggregatorWorker gandalfAggregatorWorker = (AggregatorWorker) context.getBean("aggregatorWorker");
-        if(gandalfAggregatorWorker != null) {
-            this.taskExecutor().execute(gandalfAggregatorWorker);
+    public void gandalfAggregatorCommand() {
+        AggregatorCommand gandalfAggregatorCommand = (AggregatorCommand) context.getBean("aggregatorCommand");
+        if(gandalfAggregatorCommand != null) {
+            this.taskExecutor().execute(gandalfAggregatorCommand);
         }
     }
 
     @Bean
-    public void gandalAggregatorSubscriber() {
-        AggregatorSubscriber gandalAggregatorSubscriber = (AggregatorSubscriber) context.getBean("aggregatorSubscriber");
-        if(gandalAggregatorSubscriber != null) {
-            this.taskExecutor().execute(gandalAggregatorSubscriber);
+    public void gandalAggregatorEvent() {
+        AggregatorEvent gandalAggregatorEvent = (AggregatorEvent) context.getBean("aggregatorEvent");
+        if(gandalAggregatorEvent != null) {
+            this.taskExecutor().execute(gandalAggregatorEvent);
         }
     }
 }
