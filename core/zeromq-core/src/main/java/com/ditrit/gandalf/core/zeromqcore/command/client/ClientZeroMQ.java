@@ -38,7 +38,6 @@ public class ClientZeroMQ {
     }
 
     public void sendCommand(String uuid, String connector, String serviceClass, String command, String payload) {
-        this.backEndClient.sendMore(Constant.COMMAND_CLIENT_SEND);
         this.backEndClient.sendMore(uuid);
         this.backEndClient.sendMore(this.identity);
         this.backEndClient.sendMore(connector);

@@ -23,7 +23,6 @@ public abstract class AggregatorCommandZeroMQ {
         this.context = new ZContext();
         this.identity = identity;
 
-        //Send Broker
         this.frontEndSendRoutingAggregator = this.context.createSocket(SocketType.DEALER);
         this.frontEndSendRoutingAggregator.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
         this.frontEndSendRoutingAggregatorConnections = frontEndSendRoutingAggregatorConnections;
@@ -32,7 +31,6 @@ public abstract class AggregatorCommandZeroMQ {
             this.frontEndSendRoutingAggregator.connect(connection);
         }
 
-        //Receive Broker
         this.frontEndReceiveRoutingAggregator = this.context.createSocket(SocketType.DEALER);
         this.frontEndReceiveRoutingAggregator.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
         this.frontEndReceiveRoutingAggregatorConnections = frontEndReceiveRoutingAggregatorConnections;
@@ -41,14 +39,12 @@ public abstract class AggregatorCommandZeroMQ {
             this.frontEndReceiveRoutingAggregator.connect(connection);
         }
 
-        //Send Worker
         this.backEndSendRoutingAggregator = this.context.createSocket(SocketType.ROUTER);
         this.backEndSendRoutingAggregator.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
         this.backEndSendRoutingAggregatorConnection = backEndSendRoutingAggregatorConnection;
         System.out.println("CommandRoutingAggregatorZeroMQ binding to backEndSendRoutingAggregatorConnection: " + this.backEndSendRoutingAggregatorConnection);
         this.backEndSendRoutingAggregator.bind(this.backEndSendRoutingAggregatorConnection);
 
-        //Receive Worker
         this.backEndReceiveRoutingAggregator = this.context.createSocket(SocketType.ROUTER);
         this.backEndReceiveRoutingAggregator.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
         this.backEndReceiveRoutingAggregatorConnection = backEndReceiveRoutingAggregatorConnection;
@@ -72,6 +68,5 @@ public abstract class AggregatorCommandZeroMQ {
             this.context.destroySocket(frontEndSendRoutingAggregator);
         }
         this.init(this.identity, this.frontEndSendRoutingAggregatorConnections, this.frontEndSendRoutingAggregatorConnections, this.backEndSendRoutingAggregatorConnection, this.backEndReceiveRoutingAggregatorConnection);
-        // Register service with broker
     }
 }

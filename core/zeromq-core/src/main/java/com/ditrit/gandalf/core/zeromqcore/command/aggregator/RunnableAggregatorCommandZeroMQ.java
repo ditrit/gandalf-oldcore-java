@@ -150,7 +150,6 @@ public abstract class RunnableAggregatorCommandZeroMQ extends AggregatorCommandZ
         brokerMessageBackup.popString(); //UUID
         brokerMessageBackup.popString(); //SOURCE AGGREGATOR
         brokerMessageBackup.popString(); //SOURCE CONNECTOR
-        brokerMessageBackup.popString(); //SOURCE WORKER
         brokerMessageBackup.popString(); //TARGET AGGREGATOR
         String targetConnector = brokerMessageBackup.popString();
         brokerMessage = this.updateHeaderBrokerReceiveMessage(brokerMessage, targetConnector);
@@ -166,16 +165,16 @@ public abstract class RunnableAggregatorCommandZeroMQ extends AggregatorCommandZ
     }
 
     private void processConnectorSendMessage(ZMsg connectorMessage) {
-        connectorMessage.popString(); //SOURCE CONNECTOR (DEALER)
-        connectorMessage = this.updateIdentityConnectorMessage(connectorMessage);
+        String sourceConnector = connectorMessage.popString(); //SOURCE CONNECTOR (DEALER)
+        connectorMessage = this.updateIdentityConnectorMessage(connectorMessage, sourceConnector);
         this.sendComandToBroker(connectorMessage);
 
         connectorMessage.destroy();
     }
 
-    private ZMsg updateIdentityConnectorMessage(ZMsg connectorMessage) {
+    private ZMsg updateIdentityConnectorMessage(ZMsg connectorMessage, String sourceConnector) {
         String uuid = connectorMessage.popString();
-        connectorMessage.addFirst(this.identity);
+        connectorMessage.addFirst(sourceConnector);
         connectorMessage.addFirst(uuid);
         return connectorMessage;
     }
@@ -192,7 +191,7 @@ public abstract class RunnableAggregatorCommandZeroMQ extends AggregatorCommandZ
         else {
             System.out.println("ROUTING RESULT");
             System.out.println(connectorMessage);
-            connectorMessage = this.updateHeaderWorkerReceiveMessage(connectorMessage);
+            connectorMessage = this.updateHeaderConnectorReceiveMessage(connectorMessage);
             this.sendResultToBroker(connectorMessage);
         }
 
@@ -200,7 +199,7 @@ public abstract class RunnableAggregatorCommandZeroMQ extends AggregatorCommandZ
         connectorMessage.destroy();
     }
 
-    private ZMsg updateHeaderWorkerReceiveMessage(ZMsg response) {
+    private ZMsg updateHeaderConnectorReceiveMessage(ZMsg response) {
         response.removeFirst();
         return response;
     }

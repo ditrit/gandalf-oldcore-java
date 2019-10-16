@@ -121,16 +121,17 @@ public class BrokerZeroMQ {
 
     protected void processFrontEndMessage(ZMsg frontEndMessage) {
         ZMsg frontEndMessageBackup = frontEndMessage.duplicate();
-        String sender = frontEndMessageBackup.popString();
+        String sourceAggregator = frontEndMessageBackup.popString();
         String uuid = frontEndMessageBackup.popString();
         String sourceConnector = frontEndMessageBackup.popString();
-        String sourceServiceClass = frontEndMessageBackup.popString();
-        String targetConnector = frontEndMessageBackup.popString();
+        String sourceWorker = frontEndMessageBackup.popString();
+        String targetAggregator = frontEndMessageBackup.popString();
         //Capture
         //TODO
         //requestCapture.send(this.backEndCommandCapture);
         //Worker
-        frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, targetConnector);
+        frontEndMessage = this.updateIdentityAggregatorMessage(frontEndMessage);
+        frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, targetAggregator);
         frontEndMessageBackup.destroy();
         System.out.println("REQ " + frontEndMessage);
         frontEndMessage.send(this.backEndCommand);
@@ -139,18 +140,25 @@ public class BrokerZeroMQ {
         frontEndMessage.destroy();
     }
 
-    private ZMsg updateHeaderFrontEndMessage(ZMsg frontEndMessage, String connector) {
-        frontEndMessage.removeFirst();
-        frontEndMessage.addFirst(connector);
+    private ZMsg updateIdentityAggregatorMessage(ZMsg frontEndMessage) {
+        String sourceAggregator = frontEndMessage.popString();
+        String uuid = frontEndMessage.popString();
+        frontEndMessage.addFirst(sourceAggregator);
+        frontEndMessage.addFirst(uuid);
+        return frontEndMessage;
+    }
+
+    private ZMsg updateHeaderFrontEndMessage(ZMsg frontEndMessage, String targetAggregator) {
+        frontEndMessage.addFirst(targetAggregator);
         return frontEndMessage;
     }
 
     protected void processBackEndMessage(ZMsg backEndMessage) {
         ZMsg backEndMessageBackup = backEndMessage.duplicate();
-        String sender = backEndMessageBackup.popString();
+        String targetAggregator = backEndMessageBackup.popString();
         String uuid = backEndMessageBackup.popString();
+        String sourceAggregator = backEndMessageBackup.popString();
         String sourceConnector = backEndMessageBackup.popString();
-        String sourceServiceClass = backEndMessageBackup.popString();
         //TODO
         //Capture
         ZMsg backEndMessageCapture = backEndMessage.duplicate();

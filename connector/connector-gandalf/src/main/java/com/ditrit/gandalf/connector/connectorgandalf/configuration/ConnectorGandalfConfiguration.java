@@ -32,18 +32,18 @@ public class ConnectorGandalfConfiguration {
     }
 
     @Bean
-    public void gandalfConnectorWorker() {
-        ConnectorCommand gandalfConnectorWorker = (ConnectorCommand) context.getBean("connectorWorker");
-        if(gandalfConnectorWorker != null) {
-            this.taskExecutor().execute(gandalfConnectorWorker);
+    public void gandalfConnectorCommand() {
+        ConnectorCommand gandalfConnectorCommand = (ConnectorCommand) context.getBean("connectorCommand");
+        if(gandalfConnectorCommand != null) {
+            this.taskExecutor().execute(gandalfConnectorCommand);
         }
     }
 
     @Bean
-    public void gandalfConnectorSubscriber() {
-        ConnectorEvent gandalfConnectorSubscriber = (ConnectorEvent) context.getBean("connectorSubscriber");
-        if(gandalfConnectorSubscriber != null) {
-            this.taskExecutor().execute(gandalfConnectorSubscriber);
+    public void gandalfConnectorEvent() {
+        ConnectorEvent gandalfConnectorEvent = (ConnectorEvent) context.getBean("connectorEvent");
+        if(gandalfConnectorEvent != null) {
+            this.taskExecutor().execute(gandalfConnectorEvent);
         }
     }
 
