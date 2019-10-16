@@ -6,8 +6,8 @@ import org.zeromq.ZMsg;
 //TODO REVOIR
 public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ implements Runnable {
 
-    protected void initRunnable(String workerServiceClass, String frontEndWorkerConnection, String frontEndSubscriberWorkerConnection) {
-        this.init(workerServiceClass, frontEndWorkerConnection, frontEndSubscriberWorkerConnection);
+    protected void initRunnable(String identity, String frontEndWorkerConnection, String frontEndSubscriberWorkerConnection) {
+        this.init(identity, frontEndWorkerConnection, frontEndSubscriberWorkerConnection);
         this.frontEndSubscriberWorker.subscribe(ZMQ.SUBSCRIPTION_ALL);
     }
 
@@ -100,7 +100,7 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
         if (this.frontEndWorker != null) {
             this.context.destroySocket(frontEndWorker);
         }
-        this.initRunnable(this.workerServiceClass, this.frontEndWorkerConnection, this.frontEndSubscriberWorkerConnection);
+        this.initRunnable(this.identity, this.frontEndWorkerConnection, this.frontEndSubscriberWorkerConnection);
 
         // Register service with broker
         this.sendReadyCommand();

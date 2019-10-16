@@ -14,8 +14,8 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     private LinkedList<ZMsg> results;
 
 
-    protected void initRunnable(String workerServiceClass, String workerCommandFrontEndReceiveConnection, String workerEventFrontEndReceiveConnection, List<String> topics) {
-        this.init(workerServiceClass, workerCommandFrontEndReceiveConnection, workerEventFrontEndReceiveConnection);
+    protected void initRunnable(String identity, String workerCommandFrontEndReceiveConnection, String workerEventFrontEndReceiveConnection, List<String> topics) {
+        this.init(identity, workerCommandFrontEndReceiveConnection, workerEventFrontEndReceiveConnection);
         this.topics = topics;
 /*        for(String topic : this.topics) {
             this.frontEndSubscriberWorker.subscribe(topic.getBytes(ZMQ.CHARSET));
@@ -119,7 +119,7 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
         if(this.workerEventFrontEndReceive != null) {
             this.context.destroySocket(this.workerEventFrontEndReceive);
         }
-        this.initRunnable(this.workerServiceClass, this.workerCommandFrontEndReceiveConnection, this.workerEventFrontEndReceiveConnection, this.topics);
+        this.initRunnable(this.identity, this.workerCommandFrontEndReceiveConnection, this.workerEventFrontEndReceiveConnection, this.topics);
 
         // Register service with broker
         this.sendReadyCommand();
