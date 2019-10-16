@@ -65,22 +65,6 @@ public class ConnectorZeebeStandardWorker extends RunnableWorkerZeroMQ {
     protected void executeRoutingSubscriberCommand(ZMsg command) {
         System.out.println("EVENT SUBS");
         System.out.println(command);
-
-        JsonArray event = new JsonArray();
-        Arrays.stream(command.toArray())
-                .map(o -> o.toString())
-                .forEachOrdered(event::add);
-        System.out.println("TOTO");
-        System.out.println(event.toString());
-        event.add(command.popString());
-        event.add(command.popString());
-        event.add(command.popString());
-        event.add(command.popString());
-        event.add(command.popString());
-        String foxxCommand = "{\"event\": " + event.toString() + "}";
-        System.out.println(foxxCommand);
-        new RestTemplate().postForObject( "http://arangodb.service.gandalf:8529/_db/gandalf/keep/event", foxxCommand, String.class);
-        //TODO END REMOVE
         this.messageEvent = new MessageEvent(command);
         System.out.println(messageEvent.getEvent());
         switch(messageEvent.getEvent()) {
