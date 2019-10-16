@@ -65,12 +65,13 @@ public class ConnectorZeebeStandardWorker extends RunnableWorkerZeroMQ {
     protected void executeRoutingSubscriberCommand(ZMsg command) {
         System.out.println("EVENT SUBS");
         System.out.println(command);
-        //TODO REMOVE
-        JsonParser jsonParser = new JsonParser();
-        JsonArray event2 = (JsonArray) jsonParser.parse(Arrays.toString(command.toArray()));
-        System.out.println("TOTO");
-        System.out.println(event2);
+
         JsonArray event = new JsonArray();
+        Arrays.stream(command.toArray())
+                .map(o -> o.toString())
+                .forEachOrdered(event::add);
+        System.out.println("TOTO");
+        System.out.println(event.toString());
         event.add(command.popString());
         event.add(command.popString());
         event.add(command.popString());

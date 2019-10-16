@@ -34,7 +34,7 @@ public class CaptureWorker extends RunnableCaptureWorkerZeroMQ {
         System.out.println("COMMAND");
         System.out.println(command);
 
-        String foxxCommand = "{cmd :" + Arrays.toString(command.toArray()) + "}";
+        String foxxCommand = "{cmd: " + Arrays.toString(command.toArray()) + "}";
 
         this.restTemplate.postForObject(WORKER_SERVICE_CLASS_CAPTURE_URL_CMD, foxxCommand, String.class);
 
@@ -46,7 +46,7 @@ public class CaptureWorker extends RunnableCaptureWorkerZeroMQ {
         System.out.println("EVENT");
         System.out.println(command);
 
-        String foxxEvent = "{event :" + Arrays.toString(command.toArray()) + "}";
+        String foxxEvent = "{event: " + Arrays.toString(command.toArray()) + "}";
 
         this.restTemplate.postForObject(WORKER_SERVICE_CLASS_CAPTURE_URL_EVENT, foxxEvent, String.class);
     }
