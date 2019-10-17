@@ -63,26 +63,13 @@ public class DeployJob implements JobHandler {
         String projectName = workflow_variables.get("project_name").toString();
         String version = workflow_variables.get("project_version").toString();
 
-/*        //DEPLOY
-        succes &= deployFeign.deploy(projectName);
-
-        zeebe.newPublishMessageCommand()
-                .messageName("message")
-                .correlationKey("deploy")
-                .timeToLive(Duration.ofMinutes(30))
-                .send().join();*/
-
         //ORCHESTRATOR
         JsonObject payload = new JsonObject();
         payload.addProperty("service", projectName);
         payload.addProperty("version", version);
 
         ZMsg resultCommand = this.gandalfClient.getClient().sendCommandSync("deploy", this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_STANDARD", "DEPLOY", "5", payload.toString());
- /*       ZMsg resultCommand = null;
-        while(resultCommand == null) {
-            System.out.println("NULL");
-            resultCommand = this.gandalfClient.getCommandResultAsync();
-        }*/
+
         System.out.println(resultCommand);
         succes &= resultCommand.getLast().toString().equals("SUCCESS") ? true : false;
         System.out.println("SUCCESS");

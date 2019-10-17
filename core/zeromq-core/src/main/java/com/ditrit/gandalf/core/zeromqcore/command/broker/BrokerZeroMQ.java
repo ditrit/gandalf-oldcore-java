@@ -1,10 +1,11 @@
 package com.ditrit.gandalf.core.zeromqcore.command.broker;
 
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
+
+import static com.ditrit.gandalf.core.zeromqcore.constant.Constant.WORKER_SERVICE_CLASS_CAPTURE;
 
 public class BrokerZeroMQ {
 
@@ -39,16 +40,15 @@ public class BrokerZeroMQ {
         System.out.println("BrokerClientZeroMQ binding to backEndCommandConnection: " + this.backEndCommandConnection);
         this.backEndCommand.bind(this.backEndCommandConnection);
 
-        //TODO
-/*        //Capture EndPoint
-        this.backEndCommandCapture = this.context.createSocket(SocketType.DEALER);
+        //Capture EndPoint
+        this.backEndCommandCapture = this.context.createSocket(SocketType.ROUTER);
         System.out.println("BrokerCaptureZeroMQ binding to backEndCaptureCommandConnection: " + this.backEndCaptureCommandConnection);
-        this.backEndCommandCapture.bind(this.backEndCaptureCommandConnection);*/
+        this.backEndCommandCapture.bind(this.backEndCaptureCommandConnection);
+
     }
 
     protected void run() {
 
-        // Initialize poll set
         ZMQ.Poller poller = context.createPoller(2);
         poller.register(this.frontEndCommand, ZMQ.Poller.POLLIN);
         poller.register(this.backEndCommand, ZMQ.Poller.POLLIN);
@@ -57,11 +57,9 @@ public class BrokerZeroMQ {
         ZMsg backEndMessage;
         boolean more = false;
 
-        // Switch messages between sockets
         while (!Thread.currentThread().isInterrupted()) {
             poller.poll();
 
-            //Client
             if (poller.pollin(0)) {
                 while (true) {
                     frontEndMessage = ZMsg.recvMsg(this.frontEndCommand);
@@ -70,10 +68,9 @@ public class BrokerZeroMQ {
                     System.out.println(more);
 
                     if (frontEndMessage == null) {
-                        break; // Interrupted
+                        break;
                     }
 
-                    // Broker it
                     this.processFrontEndMessage(frontEndMessage);
 
                     if(!more) {
@@ -82,7 +79,6 @@ public class BrokerZeroMQ {
                 }
             }
 
-            //Worker
             if (poller.pollin(1)) {
                 while (true) {
                     backEndMessage = ZMsg.recvMsg(this.backEndCommand);
@@ -92,10 +88,9 @@ public class BrokerZeroMQ {
                     System.out.println(more);
 
                     if (backEndMessage == null) {
-                        break; // Interrupted
+                        break;
                     }
 
-                    // Broker it
                     this.processBackEndMessage(backEndMessage);
 
                     if(!more) {
@@ -108,7 +103,7 @@ public class BrokerZeroMQ {
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
             poller.close();
-            this.close(); // interrupted
+            this.close();
         }
     }
 
@@ -121,15 +116,18 @@ public class BrokerZeroMQ {
 
     protected void processFrontEndMessage(ZMsg frontEndMessage) {
         Object[] frontEndMessageBackup = frontEndMessage.duplicate().toArray();
+
         //Capture
-        //TODO
-        //requestCapture.send(this.backEndCommandCapture);
+        ZMsg frontEndMessageCapture = frontEndMessage.duplicate();
+        this.processFrontEndCaptureMessage(frontEndMessageCapture);
+
         //Worker
         frontEndMessage = this.updateIdentityAggregatorMessage(frontEndMessage);
         frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, frontEndMessageBackup[3].toString());
-        System.out.println("REQ " + frontEndMessage);
+        System.out.println("FRONT " + frontEndMessage);
         frontEndMessage.send(this.backEndCommand);
 
+        frontEndMessageCapture.destroy();
         frontEndMessage.destroy();
     }
 
@@ -148,15 +146,17 @@ public class BrokerZeroMQ {
 
     protected void processBackEndMessage(ZMsg backEndMessage) {
         Object[] backEndMessageBackup = backEndMessage.duplicate().toArray();
-        //TODO
+
         //Capture
         ZMsg backEndMessageCapture = backEndMessage.duplicate();
-        //responseCapture.send(this.backEndCommandCapture);
+        this.processBackEndCaptureMessage(backEndMessageCapture);
+
         //Client
         backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, backEndMessageBackup[1].toString());
-        System.out.println("REP " + backEndMessage);
+        System.out.println("BACK " + backEndMessage);
         backEndMessage.send(this.frontEndCommand);
 
+        backEndMessageCapture.destroy();
         backEndMessage.destroy();
     }
 
@@ -165,4 +165,21 @@ public class BrokerZeroMQ {
         backEndMessage.addFirst(client);
         return backEndMessage;
     }
+
+    protected void processBackEndCaptureMessage(ZMsg backEndMessageCapture) {
+        backEndMessageCapture = this.updateHeaderCaptureMessage(backEndMessageCapture);
+        backEndMessageCapture.send(this.backEndCommandCapture);
+
+    }
+
+    protected void processFrontEndCaptureMessage(ZMsg frontEndMessageCapture) {
+        frontEndMessageCapture = this.updateHeaderCaptureMessage(frontEndMessageCapture);
+        frontEndMessageCapture.send(this.backEndCommandCapture);
+    }
+
+    private ZMsg updateHeaderCaptureMessage(ZMsg captureMessage) {
+        captureMessage.addFirst(WORKER_SERVICE_CLASS_CAPTURE);
+        return captureMessage;
+    }
+
 }

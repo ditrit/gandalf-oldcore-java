@@ -2,6 +2,7 @@ package com.ditrit.gandalf.cluster.clustergandalf.configuration;
 
 import com.ditrit.gandalf.core.clustercore.cluster.GandalfBrokerZeroMQ;
 import com.ditrit.gandalf.core.clustercore.cluster.GandalfProxyZeroMQ;
+import com.ditrit.gandalf.core.clustercore.worker.CaptureWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -38,4 +39,11 @@ public class ClusterGandalfConfiguration {
         GandalfProxyZeroMQ gandalfProxyZeroMQ = (GandalfProxyZeroMQ) context.getBean("gandalfProxy");
         this.taskExecutor().execute(gandalfProxyZeroMQ);
     }
+
+    @Bean
+    public void gandalfCaptureWorker() {
+        CaptureWorker gandalfCaptureWorker = (CaptureWorker) context.getBean("gandalfCapture");
+        this.taskExecutor().execute(gandalfCaptureWorker);
+    }
+
 }

@@ -3,12 +3,10 @@ package com.ditrit.gandalf.core.zeromqcore.worker;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
-//TODO REVOIR
 public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ implements Runnable {
 
-    protected void initRunnable(String identity, String frontEndWorkerConnection, String frontEndSubscriberWorkerConnection) {
-        this.init(identity, frontEndWorkerConnection, frontEndSubscriberWorkerConnection);
-        this.frontEndSubscriberWorker.subscribe(ZMQ.SUBSCRIPTION_ALL);
+    protected void initRunnable(String workerServiceClass, String frontEndWorkerConnection, String frontEndSubscriberWorkerConnection) {
+        this.init(workerServiceClass, frontEndWorkerConnection, frontEndSubscriberWorkerConnection);
     }
 
     @Override
@@ -22,23 +20,19 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
         boolean more = false;
 
         while (!Thread.currentThread().isInterrupted()) {
-            this.sendReadyCommand();
+            poller.poll();
 
-            poller.poll(1000);
-            //Client
             if (poller.pollin(0)) {
                 while (true) {
-                    // Receive broker message
-                    command = ZMsg.recvMsg(this.frontEndWorker, ZMQ.NOBLOCK);
+                    command = ZMsg.recvMsg(this.frontEndWorker);
                     more = this.frontEndWorker.hasReceiveMore();
                     System.out.println(command);
                     System.out.println(more);
 
                     if (command == null) {
-                        break; // Interrupted
+                        break;
                     }
 
-                    //Process
                     this.processCommand(command);
 
                     if (!more) {
@@ -46,20 +40,18 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
                     }
                 }
             }
-
             if (poller.pollin(1)) {
                 while (true) {
-                    // Receive broker message
-                    event = ZMsg.recvMsg(this.frontEndSubscriberWorker, ZMQ.NOBLOCK);
+
+                    event = ZMsg.recvMsg(this.frontEndSubscriberWorker);
                     more = this.frontEndSubscriberWorker.hasReceiveMore();
                     System.out.println(event);
                     System.out.println(more);
 
                     if (event == null) {
-                        break; // Interrupted
+                        break;
                     }
 
-                    //Process
                     this.processEvent(event);
 
                     if(!more) {
@@ -71,7 +63,7 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
             poller.close();
-            this.close(); // interrupted
+            this.close();
         }
     }
 
@@ -87,13 +79,10 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
 
     private ZMsg updateHeaderCommand(ZMsg command) {
         command.removeFirst();
-        command.removeFirst();
         return command;
     }
 
     private ZMsg updateHeaderEvent(ZMsg event) {
-        event.removeFirst();
-        event.removeFirst();
         return event;
     }
 
@@ -101,10 +90,8 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
         if (this.frontEndWorker != null) {
             this.context.destroySocket(frontEndWorker);
         }
-        this.initRunnable(this.identity, this.frontEndWorkerConnection, this.frontEndSubscriberWorkerConnection);
+        this.initRunnable(this.workerServiceClass, this.frontEndWorkerConnection, this.frontEndSubscriberWorkerConnection);
 
-        // Register service with broker
-        this.sendReadyCommand();
     }
 
     protected abstract void executeRoutingWorkerCommand(ZMsg command);
