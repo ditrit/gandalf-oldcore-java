@@ -1,4 +1,4 @@
-package com.ditrit.gandalf.core.zeromqcore.event.listener;
+package com.ditrit.gandalf.core.zeromqcore.library.listener;
 
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
@@ -12,16 +12,16 @@ public class ThreadListenerEventZeroMQ extends Thread {
     protected ZContext context;
     protected ZMQ.Socket frontEndListener;
     protected String frontEndListenerConnection;
-    protected String listenerConnector;
+    protected String identity;
     private LinkedList<ZMsg> events;
 
-    public ThreadListenerEventZeroMQ(String listenerConnector, String frontEndListenerConnection) {
-        this.init(listenerConnector, frontEndListenerConnection);
+    public ThreadListenerEventZeroMQ(String identity, String frontEndListenerConnection) {
+        this.init(identity, frontEndListenerConnection);
     }
 
-    protected void init(String listenerConnector, String frontEndListenerConnection) {
+    protected void init(String identity, String frontEndListenerConnection) {
         this.context = new ZContext();
-        this.listenerConnector = listenerConnector;
+        this.identity = identity;
         events = new LinkedList<>();
 
         this.frontEndListener = this.context.createSocket(SocketType.SUB);
@@ -35,21 +35,11 @@ public class ThreadListenerEventZeroMQ extends Thread {
         ZMsg event;
         boolean more = false;
 
-        //while (true) {
-        // Receive broker message
         event = ZMsg.recvMsg(this.frontEndListener);
         more = this.frontEndListener.hasReceiveMore();
         System.out.println(event);
         System.out.println(more);
 
-/*            if (event == null) {
-                break; // Interrupted
-            }
-
-            if(!more) {
-                break;
-            }
-        }*/
         return event;
     }
 
@@ -69,8 +59,8 @@ public class ThreadListenerEventZeroMQ extends Thread {
         boolean more = false;
 
         while (!Thread.currentThread().isInterrupted()) {
-            poller.poll(1000);
-            //Client
+            poller.poll();
+
             if (poller.pollin(0)) {
                 while (true) {
                     event = ZMsg.recvMsg(this.frontEndListener, ZMQ.NOBLOCK);
@@ -80,7 +70,7 @@ public class ThreadListenerEventZeroMQ extends Thread {
                     System.out.println(more);
 
                     if (event == null) {
-                        break; // Interrupted
+                        break;
                     }
                     this.events.add(event.duplicate());
 
@@ -93,7 +83,7 @@ public class ThreadListenerEventZeroMQ extends Thread {
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
             poller.close();
-            this.close(); // interrupted
+            this.close();
         }
     }
 
@@ -102,10 +92,10 @@ public class ThreadListenerEventZeroMQ extends Thread {
         this.context.close();
     }
 
-    protected void reconnectToProxy() {
+    protected void reconnect() {
         if (this.frontEndListenerConnection != null) {
             this.context.destroySocket(frontEndListener);
         }
-        this.init(this.listenerConnector, this.frontEndListenerConnection);
+        this.init(this.identity, this.frontEndListenerConnection);
     }
 }

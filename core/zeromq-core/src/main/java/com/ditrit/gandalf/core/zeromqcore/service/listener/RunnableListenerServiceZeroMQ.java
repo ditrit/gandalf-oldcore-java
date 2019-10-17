@@ -3,34 +3,40 @@ package com.ditrit.gandalf.core.zeromqcore.service.listener;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
-public class RunnableListenerServiceZeroMQ extends ListenerServiceZeroMQ implements Runnable {
+public abstract class RunnableListenerServiceZeroMQ extends ListenerServiceZeroMQ implements Runnable {
 
-    protected void initRunnable(String identity, String serviceListenerConnection) {
-        this.init(identity, serviceListenerConnection);
+    public RunnableListenerServiceZeroMQ() {
+        super();
+    }
+
+    protected void initRunnable(String identity, String frontEndListenerConnection) {
+        this.init(identity, frontEndListenerConnection);
     }
 
     @Override
     public void run() {
         ZMQ.Poller poller = this.context.createPoller(1);
-        poller.register(this.serviceListener, ZMQ.Poller.POLLIN);
+        poller.register(this.frontEndListener, ZMQ.Poller.POLLIN);
 
         ZMsg request = null;
         boolean more = false;
 
         while (!Thread.currentThread().isInterrupted()) {
             poller.poll();
+            //Client
             if (poller.pollin(0)) {
                 while (true) {
-                    request = ZMsg.recvMsg(this.serviceListener);
-                    more = this.serviceListener.hasReceiveMore();
+                    // Receive broker message
+                    request = ZMsg.recvMsg(this.frontEndListener, ZMQ.NOBLOCK);
+                    more = this.frontEndListener.hasReceiveMore();
 
                     System.out.println(request);
                     System.out.println(more);
 
                     if (request == null) {
-                        break;
+                        break; // Interrupted
                     }
-                    this.processRequestService(request);
+                    this.processRequestService(request.duplicate());
 
                     if(!more) {
                         break;
@@ -41,11 +47,10 @@ public class RunnableListenerServiceZeroMQ extends ListenerServiceZeroMQ impleme
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
             poller.close();
-            this.close();
+            this.close(); // interrupted
         }
     }
 
-    public void processRequestService(ZMsg request) {
-        //TODO REQUEST
-    }
+    public abstract String processRequestService(ZMsg request);
+
 }

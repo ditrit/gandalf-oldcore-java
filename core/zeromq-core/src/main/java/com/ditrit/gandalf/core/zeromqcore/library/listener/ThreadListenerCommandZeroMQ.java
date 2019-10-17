@@ -1,6 +1,5 @@
-package com.ditrit.gandalf.core.zeromqcore.command.listener;
+package com.ditrit.gandalf.core.zeromqcore.library.listener;
 
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -13,48 +12,35 @@ public class ThreadListenerCommandZeroMQ extends Thread {
 
     protected ZContext context;
     protected ZMQ.Socket frontEndListener;
-    protected List<String> frontEndListenerConnections;
-    protected String listenerConnector;
+    protected String frontEndListenerConnection;
+    protected String identity;
     private LinkedList<ZMsg> commands;
 
-    public ThreadListenerCommandZeroMQ(String listenerConnector, List<String> frontEndListenerConnections) {
-        this.init(listenerConnector, frontEndListenerConnections);
+    public ThreadListenerCommandZeroMQ(String identity, String frontEndListenerConnection) {
+        this.init(identity, frontEndListenerConnection);
     }
 
-    protected void init(String listenerConnector, List<String> frontEndListenerConnections) {
+    protected void init(String identity, String frontEndListenerConnection) {
         this.context = new ZContext();
-        this.listenerConnector = listenerConnector;
+        this.identity = identity;
         commands = new LinkedList<>();
 
         this.frontEndListener = this.context.createSocket(SocketType.DEALER);
-        this.frontEndListener.setIdentity(this.listenerConnector.getBytes(ZMQ.CHARSET));
-        this.frontEndListenerConnections = frontEndListenerConnections;
-        for(String connection : this.frontEndListenerConnections) {
-            System.out.println("ThreadListenerCommandZeroMQ connect to frontEndListenerConnections: " + connection);
-            this.frontEndListener.connect(connection);
-        }
+        this.frontEndListener.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
+        this.frontEndListenerConnection = frontEndListenerConnection;
+        System.out.println("ThreadListenerCommandZeroMQ connect to frontEndListenerConnections: " +  this.frontEndListenerConnection);
+        this.frontEndListener.connect( this.frontEndListenerConnection);
     }
 
     public ZMsg getCommandSync() {
-
         ZMsg command;
         boolean more = false;
 
-        //while (true) {
-        // Receive broker message
         command = ZMsg.recvMsg(this.frontEndListener);
         more = this.frontEndListener.hasReceiveMore();
         System.out.println(command);
         System.out.println(more);
 
-/*            if (command == null) {
-                break; // Interrupted
-            }
-
-            if(!more) {
-                break;
-            }
-        }*/
         return command;
     }
 
@@ -63,11 +49,6 @@ public class ThreadListenerCommandZeroMQ extends Thread {
             return null;
         }
         return this.commands.poll();
-    }
-
-    public void sendResultCommand(ZMsg request, boolean result) {
-        request.addLast(result ? "SUCCES": "FAIL");
-        request.send(this.frontEndListener);
     }
 
     @Override
@@ -79,11 +60,10 @@ public class ThreadListenerCommandZeroMQ extends Thread {
         boolean more = false;
 
         while (!Thread.currentThread().isInterrupted()) {
-            poller.poll(1000);
-            //Client
+            poller.poll();
+
             if (poller.pollin(0)) {
                 while (true) {
-                    // Receive broker message
                     request = ZMsg.recvMsg(this.frontEndListener, ZMQ.NOBLOCK);
                     more = this.frontEndListener.hasReceiveMore();
 
@@ -91,7 +71,7 @@ public class ThreadListenerCommandZeroMQ extends Thread {
                     System.out.println(more);
 
                     if (request == null) {
-                        break; // Interrupted
+                        break;
                     }
                     request = this.updateHeaderBrokerMessage(request);
                     this.commands.add(request.duplicate());
@@ -105,7 +85,7 @@ public class ThreadListenerCommandZeroMQ extends Thread {
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
             poller.close();
-            this.close(); // interrupted
+            this.close();
         }
     }
 
@@ -119,10 +99,10 @@ public class ThreadListenerCommandZeroMQ extends Thread {
         this.context.close();
     }
 
-    protected void reconnectToBroker() {
-        if (this.frontEndListenerConnections != null) {
+    protected void reconnect() {
+        if (this.frontEndListenerConnection != null) {
             this.context.destroySocket(frontEndListener);
         }
-        this.init(this.listenerConnector, this.frontEndListenerConnections);
+        this.init(this.identity, this.frontEndListenerConnection);
     }
 }

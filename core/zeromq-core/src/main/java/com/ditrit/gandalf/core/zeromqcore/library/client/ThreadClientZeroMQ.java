@@ -1,4 +1,4 @@
-package com.ditrit.gandalf.core.zeromqcore.command.client;
+package com.ditrit.gandalf.core.zeromqcore.library.client;
 
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
@@ -53,7 +53,7 @@ public class ThreadClientZeroMQ extends Thread {
         }
     }
 
-    public ZMsg sendCommandSync(String context, String uuid, String command, String timeout, String payload) {
+    public ZMsg sendCommandSync(String context, String timeout, String uuid, String command, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         this.backEndClient.sendMore(""); // SOURCE AGGREGATOR
@@ -73,7 +73,7 @@ public class ThreadClientZeroMQ extends Thread {
         return this.getCommandResultSync();
     }
 
-    public void sendCommandAsync(String context, String uuid, String command, String timeout, String payload) {
+    public void sendCommandAsync(String context, String timeout, String uuid, String command, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         this.backEndClient.sendMore(""); // SOURCE AGGREGATOR
@@ -98,21 +98,11 @@ public class ThreadClientZeroMQ extends Thread {
         ZMsg response;
         boolean more = false;
 
-        //while (true) {
-        // Receive broker message
         response = ZMsg.recvMsg(this.backEndClient);
         more = this.backEndClient.hasReceiveMore();
         System.out.println(response);
         System.out.println(more);
 
-/*            if (command == null) {
-                break; // Interrupted
-            }
-
-            if(!more) {
-                break;
-            }
-        }*/
         return response;
     }
 

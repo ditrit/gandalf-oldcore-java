@@ -35,8 +35,10 @@ public class ConnectorProperties {
     private String connectorEventBackEndSendConnection;
     @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://*:9011}")
     private String connectorEventBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorServiceConnection:tcp://*:9030}")
-    private String connectorServiceConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorClientServiceConnection:tcp://*:9030}")
+    private String connectorClientServiceConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorListenerServiceConnection:tcp://*:9031}")
+    private String connectorListenerServiceConnection;
 
     @Value("${" + PROPERTIES_BASE + "connectorCommandFrontEndReceiveConnection:tcp://*:9000}")
     private String connectorCommandFrontEndReceiveConnection;
@@ -154,12 +156,20 @@ public class ConnectorProperties {
         this.connectorEventBackEndSendConnection = connectorEventBackEndSendConnection;
     }
 
-    public String getConnectorServiceConnection() {
-        return connectorServiceConnection;
+    public String getConnectorClientServiceConnection() {
+        return connectorClientServiceConnection;
     }
 
-    public void setConnectorServiceConnection(String connectorServiceConnection) {
-        this.connectorServiceConnection = connectorServiceConnection;
+    public void setConnectorClientServiceConnection(String connectorClientServiceConnection) {
+        this.connectorClientServiceConnection = connectorClientServiceConnection;
+    }
+
+    public String getConnectorListenerServiceConnection() {
+        return connectorListenerServiceConnection;
+    }
+
+    public void setConnectorListenerServiceConnection(String connectorListenerServiceConnection) {
+        this.connectorListenerServiceConnection = connectorListenerServiceConnection;
     }
 
     public String getConnectorCommandFrontEndReceiveConnection() {

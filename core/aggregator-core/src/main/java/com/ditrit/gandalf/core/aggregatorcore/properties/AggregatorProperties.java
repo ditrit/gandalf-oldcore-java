@@ -38,8 +38,10 @@ public class AggregatorProperties {
     private String aggregatorEventBackEndSendConnection;
     @Value("${" + PROPERTIES_BASE + "aggregatorEventBackEndReceiveConnection:tcp://*:9011}")
     private String aggregatorEventBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "aggregatorServiceConnection:tcp://*:9030}")
-    private String aggregatorServiceConnection;
+    @Value("${" + PROPERTIES_BASE + "aggregatorClientServiceConnection:tcp://*:9030}")
+    private String aggregatorClientServiceConnection;
+    @Value("${" + PROPERTIES_BASE + "aggregatorListenerServiceConnection:tcp://*:9031}")
+    private String aggregatorListenerServiceConnection;
 
     private List<String> aggregatorCommandFrontEndReceiveConnections;
     private List<String> aggregatorCommandFrontEndSendConnections;
@@ -161,12 +163,20 @@ public class AggregatorProperties {
         this.aggregatorEventBackEndReceiveConnection = aggregatorEventBackEndReceiveConnection;
     }
 
-    public String getAggregatorServiceConnection() {
-        return aggregatorServiceConnection;
+    public String getAggregatorClientServiceConnection() {
+        return aggregatorClientServiceConnection;
     }
 
-    public void setAggregatorServiceConnection(String aggregatorServiceConnection) {
-        this.aggregatorServiceConnection = aggregatorServiceConnection;
+    public void setAggregatorClientServiceConnection(String aggregatorClientServiceConnection) {
+        this.aggregatorClientServiceConnection = aggregatorClientServiceConnection;
+    }
+
+    public String getAggregatorListenerServiceConnection() {
+        return aggregatorListenerServiceConnection;
+    }
+
+    public void setAggregatorListenerServiceConnection(String aggregatorListenerServiceConnection) {
+        this.aggregatorListenerServiceConnection = aggregatorListenerServiceConnection;
     }
 
     public List<String> getAggregatorCommandFrontEndReceiveConnections() {

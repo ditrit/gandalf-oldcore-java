@@ -10,20 +10,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.ditrit.gandalf.core.listenercore.constant.LibraryListenerConstant.*;
+import static com.ditrit.gandalf.core.listenercore.constant.ListenerConstant.*;
 
 @Configuration
-public class LibraryListenerProperties {
+public class ListenerProperties {
 
     private RestTemplate restTemplate;
 
     @Value("${connector.name}")
     private String connectorName;
 
-    private List<String> listenerCommandBackEndConnections;
+    private String listenerCommandBackEndConnection;
     private String listenerEventBackEndConnection;
 
-    public LibraryListenerProperties() {
+    public ListenerProperties() {
         this.restTemplate = new RestTemplate();
         this.initProperties();
     }
@@ -33,16 +33,16 @@ public class LibraryListenerProperties {
     }
 
     private void initProperties() {
-        //CLIENT COMMAND FRONT
-        JsonObject currentclusterPropertiesJsonObject = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_BACKEND);
-        this.listenerCommandBackEndConnections = StreamSupport.stream(currentclusterPropertiesJsonObject.getAsJsonArray("res").spliterator(), false)
-                .map(JsonObject.class::cast)
-                .map(o -> concatAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
-                .collect(Collectors.toList());
+        ////CLIENT COMMAND FRONT
+        //JsonObject currentclusterPropertiesJsonObject = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_BACKEND);
+        //this.listenerCommandBackEndConnections = StreamSupport.stream(currentclusterPropertiesJsonObject.getAsJsonArray("res").spliterator(), false)
+        //        .map(JsonObject.class::cast)
+        //        .map(o -> concatAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
+        //        .collect(Collectors.toList());
 
         //CLIENT EVENT FRONT
-        currentclusterPropertiesJsonObject = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_BACKEND).getAsJsonObject("res");
-        this.listenerEventBackEndConnection = concatAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
+        //currentclusterPropertiesJsonObject = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_BACKEND).getAsJsonObject("res");
+        //this.listenerEventBackEndConnection = concatAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
     }
 
     private String concatAddressPort(JsonElement address, JsonElement port) {
@@ -57,12 +57,12 @@ public class LibraryListenerProperties {
         this.connectorName = connectorName;
     }
 
-    public List<String> getListenerCommandBackEndConnections() {
-        return listenerCommandBackEndConnections;
+    public String getListenerCommandBackEndConnection() {
+        return listenerCommandBackEndConnection;
     }
 
-    public void setListenerCommandBackEndConnections(List<String> listenerCommandBackEndConnections) {
-        this.listenerCommandBackEndConnections = listenerCommandBackEndConnections;
+    public void setListenerCommandBackEndConnection(String listenerCommandBackEndConnection) {
+        this.listenerCommandBackEndConnection = listenerCommandBackEndConnection;
     }
 
     public String getListenerEventBackEndConnection() {

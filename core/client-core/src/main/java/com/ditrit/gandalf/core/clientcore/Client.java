@@ -1,8 +1,8 @@
 package com.ditrit.gandalf.core.clientcore;
 
 import com.ditrit.gandalf.core.clientcore.properties.ClientProperties;
-import com.ditrit.gandalf.core.zeromqcore.command.client.ThreadClientZeroMQ;
-import com.ditrit.gandalf.core.zeromqcore.event.client.PublisherZeroMQ;
+import com.ditrit.gandalf.core.zeromqcore.library.client.PublisherZeroMQ;
+import com.ditrit.gandalf.core.zeromqcore.library.client.ThreadClientZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -24,15 +24,15 @@ public class Client {
         this.publisherZeroMQ = new PublisherZeroMQ(this.clientProperties.getConnectorName(), this.clientProperties.getConnectorEventBackEndSendConnection());
     }
 
-    public ZMsg sendCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
-        return this.threadClientZeroMQ.sendCommandSync(uuid, connector, serviceClass, command, timeout, payload);
+    public ZMsg sendCommandSync(String context, String timeout, String uuid, String command, String payload) {
+        return this.threadClientZeroMQ.sendCommandSync(context, timeout, uuid, command, payload);
     }
 
-    public void sendCommandAsync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
+    public void sendCommandAsync(String context, String timeout, String uuid, String command, String payload) {
         if(this.threadClientZeroMQ.isInterrupted()) {
             this.threadClientZeroMQ.start();
         }
-        this.threadClientZeroMQ.sendCommandAsync(uuid, connector, serviceClass, command, timeout, payload);
+        this.threadClientZeroMQ.sendCommandAsync(context, timeout, uuid, command, payload);
     }
 
     public ZMsg getCommandResultAsync() {
