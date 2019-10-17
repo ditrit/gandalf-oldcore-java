@@ -10,34 +10,32 @@ public abstract class ConnectorCommandZeroMQ {
 
     protected ZContext context;
     protected ZMQ.Socket frontEndSendRoutingConnector;
-    private List<String> frontEndSendRoutingConnectorConnections;
+    private String frontEndSendRoutingConnectorConnection;
     protected ZMQ.Socket frontEndReceiveRoutingConnector;
-    private List<String> frontEndReceiveRoutingConnectorConnections;
+    private String frontEndReceiveRoutingConnectorConnection;
     protected ZMQ.Socket backEndSendRoutingConnector;
     private String backEndSendRoutingConnectorConnection;
     protected ZMQ.Socket backEndReceiveRoutingConnector;
     private String backEndReceiveRoutingConnectorConnection;
     protected String identity;
 
-    protected void init(String identity, List<String> frontEndSendRoutingConnectorConnections, List<String> frontEndReceiveRoutingConnectorConnections, String backEndSendRoutingConnectorConnection, String backEndReceiveRoutingConnectorConnection) {
+    protected void init(String identity, String frontEndSendRoutingConnectorConnection, String frontEndReceiveRoutingConnectorConnection, String backEndSendRoutingConnectorConnection, String backEndReceiveRoutingConnectorConnection) {
         this.context = new ZContext();
         this.identity = identity;
 
         this.frontEndSendRoutingConnector = this.context.createSocket(SocketType.DEALER);
         this.frontEndSendRoutingConnector.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
-        this.frontEndSendRoutingConnectorConnections = frontEndSendRoutingConnectorConnections;
-        System.out.println("CommandRoutingConnectorZeroMQ connect to frontEndSendRoutingConnectorConnections: " + this.frontEndSendRoutingConnectorConnections);
-        for(String connection : this.frontEndSendRoutingConnectorConnections) {
-            this.frontEndSendRoutingConnector.connect(connection);
-        }
+        this.frontEndSendRoutingConnectorConnection = frontEndSendRoutingConnectorConnection;
+        System.out.println("CommandRoutingConnectorZeroMQ connect to frontEndSendRoutingConnectorConnection: " + this.frontEndSendRoutingConnectorConnection);
+        this.frontEndSendRoutingConnector.connect(this.frontEndSendRoutingConnectorConnection);
+
 
         this.frontEndReceiveRoutingConnector = this.context.createSocket(SocketType.DEALER);
         this.frontEndReceiveRoutingConnector.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
-        this.frontEndReceiveRoutingConnectorConnections = frontEndReceiveRoutingConnectorConnections;
-        System.out.println("CommandRoutingConnectorZeroMQ connect to frontEndReceiveRoutingConnectorConnections: " + this.frontEndReceiveRoutingConnectorConnections);
-        for(String connection : this.frontEndReceiveRoutingConnectorConnections) {
-            this.frontEndReceiveRoutingConnector.connect(connection);
-        }
+        this.frontEndReceiveRoutingConnectorConnection = frontEndReceiveRoutingConnectorConnection;
+        System.out.println("CommandRoutingConnectorZeroMQ connect to frontEndReceiveRoutingConnectorConnection: " + this.frontEndReceiveRoutingConnectorConnection);
+        this.frontEndReceiveRoutingConnector.connect(this.frontEndReceiveRoutingConnectorConnection);
+
 
         this.backEndSendRoutingConnector = this.context.createSocket(SocketType.ROUTER);
         this.backEndSendRoutingConnector.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
@@ -67,6 +65,6 @@ public abstract class ConnectorCommandZeroMQ {
         if (this.frontEndSendRoutingConnector != null) {
             this.context.destroySocket(frontEndSendRoutingConnector);
         }
-        this.init(this.identity, this.frontEndSendRoutingConnectorConnections, this.frontEndSendRoutingConnectorConnections, this.backEndSendRoutingConnectorConnection, this.backEndReceiveRoutingConnectorConnection);
+        this.init(this.identity, this.frontEndSendRoutingConnectorConnection, this.frontEndReceiveRoutingConnectorConnection, this.backEndSendRoutingConnectorConnection, this.backEndReceiveRoutingConnectorConnection);
     }
 }

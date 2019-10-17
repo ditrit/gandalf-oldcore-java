@@ -15,8 +15,8 @@ public abstract class RunnableConnectorEventZeroMQ extends ConnectorEventZeroMQ 
         mapper = new Gson();
     }
 
-    protected void initRunnable(String identity, String frontEndSendConnectorConnection, String backEndSenConnectorConnection, List<String> frontEndReceiveConnectorConnections, String backEndReceiveConnectorConnection) {
-        this.init(identity, frontEndSendConnectorConnection, backEndSenConnectorConnection, frontEndReceiveConnectorConnections, backEndReceiveConnectorConnection);
+    protected void initRunnable(String identity, String frontEndSendConnectorConnection, String backEndSenConnectorConnection, String frontEndReceiveConnectorConnection, String backEndReceiveConnectorConnection) {
+        this.init(identity, frontEndSendConnectorConnection, backEndSenConnectorConnection, frontEndReceiveConnectorConnection, backEndReceiveConnectorConnection);
     }
 
     @Override

@@ -16,6 +16,6 @@ public class ConnectorCommand extends RunnableConnectorCommandZeroMQ {
         super();
         this.connectorProperties = connectorProperties;
         this.mapper = new Gson();
-        this.initRunnable(this.connectorProperties.getConnectorName(), this.connectorProperties.getConnectorCommandFrontEndSendConnections(), this.connectorProperties.getConnectorCommandFrontEndReceiveConnections(), this.connectorProperties.getConnectorCommandBackEndSendConnection(), this.connectorProperties.getConnectorCommandBackEndReceiveConnection());
+        this.initRunnable(this.connectorProperties.getConnectorName(), this.connectorProperties.getConnectorCommandFrontEndSendConnection(), this.connectorProperties.getConnectorCommandFrontEndReceiveConnection(), this.connectorProperties.getConnectorCommandBackEndSendConnection(), this.connectorProperties.getConnectorCommandBackEndReceiveConnection());
     }
 }

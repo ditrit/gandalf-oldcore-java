@@ -46,6 +46,7 @@ public abstract class RunnableCaptureWorkerZeroMQ extends CaptureWorkerZeroMQ im
                     }
                 }
             }
+
             if (poller.pollin(1)) {
                 while (true) {
                     // Receive broker message

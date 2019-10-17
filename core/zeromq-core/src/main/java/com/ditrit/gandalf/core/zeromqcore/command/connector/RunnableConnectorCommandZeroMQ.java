@@ -19,8 +19,8 @@ public abstract class RunnableConnectorCommandZeroMQ extends ConnectorCommandZer
         this.commandZMsgLinkedList = new HashMap<>();
     }
 
-    protected void initRunnable(String identity, List<String> frontEndSendConnectorConnections, List<String> frontEndReceiveConnectorConnections, String backEndSendConnectorConnection, String backEndReceiveConnectorConnection) {
-        this.init(identity, frontEndSendConnectorConnections, frontEndReceiveConnectorConnections, backEndSendConnectorConnection, backEndReceiveConnectorConnection);
+    protected void initRunnable(String identity, String frontEndSendConnectorConnection, String frontEndReceiveConnectorConnection, String backEndSendConnectorConnection, String backEndReceiveConnectorConnection) {
+        this.init(identity, frontEndSendConnectorConnection, frontEndReceiveConnectorConnection, backEndSendConnectorConnection, backEndReceiveConnectorConnection);
     }
 
     @Override

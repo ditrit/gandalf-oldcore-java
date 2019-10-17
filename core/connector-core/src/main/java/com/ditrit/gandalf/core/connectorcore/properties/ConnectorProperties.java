@@ -38,9 +38,13 @@ public class ConnectorProperties {
     @Value("${" + PROPERTIES_BASE + "connectorServiceConnection:tcp://*:9030}")
     private String connectorServiceConnection;
 
-    private List<String> connectorCommandFrontEndReceiveConnections;
-    private List<String> connectorCommandFrontEndSendConnections;
-    private List<String> connectorEventFrontEndReceiveConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorCommandFrontEndReceiveConnection:tcp://*:9000}")
+    private String connectorCommandFrontEndReceiveConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorCommandFrontEndSendConnection:tcp://*:9000}")
+    private String connectorCommandFrontEndSendConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorEventFrontEndReceiveConnection:tcp://*:9000}")
+    private String connectorEventFrontEndReceiveConnection;
+    @Value("${" + PROPERTIES_BASE + "connectorEventFrontEndSendConnection:tcp://*:9000}")
     private String connectorEventFrontEndSendConnection;
 
     public ConnectorProperties() {
@@ -55,32 +59,32 @@ public class ConnectorProperties {
 
     private void initProperties() {
         //CONNECTEUR COMMAND RECEIVE FRONT
-        JsonArray currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_BACKEND);
-        this.connectorCommandFrontEndReceiveConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
-               .map(JsonObject.class::cast)
-               .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
-               .collect(Collectors.toList());
+        //JsonArray currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_BACKEND);
+        //this.connectorCommandFrontEndReceiveConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
+        //       .map(JsonObject.class::cast)
+        //       .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
+        //       .collect(Collectors.toList());
 
         //CONNECTEUR COMMAND SEND FRONT
-        currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_FRONTEND);
-        this.connectorCommandFrontEndSendConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
-                .map(JsonObject.class::cast)
-                .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
-                .collect(Collectors.toList());
+        //currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_FRONTEND);
+        //this.connectorCommandFrontEndSendConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
+        //        .map(JsonObject.class::cast)
+        //        .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
+        //        .collect(Collectors.toList());
 
         //CONNECTEUR EVENT RECEIVE FRONT
-        currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_BACKEND);
-        JsonObject currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
-        this.connectorEventFrontEndReceiveConnection = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
-                .map(JsonObject.class::cast)
-                .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
-                .collect(Collectors.toList());
+        //currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_BACKEND);
+        //JsonObject currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
+        //this.connectorEventFrontEndReceiveConnection = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
+        //        .map(JsonObject.class::cast)
+        //        .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
+        //        .collect(Collectors.toList());
 
         //CONNECTEUR EVENT SEND FRONT
-        currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_FRONTEND);
-        currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
+        //currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_FRONTEND);
+        //currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
         //this.connectorEventFrontEndSendConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
-        this.connectorEventFrontEndSendConnection = concatFrontEndServicePort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_SERVICE), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
+        //this.connectorEventFrontEndSendConnection = concatFrontEndServicePort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_SERVICE), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
 
         //CONNECTEUR COMMAND BACK
         //this.connectorCommandBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonArray.get(0).getAsJsonObject().get(GANDALF_CLUSTER_PORT));
@@ -158,35 +162,27 @@ public class ConnectorProperties {
         this.connectorServiceConnection = connectorServiceConnection;
     }
 
-    public List<String> getTopics() {
-        return topics;
+    public String getConnectorCommandFrontEndReceiveConnection() {
+        return connectorCommandFrontEndReceiveConnection;
     }
 
-    public void setTopics(List<String> topics) {
-        this.topics = topics;
+    public void setConnectorCommandFrontEndReceiveConnection(String connectorCommandFrontEndReceiveConnection) {
+        this.connectorCommandFrontEndReceiveConnection = connectorCommandFrontEndReceiveConnection;
     }
 
-    public List<String> getConnectorCommandFrontEndReceiveConnections() {
-        return connectorCommandFrontEndReceiveConnections;
+    public String getConnectorCommandFrontEndSendConnection() {
+        return connectorCommandFrontEndSendConnection;
     }
 
-    public void setConnectorCommandFrontEndReceiveConnections(List<String> connectorCommandFrontEndReceiveConnections) {
-        this.connectorCommandFrontEndReceiveConnections = connectorCommandFrontEndReceiveConnections;
+    public void setConnectorCommandFrontEndSendConnection(String connectorCommandFrontEndSendConnection) {
+        this.connectorCommandFrontEndSendConnection = connectorCommandFrontEndSendConnection;
     }
 
-    public List<String> getConnectorCommandFrontEndSendConnections() {
-        return connectorCommandFrontEndSendConnections;
-    }
-
-    public void setConnectorCommandFrontEndSendConnections(List<String> connectorCommandFrontEndSendConnections) {
-        this.connectorCommandFrontEndSendConnections = connectorCommandFrontEndSendConnections;
-    }
-
-    public List<String> getConnectorEventFrontEndReceiveConnection() {
+    public String getConnectorEventFrontEndReceiveConnection() {
         return connectorEventFrontEndReceiveConnection;
     }
 
-    public void setConnectorEventFrontEndReceiveConnection(List<String> connectorEventFrontEndReceiveConnection) {
+    public void setConnectorEventFrontEndReceiveConnection(String connectorEventFrontEndReceiveConnection) {
         this.connectorEventFrontEndReceiveConnection = connectorEventFrontEndReceiveConnection;
     }
 
@@ -196,5 +192,13 @@ public class ConnectorProperties {
 
     public void setConnectorEventFrontEndSendConnection(String connectorEventFrontEndSendConnection) {
         this.connectorEventFrontEndSendConnection = connectorEventFrontEndSendConnection;
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<String> topics) {
+        this.topics = topics;
     }
 }
