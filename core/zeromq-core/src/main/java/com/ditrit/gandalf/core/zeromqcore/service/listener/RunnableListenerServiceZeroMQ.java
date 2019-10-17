@@ -19,7 +19,6 @@ public class RunnableListenerServiceZeroMQ extends ListenerServiceZeroMQ impleme
 
         while (!Thread.currentThread().isInterrupted()) {
             poller.poll();
-            //Client
             if (poller.pollin(0)) {
                 while (true) {
                     request = ZMsg.recvMsg(this.serviceListener);
@@ -29,7 +28,7 @@ public class RunnableListenerServiceZeroMQ extends ListenerServiceZeroMQ impleme
                     System.out.println(more);
 
                     if (request == null) {
-                        break; // Interrupted
+                        break;
                     }
                     this.processRequestService(request);
 
@@ -42,7 +41,7 @@ public class RunnableListenerServiceZeroMQ extends ListenerServiceZeroMQ impleme
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
             poller.close();
-            this.close(); // interrupted
+            this.close();
         }
     }
 

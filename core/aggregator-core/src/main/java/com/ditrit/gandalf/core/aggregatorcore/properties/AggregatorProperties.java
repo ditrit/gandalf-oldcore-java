@@ -38,6 +38,8 @@ public class AggregatorProperties {
     private String aggregatorEventBackEndSendConnection;
     @Value("${" + PROPERTIES_BASE + "aggregatorEventBackEndReceiveConnection:tcp://*:9011}")
     private String aggregatorEventBackEndReceiveConnection;
+    @Value("${" + PROPERTIES_BASE + "aggregatorServiceConnection:tcp://*:9030}")
+    private String aggregatorServiceConnection;
 
     private List<String> aggregatorCommandFrontEndReceiveConnections;
     private List<String> aggregatorCommandFrontEndSendConnections;
@@ -157,6 +159,14 @@ public class AggregatorProperties {
 
     public void setAggregatorEventBackEndReceiveConnection(String aggregatorEventBackEndReceiveConnection) {
         this.aggregatorEventBackEndReceiveConnection = aggregatorEventBackEndReceiveConnection;
+    }
+
+    public String getAggregatorServiceConnection() {
+        return aggregatorServiceConnection;
+    }
+
+    public void setAggregatorServiceConnection(String aggregatorServiceConnection) {
+        this.aggregatorServiceConnection = aggregatorServiceConnection;
     }
 
     public List<String> getAggregatorCommandFrontEndReceiveConnections() {

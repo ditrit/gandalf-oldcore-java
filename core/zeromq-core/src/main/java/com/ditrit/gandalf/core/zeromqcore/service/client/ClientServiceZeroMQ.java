@@ -32,7 +32,6 @@ public class ClientServiceZeroMQ {
     }
 
     public ZMsg sendCommand(String uuid, String connector, String serviceClass, String command, String payload) {
-        this.serviceClient.sendMore(Constant.COMMAND_CLIENT_SEND);
         this.serviceClient.sendMore(uuid);
         this.serviceClient.sendMore(this.identity);
         this.serviceClient.sendMore(connector);
