@@ -120,23 +120,16 @@ public class BrokerZeroMQ {
     }
 
     protected void processFrontEndMessage(ZMsg frontEndMessage) {
-        ZMsg frontEndMessageBackup = frontEndMessage.duplicate();
-        String sourceAggregator = frontEndMessageBackup.popString();
-        String uuid = frontEndMessageBackup.popString();
-        String sourceConnector = frontEndMessageBackup.popString();
-        String sourceWorker = frontEndMessageBackup.popString();
-        String targetAggregator = frontEndMessageBackup.popString();
+        Object[] frontEndMessageBackup = frontEndMessage.duplicate().toArray();
         //Capture
         //TODO
         //requestCapture.send(this.backEndCommandCapture);
         //Worker
         frontEndMessage = this.updateIdentityAggregatorMessage(frontEndMessage);
-        frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, targetAggregator);
-        frontEndMessageBackup.destroy();
+        frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, frontEndMessageBackup[3].toString());
         System.out.println("REQ " + frontEndMessage);
         frontEndMessage.send(this.backEndCommand);
 
-        frontEndMessageBackup.destroy();
         frontEndMessage.destroy();
     }
 
@@ -154,21 +147,16 @@ public class BrokerZeroMQ {
     }
 
     protected void processBackEndMessage(ZMsg backEndMessage) {
-        ZMsg backEndMessageBackup = backEndMessage.duplicate();
-        String targetAggregator = backEndMessageBackup.popString();
-        String uuid = backEndMessageBackup.popString();
-        String sourceAggregator = backEndMessageBackup.popString();
-        String sourceConnector = backEndMessageBackup.popString();
+        Object[] backEndMessageBackup = backEndMessage.duplicate().toArray();
         //TODO
         //Capture
         ZMsg backEndMessageCapture = backEndMessage.duplicate();
         //responseCapture.send(this.backEndCommandCapture);
         //Client
-        backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, sourceConnector);
+        backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, backEndMessageBackup[1].toString());
         System.out.println("REP " + backEndMessage);
         backEndMessage.send(this.frontEndCommand);
 
-        backEndMessageBackup.destroy();
         backEndMessage.destroy();
     }
 
@@ -176,44 +164,5 @@ public class BrokerZeroMQ {
         backEndMessage.removeFirst();
         backEndMessage.addFirst(client);
         return backEndMessage;
-    }
-
-    protected void sendToRoutingWorker(ZMsg request) {
-        ZMsg requestBackup = request.duplicate();
-        String uuid = requestBackup.popString();
-        String client = requestBackup.popString();
-        String connector = requestBackup.popString();
-        //Capture
-        //TODO
-        //requestCapture.send(this.backEndCommandCapture);
-        //Worker
-        request= this.addHeaderToRoutingWorker(request, connector);
-        requestBackup.destroy();
-        System.out.println("REQ " + request);
-        request.send(this.backEndCommand);
-    }
-
-    private ZMsg addHeaderToRoutingWorker(ZMsg request, String connector) {
-        request.addFirst(connector);
-        return request;
-    }
-
-    //TODO
-    protected void sendToClient(ZMsg response, String client) {
-        ZMsg responseCapture = response.duplicate();
-        //Capture
-        //TODO
-        //responseCapture.send(this.backEndCommandCapture);
-        //Client
-        response = this.removeHeaderToClient(response);
-        response.addFirst(client);
-        System.out.println("REP " + response);
-        response.send(this.frontEndCommand);
-    }
-
-    private ZMsg removeHeaderToClient(ZMsg response) {
-        response.removeFirst();
-        //response.removeFirst();
-        return response;
     }
 }

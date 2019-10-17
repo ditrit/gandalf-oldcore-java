@@ -19,7 +19,6 @@ public abstract class WorkerZeroMQ {
     protected ZMQ.Socket workerEventFrontEndReceive;
     protected String workerEventFrontEndReceiveConnection;
     protected String identity;
-    protected List<String> workerCommands;
 
     protected void init(String identity, String workerCommandFrontEndReceiveConnection, String workerEventFrontEndReceiveConnection) {
         this.context = new ZContext();
@@ -50,7 +49,6 @@ public abstract class WorkerZeroMQ {
     protected void sendReadyCommand() {
         ZMsg ready = new ZMsg();
         ready.add(Constant.COMMAND_READY);
-        ready.add(this.workerCommands.toString());
         ready.send(this.workerCommandFrontEndReceive);
         ready.destroy();
     }

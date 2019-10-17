@@ -1,6 +1,5 @@
 package com.ditrit.gandalf.core.zeromqcore.command.client;
 
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -45,7 +44,6 @@ public class ThreadClientZeroMQ extends Thread {
         this.identity = identity;
         responses = new LinkedList<>();
 
-        //Broker
         this.backEndClient = this.context.createSocket(SocketType.DEALER);
         this.backEndClient.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
         this.backEndClientConnections = backEndClientConnections;
@@ -55,62 +53,43 @@ public class ThreadClientZeroMQ extends Thread {
         }
     }
 
-    public ZMsg sendCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
+    public ZMsg sendCommandSync(String context, String uuid, String command, String timeout, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        this.backEndClient.sendMore(uuid);
-        this.backEndClient.sendMore(connector);
-        this.backEndClient.sendMore(serviceClass);
-        this.backEndClient.sendMore(command);
-        this.backEndClient.sendMore(timeout);
-        this.backEndClient.sendMore(timestamp.toString());
-        this.backEndClient.send(payload);
+        this.backEndClient.sendMore(""); // SOURCE AGGREGATOR
+        this.backEndClient.sendMore(""); // SOURCE CONNECTOR
+        this.backEndClient.sendMore(""); // SOURCE WORKER
+        this.backEndClient.sendMore(""); // TARGET AGGREGATOR
+        this.backEndClient.sendMore(""); // TARGET CONNECTOR
+        this.backEndClient.sendMore(""); // TARGET WORKER
+        this.backEndClient.sendMore(""); // TENANT
+        this.backEndClient.sendMore(""); //TOKEN
+        this.backEndClient.sendMore(context); //CONTEXT
+        this.backEndClient.sendMore(timeout); //TIMEOUT
+        this.backEndClient.sendMore(timestamp.toString()); //TIMESTAMP
+        this.backEndClient.sendMore(uuid); //UUID
+        this.backEndClient.sendMore(command); //COMMAND
+        this.backEndClient.send(payload); //PAYLOAD
         return this.getCommandResultSync();
     }
 
-    public void sendCommandAsync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
+    public void sendCommandAsync(String context, String uuid, String command, String timeout, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        this.backEndClient.sendMore(uuid);
-        this.backEndClient.sendMore(connector);
-        this.backEndClient.sendMore(serviceClass);
-        this.backEndClient.sendMore(command);
-        this.backEndClient.sendMore(timeout);
-        this.backEndClient.sendMore(timestamp.toString());
-        this.backEndClient.send(payload);
-        this.run();
-    }
-
-
-    //TODO REMOVE
-    public ZMsg sendCustomCommandSync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        this.backEndClient.sendMore(uuid);
-        this.backEndClient.sendMore(this.identity);
-        this.backEndClient.sendMore(this.identity);
-        this.backEndClient.sendMore(connector);
-        this.backEndClient.sendMore(serviceClass);
-        this.backEndClient.sendMore(command);
-        this.backEndClient.sendMore(timeout);
-        this.backEndClient.sendMore(timestamp.toString());
-        this.backEndClient.send(payload);
-        return this.getCommandResultSync();
-    }
-
-    //TODO REMOVE
-    public void sendCustomCommandAsync(String uuid, String connector, String serviceClass, String command, String timeout, String payload) {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        this.backEndClient.sendMore(uuid);
-        this.backEndClient.sendMore(this.identity);
-        this.backEndClient.sendMore(this.identity);
-        this.backEndClient.sendMore(connector);
-        this.backEndClient.sendMore(serviceClass);
-        this.backEndClient.sendMore(command);
-        this.backEndClient.sendMore(timeout);
-        this.backEndClient.sendMore(timestamp.toString());
-        this.backEndClient.send(payload);
+        this.backEndClient.sendMore(""); // SOURCE AGGREGATOR
+        this.backEndClient.sendMore(""); // SOURCE CONNECTOR
+        this.backEndClient.sendMore(""); // SOURCE WORKER
+        this.backEndClient.sendMore(""); // TARGET AGGREGATOR
+        this.backEndClient.sendMore(""); // TARGET CONNECTOR
+        this.backEndClient.sendMore(""); // TARGET WORKER
+        this.backEndClient.sendMore(""); // TENANT
+        this.backEndClient.sendMore(""); //TOKEN
+        this.backEndClient.sendMore(context); //CONTEXT
+        this.backEndClient.sendMore(timeout); //TIMEOUT
+        this.backEndClient.sendMore(timestamp.toString()); //TIMESTAMP
+        this.backEndClient.sendMore(uuid); //UUID
+        this.backEndClient.sendMore(command); //COMMAND
+        this.backEndClient.send(payload); //PAYLOAD
         this.run();
     }
 
@@ -154,7 +133,7 @@ public class ThreadClientZeroMQ extends Thread {
 
         while (!Thread.currentThread().isInterrupted()) {
             poller.poll(1000);
-            //Client
+
             if (poller.pollin(0)) {
                 while (true) {
                     response = ZMsg.recvMsg(this.backEndClient, ZMQ.NOBLOCK);
@@ -164,7 +143,7 @@ public class ThreadClientZeroMQ extends Thread {
                     System.out.println(more);
 
                     if (response == null) {
-                        break; // Interrupted
+                        break;
                     }
                     this.responses.add(response.duplicate());
 
@@ -177,7 +156,7 @@ public class ThreadClientZeroMQ extends Thread {
         if (Thread.currentThread().isInterrupted()) {
             System.out.println("W: interrupted");
             poller.close();
-            this.close(); // interrupted
+            this.close();
         }
     }
 

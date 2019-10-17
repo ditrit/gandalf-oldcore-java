@@ -127,14 +127,11 @@ public abstract class RunnableConnectorCommandZeroMQ extends ConnectorCommandZer
     }
 
     private void processAggregatorSendMessage(ZMsg aggregatorMessage) {
-        ZMsg aggregatorMessageBackup = aggregatorMessage.duplicate();
-        aggregatorMessageBackup.popString(); //UUID
-        aggregatorMessageBackup.popString(); //SOURCE AGGREGATOR
-        String sourceConnector = aggregatorMessageBackup.popString();
+        Object[] aggregatorMessageBackup = aggregatorMessage.duplicate().toArray();
+        String sourceConnector = aggregatorMessageBackup[1].toString();
         aggregatorMessage = this.updateHeaderAggregatorSendMessage(aggregatorMessage, sourceConnector);
         this.sendResultToAggregator(aggregatorMessage.duplicate());
 
-        aggregatorMessageBackup.destroy();
         aggregatorMessage.destroy();
     }
 
@@ -144,18 +141,11 @@ public abstract class RunnableConnectorCommandZeroMQ extends ConnectorCommandZer
     }
 
     private void processAggregatorReceiveMessage(ZMsg aggregatorMessage) {
-        ZMsg aggregatorMessageBackup = aggregatorMessage.duplicate();
-        aggregatorMessageBackup.popString(); //UUID
-        aggregatorMessageBackup.popString(); //SOURCE AGGREGATOR
-        aggregatorMessageBackup.popString(); //SOURCE CONNECTOR
-        aggregatorMessageBackup.popString(); //SOURCE WORKER
-        aggregatorMessageBackup.popString(); //TARGET AGGREGATOR
-        aggregatorMessageBackup.popString(); //TARGET CONNECTOR
-        String command = aggregatorMessageBackup.popString();
+        Object[] aggregatorMessageBackup = aggregatorMessage.duplicate().toArray();
+        String command = aggregatorMessageBackup[12].toString();
         aggregatorMessage = this.updateHeaderAggregatorReceiveMessage(aggregatorMessage, command);
         this.getCommandZMsgLinkedList(command).add(aggregatorMessage.duplicate());
 
-        aggregatorMessageBackup.destroy();
         aggregatorMessage.destroy();
     }
 
@@ -180,12 +170,12 @@ public abstract class RunnableConnectorCommandZeroMQ extends ConnectorCommandZer
     }
 
     private void processWorkerReceiveMessage(ZMsg workerMessage) {
-        ZMsg workerMessageBackup = workerMessage.duplicate();
-        String workerTarget = workerMessageBackup.popString(); //(READY)
-        String commandType = workerMessageBackup.popString(); //(READY)
+        Object[] workerMessageBackup = workerMessage.duplicate().toArray();
+        String workerTarget = workerMessageBackup[0].toString(); //(READY)
+        String commandType = workerMessageBackup[1].toString(); //(READY)
         if(commandType.equals(Constant.COMMAND_READY)) {
-            String command = workerMessageBackup.popString(); //(READY)
-            ZMsg workerCommand = this.getCommandByWorkerCommands(command);
+            String commands = workerMessageBackup[2].toString(); //(READY)
+            ZMsg workerCommand = this.getCommandByWorkerCommands(commands);
             if(workerCommand != null) {
                 workerCommand = this.updateIdentityWorkerReadyMessage(workerCommand, workerTarget);
                 workerCommand = this.updateHeaderWorkerReceiveReadyMessage(workerCommand, workerTarget);
@@ -199,7 +189,6 @@ public abstract class RunnableConnectorCommandZeroMQ extends ConnectorCommandZer
             this.sendResultToAggregator(workerMessage);
         }
 
-        workerMessageBackup.destroy();
         workerMessage.destroy();
     }
 
@@ -231,19 +220,18 @@ public abstract class RunnableConnectorCommandZeroMQ extends ConnectorCommandZer
 
     private ZMsg updateIdentityWorkerReadyMessage(ZMsg command, String worker) {
         //TODO REVOIR
-        String uuid = command.popString();
         String aggregatorSource = command.popString();
         String connectorSource = command.popString();
         String workerSource = command.popString();
         String aggregatorTarget = command.popString();
         String connectorTarget = command.popString();
+
         command.addFirst(worker);
         command.addFirst(connectorTarget);
         command.addFirst(aggregatorTarget);
         command.addFirst(workerSource);
         command.addFirst(connectorSource);
         command.addFirst(aggregatorSource);
-        command.addFirst(uuid);
         return command;
     }
 

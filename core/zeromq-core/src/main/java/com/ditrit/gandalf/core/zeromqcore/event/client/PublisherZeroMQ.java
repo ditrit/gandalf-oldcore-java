@@ -1,6 +1,5 @@
 package com.ditrit.gandalf.core.zeromqcore.event.client;
 
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -40,11 +39,12 @@ public class PublisherZeroMQ {
 
     public void sendEvent(String topic, String event, String timeout, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        this.backEndPublisher.sendMore(topic);
-        this.backEndPublisher.sendMore(event);
-        this.backEndPublisher.sendMore(timeout);
-        this.backEndPublisher.sendMore(timestamp.toString());
-        this.backEndPublisher.send(payload);
+        this.backEndPublisher.sendMore(""); //TENANT
+        this.backEndPublisher.sendMore(""); //TOKEN
+        this.backEndPublisher.sendMore(topic); //TOPIC
+        this.backEndPublisher.sendMore(timeout); //TIMEOUT
+        this.backEndPublisher.sendMore(timestamp.toString()); //TIMESTAMP
+        this.backEndPublisher.sendMore(event); //EVENT
+        this.backEndPublisher.send(payload); //PAYLOAD
     }
 }

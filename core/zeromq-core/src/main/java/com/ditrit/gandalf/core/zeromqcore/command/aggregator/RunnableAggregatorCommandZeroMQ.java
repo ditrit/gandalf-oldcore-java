@@ -129,14 +129,11 @@ public abstract class RunnableAggregatorCommandZeroMQ extends AggregatorCommandZ
     }
 
     private void processBrokerSendMessage(ZMsg brokerMessage) {
-        ZMsg brokerMessageBackup = brokerMessage.duplicate();
-        brokerMessageBackup.popString(); //UUID
-        brokerMessageBackup.popString(); //SOURCE AGGREGATOR
-        String sourceConnector = brokerMessageBackup.popString();
+        Object[] brokerMessageBackup = brokerMessage.duplicate().toArray();
+        String sourceConnector = brokerMessageBackup[1].toString();
         brokerMessage = this.updateHeaderBrokerSendMessage(brokerMessage, sourceConnector);
         this.sendResultToConnector(brokerMessage.duplicate());
 
-        brokerMessageBackup.destroy();
         brokerMessage.destroy();
     }
 
@@ -146,16 +143,11 @@ public abstract class RunnableAggregatorCommandZeroMQ extends AggregatorCommandZ
     }
 
     private void processBrokerReceiveMessage(ZMsg brokerMessage) {
-        ZMsg brokerMessageBackup = brokerMessage.duplicate();
-        brokerMessageBackup.popString(); //UUID
-        brokerMessageBackup.popString(); //SOURCE AGGREGATOR
-        brokerMessageBackup.popString(); //SOURCE CONNECTOR
-        brokerMessageBackup.popString(); //TARGET AGGREGATOR
-        String targetConnector = brokerMessageBackup.popString();
+        Object[] brokerMessageBackup = brokerMessage.duplicate().toArray();
+        String targetConnector = brokerMessageBackup[4].toString();
         brokerMessage = this.updateHeaderBrokerReceiveMessage(brokerMessage, targetConnector);
         this.getConnectorZMsgLinkedList(targetConnector).add(brokerMessage.duplicate());
 
-        brokerMessageBackup.destroy();
         brokerMessage.destroy();
     }
 
@@ -180,9 +172,9 @@ public abstract class RunnableAggregatorCommandZeroMQ extends AggregatorCommandZ
     }
 
     private void processConnectorReceiveMessage(ZMsg connectorMessage) {
-        ZMsg connectorMessageBackup = connectorMessage.duplicate();
-        String connector = connectorMessageBackup.popString(); //(READY)
-        String commandType = connectorMessageBackup.popString(); //(READY)
+        Object[] connectorMessageBackup = connectorMessage.duplicate().toArray();
+        String connector = connectorMessageBackup[0].toString(); //(READY)
+        String commandType = connectorMessageBackup[1].toString(); //(READY)
         if(commandType.equals(Constant.COMMAND_READY)) {
             if(!this.getConnectorZMsgLinkedList(connector).isEmpty()) {
                 this.sendCommandToConnector(this.getConnectorZMsgLinkedList(connector).poll());
@@ -195,7 +187,6 @@ public abstract class RunnableAggregatorCommandZeroMQ extends AggregatorCommandZ
             this.sendResultToBroker(connectorMessage);
         }
 
-        connectorMessageBackup.destroy();
         connectorMessage.destroy();
     }
 

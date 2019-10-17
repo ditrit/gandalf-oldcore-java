@@ -54,42 +54,4 @@ public class ConnectorGandalfConfiguration {
             this.taskExecutor().execute(gandalfConnectorService);
         }
     }
-
-  /*  @Bean
-    public void connectorGandalfWorker() {
-        ConnectorGandalfWorker gandalfWorker = (ConnectorGandalfWorker) context.getBean("gandalfWorker");
-        if(gandalfWorker != null) {
-            this.taskExecutor().execute(gandalfWorker);
-        }
-    }
-
-    @Bean
-    public void connectorStandardWorker() {
-        RunnableWorkerZeroMQ standardWorker = null;
-        switch(targetType) {
-            case "zeebe":
-                standardWorker = (ConnectorZeebeStandardWorker) context.getBean("standardWorker");
-                break;
-            default:
-                break;
-        }
-        if(standardWorker != null) {
-            this.taskExecutor().execute(standardWorker);
-        }
-    }
-
-    @Bean
-    public void connectorCustomWorker() {
-        RunnableWorkerZeroMQ cutomWorker = null;
-        switch(targetType) {
-            case "zeebe":
-                cutomWorker = (ConnectorZeebeCustomWorker) context.getBean("customWorker");
-                break;
-            default:
-                break;
-        }
-        if(cutomWorker != null) {
-            this.taskExecutor().execute(cutomWorker);
-        }
-    }*/
 }
