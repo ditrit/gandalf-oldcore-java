@@ -38,11 +38,9 @@ public class ConnectorZeebeStandardWorker extends RunnableWorkerZeroMQ {
         this.connectorZeebeProperties = connectorZeebeProperties;
         this.initRunnable(WORKER_SERVICE_CLASS_STANDARD, this.connectorZeebeProperties.getConnectorCommandBackEndReceiveConnection(), this.connectorZeebeProperties.getConnectorEventBackEndReceiveConnection(), null);
     }
-//TODO PAYLOAD
+
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
-        System.out.println("COMMAND");
-        System.out.println(command);
         this.messageCommand = new MessageCommand(command);
         switch(messageCommand.getCommand()) {
             case "DEPLOY":
@@ -63,8 +61,6 @@ public class ConnectorZeebeStandardWorker extends RunnableWorkerZeroMQ {
 
     @Override
     protected void executeRoutingSubscriberCommand(ZMsg command) {
-        System.out.println("EVENT SUBS");
-        System.out.println(command);
         this.messageEvent = new MessageEvent(command);
         System.out.println(messageEvent.getEvent());
         switch(messageEvent.getEvent()) {

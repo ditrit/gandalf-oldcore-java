@@ -1,6 +1,7 @@
 package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.standard.manager;
 
 import com.ditrit.gandalf.library.gandalfclient.GandalfClient;
+import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.standard.service.ConnectorGitlabService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.properties.ConnectorGitlabProperties;
@@ -13,56 +14,34 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-//TODO REVOIR
 @Component(value = "standardManager")
-//@ComponentScan(basePackages = {"com.ditrit.gandalf.core.clientcore.worker"})
 @ConditionalOnBean(ConnectorGitlabProperties.class)
 public class ConnectorGitlabStandardManager extends ConnectorVersionControlStandardManager {
 
     private GitLabApi gitLabApi;
-    //private ConnectorGitNormativeManager gitCommonManager;
     private GandalfClient gandalfClient;
     private Gson mapper;
     private JsonObject jsonObject;
-
-/*    public ConnectorGitNormativeManager getGitCommonManager() {
-        return gitCommonManager;
-    }
+    private ConnectorGitlabService connectorGitlabService;
 
     @Autowired
-    public ConnectorGitlabNormativeManager(GitLabApi gitLabApi, ConnectorGitNormativeManager gitCommonManager, GandalfClient gandalfClient) {
-        this.gitLabApi = gitLabApi;
-        this.gitCommonManager = gitCommonManager;
+    public ConnectorGitlabStandardManager(GandalfClient gandalfClient, ConnectorGitlabService connectorGitlabService) {
         this.gandalfClient = gandalfClient;
         this.mapper = new Gson();
-    }*/
-
-    @Autowired
-    public ConnectorGitlabStandardManager(GandalfClient gandalfClient) {
-        this.gandalfClient = gandalfClient;
-        this.mapper = new Gson();
+        this.connectorGitlabService = connectorGitlabService;
     }
 
     public void hookMerge(String hook) {
-
+        String topic = "demonstration";
         jsonObject = this.mapper.fromJson(hook, JsonObject.class);
         JsonObject jsonObjectProject = jsonObject.get("project").getAsJsonObject();
-        JsonObject jsonObjectRepository = jsonObject.get("repository").getAsJsonObject();
-        JsonObject jsonObjectAttributes = jsonObject.get("object_attributes").getAsJsonObject();
 
         JsonObject payload = new JsonObject();
-        //StringBuilder topic = new StringBuilder(jsonObjectRepository.get("name").getAsString()).append(".").append(jsonObjectProject.get("name").getAsString());
-        String topic = "demonstration";
         payload.addProperty("correlation_key", topic);
         payload.addProperty("project_url", jsonObjectProject.get("git_http_url").getAsString());
         payload.addProperty("project_name", jsonObjectProject.get("name").getAsString());
-        System.out.println("SEND");
-        System.out.println(topic.toString());
-        System.out.println("HOOK_MERGE");
-        System.out.println(payload.toString());
-        //this.gandalfClient.sendCommand("toto", "toto", "toto", "toto", "toto");
-        this.gandalfClient.getClient().sendEvent(topic, "HOOK_MERGE", "5", payload.toString());
 
+        this.connectorGitlabService.sendEvent(topic, "HOOK_MERGE", payload);
     }
 
     @Override

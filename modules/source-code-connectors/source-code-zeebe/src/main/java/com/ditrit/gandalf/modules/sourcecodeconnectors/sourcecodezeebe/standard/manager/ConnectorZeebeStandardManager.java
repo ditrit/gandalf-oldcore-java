@@ -49,7 +49,6 @@ public class ConnectorZeebeStandardManager extends ConnectorWorkflowEngineStanda
 
     @Override
     public void sendMessage(String payload) {
-        //TODO REVOIR
         ConnectorZeebeMessage connectorZeebeMessage = this.mapper.fromJson(payload, ConnectorZeebeMessage.class);
         zeebe.newPublishMessageCommand() //
                 .messageName(connectorZeebeMessage.getName())
@@ -60,16 +59,12 @@ public class ConnectorZeebeStandardManager extends ConnectorWorkflowEngineStanda
     }
 
     public void hookMerge(MessageEvent messageEvent) {
-        System.out.println("HOOK MANAGER");
         JsonObject jsonObject = this.mapper.fromJson(messageEvent.getPayload(), JsonObject.class);
-        System.out.println(jsonObject.get("project_url").getAsString());
+
         HashMap<String, String> variables = new HashMap<>();
         variables.put("project_name", jsonObject.get("project_name").getAsString());
         variables.put("project_url", jsonObject.get("project_url").getAsString());
-        //variables.put(" project_version", this.jsonObject.get("project_version").getAsString());
-        System.out.println("VARIRABLES");
-        System.out.println(variables.toString());
-        System.out.println(messageEvent.getTopic());
+
         zeebe.newPublishMessageCommand() //
                 .messageName("message")
                 .correlationKey(messageEvent.getTopic())

@@ -30,7 +30,7 @@ public class ConnectorGitlabStandardWorker extends RunnableWorkerZeroMQ {
         this.connectorGitlabProperties = connectorGitlabProperties;
         this.initRunnable(WORKER_SERVICE_CLASS_STANDARD, this.connectorGitlabProperties.getConnectorCommandBackEndReceiveConnection(), this.connectorGitlabProperties.getConnectorEventBackEndReceiveConnection(), null);
     }
-//TODO PAYLOAD
+
     @Override
     protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
         this.messageCommand = new MessageCommand(command);
