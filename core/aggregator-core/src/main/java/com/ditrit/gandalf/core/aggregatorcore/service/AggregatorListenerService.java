@@ -21,7 +21,12 @@ public class AggregatorListenerService extends RunnableListenerServiceZeroMQ {
     }
 
     @Override
-    public String processRequestService(ZMsg request) {
-        return null;
+    public void processRequestService(ZMsg request) {
+        if(request.toArray()[0].equals("configuration")) {
+            this.frontEndListener.sendMore(this.aggregatorProperties.getAggregatorCommandBackEndReceiveConnection());
+            this.frontEndListener.sendMore(this.aggregatorProperties.getAggregatorCommandBackEndSendConnection());
+            this.frontEndListener.sendMore(this.aggregatorProperties.getAggregatorEventBackEndReceiveConnection());
+            this.frontEndListener.send(this.aggregatorProperties.getAggregatorEventBackEndSendConnection());
+        }
     }
 }

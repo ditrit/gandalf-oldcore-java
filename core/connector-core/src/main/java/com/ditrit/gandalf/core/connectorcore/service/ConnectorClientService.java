@@ -22,6 +22,7 @@ public class ConnectorClientService extends RunnableClientServiceZeroMQ {
 
     @Override
     public ZMsg sendRequest(Object request) {
-        return null;
+        this.serviceClient.send(request.toString());
+        return this.getRequestResult();
     }
 }

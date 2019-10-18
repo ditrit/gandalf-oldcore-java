@@ -8,6 +8,7 @@ public abstract class AggregatorConstant {
     public static final String GANDALF_CLUSTER_EVENT_BACKEND = "gandalf-event-backend";
     public static final String GANDALF_CLUSTER_COMMAND_FRONTEND = "gandalf-cmd-frontend";
     public static final String GANDALF_CLUSTER_EVENT_FRONTEND = "gandalf-event-frontend";
+    public static final String GANDALF_CLUSTER_SERVICE_FRONTEND = "gandalf-service-frontend";
     public static final String GANDALF_CLUSTER_ADDRESS = "Address";
     public static final String GANDALF_CLUSTER_SERVICE = "ServiceName";
     public static final String GANDALF_CLUSTER_PORT = "ServicePort";

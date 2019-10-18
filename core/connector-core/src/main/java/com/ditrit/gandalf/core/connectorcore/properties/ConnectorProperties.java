@@ -1,11 +1,13 @@
 package com.ditrit.gandalf.core.connectorcore.properties;
 
+import com.ditrit.gandalf.core.connectorcore.service.ConnectorClientService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
+import org.zeromq.ZMsg;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +17,7 @@ import static com.ditrit.gandalf.core.connectorcore.constant.ConnectorConstant.*
 
 public class ConnectorProperties {
 
+    private ConnectorClientService connectorClientService;
     private Gson mapper;
 
     @Value("${instance.name}")
@@ -37,7 +40,6 @@ public class ConnectorProperties {
     @Value("tcp://*:9021")
     private String connectorListenerServiceConnection;
 
-    //@Value("tcp://*:9020")
     @Value("${aggregator.service.endpoint}")
     private String connectorClientServiceConnection;
     private String connectorCommandFrontEndReceiveConnection;
@@ -52,43 +54,13 @@ public class ConnectorProperties {
 
     private void initProperties() {
 
-        //REQUEST AGGREGATOR
+        ZMsg response = this.connectorClientService.sendRequest("configuration");
+        Object[] responseConnections =  response.toArray();
 
-
-        //CONNECTEUR COMMAND RECEIVE FRONT
-        //JsonArray currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_BACKEND);
-        //this.connectorCommandFrontEndReceiveConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
-        //       .map(JsonObject.class::cast)
-        //       .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
-        //       .collect(Collectors.toList());
-
-        //CONNECTEUR COMMAND SEND FRONT
-        //currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_FRONTEND);
-        //this.connectorCommandFrontEndSendConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
-        //        .map(JsonObject.class::cast)
-        //        .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
-        //        .collect(Collectors.toList());
-
-        //CONNECTEUR EVENT RECEIVE FRONT
-        //currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_BACKEND);
-        //JsonObject currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
-        //this.connectorEventFrontEndReceiveConnection = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)
-        //        .map(JsonObject.class::cast)
-        //        .map(o -> concatFrontEndAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
-        //        .collect(Collectors.toList());
-
-        //CONNECTEUR EVENT SEND FRONT
-        //currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_FRONTEND);
-        //currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
-        //this.connectorEventFrontEndSendConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
-        //this.connectorEventFrontEndSendConnection = concatFrontEndServicePort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_SERVICE), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
-
-        //CONNECTEUR COMMAND BACK
-        //this.connectorCommandBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonArray.get(0).getAsJsonObject().get(GANDALF_CLUSTER_PORT));
-
-        //CONNECTEUR EVENT BACK
-        //this.connectorEventBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
-
+        this.connectorCommandFrontEndReceiveConnection = responseConnections[0].toString();
+        this.connectorCommandFrontEndSendConnection = responseConnections[1].toString();
+        this.connectorEventFrontEndReceiveConnection = responseConnections[2].toString();
+        this.connectorEventFrontEndSendConnection = responseConnections[3].toString();
     }
 
     private String concatFrontEndServicePort(JsonElement address, JsonElement port) {

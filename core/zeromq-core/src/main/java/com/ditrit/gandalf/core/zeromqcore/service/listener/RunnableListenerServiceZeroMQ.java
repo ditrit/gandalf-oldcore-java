@@ -51,6 +51,6 @@ public abstract class RunnableListenerServiceZeroMQ extends ListenerServiceZeroM
         }
     }
 
-    public abstract String processRequestService(ZMsg request);
+    public abstract void processRequestService(ZMsg request);
 
 }

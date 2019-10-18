@@ -1,6 +1,7 @@
 package com.ditrit.gandalf.core.aggregatorcore.service;
 
 import com.ditrit.gandalf.core.aggregatorcore.properties.AggregatorProperties;
+import com.ditrit.gandalf.core.zeromqcore.service.client.RunnableClientServiceZeroMQ;
 import com.ditrit.gandalf.core.zeromqcore.service.listener.RunnableListenerServiceZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -9,7 +10,7 @@ import org.zeromq.ZMsg;
 
 @Component(value = "aggregatorClientService")
 @Scope("singleton")
-public class AggregatorClientService extends RunnableListenerServiceZeroMQ {
+public class AggregatorClientService extends RunnableClientServiceZeroMQ {
 
     private AggregatorProperties aggregatorProperties;
 
@@ -21,7 +22,8 @@ public class AggregatorClientService extends RunnableListenerServiceZeroMQ {
     }
 
     @Override
-    public String processRequestService(ZMsg request) {
-        return null;
+    public ZMsg sendRequest(Object request) {
+        this.serviceClient.send(request.toString());
+        return this.getRequestResult();
     }
 }

@@ -21,7 +21,10 @@ public class ConnectorListenerService extends RunnableListenerServiceZeroMQ {
     }
 
     @Override
-    public String processRequestService(ZMsg request) {
-        return null;
+    public void processRequestService(ZMsg request) {
+        if(request.toArray()[0].equals("configuration")) {
+            this.frontEndListener.sendMore(this.connectorProperties.getConnectorCommandBackEndReceiveConnection());
+            this.frontEndListener.send(this.connectorProperties.getConnectorEventBackEndReceiveConnection());
+        }
     }
 }

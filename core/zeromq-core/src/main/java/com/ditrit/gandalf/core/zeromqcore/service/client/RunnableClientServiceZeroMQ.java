@@ -12,10 +12,9 @@ public abstract class RunnableClientServiceZeroMQ extends ClientServiceZeroMQ im
         this.init(identity, serviceClientConnection);
     }
 
-    //TODO SYNC ASYNC
     public abstract ZMsg sendRequest(Object request);
 
-    private ZMsg getCommandResult() {
+    public ZMsg getRequestResult() {
         boolean more = false;
 
         ZMsg response = ZMsg.recvMsg(this.serviceClient);
