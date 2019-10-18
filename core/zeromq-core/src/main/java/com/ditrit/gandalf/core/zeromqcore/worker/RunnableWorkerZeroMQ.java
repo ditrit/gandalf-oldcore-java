@@ -1,19 +1,15 @@
 package com.ditrit.gandalf.core.zeromqcore.worker;
 
 import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
-import com.ditrit.gandalf.core.zeromqcore.worker.domain.Function;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
 import java.util.List;
-import java.util.Map;
 
 
 public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
 
     private List<String> topics;
-    protected Map<String , Function> commands;
-    protected Map<String, Function> events;
 
 
     protected void initRunnable(String identity, String workerCommandFrontEndReceiveConnection, String workerEventFrontEndReceiveConnection, List<String> topics) {
@@ -114,40 +110,7 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
         this.sendReadyCommand();
     }
 
-    @Override
-    protected void sendReadyCommand() {
-        ZMsg ready = new ZMsg();
-        ready.add(Constant.COMMAND_READY);
-        ready.add(this.commands.keySet().toString());
-        ready.send(this.workerCommandFrontEndReceive);
-        ready.destroy();
-    }
-
     protected abstract Constant.Result executeWorkerCommandFunction(ZMsg commandExecute);
 
     protected abstract void executeWorkerEventFunction(ZMsg commandExecute);
-
-    protected Function getFunctionByCommand(ZMsg commandExecute) {
-        Function function = null;
-        function = this.commands.get(commandExecute.toArray()[6]);
-        return function;
-    }
-
-    protected Function getFunctionByEvent(ZMsg eventExecute) {
-        Function function = null;
-        function = this.events.get(eventExecute.toArray()[1]);
-        return function;
-    }
-
-    protected void addFunctionCommand(String command, Function function) {
-        if(!commands.containsKey(command)) {
-            this.commands.put(command, function);
-        }
-    }
-
-    protected void addFunctionEvent(String event, Function function) {
-        if(!events.containsKey(event)) {
-            this.events.put(event, function);
-        }
-    }
 }

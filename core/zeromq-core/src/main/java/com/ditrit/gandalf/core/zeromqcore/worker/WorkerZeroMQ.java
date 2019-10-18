@@ -46,12 +46,7 @@ public abstract class WorkerZeroMQ {
         this.context.close();
     }
 
-    protected void sendReadyCommand() {
-        ZMsg ready = new ZMsg();
-        ready.add(Constant.COMMAND_READY);
-        ready.send(this.workerCommandFrontEndReceive);
-        ready.destroy();
-    }
+    protected abstract void sendReadyCommand();
 
     protected void sendResultCommand(ZMsg request, String result) {
         request.addLast(result);

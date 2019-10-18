@@ -40,5 +40,6 @@
         <module>aggregator</module>
         <module>connector</module>
         <module>worker</module>
+        <module>functions</module>
     </modules>
 </project>
