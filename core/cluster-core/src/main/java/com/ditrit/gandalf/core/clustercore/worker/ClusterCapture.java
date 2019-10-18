@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.core.clustercore.worker;
 
 import com.ditrit.gandalf.core.clustercore.constant.ClusterConstant;
-import com.ditrit.gandalf.core.clustercore.properties.GandalfClusterProperties;
+import com.ditrit.gandalf.core.clustercore.properties.ClusterProperties;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableCaptureWorkerZeroMQ;
 import com.google.gson.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +15,18 @@ import java.util.Arrays;
 import static com.ditrit.gandalf.core.clustercore.constant.ClusterConstant.WORKER_SERVICE_CLASS_CAPTURE_URL_CMD;
 import static com.ditrit.gandalf.core.clustercore.constant.ClusterConstant.WORKER_SERVICE_CLASS_CAPTURE_URL_EVENT;
 
-@Component(value = "gandalfCapture")
+@Component(value = "clusterCapture")
 @Scope("singleton")
-public class CaptureWorker extends RunnableCaptureWorkerZeroMQ {
+public class ClusterCapture extends RunnableCaptureWorkerZeroMQ {
 
-    private GandalfClusterProperties gandalfClusterProperties;
+    private ClusterProperties clusterProperties;
     private RestTemplate restTemplate;
 
     @Autowired
-    public CaptureWorker(GandalfClusterProperties gandalfClusterProperties) {
-        this.gandalfClusterProperties = gandalfClusterProperties;
+    public ClusterCapture(ClusterProperties clusterProperties) {
+        this.clusterProperties = clusterProperties;
         this.restTemplate = new RestTemplate();
-        this.initRunnable(ClusterConstant.WORKER_SERVICE_CLASS_CAPTURE, this.gandalfClusterProperties.getCommandCaptureConnection(), this.gandalfClusterProperties.getEventCaptureConnection());
+        this.initRunnable(ClusterConstant.WORKER_SERVICE_CLASS_CAPTURE, this.clusterProperties.getCommandCaptureConnection(), this.clusterProperties.getEventCaptureConnection());
     }
 
     @Override

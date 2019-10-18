@@ -4,9 +4,11 @@ import com.ditrit.gandalf.core.aggregatorcore.properties.AggregatorProperties;
 import com.ditrit.gandalf.core.zeromqcore.event.aggregator.RunnableAggregatorEventZeroMQ;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component(value = "aggregatorEvent")
+@Scope("singleton")
 public class AggregatorEvent extends RunnableAggregatorEventZeroMQ {
 
     private AggregatorProperties aggregatorProperties;

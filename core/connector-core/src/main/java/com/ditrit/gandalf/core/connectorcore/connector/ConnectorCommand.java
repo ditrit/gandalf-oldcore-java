@@ -4,9 +4,11 @@ import com.ditrit.gandalf.core.connectorcore.properties.ConnectorProperties;
 import com.ditrit.gandalf.core.zeromqcore.command.connector.RunnableConnectorCommandZeroMQ;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component(value = "connectorCommand")
+@Scope("singleton")
 public class ConnectorCommand extends RunnableConnectorCommandZeroMQ {
 
     private ConnectorProperties connectorProperties;

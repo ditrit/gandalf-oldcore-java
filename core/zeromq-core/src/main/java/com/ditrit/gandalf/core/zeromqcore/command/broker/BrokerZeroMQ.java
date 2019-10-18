@@ -30,12 +30,12 @@ public class BrokerZeroMQ {
 
         this.context = new ZContext();
 
-        // Client EndPoint
+        //FrontEnd EndPoint
         this.frontEndCommand = this.context.createSocket(SocketType.ROUTER);
         System.out.println("BrokerClientZeroMQ binding to frontEndCommandConnection: " + this.frontEndCommandConnection);
         this.frontEndCommand.bind(this.frontEndCommandConnection);
 
-        // Worker EndPoint
+        //BackEnd EndPoint
         this.backEndCommand = this.context.createSocket(SocketType.ROUTER);
         System.out.println("BrokerClientZeroMQ binding to backEndCommandConnection: " + this.backEndCommandConnection);
         this.backEndCommand.bind(this.backEndCommandConnection);
@@ -121,7 +121,6 @@ public class BrokerZeroMQ {
         ZMsg frontEndMessageCapture = frontEndMessage.duplicate();
         this.processFrontEndCaptureMessage(frontEndMessageCapture);
 
-        //Worker
         frontEndMessage = this.updateIdentityAggregatorMessage(frontEndMessage);
         frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, frontEndMessageBackup[3].toString());
         System.out.println("FRONT " + frontEndMessage);
@@ -151,7 +150,6 @@ public class BrokerZeroMQ {
         ZMsg backEndMessageCapture = backEndMessage.duplicate();
         this.processBackEndCaptureMessage(backEndMessageCapture);
 
-        //Client
         backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, backEndMessageBackup[1].toString());
         System.out.println("BACK " + backEndMessage);
         backEndMessage.send(this.frontEndCommand);

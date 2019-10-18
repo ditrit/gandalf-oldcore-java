@@ -4,9 +4,11 @@ import com.ditrit.gandalf.core.connectorcore.properties.ConnectorProperties;
 import com.ditrit.gandalf.core.zeromqcore.event.connector.RunnableConnectorEventZeroMQ;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component(value = "connectorEvent")
+@Scope("singleton")
 public class ConnectorEvent extends RunnableConnectorEventZeroMQ {
 
     private ConnectorProperties connectorProperties;

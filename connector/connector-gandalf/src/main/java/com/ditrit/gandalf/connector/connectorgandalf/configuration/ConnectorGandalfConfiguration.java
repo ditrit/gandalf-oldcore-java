@@ -3,6 +3,7 @@ package com.ditrit.gandalf.connector.connectorgandalf.configuration;
 import com.ditrit.gandalf.core.connectorcore.service.ConnectorClientService;
 import com.ditrit.gandalf.core.connectorcore.connector.ConnectorEvent;
 import com.ditrit.gandalf.core.connectorcore.connector.ConnectorCommand;
+import com.ditrit.gandalf.core.connectorcore.service.ConnectorListenerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -48,10 +49,18 @@ public class ConnectorGandalfConfiguration {
     }
 
     @Bean
-    public void gandalfConnectorService() {
-        ConnectorClientService gandalfConnectorService = (ConnectorClientService) context.getBean("connectorService");
-        if(gandalfConnectorService != null) {
-            this.taskExecutor().execute(gandalfConnectorService);
+    public void gandalfConnectorClientService() {
+        ConnectorClientService gandalfConnectorClientService = (ConnectorClientService) context.getBean("connectorClientService");
+        if(gandalfConnectorClientService != null) {
+            this.taskExecutor().execute(gandalfConnectorClientService);
+        }
+    }
+
+    @Bean
+    public void gandalfConnectorListenerService() {
+        ConnectorListenerService gandalfConnectorListenerService = (ConnectorListenerService) context.getBean("connectorListenerService");
+        if(gandalfConnectorListenerService != null) {
+            this.taskExecutor().execute(gandalfConnectorListenerService);
         }
     }
 }

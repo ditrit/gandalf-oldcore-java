@@ -5,11 +5,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix="instance")
-public class GandalfClusterProperties {
+public class ClusterProperties {
 
     private String name;
 
-    //BROKER//
+    //COMMAND//
     //FRONT
     private String commandFrontEndConnection;
     //BACK
@@ -17,13 +17,19 @@ public class GandalfClusterProperties {
     //CAPTURE
     private String commandCaptureConnection;
 
-    //PROXY//
+    //EVENT//
     //FRONT
     private String eventFrontEndConnection;
     //BACK
     private String eventBackEndConnection;
     //CAPTURE
     private String eventCaptureConnection;
+
+    //SERVICE//
+    //CLIENT//
+    private String serviceClientConnection;
+    //LISTENER
+    private String serviceListenerConnection;
 
     public String getName() {
         return name;
@@ -79,5 +85,21 @@ public class GandalfClusterProperties {
 
     public void setEventCaptureConnection(String eventCaptureConnection) {
         this.eventCaptureConnection = eventCaptureConnection;
+    }
+
+    public String getServiceClientConnection() {
+        return serviceClientConnection;
+    }
+
+    public void setServiceClientConnection(String serviceClientConnection) {
+        this.serviceClientConnection = serviceClientConnection;
+    }
+
+    public String getServiceListenerConnection() {
+        return serviceListenerConnection;
+    }
+
+    public void setServiceListenerConnection(String serviceListenerConnection) {
+        this.serviceListenerConnection = serviceListenerConnection;
     }
 }

@@ -12,8 +12,8 @@ import java.util.Map;
 public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
 
     private List<String> topics;
-    private Map<String , Function> commands;
-    private Map<String, Function> events;
+    protected Map<String , Function> commands;
+    protected Map<String, Function> events;
 
 
     protected void initRunnable(String identity, String workerCommandFrontEndReceiveConnection, String workerEventFrontEndReceiveConnection, List<String> topics) {
@@ -123,28 +123,17 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
         ready.destroy();
     }
 
-    private Constant.Result executeWorkerCommandFunction(ZMsg commandExecute) {
-        Function functionExecute = this.getFunctionByCommand(commandExecute);
-        if(functionExecute != null) {
-            return functionExecute.executeCommand(commandExecute);
-        }
-        return Constant.Result.FAIL;
-    }
+    protected abstract Constant.Result executeWorkerCommandFunction(ZMsg commandExecute);
 
-    private void executeWorkerEventFunction(ZMsg commandExecute) {
-        Function functionExecute = this.getFunctionByEvent(commandExecute);
-        if(functionExecute != null) {
-            functionExecute.executeEvent(commandExecute);
-        }
-    }
+    protected abstract void executeWorkerEventFunction(ZMsg commandExecute);
 
-    private Function getFunctionByCommand(ZMsg commandExecute) {
+    protected Function getFunctionByCommand(ZMsg commandExecute) {
         Function function = null;
         function = this.commands.get(commandExecute.toArray()[6]);
         return function;
     }
 
-    private Function getFunctionByEvent(ZMsg eventExecute) {
+    protected Function getFunctionByEvent(ZMsg eventExecute) {
         Function function = null;
         function = this.events.get(eventExecute.toArray()[1]);
         return function;

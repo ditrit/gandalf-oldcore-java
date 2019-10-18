@@ -1,5 +1,6 @@
 package com.ditrit.gandalf.core.connectorcore.connector;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Scope("singleton")
 public class ConnectorWorkerMap {
 
     private Map<String, List<String>> serviceClassWorkersMap;

@@ -3,6 +3,7 @@ package com.ditrit.gandalf.aggregator.aggregatorgandalf.configuration;
 import com.ditrit.gandalf.core.aggregatorcore.aggregator.AggregatorEvent;
 import com.ditrit.gandalf.core.aggregatorcore.aggregator.AggregatorCommand;
 import com.ditrit.gandalf.core.aggregatorcore.service.AggregatorClientService;
+import com.ditrit.gandalf.core.aggregatorcore.service.AggregatorListenerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -45,10 +46,18 @@ public class AggregatorGandalfConfiguration {
     }
 
     @Bean
-    public void gandalfAggregatorService() {
-        AggregatorClientService gandalfAggregatorClientService = (AggregatorClientService) context.getBean("aggregatorService");
+    public void gandalfAggregatorClientService() {
+        AggregatorClientService gandalfAggregatorClientService = (AggregatorClientService) context.getBean("aggregatorClientService");
         if(gandalfAggregatorClientService != null) {
             this.taskExecutor().execute(gandalfAggregatorClientService);
+        }
+    }
+
+    @Bean
+    public void gandalfAggregatorListenerService() {
+        AggregatorListenerService gandalfAggregatorListenerService = (AggregatorListenerService) context.getBean("aggregatorListenerService");
+        if(gandalfAggregatorListenerService != null) {
+            this.taskExecutor().execute(gandalfAggregatorListenerService);
         }
     }
 }
