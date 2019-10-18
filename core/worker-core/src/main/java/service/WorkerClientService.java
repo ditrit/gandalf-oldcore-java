@@ -19,6 +19,8 @@ public class WorkerClientService extends RunnableClientServiceZeroMQ {
 
     @Override
     public ZMsg sendRequest(Object request) {
+        this.serviceClient.sendMore("");
+        this
         return null;
     }
 }

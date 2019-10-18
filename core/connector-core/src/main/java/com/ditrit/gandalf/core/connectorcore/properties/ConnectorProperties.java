@@ -15,51 +15,46 @@ import static com.ditrit.gandalf.core.connectorcore.constant.ConnectorConstant.*
 
 public class ConnectorProperties {
 
-    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.";
-
-    private RestTemplate restTemplate;
     private Gson mapper;
 
     @Value("${instance.name}")
     private String instanceName;
+    @Value("${aggregator.name}")
+    private String aggregatorName;
     @Value("${connector.name}")
     private String connectorName;
     //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndSendConnection:tcp://*:9000}")
+    @Value("tcp://*:9000")
     private String connectorCommandBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorCommandBackEndReceiveConnection:tcp://*:9001}")
+    @Value("tcp://*:9001")
     private String connectorCommandBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndSendConnection:tcp://*:9010}")
+    @Value("tcp://*:9010")
     private String connectorEventBackEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventBackEndReceiveConnection:tcp://*:9011}")
+    @Value("tcp://*:9011")
     private String connectorEventBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorClientServiceConnection:tcp://*:9030}")
-    private String connectorClientServiceConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorListenerServiceConnection:tcp://*:9031}")
+    @Value("tcp://*:9021")
     private String connectorListenerServiceConnection;
 
-    @Value("${" + PROPERTIES_BASE + "connectorCommandFrontEndReceiveConnection:tcp://*:9000}")
+    //@Value("tcp://*:9020")
+    @Value("${aggregator.service.endpoint}")
+    private String connectorClientServiceConnection;
     private String connectorCommandFrontEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorCommandFrontEndSendConnection:tcp://*:9000}")
     private String connectorCommandFrontEndSendConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventFrontEndReceiveConnection:tcp://*:9000}")
     private String connectorEventFrontEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "connectorEventFrontEndSendConnection:tcp://*:9000}")
     private String connectorEventFrontEndSendConnection;
 
     public ConnectorProperties() {
-        this.restTemplate = new RestTemplate();
         this.mapper = new Gson();
         this.initProperties();
     }
 
-    private JsonArray restTemplateRequest(String clusterPropertiesName) {
-        return mapper.fromJson(this.restTemplate.getForObject("http://localhost:8500/v1/catalog/service/"+clusterPropertiesName, String.class), JsonArray.class);
-    }
-
     private void initProperties() {
+
+        //REQUEST AGGREGATOR
+
+
         //CONNECTEUR COMMAND RECEIVE FRONT
         //JsonArray currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_BACKEND);
         //this.connectorCommandFrontEndReceiveConnections = StreamSupport.stream(currentclusterPropertiesJsonArray.spliterator(), false)

@@ -13,10 +13,9 @@ import java.util.stream.StreamSupport;
 
 import static com.ditrit.gandalf.core.aggregatorcore.constant.AggregatorConstant.*;
 
-//TODO REVOIR ALL
 public class AggregatorProperties {
 
-    private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.";
+    private static final String PROPERTIES_BASE = "${instance.name}.aggregators.${aggregator.name}.";
 
     private RestTemplate restTemplate;
     private Gson mapper;
@@ -25,8 +24,6 @@ public class AggregatorProperties {
     private String instanceName;
     @Value("${aggregator.name}")
     private String aggregatorName;
-    @Value("${connector.name}")
-    private String connectorName;
     //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
@@ -38,9 +35,9 @@ public class AggregatorProperties {
     private String aggregatorEventBackEndSendConnection;
     @Value("${" + PROPERTIES_BASE + "aggregatorEventBackEndReceiveConnection:tcp://*:9011}")
     private String aggregatorEventBackEndReceiveConnection;
-    @Value("${" + PROPERTIES_BASE + "aggregatorClientServiceConnection:tcp://*:9030}")
+    @Value("tcp://*:9020")
     private String aggregatorClientServiceConnection;
-    @Value("${" + PROPERTIES_BASE + "aggregatorListenerServiceConnection:tcp://*:9031}")
+    @Value("${" + PROPERTIES_BASE + "aggregatorListenerServiceConnection:tcp://*:9021}")
     private String aggregatorListenerServiceConnection;
 
     private List<String> aggregatorCommandFrontEndReceiveConnections;
@@ -84,15 +81,7 @@ public class AggregatorProperties {
         //CONNECTEUR EVENT SEND FRONT
         currentclusterPropertiesJsonArray = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_FRONTEND);
         currentclusterPropertiesJsonObject = currentclusterPropertiesJsonArray.get(0).getAsJsonObject();
-        //this.connectorEventFrontEndSendConnection = concatFrontEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
         this.aggregatorEventFrontEndSendConnection = concatFrontEndServicePort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_SERVICE), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
-
-        //CONNECTEUR COMMAND BACK
-        //this.connectorCommandBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonArray.get(0).getAsJsonObject().get(GANDALF_CLUSTER_PORT));
-
-        //CONNECTEUR EVENT BACK
-        //this.connectorEventBackEndConnection = concatBackEndAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
-
     }
 
     private String concatFrontEndServicePort(JsonElement address, JsonElement port) {
@@ -121,14 +110,6 @@ public class AggregatorProperties {
 
     public void setAggregatorName(String aggregatorName) {
         this.aggregatorName = aggregatorName;
-    }
-
-    public String getConnectorName() {
-        return connectorName;
-    }
-
-    public void setConnectorName(String connectorName) {
-        this.connectorName = connectorName;
     }
 
     public String getAggregatorCommandBackEndSendConnection() {
