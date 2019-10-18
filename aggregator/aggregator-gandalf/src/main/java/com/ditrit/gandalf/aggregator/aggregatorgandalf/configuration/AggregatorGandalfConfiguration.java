@@ -17,23 +17,21 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Order
 public class AggregatorGandalfConfiguration {
 
-    @Autowired
     private ApplicationContext context;
+    private ThreadPoolTaskExecutor taskExecutor;
 
-    @Bean
-    public ThreadPoolTaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
-        pool.setCorePoolSize(5);
-        pool.setMaxPoolSize(10);
-        pool.setWaitForTasksToCompleteOnShutdown(true);
-        return pool;
+    @Autowired
+    public AggregatorGandalfConfiguration(ApplicationContext context, ThreadPoolTaskExecutor taskExecutor) {
+        this.context = context;
+        this.taskExecutor = taskExecutor;
     }
+
 
     @Bean
     public void gandalfAggregatorCommand() {
         AggregatorCommand gandalfAggregatorCommand = (AggregatorCommand) context.getBean("aggregatorCommand");
         if(gandalfAggregatorCommand != null) {
-            this.taskExecutor().execute(gandalfAggregatorCommand);
+            this.taskExecutor.execute(gandalfAggregatorCommand);
         }
     }
 
@@ -41,23 +39,9 @@ public class AggregatorGandalfConfiguration {
     public void gandalAggregatorEvent() {
         AggregatorEvent gandalAggregatorEvent = (AggregatorEvent) context.getBean("aggregatorEvent");
         if(gandalAggregatorEvent != null) {
-            this.taskExecutor().execute(gandalAggregatorEvent);
+            this.taskExecutor.execute(gandalAggregatorEvent);
         }
     }
 
-    @Bean
-    public void gandalfAggregatorClientService() {
-        AggregatorClientService gandalfAggregatorClientService = (AggregatorClientService) context.getBean("aggregatorClientService");
-        if(gandalfAggregatorClientService != null) {
-            this.taskExecutor().execute(gandalfAggregatorClientService);
-        }
-    }
 
-    @Bean
-    public void gandalfAggregatorListenerService() {
-        AggregatorListenerService gandalfAggregatorListenerService = (AggregatorListenerService) context.getBean("aggregatorListenerService");
-        if(gandalfAggregatorListenerService != null) {
-            this.taskExecutor().execute(gandalfAggregatorListenerService);
-        }
-    }
 }

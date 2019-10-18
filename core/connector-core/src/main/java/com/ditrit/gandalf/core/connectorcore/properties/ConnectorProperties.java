@@ -26,6 +26,8 @@ public class ConnectorProperties {
     private String aggregatorName;
     @Value("${connector.name}")
     private String connectorName;
+
+    private String targetType;
     //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
 
@@ -61,18 +63,6 @@ public class ConnectorProperties {
         this.connectorCommandFrontEndSendConnection = responseConnections[1].toString();
         this.connectorEventFrontEndReceiveConnection = responseConnections[2].toString();
         this.connectorEventFrontEndSendConnection = responseConnections[3].toString();
-    }
-
-    private String concatFrontEndServicePort(JsonElement address, JsonElement port) {
-        return new StringBuilder("tcp://").append(address.getAsString()).append(".service.gandalf:").append(port.getAsString()).toString();
-    }
-
-    private String concatFrontEndAddressPort(JsonElement address, JsonElement port) {
-        return new StringBuilder("tcp://").append(address.getAsString()).append(":").append(port.getAsString()).toString();
-    }
-
-    private String concatBackEndAddressPort(JsonElement port) {
-        return new StringBuilder("tcp://").append("*:").append(port.getAsString()).toString();
     }
 
     public String getInstanceName() {
@@ -170,6 +160,8 @@ public class ConnectorProperties {
     public void setConnectorEventFrontEndSendConnection(String connectorEventFrontEndSendConnection) {
         this.connectorEventFrontEndSendConnection = connectorEventFrontEndSendConnection;
     }
+
+
 
     public List<String> getTopics() {
         return topics;

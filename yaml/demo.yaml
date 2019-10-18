@@ -32,3 +32,9 @@ instances:
             type: custom-orchestrator
             endpoint:
               uri: http://orchestrator-service.service.gandalf:8080
+      generic:
+        OrnessGeneric:
+          target:
+            type: generic
+            endpoint:
+              uri: none

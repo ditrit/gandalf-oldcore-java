@@ -1,14 +1,12 @@
 package com.ditrit.gandalf.worker.workergandalf.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import service.WorkerClientService;
 import worker.Worker;
 
 @Configuration
@@ -16,33 +14,25 @@ import worker.Worker;
 @Order
 public class WorkerGandalfConfiguration {
 
-    @Autowired
-    private ApplicationContext context;
-    @Value("${${instance.name}.connectors.${connector.type}.${connector.name}.target.type}")
-    private String targetType;
+    //@Value("${${instance.name}.connectors.${connector.type}.${connector.name}.target.type}")
+    //private String targetType;
 
-    @Bean
-    public ThreadPoolTaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
-        pool.setCorePoolSize(10);
-        pool.setMaxPoolSize(20);
-        pool.setWaitForTasksToCompleteOnShutdown(true);
-        return pool;
+    private ApplicationContext context;
+    private ThreadPoolTaskExecutor taskExecutor;
+
+    @Autowired
+    public WorkerGandalfConfiguration(ApplicationContext context, ThreadPoolTaskExecutor taskExecutor) {
+        this.context = context;
+        this.taskExecutor = taskExecutor;
     }
 
     @Bean
     public void gandalfWorker() {
-        Worker gandalfConnectorCommand = (Worker) context.getBean("connectorCommand");
+        Worker gandalfConnectorCommand = (Worker) context.getBean("worker");
         if(gandalfConnectorCommand != null) {
-            this.taskExecutor().execute(gandalfConnectorCommand);
+            this.taskExecutor.execute(gandalfConnectorCommand);
         }
     }
 
-    @Bean
-    public void gandalfWorkerClientService() {
-        WorkerClientService gandalfWorkerClientService = (WorkerClientService) context.getBean("workerClientService");
-        if(gandalfWorkerClientService != null) {
-            this.taskExecutor().execute(gandalfWorkerClientService);
-        }
-    }
+
 }

@@ -1,11 +1,8 @@
 package com.ditrit.gandalf.connector.connectorgandalf.configuration;
 
-import com.ditrit.gandalf.core.connectorcore.service.ConnectorClientService;
 import com.ditrit.gandalf.core.connectorcore.connector.ConnectorEvent;
 import com.ditrit.gandalf.core.connectorcore.connector.ConnectorCommand;
-import com.ditrit.gandalf.core.connectorcore.service.ConnectorListenerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,25 +15,23 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Order
 public class ConnectorGandalfConfiguration {
 
-    @Autowired
-    private ApplicationContext context;
-    @Value("${${instance.name}.connectors.${connector.type}.${connector.name}.target.type}")
-    private String targetType;
+    //@Value("${${instance.name}.connectors.${connector.type}.${connector.name}.target.type}")
+    //private String targetType;
 
-    @Bean
-    public ThreadPoolTaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
-        pool.setCorePoolSize(10);
-        pool.setMaxPoolSize(20);
-        pool.setWaitForTasksToCompleteOnShutdown(true);
-        return pool;
+    private ApplicationContext context;
+    private ThreadPoolTaskExecutor taskExecutor;
+
+    @Autowired
+    public ConnectorGandalfConfiguration(ApplicationContext context, ThreadPoolTaskExecutor taskExecutor) {
+        this.context = context;
+        this.taskExecutor = taskExecutor;
     }
 
     @Bean
     public void gandalfConnectorCommand() {
         ConnectorCommand gandalfConnectorCommand = (ConnectorCommand) context.getBean("connectorCommand");
         if(gandalfConnectorCommand != null) {
-            this.taskExecutor().execute(gandalfConnectorCommand);
+            this.taskExecutor.execute(gandalfConnectorCommand);
         }
     }
 
@@ -44,23 +39,9 @@ public class ConnectorGandalfConfiguration {
     public void gandalfConnectorEvent() {
         ConnectorEvent gandalfConnectorEvent = (ConnectorEvent) context.getBean("connectorEvent");
         if(gandalfConnectorEvent != null) {
-            this.taskExecutor().execute(gandalfConnectorEvent);
+            this.taskExecutor.execute(gandalfConnectorEvent);
         }
     }
 
-    @Bean
-    public void gandalfConnectorClientService() {
-        ConnectorClientService gandalfConnectorClientService = (ConnectorClientService) context.getBean("connectorClientService");
-        if(gandalfConnectorClientService != null) {
-            this.taskExecutor().execute(gandalfConnectorClientService);
-        }
-    }
 
-    @Bean
-    public void gandalfConnectorListenerService() {
-        ConnectorListenerService gandalfConnectorListenerService = (ConnectorListenerService) context.getBean("connectorListenerService");
-        if(gandalfConnectorListenerService != null) {
-            this.taskExecutor().execute(gandalfConnectorListenerService);
-        }
-    }
 }
