@@ -21,8 +21,8 @@ public class DeployJobService {
         this.deployJobProperties = deployJobProperties;
     }
 
-    public ZMsg sendCommand(String command, JsonObject payload) {
-        return this.gandalfClient.getClient().sendCommandSync(UUID.randomUUID().toString(), this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_STANDARD", command, "5", payload.toString());
+    public ZMsg sendCommand(String connectorTarget, String workerTarget, String command, JsonObject payload) {
+        return this.gandalfClient.getClient().sendCommandSync(UUID.randomUUID().toString(), connectorTarget, workerTarget, command, "5", payload.toString());
     }
 
     public void sendEvent(String topic, String event, String payload) {

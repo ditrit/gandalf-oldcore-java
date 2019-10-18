@@ -78,7 +78,6 @@ public class BuildJob implements JobHandler {
         JsonObject response = this.mapper.fromJson(result, JsonObject.class);
         succes &= response.get("succes").getAsBoolean();
 
-
         current_workflow_variables.put("project_version", response.get("version").getAsString());
         current_workflow_variables.put("project_url", response.get("project_url").getAsString());
         current_workflow_variables.put("conf_url", response.get("conf_url").getAsString());

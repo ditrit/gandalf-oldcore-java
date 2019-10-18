@@ -73,7 +73,7 @@ public class RegisterJob implements JobHandler {
         payloadRegister.addProperty("service", projectName);
         payloadRegister.addProperty("version", projectVersion);
 
-        ZMsg resultCommand = this.registerJobService.sendCommand("REGISTER", payloadRegister);
+        ZMsg resultCommand = this.registerJobService.sendCommand(this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_STANDARD","REGISTER", payloadRegister);
 
         succes &= resultCommand.getLast().toString().equals("SUCCESS") ? true : false;
 

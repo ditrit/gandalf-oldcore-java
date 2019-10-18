@@ -70,7 +70,7 @@ public class DeployJob implements JobHandler {
         payload.addProperty("service", projectName);
         payload.addProperty("version", version);
 
-        ZMsg resultCommand = this.deployJobService.sendCommand("DEPLOY", payload);
+        ZMsg resultCommand = this.deployJobService.sendCommand(this.deployJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_STANDARD", "DEPLOY", payload);
 
         succes &= resultCommand.getLast().toString().equals("SUCCESS") ? true : false;
 
