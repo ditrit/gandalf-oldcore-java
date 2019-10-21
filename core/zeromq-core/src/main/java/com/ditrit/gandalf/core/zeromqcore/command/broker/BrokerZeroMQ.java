@@ -1,5 +1,6 @@
 package com.ditrit.gandalf.core.zeromqcore.command.broker;
 
+import com.ditrit.gandalf.core.zeromqcore.command.router.ClusterCommandRouter;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -15,13 +16,15 @@ public class BrokerZeroMQ {
     private String backEndCommandConnection;
     public ZMQ.Socket backEndCommandCapture;
     private String backEndCaptureCommandConnection;
+    private ClusterCommandRouter clusterCommandRouter;
     private ZContext context;
 
-    public BrokerZeroMQ(String frontEndCommandConnection, String backEndCommandConnection, String backEndCaptureCommandConnection) {
+    public BrokerZeroMQ(String frontEndCommandConnection, String backEndCommandConnection, String backEndCaptureCommandConnection, ClusterCommandRouter clusterCommandRouter) {
 
         this.frontEndCommandConnection = frontEndCommandConnection;
         this.backEndCommandConnection = backEndCommandConnection;
         this.backEndCaptureCommandConnection = backEndCaptureCommandConnection;
+        this.clusterCommandRouter = clusterCommandRouter;
         this.open();
         this.run();
     }
@@ -122,6 +125,7 @@ public class BrokerZeroMQ {
         this.processFrontEndCaptureMessage(frontEndMessageCapture);
 
         frontEndMessage = this.updateIdentityAggregatorMessage(frontEndMessage);
+        frontEndMessage = this.updateTargetMessage(frontEndMessage);
         frontEndMessage = this.updateHeaderFrontEndMessage(frontEndMessage, frontEndMessageBackup[3].toString());
         System.out.println("FRONT " + frontEndMessage);
         frontEndMessage.send(this.backEndCommand);
@@ -135,6 +139,11 @@ public class BrokerZeroMQ {
         String uuid = frontEndMessage.popString();
         frontEndMessage.addFirst(sourceAggregator);
         frontEndMessage.addFirst(uuid);
+        return frontEndMessage;
+    }
+
+    private ZMsg updateTargetMessage(ZMsg frontEndMessage) {
+        frontEndMessage = this.clusterCommandRouter.getCommandTarget(frontEndMessage);
         return frontEndMessage;
     }
 
