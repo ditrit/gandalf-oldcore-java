@@ -29,7 +29,7 @@ public class BashService {
             e.printStackTrace();
             return false;
         }
-        return process.exitValue() == 0 ? false : true;
+        return process.exitValue() == 0 ? true : false;
     }
 
     public boolean register(String service, String version) {
@@ -44,7 +44,7 @@ public class BashService {
             e.printStackTrace();
             return false;
         }
-        return process.exitValue() == 0 ? false : true;
+        return process.exitValue() == 0 ? true : false;
     }
 
     public boolean unregister(String service, String version) {
@@ -57,7 +57,7 @@ public class BashService {
             e.printStackTrace();
             return false;
         }
-        return process.exitValue() == 0 ? false : true;
+        return process.exitValue() == 0 ? true : false;
     }
 
     public boolean untarProject(String projectName, String version) {
@@ -70,7 +70,7 @@ public class BashService {
             e.printStackTrace();
             return false;
         }
-        return process.exitValue() == 0 ? false : true;
+        return process.exitValue() == 0 ? true : false;
     }
 
     public boolean downloadProject(String url) {
@@ -89,7 +89,7 @@ public class BashService {
             e.printStackTrace();
             return false;
         }
-        return process.exitValue() == 0 ? false : true;
+        return process.exitValue() == 0 ? true : false;
     }
 
     public boolean downloadConfiguration(String url) {
@@ -108,7 +108,7 @@ public class BashService {
             e.printStackTrace();
             return false;
         }
-        return process.exitValue() == 0 ? false : true;
+        return process.exitValue() == 0 ? true : false;
     }
 
     private String getFileAbsolutePathFromResources(String fileName) {
