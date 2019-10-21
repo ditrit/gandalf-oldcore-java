@@ -42,7 +42,7 @@ public class BashService {
             e.printStackTrace();
             return false;
         }
-        return process.exitValue() == 0 ? true : false;
+        return process.exitValue() == 0 ? false : true;
     }
 
     private String updateUrl(String url) {
@@ -71,7 +71,7 @@ public class BashService {
             e.printStackTrace();
             return false;
         }
-        return process.exitValue() == 0 ? true : false;
+        return process.exitValue() == 0 ? false : true;
     }
 
     public boolean tarProject(String projectName, String projectNameVersion) {
@@ -83,7 +83,7 @@ public class BashService {
             e.printStackTrace();
             return false;
         }
-        return process.exitValue() == 0 ? true : false;
+        return process.exitValue() == 0 ? false : true;
     }
 
     public JsonObject uploadProject(File file) {
@@ -95,7 +95,7 @@ public class BashService {
             process.waitFor();
             url = new BufferedReader(new InputStreamReader(process.getInputStream())).lines().collect(Collectors.joining("\n"));
             result.addProperty("url", url);
-            result.addProperty("result", process.exitValue() == 0 ? true : false);
+            result.addProperty("result", process.exitValue() == 0 ? false : true);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             result.addProperty("url", url);
@@ -113,7 +113,7 @@ public class BashService {
             process.waitFor();
             url = new BufferedReader(new InputStreamReader(process.getInputStream())).lines().collect(Collectors.joining("\n"));
             result.addProperty("url", url);
-            result.addProperty("result", process.exitValue() == 0 ? true : false);
+            result.addProperty("result", process.exitValue() == 0 ? false : true);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             result.addProperty("url", url);
