@@ -57,5 +57,9 @@ public class WorkerGandalfInitialization {
 
         this.clientProperties.setConnectorCommandBackEndSendConnection(responseConnections[2].toString());
         this.clientProperties.setConnectorEventBackEndSendConnection(responseConnections[3].toString());
+
+        //TODO TYPE / FUNCTION
+
+        //TODO SEND COMMANDS CONNECTOR -> VERIF COMMANDS
     }
 }

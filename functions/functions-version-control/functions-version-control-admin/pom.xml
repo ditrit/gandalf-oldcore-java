@@ -3,19 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>functions</artifactId>
-        <groupId>com.ditrit.gandalf</groupId>
+        <artifactId>functions-version-control</artifactId>
+        <groupId>com.ditrit.gandalf.functions</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ditrit.gandalf.functions</groupId>
-    <artifactId>functions-database</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>functions-h2</module>
-        <module>functions-database-admin</module>
-    </modules>
+    <groupId>com.ditrit.gandalf.functions.functions-version-control</groupId>
+    <artifactId>functions-version-control-admin</artifactId>
 
 
 </project>

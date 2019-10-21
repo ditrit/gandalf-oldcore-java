@@ -58,5 +58,7 @@ public class ConnectorGandalfInitialization {
         this.connectorProperties.setConnectorCommandFrontEndSendConnection(responseConnections[1].toString());
         this.connectorProperties.setConnectorEventFrontEndReceiveConnection(responseConnections[2].toString());
         this.connectorProperties.setConnectorEventFrontEndSendConnection(responseConnections[3].toString());
+
+        //TODO COMMANDS VERIF
     }
 }

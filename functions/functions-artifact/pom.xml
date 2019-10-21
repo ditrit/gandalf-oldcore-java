@@ -15,6 +15,7 @@
     <modules>
         <module>functions-nexus</module>
         <module>functions-custom-artifact</module>
+        <module>functions-artifact-admin</module>
     </modules>
 
 
