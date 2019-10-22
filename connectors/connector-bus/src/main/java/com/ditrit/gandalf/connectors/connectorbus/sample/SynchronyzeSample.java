@@ -13,6 +13,8 @@ public class SynchronyzeSample implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.kafkaCommonManager.addSynchronizeTopicToBus("test.test");
+        this.kafkaCommonManager.addSynchronizeTopicToBus("deploy");
+        this.kafkaCommonManager.addSynchronizeTopicToBus("register");
+        this.kafkaCommonManager.addSynchronizeTopicToBus("build");
     }
 }
