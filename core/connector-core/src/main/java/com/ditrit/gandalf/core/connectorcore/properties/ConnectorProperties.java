@@ -26,6 +26,8 @@ public class ConnectorProperties {
     private String aggregatorName;
     @Value("${connector.name}")
     private String connectorName;
+    @Value("${connector.type}")
+    private String connectorType;
 
     private String targetType;
     //@Value("${" + PROPERTIES_BASE + "topics}")
@@ -73,12 +75,28 @@ public class ConnectorProperties {
         this.instanceName = instanceName;
     }
 
+    public String getAggregatorName() {
+        return aggregatorName;
+    }
+
+    public void setAggregatorName(String aggregatorName) {
+        this.aggregatorName = aggregatorName;
+    }
+
     public String getConnectorName() {
         return connectorName;
     }
 
     public void setConnectorName(String connectorName) {
         this.connectorName = connectorName;
+    }
+
+    public String getConnectorType() {
+        return connectorType;
+    }
+
+    public void setConnectorType(String connectorType) {
+        this.connectorType = connectorType;
     }
 
     public String getConnectorCommandBackEndSendConnection() {

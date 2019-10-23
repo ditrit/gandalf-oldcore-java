@@ -13,7 +13,10 @@ public class WorkerProperties {
 
     @Value("${worker.name}")
     private String workerName;
-
+    @Value("${worker.type}")
+    private String workerType;
+    @Value("${worker.target.endpoint}")
+    private String workerTargetConnection;
     @Value("${worker.service.endpoint}")
     private String workerServiceConnection;
     private String workerCommandFrontEndReceiveConnection;
@@ -41,6 +44,22 @@ public class WorkerProperties {
 
     public void setWorkerName(String workerName) {
         this.workerName = workerName;
+    }
+
+    public String getWorkerType() {
+        return workerType;
+    }
+
+    public void setWorkerType(String workerType) {
+        this.workerType = workerType;
+    }
+
+    public String getWorkerTargetConnection() {
+        return workerTargetConnection;
+    }
+
+    public void setWorkerTargetConnection(String workerTargetConnection) {
+        this.workerTargetConnection = workerTargetConnection;
     }
 
     public String getWorkerCommandFrontEndReceiveConnection() {
