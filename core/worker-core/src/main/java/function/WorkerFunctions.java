@@ -18,8 +18,16 @@ public class WorkerFunctions {
         return commands;
     }
 
+    public void setCommands(Map<String, Function> commands) {
+        this.commands = commands;
+    }
+
     public Map<String, Function> getEvents() {
         return events;
+    }
+
+    public void setEvents(Map<String, Function> events) {
+        this.events = events;
     }
 
     public Function getFunctionByCommand(ZMsg commandExecute) {

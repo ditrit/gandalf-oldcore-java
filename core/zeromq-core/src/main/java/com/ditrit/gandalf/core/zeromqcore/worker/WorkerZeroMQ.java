@@ -13,7 +13,6 @@ import java.util.List;
 public abstract class WorkerZeroMQ {
 
     protected ZContext context;
-    //TODO MULTIPLE
     protected ZMQ.Socket workerCommandFrontEndReceive;
     protected String workerCommandFrontEndReceiveConnection;
     protected ZMQ.Socket workerEventFrontEndReceive;

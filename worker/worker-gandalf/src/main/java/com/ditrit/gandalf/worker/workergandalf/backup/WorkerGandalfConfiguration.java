@@ -1,4 +1,4 @@
-package com.ditrit.gandalf.worker.workergandalf.configuration;
+package com.ditrit.gandalf.worker.workergandalf.backup;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

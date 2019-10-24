@@ -67,6 +67,8 @@ public class ThreadClientZeroMQ extends Thread {
         this.backEndClient.sendMore(context); //CONTEXT
         this.backEndClient.sendMore(timeout); //TIMEOUT
         this.backEndClient.sendMore(timestamp.toString()); //TIMESTAMP
+        this.backEndClient.sendMore(""); //MAJOR
+        this.backEndClient.sendMore(""); //MINOR
         this.backEndClient.sendMore(uuid); //UUID
         this.backEndClient.sendMore(command); //COMMAND
         this.backEndClient.send(payload); //PAYLOAD
@@ -87,6 +89,8 @@ public class ThreadClientZeroMQ extends Thread {
         this.backEndClient.sendMore(context); //CONTEXT
         this.backEndClient.sendMore(timeout); //TIMEOUT
         this.backEndClient.sendMore(timestamp.toString()); //TIMESTAMP
+        this.backEndClient.sendMore(""); //MAJOR
+        this.backEndClient.sendMore(""); //MINOR
         this.backEndClient.sendMore(uuid); //UUID
         this.backEndClient.sendMore(command); //COMMAND
         this.backEndClient.send(payload); //PAYLOAD
