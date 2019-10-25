@@ -9,24 +9,24 @@ import java.util.List;
 public abstract class AggregatorEventZeroMQ {
 
     protected ZContext context;
-    protected ZMQ.Socket frontEndSendRoutingAggregator;
-    protected String frontEndSendRoutingAggregatorConnection;
-    protected ZMQ.Socket frontEndReceiveRoutingAggregator;
-    protected List<String> frontEndReceiveRoutingAggregatorConnection;
     protected ZMQ.Socket backEndSendRoutingAggregator;
     protected String backEndSendRoutingAggregatorConnection;
+    protected ZMQ.Socket frontEndReceiveRoutingAggregator;
+    protected List<String> frontEndReceiveRoutingAggregatorConnection;
+    protected ZMQ.Socket frontEndSendRoutingAggregator;
+    protected String frontEndSendRoutingAggregatorConnection;
     protected ZMQ.Socket backEndReceiveRoutingAggregator;
     protected String backEndReceiveRoutingAggregatorConnection;
     protected String identity;
 
-    protected void init(String identity, String frontEndSendRoutingAggregatorConnection, String backEndSendRoutingAggregatorConnection, List<String> frontEndReceiveRoutingAggregatorConnection, String backEndReceiveRoutingAggregatorConnection) {
+    protected void init(String identity, String backEndSendRoutingAggregatorConnection, String frontEndSendRoutingAggregatorConnection, List<String> frontEndReceiveRoutingAggregatorConnection, String backEndReceiveRoutingAggregatorConnection) {
         this.context = new ZContext();
         this.identity = identity;
 
-        this.frontEndSendRoutingAggregator = this.context.createSocket(SocketType.XPUB);
-        this.frontEndSendRoutingAggregatorConnection = frontEndSendRoutingAggregatorConnection;
-        System.out.println("EventRoutingAggregatorZeroMQ connect to frontEndSendRoutingAggregatorConnection: " + this.frontEndSendRoutingAggregatorConnection);
-        this.frontEndSendRoutingAggregator.connect(this.frontEndSendRoutingAggregatorConnection);
+        this.backEndSendRoutingAggregator = this.context.createSocket(SocketType.XPUB);
+        this.backEndSendRoutingAggregatorConnection = backEndSendRoutingAggregatorConnection;
+        System.out.println("EventRoutingAggregatorZeroMQ connect to backEndSendRoutingAggregatorConnection: " + this.backEndSendRoutingAggregatorConnection);
+        this.backEndSendRoutingAggregator.connect(this.backEndSendRoutingAggregatorConnection);
 
         this.frontEndReceiveRoutingAggregator = this.context.createSocket(SocketType.XSUB);
         this.frontEndReceiveRoutingAggregatorConnection = frontEndReceiveRoutingAggregatorConnection;
@@ -35,15 +35,15 @@ public abstract class AggregatorEventZeroMQ {
             this.frontEndReceiveRoutingAggregator.connect(connection);
         }
 
-        this.backEndSendRoutingAggregator = this.context.createSocket(SocketType.XSUB);
-        this.backEndSendRoutingAggregatorConnection = backEndSendRoutingAggregatorConnection;
-        System.out.println("EventRoutingAggregatorZeroMQ binding to backEndSendRoutingAggregatorConnection: " + this.backEndSendRoutingAggregatorConnection);
-        this.backEndSendRoutingAggregator.bind(this.backEndSendRoutingAggregatorConnection);
+        this.frontEndSendRoutingAggregator = this.context.createSocket(SocketType.XSUB);
+        this.frontEndSendRoutingAggregatorConnection = frontEndSendRoutingAggregatorConnection;
+        System.out.println("EventRoutingAggregatorZeroMQ binding to frontEndSendRoutingAggregatorConnection: " + this.frontEndSendRoutingAggregatorConnection);
+        this.frontEndSendRoutingAggregator.bind(this.backEndSendRoutingAggregatorConnection);
 
         this.backEndReceiveRoutingAggregator = this.context.createSocket(SocketType.XPUB);
-        this.backEndReceiveRoutingAggregatorConnection = backEndReceiveRoutingAggregatorConnection;
-        System.out.println("EventRoutingAggregatorZeroMQ binding to backEndReceiveRoutingAggregatorConnection: " + this.backEndReceiveRoutingAggregatorConnection);
-        this.backEndReceiveRoutingAggregator.bind(this.backEndReceiveRoutingAggregatorConnection);
+        this.frontEndSendRoutingAggregatorConnection = frontEndSendRoutingAggregatorConnection;
+        System.out.println("EventRoutingAggregatorZeroMQ binding to frontEndSendRoutingAggregatorConnection: " + this.frontEndSendRoutingAggregatorConnection);
+        this.backEndReceiveRoutingAggregator.bind(this.frontEndSendRoutingAggregatorConnection);
     }
 
     public void close() {

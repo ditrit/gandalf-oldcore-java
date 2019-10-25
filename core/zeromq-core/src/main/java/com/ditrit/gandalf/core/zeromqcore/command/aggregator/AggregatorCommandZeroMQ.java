@@ -9,26 +9,26 @@ import java.util.List;
 public abstract class AggregatorCommandZeroMQ {
 
     protected ZContext context;
-    protected ZMQ.Socket frontEndSendRoutingAggregator;
-    private List<String> frontEndSendRoutingAggregatorConnections;
+    protected ZMQ.Socket backEndSendRoutingAggregator;
+    private List<String> backEndSendRoutingAggregatorConnections;
     protected ZMQ.Socket frontEndReceiveRoutingAggregator;
     private List<String> frontEndReceiveRoutingAggregatorConnections;
-    protected ZMQ.Socket backEndSendRoutingAggregator;
-    private String backEndSendRoutingAggregatorConnection;
+    protected ZMQ.Socket frontEndSendRoutingAggregator;
+    private String frontEndSendRoutingAggregatorConnection;
     protected ZMQ.Socket backEndReceiveRoutingAggregator;
     private String backEndReceiveRoutingAggregatorConnection;
     protected String identity;
 
-    protected void init(String identity, List<String> frontEndSendRoutingAggregatorConnections, List<String> frontEndReceiveRoutingAggregatorConnections, String backEndSendRoutingAggregatorConnection, String backEndReceiveRoutingAggregatorConnection) {
+    protected void init(String identity, List<String> backEndSendRoutingAggregatorConnections, List<String> frontEndReceiveRoutingAggregatorConnections, String backEndSendRoutingAggregatorConnection, String backEndReceiveRoutingAggregatorConnection) {
         this.context = new ZContext();
         this.identity = identity;
 
-        this.frontEndSendRoutingAggregator = this.context.createSocket(SocketType.DEALER);
-        this.frontEndSendRoutingAggregator.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
-        this.frontEndSendRoutingAggregatorConnections = frontEndSendRoutingAggregatorConnections;
-        System.out.println("CommandRoutingAggregatorZeroMQ connect to frontEndSendRoutingAggregatorConnections: " + this.frontEndSendRoutingAggregatorConnections);
-        for(String connection : this.frontEndSendRoutingAggregatorConnections) {
-            this.frontEndSendRoutingAggregator.connect(connection);
+        this.backEndSendRoutingAggregator = this.context.createSocket(SocketType.DEALER);
+        this.backEndSendRoutingAggregator.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
+        this.backEndSendRoutingAggregatorConnections = backEndSendRoutingAggregatorConnections;
+        System.out.println("CommandRoutingAggregatorZeroMQ connect to backEndSendRoutingAggregatorConnections: " + this.backEndSendRoutingAggregatorConnections);
+        for(String connection : this.backEndSendRoutingAggregatorConnections) {
+            this.backEndSendRoutingAggregator.connect(connection);
         }
 
         this.frontEndReceiveRoutingAggregator = this.context.createSocket(SocketType.DEALER);
@@ -39,11 +39,11 @@ public abstract class AggregatorCommandZeroMQ {
             this.frontEndReceiveRoutingAggregator.connect(connection);
         }
 
-        this.backEndSendRoutingAggregator = this.context.createSocket(SocketType.ROUTER);
-        this.backEndSendRoutingAggregator.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
-        this.backEndSendRoutingAggregatorConnection = backEndSendRoutingAggregatorConnection;
-        System.out.println("CommandRoutingAggregatorZeroMQ binding to backEndSendRoutingAggregatorConnection: " + this.backEndSendRoutingAggregatorConnection);
-        this.backEndSendRoutingAggregator.bind(this.backEndSendRoutingAggregatorConnection);
+        this.frontEndSendRoutingAggregator = this.context.createSocket(SocketType.ROUTER);
+        this.frontEndSendRoutingAggregator.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
+        this.frontEndSendRoutingAggregatorConnection = frontEndSendRoutingAggregatorConnection;
+        System.out.println("CommandRoutingAggregatorZeroMQ binding to frontEndSendRoutingAggregatorConnection: " + this.frontEndSendRoutingAggregatorConnection);
+        this.frontEndSendRoutingAggregator.bind(this.frontEndSendRoutingAggregatorConnection);
 
         this.backEndReceiveRoutingAggregator = this.context.createSocket(SocketType.ROUTER);
         this.backEndReceiveRoutingAggregator.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
@@ -67,6 +67,6 @@ public abstract class AggregatorCommandZeroMQ {
         if (this.frontEndSendRoutingAggregator != null) {
             this.context.destroySocket(frontEndSendRoutingAggregator);
         }
-        this.init(this.identity, this.frontEndSendRoutingAggregatorConnections, this.frontEndSendRoutingAggregatorConnections, this.backEndSendRoutingAggregatorConnection, this.backEndReceiveRoutingAggregatorConnection);
+        this.init(this.identity, this.backEndSendRoutingAggregatorConnections, this.frontEndReceiveRoutingAggregatorConnections, this.frontEndSendRoutingAggregatorConnection, this.backEndReceiveRoutingAggregatorConnection);
     }
 }

@@ -9,25 +9,25 @@ import java.util.List;
 public abstract class ConnectorCommandZeroMQ {
 
     protected ZContext context;
-    protected ZMQ.Socket frontEndSendRoutingConnector;
-    private String frontEndSendRoutingConnectorConnection;
-    protected ZMQ.Socket frontEndReceiveRoutingConnector;
-    private String frontEndReceiveRoutingConnectorConnection;
     protected ZMQ.Socket backEndSendRoutingConnector;
     private String backEndSendRoutingConnectorConnection;
+    protected ZMQ.Socket frontEndReceiveRoutingConnector;
+    private String frontEndReceiveRoutingConnectorConnection;
+    protected ZMQ.Socket frontEndSendRoutingConnector;
+    private String frontEndSendRoutingConnectorConnection;
     protected ZMQ.Socket backEndReceiveRoutingConnector;
     private String backEndReceiveRoutingConnectorConnection;
     protected String identity;
 
-    protected void init(String identity, String frontEndSendRoutingConnectorConnection, String frontEndReceiveRoutingConnectorConnection, String backEndSendRoutingConnectorConnection, String backEndReceiveRoutingConnectorConnection) {
+    protected void init(String identity, String backEndSendRoutingConnectorConnection, String frontEndReceiveRoutingConnectorConnection, String frontEndSendRoutingConnectorConnection, String backEndReceiveRoutingConnectorConnection) {
         this.context = new ZContext();
         this.identity = identity;
 
-        this.frontEndSendRoutingConnector = this.context.createSocket(SocketType.DEALER);
-        this.frontEndSendRoutingConnector.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
-        this.frontEndSendRoutingConnectorConnection = frontEndSendRoutingConnectorConnection;
-        System.out.println("CommandRoutingConnectorZeroMQ connect to frontEndSendRoutingConnectorConnection: " + this.frontEndSendRoutingConnectorConnection);
-        this.frontEndSendRoutingConnector.connect(this.frontEndSendRoutingConnectorConnection);
+        this.backEndSendRoutingConnector = this.context.createSocket(SocketType.DEALER);
+        this.backEndSendRoutingConnector.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
+        this.backEndSendRoutingConnectorConnection = backEndSendRoutingConnectorConnection;
+        System.out.println("CommandRoutingConnectorZeroMQ connect to backEndSendRoutingConnectorConnection: " + this.backEndSendRoutingConnectorConnection);
+        this.backEndSendRoutingConnector.connect(this.backEndSendRoutingConnectorConnection);
 
 
         this.frontEndReceiveRoutingConnector = this.context.createSocket(SocketType.DEALER);
@@ -37,11 +37,11 @@ public abstract class ConnectorCommandZeroMQ {
         this.frontEndReceiveRoutingConnector.connect(this.frontEndReceiveRoutingConnectorConnection);
 
 
-        this.backEndSendRoutingConnector = this.context.createSocket(SocketType.ROUTER);
-        this.backEndSendRoutingConnector.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
-        this.backEndSendRoutingConnectorConnection = backEndSendRoutingConnectorConnection;
-        System.out.println("CommandRoutingConnectorZeroMQ binding to backEndSendRoutingConnectorConnection: " + this.backEndSendRoutingConnectorConnection);
-        this.backEndSendRoutingConnector.bind(this.backEndSendRoutingConnectorConnection);
+        this.frontEndSendRoutingConnector = this.context.createSocket(SocketType.ROUTER);
+        this.frontEndSendRoutingConnector.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
+        this.frontEndSendRoutingConnectorConnection = frontEndSendRoutingConnectorConnection;
+        System.out.println("CommandRoutingConnectorZeroMQ binding to frontEndSendRoutingConnectorConnection: " + this.frontEndSendRoutingConnectorConnection);
+        this.frontEndSendRoutingConnector.bind(this.frontEndSendRoutingConnectorConnection);
 
         this.backEndReceiveRoutingConnector = this.context.createSocket(SocketType.ROUTER);
         this.backEndReceiveRoutingConnector.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
@@ -65,6 +65,6 @@ public abstract class ConnectorCommandZeroMQ {
         if (this.frontEndSendRoutingConnector != null) {
             this.context.destroySocket(frontEndSendRoutingConnector);
         }
-        this.init(this.identity, this.frontEndSendRoutingConnectorConnection, this.frontEndReceiveRoutingConnectorConnection, this.backEndSendRoutingConnectorConnection, this.backEndReceiveRoutingConnectorConnection);
+        this.init(this.identity, this.backEndSendRoutingConnectorConnection, this.frontEndReceiveRoutingConnectorConnection, this.frontEndSendRoutingConnectorConnection, this.backEndReceiveRoutingConnectorConnection);
     }
 }
