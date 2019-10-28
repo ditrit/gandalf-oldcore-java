@@ -4,6 +4,7 @@ import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
 import com.ditrit.gandalf.core.zeromqcore.worker.domain.Function;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.zeromq.ZMsg;
 
 public class FunctionSynchronizeTopicKafka extends Function {

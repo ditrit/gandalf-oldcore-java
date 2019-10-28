@@ -11,6 +11,12 @@
 
     <groupId>com.ditrit.gandalf.functions.functions-bus</groupId>
     <artifactId>functions-kafka</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>

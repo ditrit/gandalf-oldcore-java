@@ -1,6 +1,6 @@
 package properties;
 
-import com.ditrit.gandalf.modules.abstractconnectors.abstractbus.properties.ConnectorBusProperties;
+import com.ditrit.gandalf.core.connectorcore.properties.ConnectorProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Configuration
 @ConditionalOnExpression("#{'${${instance.name}.connectors.${connector.type}.${connector.name}.target.type}' == 'kafka'}")
-public class FunctionKafkaProperties extends ConnectorBusProperties {
+public class FunctionKafkaProperties extends ConnectorProperties {
 
     private static final String PROPERTIES_BASE = "${instance.name}.connectors.${connector.type}.${connector.name}.target.endpoint.";
 

@@ -27,6 +27,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ditrit.gandalf.core</groupId>
+            <artifactId>connector-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.ditrit.gandalf.core</groupId>
             <artifactId>zeromq-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>

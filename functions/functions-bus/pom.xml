@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>functions-kafka</module>
-        <module>functions-admin</module>
+        <module>functions-bus-admin</module>
     </modules>
 
 
