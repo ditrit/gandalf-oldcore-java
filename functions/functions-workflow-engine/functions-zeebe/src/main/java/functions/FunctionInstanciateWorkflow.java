@@ -19,7 +19,7 @@ public class FunctionInstanciateWorkflow extends Function {
 
     @Override
     public Constant.Result executeCommand(ZMsg command) {
-        String payload = "";
+        String payload = command.toArray()[14].toString();
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         zeebe.newCreateInstanceCommand()
                 .bpmnProcessId(jsonObject.get("id").getAsString())

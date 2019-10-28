@@ -29,6 +29,7 @@ public class ConnectorProperties {
     @Value("${connector.type}")
     private String connectorType;
 
+    private String targetEndPointConnection;
     private String targetType;
     //@Value("${" + PROPERTIES_BASE + "topics}")
     private List<String> topics;
@@ -180,6 +181,21 @@ public class ConnectorProperties {
     }
 
 
+    public String getTargetEndPointConnection() {
+        return targetEndPointConnection;
+    }
+
+    public void setTargetEndPointConnection(String targetEndPointConnection) {
+        this.targetEndPointConnection = targetEndPointConnection;
+    }
+
+    public String getTargetType() {
+        return targetType;
+    }
+
+    public void setTargetType(String targetType) {
+        this.targetType = targetType;
+    }
 
     public List<String> getTopics() {
         return topics;

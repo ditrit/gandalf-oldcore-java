@@ -22,42 +22,24 @@ public class FunctionHookMerge extends Function {
 
     @Override
     public Constant.Result executeCommand(ZMsg command) {
-        //TODO
-        System.out.println("HOOK MANAGER");
-        JsonObject jsonObject = this.mapper.fromJson(messageEvent.getPayload(), JsonObject.class);
-        System.out.println(jsonObject.get("project_url").getAsString());
-        HashMap<String, String> variables = new HashMap<>();
-        variables.put("project_name", jsonObject.get("project_name").getAsString());
-        variables.put("project_url", jsonObject.get("project_url").getAsString());
-        //variables.put(" project_version", this.jsonObject.get("project_version").getAsString());
-        System.out.println("VARIRABLES");
-        System.out.println(variables.toString());
-        System.out.println(messageEvent.getTopic());
-        zeebe.newPublishMessageCommand() //
-                .messageName("message")
-                .correlationKey(messageEvent.getTopic())
-                .variables(variables)
-                .timeToLive(Duration.ofMinutes(100L))
-                .send().join();
         return null;
     }
 
     @Override
     public void executeEvent(ZMsg event) {
-        //TODO
-        System.out.println("HOOK MANAGER");
-        JsonObject jsonObject = this.mapper.fromJson(messageEvent.getPayload(), JsonObject.class);
+        Object[] eventArray = event.toArray();
+        String payload = eventArray[4].toString();
+        String topic = eventArray[2].toString();
+
+        JsonObject jsonObject = this.mapper.fromJson(payload, JsonObject.class);
         System.out.println(jsonObject.get("project_url").getAsString());
         HashMap<String, String> variables = new HashMap<>();
         variables.put("project_name", jsonObject.get("project_name").getAsString());
         variables.put("project_url", jsonObject.get("project_url").getAsString());
-        //variables.put(" project_version", this.jsonObject.get("project_version").getAsString());
-        System.out.println("VARIRABLES");
-        System.out.println(variables.toString());
-        System.out.println(messageEvent.getTopic());
+
         zeebe.newPublishMessageCommand() //
                 .messageName("message")
-                .correlationKey(messageEvent.getTopic())
+                .correlationKey(topic)
                 .variables(variables)
                 .timeToLive(Duration.ofMinutes(100L))
                 .send().join();

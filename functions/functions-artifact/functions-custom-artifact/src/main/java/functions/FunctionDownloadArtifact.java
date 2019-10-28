@@ -33,8 +33,7 @@ public class FunctionDownloadArtifact extends Function {
 
     @Override
     public Constant.Result executeCommand(ZMsg command) {
-        //TODO
-        String payload = "";
+        String payload = command.toArray()[14].toString();
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         String artifact = jsonObject.get("artifact").getAsString();
         try {

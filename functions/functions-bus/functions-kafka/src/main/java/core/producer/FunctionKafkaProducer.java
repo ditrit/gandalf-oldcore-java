@@ -1,13 +1,13 @@
 package core.producer;
 
-import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.properties.ConnectorKafkaProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+import properties.FunctionKafkaProperties;
 
 @Component
-@ConditionalOnBean(ConnectorKafkaProperties.class)
+@ConditionalOnBean(FunctionKafkaProperties.class)
 public class FunctionKafkaProducer {
 
     private KafkaTemplate<String, Object> kafkaTemplate;

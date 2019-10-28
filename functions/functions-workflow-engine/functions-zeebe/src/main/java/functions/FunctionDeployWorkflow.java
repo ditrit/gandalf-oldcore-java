@@ -6,15 +6,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.events.DeploymentEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zeromq.ZMsg;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class FunctionDeployWorkflow extends Function {
 
     private Gson mapper;
+
+    @Autowired
     private ZeebeClient zeebe;
 
     public FunctionDeployWorkflow() {
@@ -24,7 +24,7 @@ public class FunctionDeployWorkflow extends Function {
 
     @Override
     public Constant.Result executeCommand(ZMsg command) {
-        //TODO
+        String payload = command.toArray()[14].toString();
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         DeploymentEvent deploymentEvent = zeebe.newDeployCommand()
                 .addResourceFromClasspath(jsonObject.get("workflow").getAsString())
@@ -36,5 +36,9 @@ public class FunctionDeployWorkflow extends Function {
     @Override
     public void executeEvent(ZMsg event) {
 
+    }
+
+    private String getIdDeployment(DeploymentEvent deploymentEvent) {
+        return deploymentEvent.getWorkflows().get(0).getBpmnProcessId();
     }
 }

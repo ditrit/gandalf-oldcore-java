@@ -6,11 +6,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.web.client.RestTemplate;
 import org.zeromq.ZMsg;
+import properties.ConnectorCustomOrchestratorProperties;
 
 public class FunctionDeploy extends Function {
 
     private Gson mapper;
     private RestTemplate restTemplate;
+    private ConnectorCustomOrchestratorProperties connectorCustomOrchestratorProperties;
 
     public FunctionDeploy() {
         this.mapper = new Gson();
@@ -19,9 +21,9 @@ public class FunctionDeploy extends Function {
 
     @Override
     public Constant.Result executeCommand(ZMsg command) {
+        String payload = command.toArray()[14].toString();
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        //return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "deploy");
-        //return this.orchestratorServiceFeign.deploy(jsonObject.get("service").getAsString());
+        String uri = this.connectorCustomOrchestratorProperties.getTargetEndPointConnection();
         this.restTemplate.getForObject(uri + "/orchestrator-service/deploy/" + jsonObject.get("service").getAsString(), boolean.class);
         return null;
     }

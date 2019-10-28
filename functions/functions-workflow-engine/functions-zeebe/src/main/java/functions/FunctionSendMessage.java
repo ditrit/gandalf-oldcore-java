@@ -21,10 +21,9 @@ public class FunctionSendMessage extends Function {
 
     @Override
     public Constant.Result executeCommand(ZMsg command) {
-        //TODO REVOIR
-        String payload = "";
+        String payload = command.toArray()[14].toString();
         ConnectorZeebeMessage connectorZeebeMessage = this.mapper.fromJson(payload, ConnectorZeebeMessage.class);
-        zeebe.newPublishMessageCommand() //
+        zeebe.newPublishMessageCommand()
                 .messageName(connectorZeebeMessage.getName())
                 .correlationKey(connectorZeebeMessage.getCorrelationKey())
                 .variables(connectorZeebeMessage.getVariables())

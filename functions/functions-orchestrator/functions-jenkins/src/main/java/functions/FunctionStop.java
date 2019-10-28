@@ -4,13 +4,18 @@ import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
 import com.ditrit.gandalf.core.zeromqcore.worker.domain.Function;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 import org.zeromq.ZMsg;
+import properties.ConnectorCustomOrchestratorProperties;
 
 public class FunctionStop extends Function {
 
     private Gson mapper;
     private RestTemplate restTemplate;
+
+    @Autowired
+    private ConnectorCustomOrchestratorProperties connectorCustomOrchestratorProperties;
 
     public FunctionStop() {
         this.mapper = new Gson();
@@ -19,10 +24,10 @@ public class FunctionStop extends Function {
 
     @Override
     public Constant.Result executeCommand(ZMsg command) {
+        String payload = command.toArray()[14].toString();
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        //return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "stop");
-        //return this.orchestratorServiceFeign.stop(jsonObject.get("service").getAsString());
-        this.restTemplate.getForObject(uri + "/orchestrator-service/stop/" + jsonObject.get("service").getAsString(), boolean.class);
+
+        this.restTemplate.getForObject(this.connectorCustomOrchestratorProperties.getTargetEndPointConnection() + "/orchestrator-service/stop/" + jsonObject.get("service").getAsString(), boolean.class);
         return null;
     }
 

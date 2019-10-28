@@ -6,11 +6,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.web.client.RestTemplate;
 import org.zeromq.ZMsg;
+import properties.ConnectorCustomOrchestratorProperties;
 
 public class FunctionRegister extends Function {
 
     private Gson mapper;
     private RestTemplate restTemplate;
+    private ConnectorCustomOrchestratorProperties connectorCustomOrchestratorProperties;
 
     public FunctionRegister() {
         this.mapper = new Gson();
@@ -21,11 +23,8 @@ public class FunctionRegister extends Function {
     public Constant.Result executeCommand(ZMsg command) {
         String payload = command.toArray()[14].toString();
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        String uri = jsonObject.get("").toString();
-        //return this.connectorCustomOrchestratorBashService.register(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
-        //return this.orchestratorServiceFeign.register(jsonObject.get("service").getAsString(), jsonObject.get("version").getAsString());
-        System.out.println("URL");
-        System.out.println(uri + "/orchestrator-service/register/" + jsonObject.get("service").getAsString() + "/" + jsonObject.get("version").getAsString());
+        String uri = this.connectorCustomOrchestratorProperties.getTargetEndPointConnection();
+
         this.restTemplate.getForObject(uri + "/orchestrator-service/register/" + jsonObject.get("service").getAsString() + "/" + jsonObject.get("version").getAsString(), boolean.class);
         return null;
     }

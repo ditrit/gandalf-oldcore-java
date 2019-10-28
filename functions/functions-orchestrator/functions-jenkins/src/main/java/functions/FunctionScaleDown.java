@@ -6,11 +6,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.web.client.RestTemplate;
 import org.zeromq.ZMsg;
+import properties.ConnectorCustomOrchestratorProperties;
 
 public class FunctionScaleDown extends Function {
 
     private Gson mapper;
     private RestTemplate restTemplate;
+    private ConnectorCustomOrchestratorProperties connectorCustomOrchestratorProperties;
 
     public FunctionScaleDown() {
         this.mapper = new Gson();
@@ -19,9 +21,11 @@ public class FunctionScaleDown extends Function {
 
     @Override
     public Constant.Result executeCommand(ZMsg command) {
+        String payload = command.toArray()[14].toString();
+
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
-        //return this.connectorCustomOrchestratorBashService.execute(jsonObject.get("service").getAsString(), "scale_down");
-        //return this.orchestratorServiceFeign.scaleDown(jsonObject.get("service").getAsString());
+
+        String uri = this.connectorCustomOrchestratorProperties.getTargetEndPointConnection();
         this.restTemplate.getForObject(uri + "/orchestrator-service/scale_down/" + jsonObject.get("service").getAsString(), boolean.class);
         return null;
     }
