@@ -23,7 +23,7 @@ public class WorkerGandalfThreadConfiguration {
         this.clientProperties = clientProperties;
         this.workerProperties = workerProperties;
         this.workerClientService = workerClientService;
-        this.initialize();
+        //this.initialize();
     }
 
     public ClientProperties getClientProperties() {
@@ -50,7 +50,7 @@ public class WorkerGandalfThreadConfiguration {
         this.workerClientService = workerClientService;
     }
 
-    public void initialize() {
+/*    public void initialize() {
         ZMsg response = this.workerClientService.sendRequest("configuration");
         Object[] responseConnections =  response.toArray();
 
@@ -63,5 +63,5 @@ public class WorkerGandalfThreadConfiguration {
         //TODO TYPE / FUNCTION
 
         //TODO SEND COMMANDS CONNECTOR -> VERIF COMMANDS
-    }
+    }*/
 }

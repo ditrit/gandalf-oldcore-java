@@ -33,7 +33,7 @@ public class ConnectorGandalfInitialization {
         return pool;
     }
 
-    @Bean
+/*    @Bean
     public void gandalfConnectorClientService() {
         ConnectorClientService gandalfConnectorClientService = (ConnectorClientService) context.getBean("connectorClientService");
         if(gandalfConnectorClientService != null) {
@@ -60,5 +60,5 @@ public class ConnectorGandalfInitialization {
         this.connectorProperties.setConnectorEventFrontEndSendConnection(responseConnections[3].toString());
 
         //TODO COMMANDS VERIF
-    }
+    }*/
 }

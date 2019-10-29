@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 @SpringBootApplication
 @EnableDiscoveryClient
-//@EntityScan(basePackages = {"com.orness.gandalf.core.module.zeromqmodule"})
 public class ClusterGandalfApplication {
 
 	public static void main(String[] args) {

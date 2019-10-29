@@ -31,7 +31,7 @@ public class AggregatorGandalfInitialization {
         return pool;
     }
 
-    @Bean
+/*    @Bean
     public void gandalfAggregatorClientService() {
         AggregatorClientService gandalfAggregatorClientService = (AggregatorClientService) context.getBean("aggregatorClientService");
         if(gandalfAggregatorClientService != null) {
@@ -51,5 +51,5 @@ public class AggregatorGandalfInitialization {
     private void initialize(AggregatorClientService aggregatorClientService) {
         ZMsg response = aggregatorClientService.sendRequest("configuration");
         Object[] responseConnections =  response.toArray();
-    }
+    }*/
 }
