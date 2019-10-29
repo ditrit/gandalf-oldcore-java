@@ -11,19 +11,31 @@ import java.util.Map;
 @Scope("singleton")
 public class ConnectorWorkerMap {
 
-    private Map<String, List<String>> serviceClassWorkersMap;
+    private Map<String, List<String>> workerCommandsMap;
+    private Map<String, String> workerCommandSendFileMap;
 
     public ConnectorWorkerMap() {
-        this.serviceClassWorkersMap = new HashMap<>();
+        this.workerCommandsMap = new HashMap<>();
+        this.workerCommandSendFileMap = new HashMap<>();
     }
 
-    public List<String> getWorkersByServiceClass(String serviceClass) {
-        return this.serviceClassWorkersMap.get(serviceClass);
+    public List<String> getWorkerCommands(String worker) {
+        return this.workerCommandsMap.get(worker);
     }
 
-    public void addWorkerByServiceClass(String serviceClass, String worker) {
-        if(!this.serviceClassWorkersMap.get(serviceClass).contains(worker)) {
-            this.serviceClassWorkersMap.get(serviceClass).add(worker);
+    public void addWorkerCommands(String worker, String command) {
+        if(!this.workerCommandsMap.get(worker).contains(command)) {
+            this.workerCommandsMap.get(worker).add(command);
+        }
+    }
+
+    public String getWorkerCommandSendFile(String worker) {
+        return this.workerCommandSendFileMap.get(worker);
+    }
+
+    public void addWorkerCommandSendFile(String worker, String commandSendFile) {
+        if(!this.workerCommandSendFileMap.get(worker).contains(commandSendFile)) {
+            this.workerCommandSendFileMap.put(worker, commandSendFile);
         }
     }
 }

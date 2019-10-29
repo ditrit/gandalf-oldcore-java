@@ -36,4 +36,19 @@ public class ClientCommand extends RunnableClientZeroMQ {
         }
         return this.getCommandResultAsync();
     }
+
+    public void sendFileConnector() {
+        //SEND COMMAND
+        //RECEIVE REP_COMMAND (FQDN + TOKEN)
+        //SEND + START TRANSACTION BY CLUSTER
+        //SEND + END TRANSACTION BY CLUSTER
+        //END
+    }
+
+    public void sendFileCluster() {
+        //SEND COMMAND
+        //RECEIVE REP_COMMAND (FQDN + TOKEN)
+        //START TRANSACTION BY CONNECTOR
+        //END
+    }
 }
