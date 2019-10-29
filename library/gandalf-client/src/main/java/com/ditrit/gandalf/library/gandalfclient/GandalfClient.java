@@ -1,7 +1,9 @@
 package com.ditrit.gandalf.library.gandalfclient;
 
-import com.ditrit.gandalf.core.clientcore.Client;
-import com.ditrit.gandalf.core.listenercore.Listener;
+import com.ditrit.gandalf.core.clientcore.client.ClientCommand;
+import com.ditrit.gandalf.core.clientcore.client.ClientEvent;
+import com.ditrit.gandalf.core.listenercore.listener.ListenerCommand;
+import com.ditrit.gandalf.core.listenercore.listener.ListenerEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -10,20 +12,48 @@ import org.springframework.stereotype.Component;
 @ComponentScan(basePackages = {"com.ditrit.gandalf.core.clientcore", "com.ditrit.gandalf.library.listenercore"})
 public class GandalfClient {
 
-    private Client client;
-    private Listener listener;
+    private ClientCommand clientCommand;
+    private ClientEvent clientEvent;
+    private ListenerCommand listenerCommand;
+    private ListenerEvent listenerEvent;
 
     @Autowired
-    public GandalfClient(Client client, Listener listener) {
-        this.client = client;
-        this.listener = listener;
+    public GandalfClient(ClientCommand clientCommand, ClientEvent clientEvent, ListenerCommand listenerCommand, ListenerEvent listenerEvent) {
+        this.clientCommand = clientCommand;
+        this.clientEvent = clientEvent;
+        this.listenerCommand = listenerCommand;
+        this.listenerEvent = listenerEvent;
     }
 
-    public Client getClient() {
-        return client;
+    public ClientCommand getClientCommand() {
+        return clientCommand;
     }
 
-    public Listener getListener() {
-        return listener;
+    public void setClientCommand(ClientCommand clientCommand) {
+        this.clientCommand = clientCommand;
+    }
+
+    public ClientEvent getClientEvent() {
+        return clientEvent;
+    }
+
+    public void setClientEvent(ClientEvent clientEvent) {
+        this.clientEvent = clientEvent;
+    }
+
+    public ListenerCommand getListenerCommand() {
+        return listenerCommand;
+    }
+
+    public void setListenerCommand(ListenerCommand listenerCommand) {
+        this.listenerCommand = listenerCommand;
+    }
+
+    public ListenerEvent getListenerEvent() {
+        return listenerEvent;
+    }
+
+    public void setListenerEvent(ListenerEvent listenerEvent) {
+        this.listenerEvent = listenerEvent;
     }
 }

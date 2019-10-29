@@ -7,6 +7,7 @@ import function.WorkerFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 import properties.WorkerProperties;
 
@@ -22,6 +23,41 @@ public class Worker extends RunnableWorkerZeroMQ {
         this.workerProperties = workerProperties;
         this.workerFunctions = workerFunctions;
         this.initRunnable(this.workerProperties.getWorkerName(), this.workerProperties.getWorkerCommandFrontEndReceiveConnection(), this.workerProperties.getWorkerEventFrontEndReceiveConnection(), null);
+        this.getConfiguration();
+    }
+
+    private void getConfiguration() {
+        ZMsg req_configuration = new ZMsg();
+        req_configuration.add("CONFIGURATION");
+        req_configuration.add(this.workerProperties.getWorkerName());
+        req_configuration.add(this.workerProperties.getWorkerType());
+        req_configuration.send(this.workerCommandFrontEndReceive);
+        req_configuration.destroy();
+
+        ZMsg rep_configuration = null;
+
+        while(rep_configuration == null) {
+            rep_configuration = ZMsg.recvMsg(this.workerCommandFrontEndReceive, ZMQ.NOBLOCK);
+            boolean more = this.workerCommandFrontEndReceive.hasReceiveMore();
+
+            if(more) {
+                break;
+            }
+        }
+
+        Object[] configurationArray = rep_configuration.toArray();
+
+        // PUB SEND
+        this.workerProperties.setWorkerEventFrontEndReceiveConnection(configurationArray[5].toString());
+        //TODO
+        //REQ AGGREGATOR
+        // NOM
+        // AGGREGATOR
+        // UUID
+        // IP
+        // MAC
+        // TYPE C
+        // TYPE P
     }
 
     @Override

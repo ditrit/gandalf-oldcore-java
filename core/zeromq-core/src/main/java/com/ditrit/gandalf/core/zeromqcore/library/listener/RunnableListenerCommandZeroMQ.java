@@ -1,35 +1,12 @@
 package com.ditrit.gandalf.core.zeromqcore.library.listener;
 
-import org.zeromq.SocketType;
-import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
-import java.util.LinkedList;
-import java.util.List;
+public class RunnableListenerCommandZeroMQ extends ListenerCommandZeroMQ implements Runnable {
 
-public class ThreadListenerCommandZeroMQ extends Thread {
-
-    protected ZContext context;
-    protected ZMQ.Socket frontEndListener;
-    protected String frontEndListenerConnection;
-    protected String identity;
-    private LinkedList<ZMsg> commands;
-
-    public ThreadListenerCommandZeroMQ(String identity, String frontEndListenerConnection) {
+    protected void initRunnable(String identity, String frontEndListenerConnection) {
         this.init(identity, frontEndListenerConnection);
-    }
-
-    protected void init(String identity, String frontEndListenerConnection) {
-        this.context = new ZContext();
-        this.identity = identity;
-        commands = new LinkedList<>();
-
-        this.frontEndListener = this.context.createSocket(SocketType.DEALER);
-        this.frontEndListener.setIdentity(this.identity.getBytes(ZMQ.CHARSET));
-        this.frontEndListenerConnection = frontEndListenerConnection;
-        System.out.println("ThreadListenerCommandZeroMQ connect to frontEndListenerConnections: " +  this.frontEndListenerConnection);
-        this.frontEndListener.connect( this.frontEndListenerConnection);
     }
 
     public ZMsg getCommandSync() {

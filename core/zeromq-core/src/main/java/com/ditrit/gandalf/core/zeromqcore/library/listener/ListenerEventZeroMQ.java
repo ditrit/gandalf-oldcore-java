@@ -7,17 +7,13 @@ import org.zeromq.ZMsg;
 
 import java.util.LinkedList;
 
-public class ThreadListenerEventZeroMQ extends Thread {
+public class ListenerEventZeroMQ extends Thread {
 
     protected ZContext context;
     protected ZMQ.Socket frontEndListener;
     protected String frontEndListenerConnection;
     protected String identity;
-    private LinkedList<ZMsg> events;
-
-    public ThreadListenerEventZeroMQ(String identity, String frontEndListenerConnection) {
-        this.init(identity, frontEndListenerConnection);
-    }
+    protected LinkedList<ZMsg> events;
 
     protected void init(String identity, String frontEndListenerConnection) {
         this.context = new ZContext();
@@ -31,7 +27,6 @@ public class ThreadListenerEventZeroMQ extends Thread {
     }
 
     public ZMsg getEventSync() {
-
         ZMsg event;
         boolean more = false;
 
@@ -48,43 +43,6 @@ public class ThreadListenerEventZeroMQ extends Thread {
             return null;
         }
         return this.events.poll();
-    }
-
-    @Override
-    public void run() {
-        ZMQ.Poller poller = this.context.createPoller(1);
-        poller.register(this.frontEndListener, ZMQ.Poller.POLLIN);
-
-        ZMsg event = null;
-        boolean more = false;
-
-        while (!Thread.currentThread().isInterrupted()) {
-            poller.poll();
-
-            if (poller.pollin(0)) {
-                while (true) {
-                    event = ZMsg.recvMsg(this.frontEndListener, ZMQ.NOBLOCK);
-                    more = this.frontEndListener.hasReceiveMore();
-
-                    System.out.println(event);
-                    System.out.println(more);
-
-                    if (event == null) {
-                        break;
-                    }
-                    this.events.add(event.duplicate());
-
-                    if(!more) {
-                        break;
-                    }
-                }
-            }
-        }
-        if (Thread.currentThread().isInterrupted()) {
-            System.out.println("W: interrupted");
-            poller.close();
-            this.close();
-        }
     }
 
     public void close() {

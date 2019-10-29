@@ -6,6 +6,8 @@ import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
+import java.util.UUID;
+
 import static com.ditrit.gandalf.core.zeromqcore.constant.Constant.WORKER_SERVICE_CLASS_CAPTURE;
 
 public class BrokerZeroMQ {
@@ -30,7 +32,6 @@ public class BrokerZeroMQ {
     }
 
     protected void open() {
-
         this.context = new ZContext();
 
         //FrontEnd EndPoint
@@ -51,7 +52,6 @@ public class BrokerZeroMQ {
     }
 
     protected void run() {
-
         ZMQ.Poller poller = context.createPoller(2);
         poller.register(this.frontEndCommand, ZMQ.Poller.POLLIN);
         poller.register(this.backEndCommand, ZMQ.Poller.POLLIN);
@@ -120,7 +120,6 @@ public class BrokerZeroMQ {
     protected void processFrontEndMessage(ZMsg frontEndMessage) {
         Object[] frontEndMessageBackup = frontEndMessage.duplicate().toArray();
 
-        //Capture
         ZMsg frontEndMessageCapture = frontEndMessage.duplicate();
         this.processFrontEndCaptureMessage(frontEndMessageCapture);
 
@@ -155,9 +154,13 @@ public class BrokerZeroMQ {
     protected void processBackEndMessage(ZMsg backEndMessage) {
         Object[] backEndMessageBackup = backEndMessage.duplicate().toArray();
 
-        //Capture
         ZMsg backEndMessageCapture = backEndMessage.duplicate();
         this.processBackEndCaptureMessage(backEndMessageCapture);
+
+        //TODO REVOIR COMMAND CONFIGURATION
+        if(backEndMessageBackup[105].toString().equals("BLABAL")) {
+            this.processConfigurationMessage();
+        }
 
         backEndMessage = this.updateHeaderBackEndMessage(backEndMessage, backEndMessageBackup[1].toString());
         System.out.println("BACK " + backEndMessage);
@@ -165,6 +168,18 @@ public class BrokerZeroMQ {
 
         backEndMessageCapture.destroy();
         backEndMessage.destroy();
+    }
+
+    private void processConfigurationMessage() {
+        //TODO
+        //REQ ARANGO CONF
+        // NOM
+        // TENANT
+        // UUID
+        // IP
+        // MAC
+        // TCP SOCKET PUB
+        //SEND REP
     }
 
     private ZMsg updateHeaderBackEndMessage(ZMsg backEndMessage, String client) {
@@ -176,7 +191,6 @@ public class BrokerZeroMQ {
     protected void processBackEndCaptureMessage(ZMsg backEndMessageCapture) {
         backEndMessageCapture = this.updateHeaderCaptureMessage(backEndMessageCapture);
         backEndMessageCapture.send(this.backEndCommandCapture);
-
     }
 
     protected void processFrontEndCaptureMessage(ZMsg frontEndMessageCapture) {

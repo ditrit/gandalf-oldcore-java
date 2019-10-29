@@ -2,8 +2,6 @@ package com.ditrit.gandalf.aggregator.aggregatorgandalf.configuration;
 
 import com.ditrit.gandalf.core.aggregatorcore.aggregator.AggregatorEvent;
 import com.ditrit.gandalf.core.aggregatorcore.aggregator.AggregatorCommand;
-import com.ditrit.gandalf.core.aggregatorcore.service.AggregatorClientService;
-import com.ditrit.gandalf.core.aggregatorcore.service.AggregatorListenerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +24,14 @@ public class AggregatorGandalfConfiguration {
         this.taskExecutor = taskExecutor;
     }
 
+    @Bean
+    public ThreadPoolTaskExecutor taskExecutor() {
+        ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
+        pool.setCorePoolSize(5);
+        pool.setMaxPoolSize(10);
+        pool.setWaitForTasksToCompleteOnShutdown(true);
+        return pool;
+    }
 
     @Bean
     public void gandalfAggregatorCommand() {

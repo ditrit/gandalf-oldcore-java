@@ -3,12 +3,9 @@ package properties;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.zeromq.ZMsg;
-import service.WorkerClientService;
 
 public class WorkerProperties {
 
-    private WorkerClientService workerClientService;
     private Gson mapper;
 
     @Value("${worker.name}")
@@ -23,19 +20,8 @@ public class WorkerProperties {
     private String workerEventFrontEndReceiveConnection;
 
     @Autowired
-    public WorkerProperties(WorkerClientService workerClientService) {
-        this.workerClientService = workerClientService;
+    public WorkerProperties() {
         this.mapper = new Gson();
-        this.initProperties();
-    }
-
-    private void initProperties() {
-
-        ZMsg response = this.workerClientService.sendRequest("configuration");
-        Object[] responseConnections =  response.toArray();
-
-        this.workerCommandFrontEndReceiveConnection = responseConnections[0].toString();
-        this.workerEventFrontEndReceiveConnection = responseConnections[1].toString();
     }
 
     public String getWorkerName() {

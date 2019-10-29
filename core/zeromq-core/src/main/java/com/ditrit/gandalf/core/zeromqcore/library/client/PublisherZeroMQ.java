@@ -13,14 +13,6 @@ public class PublisherZeroMQ {
     protected String backEndPublisherConnection;
     protected String identity;
 
-    public PublisherZeroMQ() {
-
-    }
-
-    public PublisherZeroMQ(String identity, String backEndPublisherConnection) {
-        this.init(identity, backEndPublisherConnection);
-    }
-
     protected void init(String identity, String backEndPublisherConnection) {
         this.context = new ZContext();
         this.identity = identity;

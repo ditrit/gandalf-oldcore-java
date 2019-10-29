@@ -15,9 +15,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Order
 public class ConnectorGandalfConfiguration {
 
-    //@Value("${${instance.name}.connectors.${connector.type}.${connector.name}.target.type}")
-    //private String targetType;
-
     private ApplicationContext context;
     private ThreadPoolTaskExecutor taskExecutor;
 
@@ -25,6 +22,15 @@ public class ConnectorGandalfConfiguration {
     public ConnectorGandalfConfiguration(ApplicationContext context, ThreadPoolTaskExecutor taskExecutor) {
         this.context = context;
         this.taskExecutor = taskExecutor;
+    }
+
+    @Bean
+    public ThreadPoolTaskExecutor taskExecutor() {
+        ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
+        pool.setCorePoolSize(10);
+        pool.setMaxPoolSize(20);
+        pool.setWaitForTasksToCompleteOnShutdown(true);
+        return pool;
     }
 
     @Bean
@@ -42,6 +48,4 @@ public class ConnectorGandalfConfiguration {
             this.taskExecutor.execute(gandalfConnectorEvent);
         }
     }
-
-
 }

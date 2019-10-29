@@ -6,12 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static com.ditrit.gandalf.core.listenercore.constant.ListenerConstant.*;
-
 @Configuration
 public class ListenerProperties {
 
@@ -25,24 +19,10 @@ public class ListenerProperties {
 
     public ListenerProperties() {
         this.restTemplate = new RestTemplate();
-        this.initProperties();
     }
 
     private JsonObject restTemplateRequest(String clusterPropertiesName) {
         return this.restTemplate.getForObject(" http://localhost:8500/v1/catalog/service/"+clusterPropertiesName, JsonObject.class);
-    }
-
-    private void initProperties() {
-        ////CLIENT COMMAND FRONT
-        //JsonObject currentclusterPropertiesJsonObject = this.restTemplateRequest(GANDALF_CLUSTER_COMMAND_BACKEND);
-        //this.listenerCommandBackEndConnections = StreamSupport.stream(currentclusterPropertiesJsonObject.getAsJsonArray("res").spliterator(), false)
-        //        .map(JsonObject.class::cast)
-        //        .map(o -> concatAddressPort(o.get(GANDALF_CLUSTER_ADDRESS), o.get(GANDALF_CLUSTER_PORT)))
-        //        .collect(Collectors.toList());
-
-        //CLIENT EVENT FRONT
-        //currentclusterPropertiesJsonObject = this.restTemplateRequest(GANDALF_CLUSTER_EVENT_BACKEND).getAsJsonObject("res");
-        //this.listenerEventBackEndConnection = concatAddressPort(currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_ADDRESS), currentclusterPropertiesJsonObject.get(GANDALF_CLUSTER_PORT));
     }
 
     private String concatAddressPort(JsonElement address, JsonElement port) {
