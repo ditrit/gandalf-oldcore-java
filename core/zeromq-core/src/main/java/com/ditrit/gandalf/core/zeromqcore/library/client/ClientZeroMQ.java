@@ -45,7 +45,7 @@ public class ClientZeroMQ {
         }
     }
 
-    public ZMsg sendCommandSync(String context, String timeout, String uuid, String command, String payload) {
+    public ZMsg sendCommandSync(String context, String timeout, String uuid, String type, String command, String payload) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         this.backEndClient.sendMore(""); // SOURCE AGGREGATOR
@@ -62,8 +62,10 @@ public class ClientZeroMQ {
         this.backEndClient.sendMore(""); //MAJOR
         this.backEndClient.sendMore(""); //MINOR
         this.backEndClient.sendMore(uuid); //UUID
+        this.backEndClient.sendMore(type); //TYPE
         this.backEndClient.sendMore(command); //COMMAND
         this.backEndClient.send(payload); //PAYLOAD
+        this.backEndClient.send(""); //RESPONSE
         return this.getCommandResultSync();
     }
 

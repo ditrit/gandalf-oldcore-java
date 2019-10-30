@@ -16,7 +16,9 @@ public class WorkerProperties {
     private String workerTargetConnection;
     @Value("${worker.service.endpoint}")
     private String workerServiceConnection;
+    @Value("${worker.command.connection}")
     private String workerCommandFrontEndReceiveConnection;
+    @Value("${worker.event.connection}")
     private String workerEventFrontEndReceiveConnection;
 
     @Autowired
