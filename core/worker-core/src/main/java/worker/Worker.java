@@ -2,6 +2,8 @@ package worker;
 
 import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
 import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
+import com.ditrit.gandalf.core.zeromqcore.worker.domain.CommandState;
+import com.ditrit.gandalf.core.zeromqcore.worker.domain.CommandStateManager;
 import com.ditrit.gandalf.core.zeromqcore.worker.domain.Function;
 import function.WorkerFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,12 +63,14 @@ public class Worker extends RunnableWorkerZeroMQ {
     }
 
     @Override
-    protected Constant.Result executeWorkerCommandFunction(ZMsg commandExecute) {
+    protected String executeWorkerCommandFunction(ZMsg commandExecute) {
+        Object[] commandExecuteArray = commandExecute.toArray();
         Function functionExecute = this.workerFunctions.getFunctionByCommand(commandExecute);
+        String payload = "";
         if(functionExecute != null) {
-            return functionExecute.executeCommand(commandExecute);
+            payload = functionExecute.executeCommand(commandExecute, this.commandStateManager.getMapUUIDCommandStatesByUUID(commandExecuteArray[13].toString()), this.commandStateManager.getMapUUIDStateByUUID(commandExecuteArray[13].toString()));
         }
-        return Constant.Result.FAIL;
+        return payload;
     }
 
     @Override

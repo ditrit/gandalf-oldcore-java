@@ -1,14 +1,9 @@
 package com.ditrit.gandalf.core.zeromqcore.worker;
 
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
-
-import java.sql.Timestamp;
-import java.util.List;
-
 
 public abstract class WorkerZeroMQ {
 
@@ -22,7 +17,6 @@ public abstract class WorkerZeroMQ {
     protected void init(String identity, String workerCommandFrontEndReceiveConnection, String workerEventFrontEndReceiveConnection) {
         this.context = new ZContext();
         this.identity = identity;
-        //this.workerServiceClassType = workerServiceClassType;
 
         //Command Receive Worker
         this.workerCommandFrontEndReceive = this.context.createSocket(SocketType.DEALER);
@@ -47,8 +41,16 @@ public abstract class WorkerZeroMQ {
 
     protected abstract void sendReadyCommand();
 
-    protected void sendResultCommand(ZMsg request, String result) {
-        request.addLast(result);
+    protected void sendCommandState(ZMsg request, String state, String payload) {
+        ZMsg response = new ZMsg();
+        Object[] requestArray = request.toArray();
+        request.addLast(payload);
+        request.addLast(state);
+        response.addFirst(requestArray[14].toString());
+        for(int i = 8; i >= 0 ; i++) {
+            response.addFirst(requestArray[i].toString());
+        }
         request.send(this.workerCommandFrontEndReceive);
     }
 }
+

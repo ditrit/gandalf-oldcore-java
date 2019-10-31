@@ -1,6 +1,7 @@
 package com.ditrit.gandalf.core.zeromqcore.worker;
 
 import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.core.zeromqcore.worker.domain.CommandStateManager;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 
@@ -10,11 +11,13 @@ import java.util.List;
 public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runnable {
 
     private List<String> topics;
+    protected CommandStateManager commandStateManager;
 
 
     protected void initRunnable(String identity, String workerCommandFrontEndReceiveConnection, String workerEventFrontEndReceiveConnection, List<String> topics) {
         this.init(identity, workerCommandFrontEndReceiveConnection, workerEventFrontEndReceiveConnection);
         this.topics = topics;
+        this.commandStateManager = new CommandStateManager();
 /*        for(String topic : this.topics) {
             this.frontEndSubscriberWorker.subscribe(topic.getBytes(ZMQ.CHARSET));
         }*/
@@ -82,8 +85,11 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
     }
 
     private void processRoutingWorkerCommand(ZMsg command) {
-        String result = this.executeWorkerCommandFunction(command.duplicate()).toString();
-        this.sendResultCommand(command, result);
+        Object[] commandArray = command.toArray();
+        String payload = this.executeWorkerCommandFunction(command.duplicate());
+        if(!this.commandStateManager.getMapUUIDStateByUUID(commandArray[13].toString()).getState().equals(Constant.State.ONGOING)) {
+            this.sendCommandState(command, this.commandStateManager.getMapUUIDStateByUUID(commandArray[13].toString()).getState().toString(), payload);
+        }
         command.destroy();
     }
 
@@ -110,7 +116,7 @@ public abstract class RunnableWorkerZeroMQ extends WorkerZeroMQ implements Runna
         this.sendReadyCommand();
     }
 
-    protected abstract Constant.Result executeWorkerCommandFunction(ZMsg commandExecute);
+    protected abstract String executeWorkerCommandFunction(ZMsg commandExecute);
 
     protected abstract void executeWorkerEventFunction(ZMsg commandExecute);
 }

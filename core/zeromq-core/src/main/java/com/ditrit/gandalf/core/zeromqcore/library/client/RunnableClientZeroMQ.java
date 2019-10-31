@@ -45,7 +45,6 @@ public class RunnableClientZeroMQ extends ClientZeroMQ implements Runnable {
         this.backEndClient.sendMore(type); //TYPE
         this.backEndClient.sendMore(command); //COMMAND
         this.backEndClient.send(payload); //PAYLOAD
-        this.backEndClient.send(""); //RESPONSE
         this.run();
     }
 

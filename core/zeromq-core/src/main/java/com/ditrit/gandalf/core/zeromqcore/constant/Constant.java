@@ -5,9 +5,10 @@ import java.util.List;
 
 public class Constant {
 
-    public enum Result {
-        SUCCESS,
-        FAIL
+    public enum State {
+        ONGOING,
+        DONE,
+        ERROR
     }
 
     //COMMAND
