@@ -1,23 +1,12 @@
 package com.ditrit.gandalf.core.connectorcore.properties;
 
-import com.ditrit.gandalf.core.connectorcore.service.ConnectorClientService;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.client.RestTemplate;
-import org.zeromq.ZMsg;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static com.ditrit.gandalf.core.connectorcore.constant.ConnectorConstant.*;
 
 public class ConnectorProperties {
 
-    private ConnectorClientService connectorClientService;
     private Gson mapper;
 
     @Value("${instance.name}")
@@ -54,18 +43,6 @@ public class ConnectorProperties {
 
     public ConnectorProperties() {
         this.mapper = new Gson();
-        this.initProperties();
-    }
-
-    private void initProperties() {
-
-        ZMsg response = this.connectorClientService.sendRequest("configuration");
-        Object[] responseConnections =  response.toArray();
-
-        this.connectorCommandFrontEndReceiveConnection = responseConnections[0].toString();
-        this.connectorCommandFrontEndSendConnection = responseConnections[1].toString();
-        this.connectorEventFrontEndReceiveConnection = responseConnections[2].toString();
-        this.connectorEventFrontEndSendConnection = responseConnections[3].toString();
     }
 
     public String getInstanceName() {
