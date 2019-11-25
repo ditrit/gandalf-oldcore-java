@@ -22,5 +22,6 @@
         <module>zeromq-core</module>
         <module>aggregator-core</module>
         <module>worker-core</module>
+        <module>../message-core</module>
     </modules>
 </project>
