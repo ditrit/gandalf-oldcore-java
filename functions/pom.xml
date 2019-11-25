@@ -31,19 +31,19 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ditrit.gandalf.core</groupId>
+            <groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
             <artifactId>connector-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.ditrit.gandalf.core</groupId>
+            <groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
             <artifactId>zeromq-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.ditrit.gandalf.library</groupId>
+            <groupId>com.ditrit.gandalf.gandalf-java.library</groupId>
             <artifactId>gandalf-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>

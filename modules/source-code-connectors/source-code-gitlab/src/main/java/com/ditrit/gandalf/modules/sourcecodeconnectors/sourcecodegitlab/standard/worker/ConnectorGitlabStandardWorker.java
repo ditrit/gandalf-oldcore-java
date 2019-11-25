@@ -2,16 +2,16 @@ package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.standar
 
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.standard.manager.ConnectorGitlabStandardManager;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegitlab.properties.ConnectorGitlabProperties;
-import com.ditrit.gandalf.core.zeromqcore.command.domain.MessageCommand;
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
-import com.ditrit.gandalf.core.zeromqcore.event.domain.MessageEvent;
-import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.command.domain.MessageCommand;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.event.domain.MessageEvent;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
-import static com.ditrit.gandalf.core.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_STANDARD;
+import static com.ditrit.gandalf.gandalfjava.core.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_STANDARD;
 
 @Component(value = "standardWorker")
 @ConditionalOnBean(ConnectorGitlabProperties.class)

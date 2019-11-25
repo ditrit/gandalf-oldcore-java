@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.ditrit.gandalf.modules.abstractconnectors.abstractworkflowengine.manager.ConnectorWorkflowEngineStandardManager;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodezeebe.core.domain.ConnectorZeebeMessage;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodezeebe.properties.ConnectorZeebeProperties;
-import com.ditrit.gandalf.core.zeromqcore.event.domain.MessageEvent;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.event.domain.MessageEvent;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.events.DeploymentEvent;
 import org.springframework.beans.factory.annotation.Autowired;

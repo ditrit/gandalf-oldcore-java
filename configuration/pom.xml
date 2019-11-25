@@ -19,10 +19,10 @@
         <module>configuration-service</module>
     </modules>
 
-    <properties>
+    <com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.M3</spring-cloud.version>
-    </properties>
+    </com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
 
     <dependencyManagement>
         <dependencies>

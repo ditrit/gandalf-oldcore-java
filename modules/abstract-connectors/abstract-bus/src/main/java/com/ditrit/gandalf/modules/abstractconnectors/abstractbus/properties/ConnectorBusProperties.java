@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.modules.abstractconnectors.abstractbus.properties;
 
-import com.ditrit.gandalf.core.connectorcore.properties.ConnectorProperties;
+import com.ditrit.gandalf.gandalfjava.core.connectorcore.properties.ConnectorProperties;
 import org.springframework.beans.factory.annotation.Value;
 
 public class ConnectorBusProperties extends ConnectorProperties {

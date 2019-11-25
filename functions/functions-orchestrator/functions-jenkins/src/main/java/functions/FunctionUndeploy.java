@@ -1,13 +1,13 @@
 package functions;
 
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
-import com.ditrit.gandalf.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 import org.zeromq.ZMsg;
-import properties.ConnectorCustomOrchestratorProperties;
+import com.ditrit.gandalf.gandalfjava.core.workercore.properties.ConnectorCustomOrchestratorProperties;
 
 public class FunctionUndeploy extends Function {
 

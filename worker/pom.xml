@@ -11,17 +11,17 @@
     </parent>
 
     <groupId>com.ditrit.gandalf.gandalf-java</groupId>
-    <artifactId>worker</artifactId>
+    <artifactId>com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>worker-gandalf</module>
+        <module>com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker-gandalf</module>
     </modules>
     <!--
-        <properties>
+        <com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
             <java.version>1.8</java.version>
             <spring-cloud.version>Greenwich.M3</spring-cloud.version>
-        </properties>
+        </com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
 
         <dependencyManagement>
             <dependencies>

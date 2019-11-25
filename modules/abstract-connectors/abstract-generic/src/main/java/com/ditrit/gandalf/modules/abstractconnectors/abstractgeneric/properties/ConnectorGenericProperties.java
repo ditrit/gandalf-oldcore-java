@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.modules.abstractconnectors.abstractgeneric.properties;
 
-import com.ditrit.gandalf.core.connectorcore.properties.ConnectorProperties;
+import com.ditrit.gandalf.gandalfjava.core.connectorcore.properties.ConnectorProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 

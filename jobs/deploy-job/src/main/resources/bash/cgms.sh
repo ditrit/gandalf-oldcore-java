@@ -43,7 +43,7 @@ cat > /etc/systemd/system/$2-gandalf.service << EOB
 Description=My Webapp Java REST Service
 [Service]
 User=root
-# The configuration file application.properties should be here:
+# The configuration file application.com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties should be here:
 
 #change this to your workspace
 WorkingDirectory=/root/

@@ -21,7 +21,7 @@
         <module>cluster-core</module>
         <module>zeromq-core</module>
         <module>aggregator-core</module>
-        <module>worker-core</module>
+        <module>com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker-core</module>
         <module>message-core</module>
     </modules>
 </project>

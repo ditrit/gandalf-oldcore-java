@@ -1,0 +1,4 @@
+properties/WorkerProperties.class
+function/WorkerFunctions.class
+controller/WorkerController.class
+worker/Worker.class

@@ -1,6 +1,6 @@
 package core.consumer;
 
-import com.ditrit.gandalf.library.gandalfclient.GandalfClient;
+import com.ditrit.gandalf.gandalfjava.library.gandalfclient.GandalfClient;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.core.consumer.core.RunnableKafkaConsumer;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodekafka.properties.ConnectorKafkaProperties;
 import com.google.gson.Gson;

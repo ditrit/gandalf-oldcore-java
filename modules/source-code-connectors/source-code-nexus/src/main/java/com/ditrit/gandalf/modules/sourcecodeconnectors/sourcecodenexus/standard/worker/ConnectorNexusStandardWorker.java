@@ -2,15 +2,15 @@ package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodenexus.standard
 
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodenexus.standard.manager.ConnectorNexusStandardManager;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodenexus.properties.ConnectorNexusProperties;
-import com.ditrit.gandalf.core.zeromqcore.command.domain.MessageCommand;
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
-import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.command.domain.MessageCommand;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;
 
-import static com.ditrit.gandalf.core.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_STANDARD;
+import static com.ditrit.gandalf.gandalfjava.core.connectorcore.constant.ConnectorConstant.WORKER_SERVICE_CLASS_STANDARD;
 
 @Component(value = "standardWorker")
 @ConditionalOnBean(ConnectorNexusProperties.class)

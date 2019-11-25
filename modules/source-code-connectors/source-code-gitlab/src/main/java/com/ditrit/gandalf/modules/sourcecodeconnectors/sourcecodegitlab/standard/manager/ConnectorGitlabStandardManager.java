@@ -15,7 +15,7 @@ import java.util.List;
 
 //TODO REVOIR
 @Component(value = "standardManager")
-//@ComponentScan(basePackages = {"com.ditrit.gandalf.core.clientcore.worker"})
+//@ComponentScan(basePackages = {"com.ditrit.gandalf.core.clientcore.com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker"})
 @ConditionalOnBean(ConnectorGitlabProperties.class)
 public class ConnectorGitlabStandardManager extends ConnectorVersionControlStandardManager {
 

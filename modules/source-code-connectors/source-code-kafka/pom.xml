@@ -27,7 +27,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ditrit.gandalf.gandalf-java.library</groupId>
-			<artifactId>gandalf-worker-client</artifactId>
+			<artifactId>gandalf-com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker-client</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>

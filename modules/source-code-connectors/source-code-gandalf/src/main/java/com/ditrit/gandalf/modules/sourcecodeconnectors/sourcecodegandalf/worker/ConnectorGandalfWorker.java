@@ -2,8 +2,8 @@ package com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.worker
 
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.manager.ConnectorGandalfManager;
 import com.ditrit.gandalf.modules.sourcecodeconnectors.sourcecodegandalf.properties.ConnectorGandalfProperties;
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
-import com.ditrit.gandalf.core.zeromqcore.worker.RunnableWorkerZeroMQ;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMsg;

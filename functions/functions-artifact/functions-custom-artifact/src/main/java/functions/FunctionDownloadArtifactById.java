@@ -1,7 +1,7 @@
 package functions;
 
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
-import com.ditrit.gandalf.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
 import org.zeromq.ZMsg;
 
 public class FunctionDownloadArtifactById extends Function {

@@ -1,0 +1,4 @@
+com/ditrit/gandalf/core/aggregatorcore/aggregator/AggregatorCommand.class
+com/ditrit/gandalf/core/aggregatorcore/constant/AggregatorConstant.class
+com/ditrit/gandalf/core/aggregatorcore/properties/AggregatorProperties.class
+com/ditrit/gandalf/core/aggregatorcore/aggregator/AggregatorEvent.class

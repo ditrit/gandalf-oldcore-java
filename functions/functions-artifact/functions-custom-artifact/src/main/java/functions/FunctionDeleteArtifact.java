@@ -1,7 +1,7 @@
 package functions;
 
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
-import com.ditrit.gandalf.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
 import com.google.gson.Gson;
 import org.zeromq.ZMsg;
 
@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static properties.ConnectorCustomArtifactConstant.BUILD_PROJECT_DIRECTORY;
+import static com.ditrit.gandalf.gandalfjava.core.workercore.properties.ConnectorCustomArtifactConstant.BUILD_PROJECT_DIRECTORY;
 
 public class FunctionDeleteArtifact extends Function {
 

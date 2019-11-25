@@ -15,9 +15,9 @@
     <name>message-module</name>
     <description>Demo project for Spring Boot</description>
 
-    <properties>
+    <com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
         <java.version>1.8</java.version>
-    </properties>
+    </com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
 
     <dependencies>
         <dependency>

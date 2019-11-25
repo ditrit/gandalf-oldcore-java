@@ -1,6 +1,6 @@
 package com.ditrit.gandalf.modules.utility.jobmodule.core;
 
-import com.ditrit.gandalf.library.gandalfclient.GandalfClient;
+import com.ditrit.gandalf.gandalfjava.library.gandalfclient.GandalfClient;
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.clients.JobClient;
 import io.zeebe.client.api.response.ActivatedJob;

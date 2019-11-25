@@ -1,8 +1,8 @@
 package functions;
 
-import com.ditrit.gandalf.core.zeromqcore.constant.Constant;
-import com.ditrit.gandalf.core.zeromqcore.worker.domain.Function;
-import com.ditrit.gandalf.library.gandalfclient.GandalfClient;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.library.gandalfclient.GandalfClient;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.zeromq.ZMsg;

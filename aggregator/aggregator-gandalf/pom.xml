@@ -59,7 +59,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.ditrit.gandalf.core</groupId>
+            <groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
             <artifactId>aggregator-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>

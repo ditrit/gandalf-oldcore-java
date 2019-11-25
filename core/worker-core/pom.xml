@@ -11,7 +11,7 @@
     <groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
     <artifactId>worker-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>worker-core</name>
+    <name>com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker-core</name>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>

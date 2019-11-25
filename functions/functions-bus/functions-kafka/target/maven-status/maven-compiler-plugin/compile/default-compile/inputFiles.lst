@@ -1,0 +1,15 @@
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/core/producer/FunctionKafkaProducer.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/functions/FunctionAddSynchronizeTopicKafka.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/core/consumer/core/RunnableKafkaConsumer.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/core/consumer/FunctionKafkaConsumer.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/functions/FunctionCreateTopic.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/functions/FunctionSynchronizeTopicKafka.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/functions/FunctionReceiveMessage.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/core/config/KafkaConfiguration.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/core/consumer/GandalfKafkaMessage.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/core/producer/FunctionKafkaProducerConfiguration.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/properties/FunctionKafkaProperties.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/functions/FunctionAddSynchronizeTopicGandalf.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/functions/FunctionDeleteTopic.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/functions/FunctionSendMessage.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/functions/functions-bus/functions-kafka/src/main/java/functions/FunctionSynchronizeTopicGandalf.java
