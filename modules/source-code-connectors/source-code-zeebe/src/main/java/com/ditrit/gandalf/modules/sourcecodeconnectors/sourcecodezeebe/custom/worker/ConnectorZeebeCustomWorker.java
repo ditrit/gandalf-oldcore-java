@@ -12,12 +12,17 @@ import org.zeromq.ZMsg;
 public class ConnectorZeebeCustomWorker extends RunnableWorkerZeroMQ {
 
     @Override
-    protected Constant.Result executeRoutingWorkerCommand(ZMsg command) {
+    protected String executeWorkerCommandFunction(ZMsg commandExecute) {
         return null;
     }
 
     @Override
-    protected void executeRoutingSubscriberCommand(ZMsg command) {
+    protected void executeWorkerEventFunction(ZMsg commandExecute) {
+
+    }
+
+    @Override
+    protected void sendReadyCommand() {
 
     }
 }

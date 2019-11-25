@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.ditrit.gandalf.modules</groupId>
+		<groupId>com.ditrit.gandalf.gandalf-java.modules</groupId>
 		<artifactId>utility</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ditrit.gandalf.modules.utility</groupId>
+	<groupId>com.ditrit.gandalf.gandalf-java.modules.utility</groupId>
 	<artifactId>job-zeebe-module</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>job-zeebe-module</name>
@@ -22,7 +22,7 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.ditrit.gandalf.modules.utility</groupId>
+			<groupId>com.ditrit.gandalf.gandalf-java.modules.utility</groupId>
 			<artifactId>job-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>

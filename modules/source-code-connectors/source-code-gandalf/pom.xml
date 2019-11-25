@@ -3,11 +3,11 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ditrit.gandalf.modules</groupId>
+		<groupId>com.ditrit.gandalf.gandalf-java.modules</groupId>
 		<artifactId>source-code-connectors</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ditrit.gandalf.modules.source-code-connectors</groupId>
+	<groupId>com.ditrit.gandalf.gandalf-java.modules.source-code-connectors</groupId>
 	<artifactId>source-code-gandalf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>source-code-gandalf</name>
@@ -23,13 +23,13 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.ditrit.gandalf.core</groupId>
+			<groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
 			<artifactId>connector-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.ditrit.gandalf.core</groupId>
+			<groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
 			<artifactId>zeromq-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>

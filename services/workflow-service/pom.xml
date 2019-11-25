@@ -3,12 +3,12 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ditrit.gandalf</groupId>
+		<groupId>com.ditrit.gandalf.gandalf-java</groupId>
 		<artifactId>services</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.ditrit.gandalf.services</groupId>
+	<groupId>com.ditrit.gandalf.gandalf-java.services</groupId>
 	<artifactId>workflow-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>workflow-service</name>
@@ -63,7 +63,7 @@
 			<artifactId>spring-cloud-starter-zipkin</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.ditrit.gandalf.modules.utility</groupId>
+			<groupId>com.ditrit.gandalf.gandalf-java.modules.utility</groupId>
 			<artifactId>constant-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>

@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.ditrit.gandalf.modules</groupId>
+		<groupId>com.ditrit.gandalf.gandalf-java.modules</groupId>
 		<artifactId>source-code-connectors</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ditrit.gandalf.modules.source-code-connectors</groupId>
+	<groupId>com.ditrit.gandalf.gandalf-java.modules.source-code-connectors</groupId>
 	<artifactId>source-code-h2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>source-code-h2</name>
@@ -16,7 +16,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.ditrit.gandalf.modules.abstract-connectors</groupId>
+			<groupId>com.ditrit.gandalf.gandalf-java.modules.abstract-connectors</groupId>
 			<artifactId>abstract-database</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>

@@ -6,11 +6,11 @@
     <packaging>pom</packaging>
     <parent>
         <artifactId>modules</artifactId>
-        <groupId>com.ditrit.gandalf</groupId>
+        <groupId>com.ditrit.gandalf.gandalf-java</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.ditrit.gandalf.modules</groupId>
+    <groupId>com.ditrit.gandalf.gandalf-java.modules</groupId>
     <artifactId>abstract-connectors</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -40,7 +40,7 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ditrit.gandalf.core</groupId>
+            <groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
             <artifactId>connector-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>

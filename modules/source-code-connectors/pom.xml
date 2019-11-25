@@ -6,11 +6,11 @@
     <packaging>pom</packaging>
     <parent>
         <artifactId>modules</artifactId>
-        <groupId>com.ditrit.gandalf</groupId>
+        <groupId>com.ditrit.gandalf.gandalf-java</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.ditrit.gandalf.modules</groupId>
+    <groupId>com.ditrit.gandalf.gandalf-java.modules</groupId>
     <artifactId>source-code-connectors</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 

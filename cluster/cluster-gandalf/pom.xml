@@ -3,12 +3,12 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ditrit.gandalf</groupId>
+		<groupId>com.ditrit.gandalf.gandalf-java</groupId>
 		<artifactId>cluster</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.ditrit.gandalf.cluster</groupId>
+	<groupId>com.ditrit.gandalf.gandalf-java.cluster</groupId>
 	<artifactId>cluster-gandalf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cluster-gandalf</name>
@@ -58,7 +58,7 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.ditrit.gandalf.core</groupId>
+			<groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
 			<artifactId>cluster-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>

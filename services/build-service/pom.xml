@@ -3,12 +3,12 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ditrit.gandalf</groupId>
+		<groupId>com.ditrit.gandalf.gandalf-java</groupId>
 		<artifactId>services</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.ditrit.gandalf.service</groupId>
+	<groupId>com.ditrit.gandalf.gandalf-java.service</groupId>
 	<artifactId>build-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>build-service</name>

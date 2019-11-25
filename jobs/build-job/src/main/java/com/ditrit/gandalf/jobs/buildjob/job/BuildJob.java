@@ -99,11 +99,11 @@ public class BuildJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            gandalfClient.getClient().sendEvent("build", "BUILD", "5", projectUrl + " build : success" );
+            gandalfClient.getClientCommand().sendEvent("build", "BUILD", "5", projectUrl + " build : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(current_workflow_variables).send().join();
         }
         else {
-            gandalfClient.getClient().sendEvent("build", "BUILD", "5", projectUrl + " build : fail" );
+            gandalfClient.getClientCommand().sendEvent("build", "BUILD", "5", projectUrl + " build : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }

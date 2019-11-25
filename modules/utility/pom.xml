@@ -6,22 +6,22 @@
     <packaging>pom</packaging>
     <parent>
         <artifactId>modules</artifactId>
-        <groupId>com.ditrit.gandalf</groupId>
+        <groupId>com.ditrit.gandalf.gandalf-java</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.ditrit.gandalf.modules</groupId>
+    <groupId>com.ditrit.gandalf.gandalf-java.modules</groupId>
     <artifactId>utility</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
         <module>constant-module</module>
-        <module>git-module</module>
+      <!--  <module>git-module</module>
         <module>job-module</module>
         <module>message-module</module>
         <module>webhook-module</module>
         <module>workflow-uid-module</module>
-        <module>job-zeebe-module</module>
+        <module>job-zeebe-module</module>-->
     </modules>
 
     <dependencies>

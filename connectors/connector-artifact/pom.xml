@@ -3,12 +3,12 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ditrit.gandalf</groupId>
+		<groupId>com.ditrit.gandalf.gandalf-java</groupId>
 		<artifactId>connectors</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.ditrit.gandalf.connectors</groupId>
+	<groupId>com.ditrit.gandalf.gandalf-java.connectors</groupId>
 	<artifactId>connector-artifact</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>connector-artifact</name>
@@ -58,13 +58,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.ditrit.gandalf.modules.source-code-connectors</groupId>
+			<groupId>com.ditrit.gandalf.gandalf-java.modules.source-code-connectors</groupId>
 			<artifactId>source-code-custom-artifact</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.ditrit.gandalf.modules.source-code-connectors</groupId>
+			<groupId>com.ditrit.gandalf.gandalf-java.modules.source-code-connectors</groupId>
 			<artifactId>source-code-nexus</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>

@@ -3,11 +3,11 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ditrit.gandalf</groupId>
+		<groupId>com.ditrit.gandalf.gandalf-java</groupId>
 		<artifactId>core</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ditrit.gandalf.core</groupId>
+	<groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
 	<artifactId>cluster-core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cluster-core</name>
@@ -19,7 +19,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.ditrit.gandalf.core</groupId>
+			<groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
 			<artifactId>zeromq-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>

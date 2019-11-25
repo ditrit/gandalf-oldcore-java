@@ -11,7 +11,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.ditrit</groupId>
+    <groupId>com.ditrit.gandalf</groupId>
     <artifactId>gandalf-java</artifactId>
     <version>1.0-SNAPSHOT</version>
 

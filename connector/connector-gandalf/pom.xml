@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.ditrit.gandalf</groupId>
+        <groupId>com.ditrit.gandalf.gandalf-java</groupId>
         <artifactId>connector</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.ditrit.gandalf.connector</groupId>
+    <groupId>com.ditrit.gandalf.gandalf-java.connector</groupId>
     <artifactId>connector-gandalf</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>connector-gandalf</name>
@@ -57,12 +57,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.ditrit.gandalf.core</groupId>
-            <artifactId>connector-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
