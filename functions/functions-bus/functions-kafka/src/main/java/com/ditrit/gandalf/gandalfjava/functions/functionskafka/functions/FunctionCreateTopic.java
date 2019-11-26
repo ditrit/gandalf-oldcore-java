@@ -1,7 +1,8 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionskafka.functions;
 
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.apache.kafka.clients.admin.AdminClient;
@@ -23,9 +24,8 @@ public class FunctionCreateTopic extends Function {
         this.mapper = new Gson();
     }
 
-
     @Override
-    public Constant.Result executeCommand(ZMsg command) {
+    public String executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState) {
         String payload = command.toArray()[14].toString();
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         String topic = jsonObject.get("topic").getAsString();
@@ -41,6 +41,7 @@ public class FunctionCreateTopic extends Function {
 
         return null;
     }
+
 
     @Override
     public void executeEvent(ZMsg event) {

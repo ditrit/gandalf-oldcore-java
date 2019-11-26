@@ -1,10 +1,13 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionskafka.functions;
 
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.zeromq.ZMsg;
+
+import java.util.List;
 
 public class FunctionAddSynchronizeTopicKafka extends Function {
 
@@ -16,10 +19,9 @@ public class FunctionAddSynchronizeTopicKafka extends Function {
     }
 
     @Override
-    public Constant.Result executeCommand(ZMsg command) {
+    public String executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState) {
         return null;
     }
-
     @Override
     public void executeEvent(ZMsg event) {
 

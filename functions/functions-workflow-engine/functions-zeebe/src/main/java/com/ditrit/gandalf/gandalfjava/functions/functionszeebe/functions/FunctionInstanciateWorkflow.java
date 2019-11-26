@@ -1,11 +1,14 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionszeebe.functions;
 
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.zeebe.client.ZeebeClient;
 import org.zeromq.ZMsg;
+
+import java.util.List;
 
 public class FunctionInstanciateWorkflow extends Function {
 
@@ -18,7 +21,7 @@ public class FunctionInstanciateWorkflow extends Function {
     }
 
     @Override
-    public Constant.Result executeCommand(ZMsg command) {
+    public String executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState) {
         String payload = command.toArray()[14].toString();
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         zeebe.newCreateInstanceCommand()

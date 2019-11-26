@@ -13,10 +13,9 @@ public abstract class Function extends Thread {
         }
     }
 
-    public abstract Constant.Result executeCommand(ZMsg command);
+    //public abstract Constant.Result executeCommand(ZMsg command);
 
-    //TODO
-    //public abstract Constant.Result executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState);
+    public abstract String executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState);
 
     public abstract void executeEvent(ZMsg event);
 }

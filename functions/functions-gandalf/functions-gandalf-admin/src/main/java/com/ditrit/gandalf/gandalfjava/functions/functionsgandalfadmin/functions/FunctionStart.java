@@ -1,8 +1,11 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionsgandalfadmin.functions;
 
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import org.zeromq.ZMsg;
+
+import java.util.List;
 
 public class FunctionStart extends Function {
 
@@ -11,8 +14,8 @@ public class FunctionStart extends Function {
     }
 
     @Override
-    public Constant.Result executeCommand(ZMsg command) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState) {
+        return null;
     }
 
     @Override

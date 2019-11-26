@@ -1,12 +1,15 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionsjenkins.functions;
 
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.web.client.RestTemplate;
 import org.zeromq.ZMsg;
 import com.ditrit.gandalf.gandalfjava.functions.functionsjenkins.properties.ConnectorCustomOrchestratorProperties;
+
+import java.util.List;
 
 public class FunctionDeploy extends Function {
 
@@ -20,7 +23,7 @@ public class FunctionDeploy extends Function {
     }
 
     @Override
-    public Constant.Result executeCommand(ZMsg command) {
+    public String executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState) {
         String payload = command.toArray()[14].toString();
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         String uri = this.connectorCustomOrchestratorProperties.getTargetEndPointConnection();

@@ -1,11 +1,14 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionsgitlab.functions;
 
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.ditrit.gandalf.gandalfjava.library.gandalfclient.GandalfClient;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.zeromq.ZMsg;
+
+import java.util.List;
 
 public class FunctionHookMerge extends Function {
 
@@ -17,7 +20,7 @@ public class FunctionHookMerge extends Function {
     }
 
     @Override
-    public Constant.Result executeCommand(ZMsg command) {
+    public String executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState) {
         String event = command.toArray()[4].toString();
         JsonObject jsonObject = this.mapper.fromJson(event, JsonObject.class);
         JsonObject jsonObjectProject = jsonObject.get("project").getAsJsonObject();
@@ -31,7 +34,7 @@ public class FunctionHookMerge extends Function {
         payload.addProperty("project_url", jsonObjectProject.get("git_http_url").getAsString());
         payload.addProperty("project_name", jsonObjectProject.get("name").getAsString());
 
-        this.gandalfClient.getClient().sendEvent(topic, "HOOK_MERGE", "5", payload.toString());
+        this.gandalfClient.getClientEvent().sendEvent(topic, "HOOK_MERGE", "5", payload.toString());
         return null;
     }
 

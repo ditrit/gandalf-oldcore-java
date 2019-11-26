@@ -1,7 +1,8 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionscustomartifact.functions;
 
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.core.io.Resource;
@@ -12,6 +13,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static com.ditrit.gandalf.gandalfjava.functions.functionscustomartifact.properties.ConnectorCustomArtifactConstant.BUILD_PROJECT_DIRECTORY;
 
@@ -30,9 +32,8 @@ public class FunctionDownloadArtifact extends Function {
         catch (Exception ex) {
         }
     }
-
     @Override
-    public Constant.Result executeCommand(ZMsg command) {
+    public String executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState) {
         String payload = command.toArray()[14].toString();
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         String artifact = jsonObject.get("artifact").getAsString();
@@ -46,8 +47,7 @@ public class FunctionDownloadArtifact extends Function {
 
         } finally {
             return null;
-        }
-    }
+        }    }
 
     @Override
     public void executeEvent(ZMsg event) {
