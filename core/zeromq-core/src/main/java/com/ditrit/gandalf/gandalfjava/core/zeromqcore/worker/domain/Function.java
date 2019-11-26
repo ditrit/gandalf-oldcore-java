@@ -1,6 +1,5 @@
 package com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain;
 
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
 import org.zeromq.ZMsg;
 
 import java.util.List;

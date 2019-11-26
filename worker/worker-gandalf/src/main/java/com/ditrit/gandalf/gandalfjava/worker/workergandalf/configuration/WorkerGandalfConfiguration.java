@@ -5,6 +5,8 @@ import com.ditrit.gandalf.gandalfjava.core.clientcore.client.ClientEvent;
 import com.ditrit.gandalf.gandalfjava.core.clientcore.properties.ClientProperties;
 import com.ditrit.gandalf.gandalfjava.core.listenercore.listener.ListenerCommand;
 import com.ditrit.gandalf.gandalfjava.core.listenercore.listener.ListenerEvent;
+import com.ditrit.gandalf.gandalfjava.core.workercore.function.WorkerFunctionsService;
+import com.ditrit.gandalf.gandalfjava.core.workercore.loader.WorkerJarFileLoaderService;
 import com.ditrit.gandalf.gandalfjava.core.workercore.properties.WorkerProperties;
 import com.ditrit.gandalf.gandalfjava.core.workercore.worker.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +24,19 @@ public class WorkerGandalfConfiguration {
     private ApplicationContext context;
     private ClientProperties clientProperties;
     private WorkerProperties workerProperties;
+    private WorkerJarFileLoaderService workerJarFileLoaderService;
+    private WorkerFunctionsService workerFunctionsService;
 
     @Autowired
-    public WorkerGandalfConfiguration(ApplicationContext context, ClientProperties clientProperties, WorkerProperties workerProperties) {
+    public WorkerGandalfConfiguration(ApplicationContext context, ClientProperties clientProperties, WorkerProperties workerProperties, WorkerJarFileLoaderService workerJarFileLoaderService, WorkerFunctionsService workerFunctionsService) {
         this.context = context;
         this.clientProperties = clientProperties;
         this.workerProperties = workerProperties;
+        this.workerFunctionsService = workerFunctionsService;
+        this.workerJarFileLoaderService = workerJarFileLoaderService;
+
+        //INIT FUNCTIONS
+
     }
 
     @Bean
@@ -41,7 +50,7 @@ public class WorkerGandalfConfiguration {
 
     @Bean
     public void gandalfWorker() {
-        Worker gandalfWorker = (Worker) context.getBean("com/ditrit/gandalf/gandalfjava/core/workercore/controller/worker");
+        Worker gandalfWorker = (Worker) context.getBean("worker");
         if(gandalfWorker != null) {
             this.taskExecutor().execute(gandalfWorker);
         }

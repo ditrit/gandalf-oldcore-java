@@ -1,6 +1,8 @@
 package com.ditrit.gandalf.gandalfjava.core.workercore.loader;
 
 import com.ditrit.gandalf.gandalfjava.core.workercore.core.WorkerJarFileLoader;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -17,24 +19,63 @@ import java.util.zip.ZipInputStream;
 @Scope("singleton")
 public class WorkerJarFileLoaderService  {
 
+    private WorkerJarFileLoader workerJarFileLoader;
 
-
-    public void loadClassesByJar (String path) {
+    @Autowired
+    public WorkerJarFileLoaderService() {
         URL urls [] = {};
-        List<String> classNames;
-        WorkerJarFileLoader workerJarFileLoader = new WorkerJarFileLoader (urls);
+        this.workerJarFileLoader = new WorkerJarFileLoader (urls);
+    }
 
-        try {
-            workerJarFileLoader.addFile (path);
-            classNames = this.getAllClassesFromJar(path);
-            for(String className : classNames) {
-                workerJarFileLoader.loadClass(className);
+    private List<Function> startFunctionsByJar(String path) {
+        List<String> classNames = this.retrieveClassesByJar(path);
+        this.loadClassesByClassNames(classNames);
+        return this.instanciateClassesByClassNames(classNames);
+    }
+
+    private List<Function> instanciateClassesByClassNames(List<String> classNames) {
+        List<Function> functions = new ArrayList<>();
+        for(String className : classNames) {
+            try {
+                Function currentFunctions = ((Function) Class.forName(className).newInstance());
+                functions.add(currentFunctions);
+                currentFunctions.run();
+            }
+            catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                e.printStackTrace();
+                System.out.println ("Fail!");
             }
         }
-        catch (ClassNotFoundException | MalformedURLException e) {
-            e.printStackTrace();
-        }
         System.out.println ("Success!");
+        return functions;
+    }
+
+    private List<String> retrieveClassesByJar(String path) {
+        List<String> classNames = null;
+        try {
+            this.workerJarFileLoader.addFile (path);
+            classNames = this.getAllClassesFromJar(path);
+            System.out.println ("Success!");
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+            System.out.println ("Fail!");
+        }
+        return classNames;
+    }
+
+    private void loadClassesByClassNames (List<String> classNames) {
+        try {
+
+            for(String className : classNames) {
+                this.workerJarFileLoader.loadClass(className);
+                System.out.println ("Success!");
+            }
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println ("Fail!");
+        }
     }
 
     private List<String> getAllClassesFromJar(String path) {
@@ -47,7 +88,8 @@ public class WorkerJarFileLoaderService  {
                     classNames.add(className.substring(0, className.length() - ".class".length()));
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         return classNames;
