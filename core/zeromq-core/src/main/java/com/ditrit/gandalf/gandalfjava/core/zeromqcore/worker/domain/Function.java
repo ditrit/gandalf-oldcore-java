@@ -7,12 +7,12 @@ import java.util.List;
 public abstract class Function extends Thread {
 
     public void run() {
+        System.out.println("Start");
         while(!this.isInterrupted()) {
-
+            System.out.println("Running");
         }
+        System.out.println("Stop");
     }
-
-    //public abstract Constant.Result executeCommand(ZMsg command);
 
     public abstract String executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState);
 
