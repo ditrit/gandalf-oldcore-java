@@ -5,7 +5,13 @@ import org.zeromq.ZMsg;
 
 import java.util.List;
 
-public abstract class Function {
+public abstract class Function extends Thread {
+
+    public void run() {
+        while(!this.isInterrupted()) {
+
+        }
+    }
 
     public abstract Constant.Result executeCommand(ZMsg command);
 

@@ -61,7 +61,7 @@ public class Worker extends RunnableWorkerZeroMQ {
     }
 
     @Override
-    protected String executeWorkerCommandFunction(ZMsg commandExecute) {
+    protected String executeWorkerCommandFunction(ZMsg kcommandExecute) {
         Object[] commandExecuteArray = commandExecute.toArray();
         Function functionExecute = this.workerFunctions.getFunctionByCommand(commandExecute);
         String payload = "";
