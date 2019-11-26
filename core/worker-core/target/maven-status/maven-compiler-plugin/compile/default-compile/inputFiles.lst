@@ -1,4 +1,4 @@
-/home/orness/IdeaProjects/gandalf/gandalf-java/core/worker-core/src/main/java/function/WorkerFunctions.java
-/home/orness/IdeaProjects/gandalf/gandalf-java/core/worker-core/src/main/java/controller/WorkerController.java
-/home/orness/IdeaProjects/gandalf/gandalf-java/core/worker-core/src/main/java/properties/WorkerProperties.java
-/home/orness/IdeaProjects/gandalf/gandalf-java/core/worker-core/src/main/java/worker/Worker.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/core/worker-core/src/main/java/com/ditrit/gandalf/gandalfjava/core/workercore/worker/Worker.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/core/worker-core/src/main/java/com/ditrit/gandalf/gandalfjava/core/workercore/properties/WorkerProperties.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/core/worker-core/src/main/java/com/ditrit/gandalf/gandalfjava/core/workercore/function/WorkerFunctions.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/core/worker-core/src/main/java/com/ditrit/gandalf/gandalfjava/core/workercore/controller/WorkerController.java

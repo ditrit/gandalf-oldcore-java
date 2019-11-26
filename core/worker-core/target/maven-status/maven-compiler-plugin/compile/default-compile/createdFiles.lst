@@ -1,4 +1,1 @@
-properties/WorkerProperties.class
-function/WorkerFunctions.class
-controller/WorkerController.class
-worker/Worker.class
+com/ditrit/gandalf/gandalfjava/core/workercore/properties/WorkerProperties.class

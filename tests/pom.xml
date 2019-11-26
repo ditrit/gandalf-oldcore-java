@@ -16,7 +16,7 @@
 
 <!--    <modules>
         <module>test-client</module>
-        <module>test-com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker</module>
+        <module>test-worker</module>
         <module>test-command</module>
         <module>test-gandalf-0</module>
         <module>test-gandalf-1</module>

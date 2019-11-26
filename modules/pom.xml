@@ -15,15 +15,6 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-<!--
-        &lt;!&ndash;  &ndash;&gt;
-        <module>source-code-connectors</module>
 
-        &lt;!&ndash;  &ndash;&gt;
-        <module>abstract-connectors</module>
--->
-
-        <!-- Utils -->
-        <module>utility</module>
     </modules>
 </project>

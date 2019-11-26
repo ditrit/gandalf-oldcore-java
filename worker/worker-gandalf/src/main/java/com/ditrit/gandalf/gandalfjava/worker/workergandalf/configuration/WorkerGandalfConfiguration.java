@@ -5,6 +5,8 @@ import com.ditrit.gandalf.gandalfjava.core.clientcore.client.ClientEvent;
 import com.ditrit.gandalf.gandalfjava.core.clientcore.properties.ClientProperties;
 import com.ditrit.gandalf.gandalfjava.core.listenercore.listener.ListenerCommand;
 import com.ditrit.gandalf.gandalfjava.core.listenercore.listener.ListenerEvent;
+import com.ditrit.gandalf.gandalfjava.core.workercore.properties.WorkerProperties;
+import com.ditrit.gandalf.gandalfjava.core.workercore.worker.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -12,11 +14,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties.WorkerProperties;
-import com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker.Worker;
-
 @Configuration
-@ComponentScan(basePackages = {"com.ditrit.gandalf.core.workercore", "com.ditrit.gandalf.core.clientcore"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore", "com.ditrit.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.clientcore"})
 @Order
 public class WorkerGandalfConfiguration {
 

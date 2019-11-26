@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @Configuration
-@ComponentScan(basePackages = {"com.orness.gandalf.core.module.clientcore"})
+@ComponentScan(basePackages = {"com.orness.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.module.clientcore"})
 @Order
 public class ClientConfiguration {
 

@@ -1,9 +1,9 @@
 package com.ditrit.gandalf.gandalfjava.core.workercore.worker;
 
+import com.ditrit.gandalf.gandalfjava.core.workercore.function.WorkerFunctions;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
-import com.ditrit.gandalf.gandalfjava.core.workercore.function.WorkerFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 import com.ditrit.gandalf.gandalfjava.core.workercore.properties.WorkerProperties;
 
-@Component(value = "com/ditrit/gandalf/gandalfjava/core/workercore/worker")
+@Component(value = "com/ditrit/gandalf/gandalfjava/functions/functionszeebe/worker")
 @Scope("singleton")
 public class Worker extends RunnableWorkerZeroMQ {
 

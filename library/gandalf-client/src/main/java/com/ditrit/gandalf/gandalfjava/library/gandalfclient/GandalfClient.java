@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 @Component
-@ComponentScan(basePackages = {"com.ditrit.gandalf.core.clientcore", "com.ditrit.gandalf.library.listenercore"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.clientcore", "com.ditrit.gandalf.library.listenercore"})
 public class GandalfClient {
 
     private ClientCommand clientCommand;

@@ -1,8 +1,0 @@
-DIRECTORY:
-cd OrnessProjects/zeebe-broker-0.18.0/bin/
-
-DEPLOY:
-./zbctl deploy ../../workflows/diagram_demo_register_deploy.bpmn
-
-CREATE INSTANCE:
-./zbctl create instance diagram_demo_register_deploy --variables '{"process_id": "diagram_demo_register_deploy", "name": "diagram_demo_register_deploy", "correlation_key": "repository.project", "project_url": "", "project_name": "", "project_version": ""}'

@@ -11,6 +11,11 @@ public class Constant {
         ERROR
     }
 
+    public enum Result {
+        SUCCES,
+        FAIL
+    }
+
     //COMMAND
     public static final String COMMAND_READY = "COMMAND_READY";
     public static final String WORKER_SERVICE_CLASS_CAPTURE = "WORKER_SERVICE_CLASS_CAPTURE";

@@ -84,7 +84,7 @@ public class Broker {
             //Worker
             if (poller.pollin(1)) {
                 while (true) {
-                    // Receive com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker message
+                    // Receive com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker message
                     response = ZMsg.recvMsg(this.backEndCommand);
                     more = this.backEndCommand.hasReceiveMore();
                     ZMsg responseBackup = response.duplicate();

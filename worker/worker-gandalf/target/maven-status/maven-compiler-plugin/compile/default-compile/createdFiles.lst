@@ -1,3 +1,3 @@
-com/ditrit/gandalf/worker/workergandalf/configuration/WorkerGandalfConfiguration.class
-com/ditrit/gandalf/worker/workergandalf/functions/WorkerGandalfFunctions.class
-com/ditrit/gandalf/worker/workergandalf/WorkerGandalfApplication.class
+com/ditrit/gandalf/gandalfjava/worker/workergandalf/configuration/WorkerGandalfConfiguration.class
+com/ditrit/gandalf/gandalfjava/worker/workergandalf/WorkerGandalfApplication.class
+com/ditrit/gandalf/gandalfjava/worker/workergandalf/functions/WorkerGandalfFunctions.class

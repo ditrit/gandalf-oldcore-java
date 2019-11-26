@@ -1,6 +1,6 @@
-/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/CommandMessage.java
-/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/AbstractMessage.java
-/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/FactoryMessage.java
-/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/InterfaceMessage.java
-/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/ResponseMessage.java
-/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/EventMessage.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/com/ditrit/gandalf/gandalfjava/core/messagecore/domain/ResponseMessage.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/com/ditrit/gandalf/gandalfjava/core/messagecore/core/AbstractMessage.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/com/ditrit/gandalf/gandalfjava/core/messagecore/domain/CommandMessage.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/com/ditrit/gandalf/gandalfjava/core/messagecore/factory/FactoryMessage.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/com/ditrit/gandalf/gandalfjava/core/messagecore/domain/EventMessage.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/core/message-core/src/main/java/com/ditrit/gandalf/gandalfjava/core/messagecore/core/InterfaceMessage.java

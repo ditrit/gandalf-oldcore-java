@@ -1,8 +1,8 @@
 /*
-package com.orness.gandalf.core.test.testcommand.core;
+package com.orness.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.test.testcommand.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core;
 
-import com.orness.gandalf.core.test.testzeromq.Constant;
-import com.orness.gandalf.core.test.testzeromq.command.RunnableWorker;
+import com.orness.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.test.testzeromq.Constant;
+import com.orness.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.test.testzeromq.command.RunnableWorker;
 import org.zeromq.ZMsg;
 
 import java.util.List;

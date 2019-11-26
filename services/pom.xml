@@ -15,19 +15,15 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-<!--
-        <module>workflow-uid-service</module>
--->
         <module>artifact-service</module>
         <module>orchestrator-service</module>
-        <module>workflow-service</module>
         <module>build-service</module>
     </modules>
 
-    <com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
+    <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.M3</spring-cloud.version>
-    </com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
+    </properties>
 
     <dependencyManagement>
         <dependencies>

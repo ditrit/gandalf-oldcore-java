@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>functions-artifact</artifactId>
         <groupId>com.ditrit.gandalf.gandalf-java.functions</groupId>
+        <artifactId>functions-artifact</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ditrit.gandalf.gandalf-java.functions.functions-artifact</groupId>
+    <groupId>com.ditrit.gandalf.functions-artifact.functions.functions-artifact</groupId>
     <artifactId>functions-nexus</artifactId>
 
 

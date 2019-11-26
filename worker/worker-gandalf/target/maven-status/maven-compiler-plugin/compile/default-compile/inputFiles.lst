@@ -1,3 +1,3 @@
-/home/orness/IdeaProjects/gandalf/gandalf-java/worker/worker-gandalf/src/main/java/com/ditrit/gandalf/worker/workergandalf/configuration/WorkerGandalfConfiguration.java
-/home/orness/IdeaProjects/gandalf/gandalf-java/worker/worker-gandalf/src/main/java/com/ditrit/gandalf/worker/workergandalf/WorkerGandalfApplication.java
-/home/orness/IdeaProjects/gandalf/gandalf-java/worker/worker-gandalf/src/main/java/com/ditrit/gandalf/worker/workergandalf/functions/WorkerGandalfFunctions.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/worker/worker-gandalf/src/main/java/com/ditrit/gandalf/gandalfjava/worker/workergandalf/functions/WorkerGandalfFunctions.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/worker/worker-gandalf/src/main/java/com/ditrit/gandalf/gandalfjava/worker/workergandalf/WorkerGandalfApplication.java
+/home/orness/IdeaProjects/gandalf/gandalf-java/worker/worker-gandalf/src/main/java/com/ditrit/gandalf/gandalfjava/worker/workergandalf/configuration/WorkerGandalfConfiguration.java

@@ -14,10 +14,10 @@
 	<name>deploy-job</name>
 	<description>Demo project for Spring Boot</description>
 
-	<com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
+	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Greenwich.M3</spring-cloud.version>
-	</com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
+	</properties>
 
 	<dependencies>
 		<dependency>

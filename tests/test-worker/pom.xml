@@ -9,15 +9,15 @@
 	</parent>
 
 	<groupId>com.ditrit.gandalf.gandalf-java.tests</groupId>
-	<artifactId>test-com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker</artifactId>
+	<artifactId>test-com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>test-com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker</name>
+	<name>test-com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionsjenkins.core.workercore.controller.worker</name>
 	<description>Demo project for Spring Boot</description>
 
-	<com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
+	<com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Greenwich.M3</spring-cloud.version>
-	</com.ditrit.gandalf.gandalfjava.core.workercore.controller.properties>
+	</com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.properties>
 
 	<dependencies>
 		<dependency>
@@ -33,14 +33,14 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
-			<artifactId>client-core</artifactId>
+			<groupId>com.ditrit.gandalf.gandalf-java.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core</groupId>
+			<artifactId>client-com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.ditrit.gandalf.gandalf-java.core</groupId>
-			<artifactId>listener-core</artifactId>
+			<groupId>com.ditrit.gandalf.gandalf-java.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core</groupId>
+			<artifactId>listener-com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>

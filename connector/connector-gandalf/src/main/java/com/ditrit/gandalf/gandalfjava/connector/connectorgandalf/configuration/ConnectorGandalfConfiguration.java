@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.gandalfjava.connector.connectorgandalf.configuration;
 
-import com.ditrit.gandalf.core.connectorcore.connector.ConnectorEvent;
-import com.ditrit.gandalf.core.connectorcore.connector.ConnectorCommand;
+import com.ditrit.gandalf.gandalfjava.core.connectorcore.connector.ConnectorCommand;
+import com.ditrit.gandalf.gandalfjava.core.connectorcore.connector.ConnectorEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.ditrit.gandalf.core.connectorcore"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.connectorcore"})
 @Order
 public class ConnectorGandalfConfiguration {
 

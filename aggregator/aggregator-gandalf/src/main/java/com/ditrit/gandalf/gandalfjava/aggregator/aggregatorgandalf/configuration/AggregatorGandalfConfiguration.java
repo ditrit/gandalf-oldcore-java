@@ -11,7 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@ComponentScan(basePackages = {"com.ditrit.gandalf.core.aggregatorcore"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.aggregatorcore"})
 @Order
 public class AggregatorGandalfConfiguration {
 

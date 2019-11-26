@@ -8,17 +8,17 @@ public class WorkerProperties {
 
     private Gson mapper;
 
-    @Value("${com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker.name}")
+    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.name}")
     private String workerName;
-    @Value("${com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker.type}")
+    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.type}")
     private String workerType;
-    @Value("${com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker.target.endpoint}")
+    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.target.endpoint}")
     private String workerTargetConnection;
-    @Value("${com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker.service.endpoint}")
+    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.service.endpoint}")
     private String workerServiceConnection;
-    @Value("${com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker.command.connection}")
+    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.command.connection}")
     private String workerCommandFrontEndReceiveConnection;
-    @Value("${com.ditrit.gandalf.gandalfjava.core.workercore.controller.worker.event.connection}")
+    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.event.connection}")
     private String workerEventFrontEndReceiveConnection;
 
     @Autowired
