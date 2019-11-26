@@ -1,6 +1,7 @@
 package com.ditrit.gandalf.gandalfjava.core.workercore.worker;
 
-import com.ditrit.gandalf.gandalfjava.core.workercore.function.WorkerFunctions;
+import com.ditrit.gandalf.gandalfjava.core.workercore.function.WorkerFunctionsService;
+import com.ditrit.gandalf.gandalfjava.core.workercore.loader.WorkerJarFileLoaderService;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.RunnableWorkerZeroMQ;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
@@ -16,12 +17,14 @@ import com.ditrit.gandalf.gandalfjava.core.workercore.properties.WorkerPropertie
 public class Worker extends RunnableWorkerZeroMQ {
 
     private WorkerProperties workerProperties;
-    private WorkerFunctions workerFunctions;
+    private WorkerFunctionsService workerFunctionsService;
+    private WorkerJarFileLoaderService workerJarFileLoaderService;
 
     @Autowired
-    public Worker(WorkerProperties workerProperties, WorkerFunctions workerFunctions) {
+    public Worker(WorkerProperties workerProperties, WorkerFunctionsService workerFunctionsService, WorkerJarFileLoaderService workerJarFileLoaderService) {
         this.workerProperties = workerProperties;
-        this.workerFunctions = workerFunctions;
+        this.workerFunctionsService = workerFunctionsService;
+        this.workerJarFileLoaderService = workerJarFileLoaderService;
         this.initRunnable(this.workerProperties.getWorkerName(), this.workerProperties.getWorkerCommandFrontEndReceiveConnection(), this.workerProperties.getWorkerEventFrontEndReceiveConnection(), null);
         this.getConfiguration();
     }
@@ -63,7 +66,7 @@ public class Worker extends RunnableWorkerZeroMQ {
     @Override
     protected String executeWorkerCommandFunction(ZMsg kcommandExecute) {
         Object[] commandExecuteArray = commandExecute.toArray();
-        Function functionExecute = this.workerFunctions.getFunctionByCommand(commandExecute);
+        Function functionExecute = this.workerFunctionsService.getFunctionByCommand(commandExecute);
         String payload = "";
         if(functionExecute != null) {
             payload = functionExecute.executeCommand(commandExecute, this.commandStateManager.getMapUUIDCommandStatesByUUID(commandExecuteArray[13].toString()), this.commandStateManager.getMapUUIDStateByUUID(commandExecuteArray[13].toString()));
@@ -73,7 +76,7 @@ public class Worker extends RunnableWorkerZeroMQ {
 
     @Override
     protected void executeWorkerEventFunction(ZMsg commandExecute) {
-        Function functionExecute = this.workerFunctions.getFunctionByEvent(commandExecute);
+        Function functionExecute = this.workerFunctionsService.getFunctionByEvent(commandExecute);
         if(functionExecute != null) {
             functionExecute.executeEvent(commandExecute);
         }
@@ -83,7 +86,7 @@ public class Worker extends RunnableWorkerZeroMQ {
     protected void sendReadyCommand() {
         ZMsg ready = new ZMsg();
         ready.add(Constant.COMMAND_READY);
-        ready.add(this.workerFunctions.getCommands().keySet().toString());
+        ready.add(this.workerFunctionsService.getCommands().keySet().toString());
         ready.send(this.workerCommandFrontEndReceive);
         ready.destroy();
     }

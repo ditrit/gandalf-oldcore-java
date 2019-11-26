@@ -1,5 +1,7 @@
-package com.ditrit.gandalf.gandalfjava.core.workercore.core;
+package com.ditrit.gandalf.gandalfjava.core.workercore.loader;
 
+import com.ditrit.gandalf.gandalfjava.core.workercore.core.WorkerJarFileLoader;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
@@ -12,7 +14,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 @Service
+@Scope("singleton")
 public class WorkerJarFileLoaderService  {
+
+
 
     public void loadClassesByJar (String path) {
         URL urls [] = {};

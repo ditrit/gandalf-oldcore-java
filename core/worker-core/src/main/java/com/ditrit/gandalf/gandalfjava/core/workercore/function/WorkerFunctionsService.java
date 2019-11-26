@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Service
 @Scope("singleton")
-public class WorkerFunctions {
+public class WorkerFunctionsService {
 
     private Map<String , Function> commands;
     private Map<String, Function> events;
