@@ -8,22 +8,32 @@ public class WorkerProperties {
 
     private Gson mapper;
 
-    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.name}")
+    @Value("${connector.name}")
+    private String connectorName;
+    @Value("${worker.name}")
     private String workerName;
-    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.type}")
+    @Value("${worker.type}")
     private String workerType;
-    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.target.endpoint}")
+    @Value("${worker.target.endpoint}")
     private String workerTargetConnection;
-    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.service.endpoint}")
+    @Value("${worker.service.endpoint}")
     private String workerServiceConnection;
-    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.command.connection}")
+    @Value("${worker.command.connection}")
     private String workerCommandFrontEndReceiveConnection;
-    @Value("${com.ditrit.gandalf.gandalfjava.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore.controller.worker.event.connection}")
+    @Value("${worker.event.connection}")
     private String workerEventFrontEndReceiveConnection;
 
     @Autowired
     public WorkerProperties() {
         this.mapper = new Gson();
+    }
+
+    public String getConnectorName() {
+        return connectorName;
+    }
+
+    public void setConnectorName(String connectorName) {
+        this.connectorName = connectorName;
     }
 
     public String getWorkerName() {

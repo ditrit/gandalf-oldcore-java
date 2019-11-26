@@ -4,21 +4,28 @@ import com.ditrit.gandalf.gandalfjava.core.workercore.function.WorkerFunctionsSe
 import com.ditrit.gandalf.gandalfjava.core.workercore.loader.WorkerJarFileLoaderService;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.RunnableWorkerZeroMQ;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.EventFunction;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ThreadFunction;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ThreadFunction;import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMsg;
 import com.ditrit.gandalf.gandalfjava.core.workercore.properties.WorkerProperties;
 
-@Component(value = "com/ditrit/gandalf/gandalfjava/functions/functionszeebe/worker")
+import java.util.List;
+
+import static com.ditrit.gandalf.gandalfjava.core.zeromqcore.constant.Constant.*;
+
+@Component(value = "worker")
 @Scope("singleton")
 public class Worker extends RunnableWorkerZeroMQ {
 
     private WorkerProperties workerProperties;
     private WorkerFunctionsService workerFunctionsService;
     private WorkerJarFileLoaderService workerJarFileLoaderService;
+    private String jarPath;
 
     @Autowired
     public Worker(WorkerProperties workerProperties, WorkerFunctionsService workerFunctionsService, WorkerJarFileLoaderService workerJarFileLoaderService) {
@@ -26,7 +33,37 @@ public class Worker extends RunnableWorkerZeroMQ {
         this.workerFunctionsService = workerFunctionsService;
         this.workerJarFileLoaderService = workerJarFileLoaderService;
         this.initRunnable(this.workerProperties.getWorkerName(), this.workerProperties.getWorkerCommandFrontEndReceiveConnection(), this.workerProperties.getWorkerEventFrontEndReceiveConnection(), null);
+
+        //FUNCTIONS
+        this.loadFunctions();
+
+        //CONFIGURATIONS
         this.getConfiguration();
+    }
+
+    private void loadFunctions() {
+        //PATH
+        this.jarPath = new StringBuilder(ROOT_PATH).append(this.workerProperties.getConnectorName()).append(WORKERS_PATH).append(this.workerProperties.getWorkerName()).append(FUNCTIONS_PATH).toString();
+
+        //FUNCTIONS
+        List<ThreadFunction> threadFunctions = this.workerJarFileLoaderService.startFunctionsByJar(jarPath);
+        for (ThreadFunction threadFunction : threadFunctions) {
+            if(threadFunction instanceof CommandFunction) {
+                CommandFunction currentCommandFunction = (CommandFunction) threadFunction;
+                this.workerFunctionsService.addFunctionCommand(currentCommandFunction.getName(), currentCommandFunction);
+            }
+            else if(threadFunction instanceof EventFunction) {
+                EventFunction currentEventFunction = (EventFunction) threadFunction;
+                this.workerFunctionsService.addFunctionEvent(currentEventFunction.getName(), currentEventFunction);
+            }
+            else {
+                System.out.println("Wrong function");
+            }
+        }
+    }
+
+    private String createWorkerPath() {
+        return new StringBuilder(ROOT_PATH).append(this.workerProperties.getConnectorName()).append(WORKERS_PATH).append(this.workerProperties.getWorkerName()).append(FUNCTIONS_PATH).toString();
     }
 
     private void getConfiguration() {
@@ -66,7 +103,7 @@ public class Worker extends RunnableWorkerZeroMQ {
     @Override
     protected String executeWorkerCommandFunction(ZMsg commandExecute) {
         Object[] commandExecuteArray = commandExecute.toArray();
-        Function functionExecute = this.workerFunctionsService.getFunctionByCommand(commandExecute);
+        CommandFunction functionExecute = this.workerFunctionsService.getFunctionByCommand(commandExecute);
         String payload = "";
         if(functionExecute != null) {
             payload = functionExecute.executeCommand(commandExecute, this.commandStateManager.getMapUUIDCommandStatesByUUID(commandExecuteArray[13].toString()), this.commandStateManager.getMapUUIDStateByUUID(commandExecuteArray[13].toString()));
@@ -76,7 +113,7 @@ public class Worker extends RunnableWorkerZeroMQ {
 
     @Override
     protected void executeWorkerEventFunction(ZMsg commandExecute) {
-        Function functionExecute = this.workerFunctionsService.getFunctionByEvent(commandExecute);
+        EventFunction functionExecute = this.workerFunctionsService.getFunctionByEvent(commandExecute);
         if(functionExecute != null) {
             functionExecute.executeEvent(commandExecute);
         }

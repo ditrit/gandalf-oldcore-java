@@ -1,8 +1,6 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionskafka.functions;
 
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.apache.kafka.clients.admin.AdminClient;
@@ -14,7 +12,7 @@ import org.zeromq.ZMsg;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionCreateTopic extends Function {
+public class FunctionCreateTopic extends CommandFunction {
 
     public static final String COMMAND = "CREATE_TOPIC";
     private KafkaAdmin kafkaAdmin;
@@ -40,11 +38,6 @@ public class FunctionCreateTopic extends Function {
         adminClient.close();
 
         return null;
-    }
-
-
-    @Override
-    public void executeEvent(ZMsg event) {
     }
 
     private boolean isTopicExist(String topic, AdminClient adminClient) {

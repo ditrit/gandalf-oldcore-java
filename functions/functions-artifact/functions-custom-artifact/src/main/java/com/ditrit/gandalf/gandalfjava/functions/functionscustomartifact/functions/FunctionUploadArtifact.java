@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionscustomartifact.functions;
 
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import static com.ditrit.gandalf.gandalfjava.functions.functionscustomartifact.properties.ConnectorCustomArtifactConstant.BUILD_PROJECT_DIRECTORY;
 
-public class FunctionUploadArtifact extends Function {
+public class FunctionUploadArtifact extends CommandFunction {
 
     private Gson mapper;
     private final Path fileStorageLocation;
@@ -43,10 +43,5 @@ public class FunctionUploadArtifact extends Function {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    public void executeEvent(ZMsg event) {
-
     }
 }

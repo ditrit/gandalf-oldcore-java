@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionskafka.functions;
 
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -11,7 +11,7 @@ import org.zeromq.ZMsg;
 
 import java.util.List;
 
-public class FunctionSendMessage extends Function {
+public class FunctionSendMessage extends CommandFunction {
 
     public static final String COMMAND = "SEND_MESSAGE";
     private Gson mapper;
@@ -28,10 +28,5 @@ public class FunctionSendMessage extends Function {
         JsonObject jsonObject = mapper.fromJson(payload, JsonObject.class);
         this.functionKafkaProducer.sendKafka(jsonObject.get("topic").getAsString(), jsonObject.get("message").getAsString());
         return null;
-    }
-
-    @Override
-    public void executeEvent(ZMsg event) {
-
     }
 }

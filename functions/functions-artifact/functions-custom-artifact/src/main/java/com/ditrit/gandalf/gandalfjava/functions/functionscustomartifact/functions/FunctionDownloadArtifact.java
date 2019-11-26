@@ -1,7 +1,8 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionscustomartifact.functions;
 
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ThreadFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import static com.ditrit.gandalf.gandalfjava.functions.functionscustomartifact.properties.ConnectorCustomArtifactConstant.BUILD_PROJECT_DIRECTORY;
 
-public class FunctionDownloadArtifact extends Function {
+public class FunctionDownloadArtifact extends CommandFunction {
 
     private final Path fileStorageLocation;
     private Gson mapper;
@@ -43,14 +44,11 @@ public class FunctionDownloadArtifact extends Function {
             if(resource.exists()) {
                 //return resource;
             }
-        } catch (MalformedURLException ex) {
-
-        } finally {
+        }
+        catch (MalformedURLException ex) {
+        }
+        finally {
             return null;
-        }    }
-
-    @Override
-    public void executeEvent(ZMsg event) {
-
+        }
     }
 }

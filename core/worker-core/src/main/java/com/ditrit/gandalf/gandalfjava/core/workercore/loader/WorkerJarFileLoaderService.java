@@ -1,8 +1,8 @@
 package com.ditrit.gandalf.gandalfjava.core.workercore.loader;
 
 import com.ditrit.gandalf.gandalfjava.core.workercore.core.WorkerJarFileLoader;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ThreadFunction;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ThreadFunction;import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -21,23 +21,25 @@ public class WorkerJarFileLoaderService  {
 
     private WorkerJarFileLoader workerJarFileLoader;
 
+
+
     @Autowired
     public WorkerJarFileLoaderService() {
         URL urls [] = {};
         this.workerJarFileLoader = new WorkerJarFileLoader (urls);
     }
 
-    private List<Function> startFunctionsByJar(String path) {
+    public List<ThreadFunction> startFunctionsByJar(String path) {
         List<String> classNames = this.retrieveClassesByJar(path);
         this.loadClassesByClassNames(classNames);
         return this.instanciateClassesByClassNames(classNames);
     }
 
-    private List<Function> instanciateClassesByClassNames(List<String> classNames) {
-        List<Function> functions = new ArrayList<>();
+    private List<ThreadFunction> instanciateClassesByClassNames(List<String> classNames) {
+        List<ThreadFunction> functions = new ArrayList<>();
         for(String className : classNames) {
             try {
-                Function currentFunctions = ((Function) Class.forName(className).newInstance());
+                ThreadFunction currentFunctions = ((ThreadFunction) Class.forName(className).newInstance());
                 functions.add(currentFunctions);
                 currentFunctions.run();
             }

@@ -1,7 +1,8 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionscustomartifact.functions;
 
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ThreadFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import org.zeromq.ZMsg;
@@ -13,7 +14,7 @@ import java.util.List;
 
 import static com.ditrit.gandalf.gandalfjava.functions.functionscustomartifact.properties.ConnectorCustomArtifactConstant.BUILD_PROJECT_DIRECTORY;
 
-public class FunctionDeleteArtifact extends Function {
+public class FunctionDeleteArtifact extends CommandFunction {
 
     private final Path fileStorageLocation;
     private Gson mapper;
@@ -32,10 +33,5 @@ public class FunctionDeleteArtifact extends Function {
     @Override
     public String executeCommand(ZMsg command, List<CommandState> commandStates, ReferenceState referenceState) {
         return null;
-    }
-
-    @Override
-    public void executeEvent(ZMsg event) {
-
     }
 }

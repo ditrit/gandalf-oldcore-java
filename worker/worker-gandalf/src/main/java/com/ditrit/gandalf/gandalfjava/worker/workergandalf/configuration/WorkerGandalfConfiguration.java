@@ -34,9 +34,6 @@ public class WorkerGandalfConfiguration {
         this.workerProperties = workerProperties;
         this.workerFunctionsService = workerFunctionsService;
         this.workerJarFileLoaderService = workerJarFileLoaderService;
-
-        //INIT FUNCTIONS
-
     }
 
     @Bean

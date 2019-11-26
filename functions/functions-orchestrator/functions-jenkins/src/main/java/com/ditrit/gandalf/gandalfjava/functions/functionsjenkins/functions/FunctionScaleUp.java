@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionsjenkins.functions;
 
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -12,7 +12,7 @@ import com.ditrit.gandalf.gandalfjava.functions.functionsjenkins.properties.Conn
 
 import java.util.List;
 
-public class FunctionScaleUp extends Function {
+public class FunctionScaleUp extends CommandFunction {
 
     private Gson mapper;
     private RestTemplate restTemplate;
@@ -32,10 +32,5 @@ public class FunctionScaleUp extends Function {
 
         this.restTemplate.getForObject(this.connectorCustomOrchestratorProperties.getTargetEndPointConnection() + "/orchestrator-service/scale_up/" + jsonObject.get("service").getAsString(), boolean.class);
         return null;
-    }
-
-    @Override
-    public void executeEvent(ZMsg event) {
-
     }
 }

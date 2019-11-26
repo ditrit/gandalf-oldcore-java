@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionszeebe.functions;
 
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.domain.ConnectorZeebeMessage;
@@ -11,7 +11,7 @@ import org.zeromq.ZMsg;
 import java.time.Duration;
 import java.util.List;
 
-public class FunctionSendMessage extends Function {
+public class FunctionSendMessage extends CommandFunction {
 
     private Gson mapper;
     private ZeebeClient zeebe;
@@ -32,10 +32,5 @@ public class FunctionSendMessage extends Function {
                 .timeToLive(Duration.ofMinutes(connectorZeebeMessage.getDuration()))
                 .send().join();
         return null;
-    }
-
-    @Override
-    public void executeEvent(ZMsg event) {
-
     }
 }

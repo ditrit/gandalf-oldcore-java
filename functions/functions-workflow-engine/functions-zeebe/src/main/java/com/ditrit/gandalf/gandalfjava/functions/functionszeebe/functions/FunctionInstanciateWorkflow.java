@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionszeebe.functions;
 
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -10,7 +10,7 @@ import org.zeromq.ZMsg;
 
 import java.util.List;
 
-public class FunctionInstanciateWorkflow extends Function {
+public class FunctionInstanciateWorkflow extends CommandFunction {
 
     private Gson mapper;
     private ZeebeClient zeebe;
@@ -30,10 +30,5 @@ public class FunctionInstanciateWorkflow extends Function {
                 .variables(jsonObject.get("variables").getAsString())
                 .send().join();
         return null;
-    }
-
-    @Override
-    public void executeEvent(ZMsg event) {
-
     }
 }

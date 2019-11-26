@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionsgitlab.functions;
 
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.ditrit.gandalf.gandalfjava.library.gandalfclient.GandalfClient;
 import com.google.gson.Gson;
@@ -10,7 +10,7 @@ import org.zeromq.ZMsg;
 
 import java.util.List;
 
-public class FunctionHookMerge extends Function {
+public class FunctionHookMerge extends CommandFunction {
 
     private Gson mapper;
     private GandalfClient gandalfClient;
@@ -36,10 +36,5 @@ public class FunctionHookMerge extends Function {
 
         this.gandalfClient.getClientEvent().sendEvent(topic, "HOOK_MERGE", "5", payload.toString());
         return null;
-    }
-
-    @Override
-    public void executeEvent(ZMsg event) {
-
     }
 }

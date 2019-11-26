@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Constant {
 
+    //ENUM
     public enum State {
         ONGOING,
         DONE,
@@ -15,6 +16,11 @@ public class Constant {
         SUCCES,
         FAIL
     }
+
+    //PATH
+    public static final String ROOT_PATH = "/usr/lib/gandalf/connectors/";
+    public static final String WORKERS_PATH = "/workers/";
+    public static final String FUNCTIONS_PATH = "/functions/";
 
     //COMMAND
     public static final String COMMAND_READY = "COMMAND_READY";

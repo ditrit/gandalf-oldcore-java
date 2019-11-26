@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.gandalfjava.functions.functionskafka.functions;
 
+import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandState;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.Function;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ReferenceState;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -11,7 +11,7 @@ import org.zeromq.ZMsg;
 
 import java.util.List;
 
-public class FunctionSynchronizeTopicKafka extends Function {
+public class FunctionSynchronizeTopicKafka extends CommandFunction {
 
     public static final String COMMAND = "SYNCHRONIZE_TOPIC_KAFKA";
     private KafkaAdmin kafkaAdmin;
@@ -32,10 +32,5 @@ public class FunctionSynchronizeTopicKafka extends Function {
         this.functionKafkaProducer.sendKafka(commandArray[3].toString(), jsonObject.toString());
 
         return null;
-    }
-
-    @Override
-    public void executeEvent(ZMsg event) {
-
     }
 }
