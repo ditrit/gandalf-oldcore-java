@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
-@ComponentScan(basePackages = {"com.ditrit.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.workercore", "com.ditrit.gandalf.com.ditrit.gandalf.gandalfjava.functions.functionszeebe.core.clientcore"})
+@ComponentScan(basePackages = {"com.ditrit.gandalf.gandalfjava.core.workercore", "com.ditrit.gandalf.gandalfjava.core.clientcore"})
 @Order
 public class WorkerGandalfConfiguration {
 

@@ -7,7 +7,7 @@ import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.RunnableWorkerZeroM
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.CommandFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.EventFunction;
 import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ThreadFunction;
-import com.ditrit.gandalf.gandalfjava.core.zeromqcore.worker.domain.ThreadFunction;import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.zeromq.ZMQ;
@@ -71,6 +71,8 @@ public class Worker extends RunnableWorkerZeroMQ {
         req_configuration.add("CONFIGURATION");
         req_configuration.add(this.workerProperties.getWorkerName());
         req_configuration.add(this.workerProperties.getWorkerType());
+        req_configuration.add(this.workerFunctionsService.getCommands().toString());
+        req_configuration.add(this.workerFunctionsService.getEvents().toString());
         req_configuration.send(this.workerCommandFrontEndReceive);
         req_configuration.destroy();
 
