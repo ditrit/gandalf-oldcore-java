@@ -14,6 +14,8 @@ public class ConnectorWorkerMap {
     private Map<String, List<String>> workerCommandsMap;
     private Map<String, String> workerCommandSendFileMap;
 
+    //TODO EVENTS ????
+
     public ConnectorWorkerMap() {
         this.workerCommandsMap = new HashMap<>();
         this.workerCommandSendFileMap = new HashMap<>();

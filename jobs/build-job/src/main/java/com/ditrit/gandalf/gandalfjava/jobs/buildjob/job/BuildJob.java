@@ -3,7 +3,7 @@ package com.ditrit.gandalf.gandalfjava.jobs.buildjob.job;
 import com.ditrit.gandalf.gandalfjava.jobs.buildjob.feign.BuildFeign;
 import com.ditrit.gandalf.gandalfjava.jobs.buildjob.manager.BuildJobManager;
 import com.ditrit.gandalf.gandalfjava.jobs.buildjob.properties.BuildJobProperties;
-import com.ditrit.gandalf.gandalfjava.library.gandalfclient.GandalfClient;
+import com.ditrit.gandalf.gandalfjava.library.clientgandalf.ClientGandalf;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.zeebe.client.ZeebeClient;
@@ -29,7 +29,7 @@ public class BuildJob implements JobHandler {
     private ZeebeClient zeebe;
     private BuildFeign buildFeign;
     private JobWorker subscription;
-    private GandalfClient gandalfClient;
+    private ClientGandalf clientGandalf;
     private BuildJobManager buildJobManager;
     private BuildJobProperties buildJobProperties;
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
@@ -37,11 +37,11 @@ public class BuildJob implements JobHandler {
 
 
     @Autowired
-    public BuildJob(ZeebeClient zeebe, BuildFeign buildFeign, BuildJobManager buildJobManager, GandalfClient gandalfClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, BuildJobProperties buildJobProperties) {
+    public BuildJob(ZeebeClient zeebe, BuildFeign buildFeign, BuildJobManager buildJobManager, ClientGandalf clientGandalf, ThreadPoolTaskExecutor threadPoolTaskExecutor, BuildJobProperties buildJobProperties) {
         this.zeebe = zeebe;
         this.buildFeign = buildFeign;
         this.buildJobManager = buildJobManager;
-        this.gandalfClient = gandalfClient;
+        this.clientGandalf = clientGandalf;
         this.buildJobProperties = buildJobProperties;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
         this.mapper = new Gson();
@@ -99,11 +99,11 @@ public class BuildJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            gandalfClient.getClientEvent().sendEvent("build", "BUILD", "5", projectUrl + " build : success" );
+            clientGandalf.getClientEvent().sendEvent("build", "BUILD", "5", projectUrl + " build : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(current_workflow_variables).send().join();
         }
         else {
-            gandalfClient.getClientEvent().sendEvent("build", "BUILD", "5", projectUrl + " build : fail" );
+            clientGandalf.getClientEvent().sendEvent("build", "BUILD", "5", projectUrl + " build : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }

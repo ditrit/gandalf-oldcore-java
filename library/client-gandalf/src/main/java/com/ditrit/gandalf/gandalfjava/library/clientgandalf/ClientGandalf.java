@@ -1,4 +1,4 @@
-package com.ditrit.gandalf.gandalfjava.library.gandalfclient;
+package com.ditrit.gandalf.gandalfjava.library.clientgandalf;
 
 import com.ditrit.gandalf.gandalfjava.core.clientcore.client.ClientCommand;
 import com.ditrit.gandalf.gandalfjava.core.clientcore.client.ClientEvent;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ComponentScan(basePackages = {"com.ditrit.gandalf.gandalfjava.core.clientcore", "com.ditrit.gandalf.gandalfjava.library.listenercore"})
-public class GandalfClient {
+public class ClientGandalf {
 
     private ClientCommand clientCommand;
     private ClientEvent clientEvent;
@@ -18,7 +18,7 @@ public class GandalfClient {
     private ListenerEvent listenerEvent;
 
     @Autowired
-    public GandalfClient(ClientCommand clientCommand, ClientEvent clientEvent, ListenerCommand listenerCommand, ListenerEvent listenerEvent) {
+    public ClientGandalf(ClientCommand clientCommand, ClientEvent clientEvent, ListenerCommand listenerCommand, ListenerEvent listenerEvent) {
         this.clientCommand = clientCommand;
         this.clientEvent = clientEvent;
         this.listenerCommand = listenerCommand;

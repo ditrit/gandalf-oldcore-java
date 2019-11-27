@@ -1,7 +1,7 @@
 package com.ditrit.gandalf.gandalfjava.jobs.registerjob.job;
 
 import com.ditrit.gandalf.gandalfjava.jobs.registerjob.feign.RegisterFeign;
-import com.ditrit.gandalf.gandalfjava.library.gandalfclient.GandalfClient;
+import com.ditrit.gandalf.gandalfjava.library.clientgandalf.ClientGandalf;
 import com.google.gson.JsonObject;
 import com.ditrit.gandalf.gandalfjava.jobs.registerjob.properties.RegisterJobProperties;
 import io.zeebe.client.ZeebeClient;
@@ -28,15 +28,15 @@ public class RegisterJob implements JobHandler {
     private ZeebeClient zeebe;
     private RegisterFeign registerFeign;
     private JobWorker subscription;
-    private GandalfClient gandalfClient;
+    private ClientGandalf clientGandalf;
     private RegisterJobProperties registerJobProperties;
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Autowired
-    public RegisterJob(ZeebeClient zeebe, RegisterFeign registerFeign, GandalfClient gandalfClient, ThreadPoolTaskExecutor threadPoolTaskExecutor, RegisterJobProperties registerJobProperties) {
+    public RegisterJob(ZeebeClient zeebe, RegisterFeign registerFeign, ClientGandalf clientGandalf, ThreadPoolTaskExecutor threadPoolTaskExecutor, RegisterJobProperties registerJobProperties) {
         this.zeebe = zeebe;
         this.registerFeign = registerFeign;
-        this.gandalfClient = gandalfClient;
+        this.clientGandalf = clientGandalf;
         this.registerJobProperties = registerJobProperties;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
     }
@@ -103,7 +103,7 @@ public class RegisterJob implements JobHandler {
         payloadRegister.addProperty("service", projectName);
         payloadRegister.addProperty("version", projectVersion);
 
-        ZMsg resultCommand = this.gandalfClient.getClientCommand().sendCommandSync("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_STANDARD", "REGISTER", "5", payloadRegister.toString());
+        ZMsg resultCommand = this.clientGandalf.getClientCommand().sendCommandSync("register", this.registerJobProperties.getConnectorEndPointName(), "WORKER_SERVICE_CLASS_STANDARD", "REGISTER", "5", payloadRegister.toString());
 /*        while(resultCommand == null) {
             resultCommand = this.gandalfClient.getCommandResult();
         }*/
@@ -114,11 +114,11 @@ public class RegisterJob implements JobHandler {
 
         if(succes) {
             //Send job complete command
-            this.gandalfClient.getClientEvent().sendEvent("build", "REGISTER", "5", projectName + " feign : success" );
+            this.clientGandalf.getClientEvent().sendEvent("build", "REGISTER", "5", projectName + " feign : success" );
             jobClient.newCompleteCommand(activatedJob.getKey()).variables(workflow_variables).send().join();
         }
         else {
-            this.gandalfClient.getClientEvent().sendEvent("build", "REGISTER", "5", projectName + " feign : fail" );
+            this.clientGandalf.getClientEvent().sendEvent("build", "REGISTER", "5", projectName + " feign : fail" );
             jobClient.newFailCommand(activatedJob.getKey());
             //SEND MESSAGE DATABASE FAIL
         }
